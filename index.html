@@ -73,9 +73,9 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-new/git常用指令" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-git使用教程" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2023/06/01/new/git%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/" class="article-date">
+    <a href="/2023/06/01/git%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/" class="article-date">
   <time class="dt-published" datetime="2023-06-01T10:25:17.000Z" itemprop="datePublished">2023-06-01</time>
 </a>
     
@@ -87,7 +87,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2023/06/01/new/git%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/">git常用指令</a>
+      <a class="p-name article-title" href="/2023/06/01/git%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">git使用教程</a>
     </h1>
   
 
@@ -95,11 +95,26 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        
+        <h1 id="1-基本配置"><a href="#1-基本配置" class="headerlink" title="1.基本配置"></a>1.基本配置</h1><h2 id="1-设置用户信息"><a href="#1-设置用户信息" class="headerlink" title="1.设置用户信息"></a>1.设置用户信息</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &quot;用户名&quot;</span><br><span class="line">git config --global user.email &quot;邮箱&quot;</span><br></pre></td></tr></table></figure>
+<h2 id="2-代理设置"><a href="#2-代理设置" class="headerlink" title="2.代理设置"></a>2.代理设置</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global http.proxy socks5://127.0.0.1:&quot;Socks监听端口&quot;</span><br><span class="line">git config --global https.proxy socks5://127.0.0.1:&quot;Socks监听端口&quot;</span><br></pre></td></tr></table></figure>
+<p><strong>127.0.0.1</strong> 是本地回环地址，表示电脑自己地址<br><img src="https://s2.loli.net/2023/06/01/A8okalTDP5izUp4.png" alt="设置.png"><br>总之，这里需要把 git 的代理设置为和代理软件一致的协议、地址和端口。这里用的是 socks 监听端口。如果想使用 http 代理（如上图)，则需要在代理软件的设置中开启 http 代理，并设置一个不同的端口，比如”HTTP监听端口”。然后就可以在 git 的代理设置中使用像 <a target="_blank" rel="noopener" href="http://127.0.0.1:1081/">http://127.0.0.1:1081</a> 这样的地址了。<br><strong>清除代理：</strong>如果要取消 Git 的 HTTP 代理设置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global --unset http.proxy</span><br><span class="line">git config --global --unset https.proxy</span><br></pre></td></tr></table></figure>
+<p>这会将 Git 的 HTTP 代理设置从全局配置中删除，并且 Git 将会直接连接到远程 Git 仓库，不再使用代理服务器。</p>
+<h2 id="查看git配置："><a href="#查看git配置：" class="headerlink" title="查看git配置：**"></a>查看git配置：**</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config -l</span><br></pre></td></tr></table></figure>
+<h1 id="2-基本操作"><a href="#2-基本操作" class="headerlink" title="2.基本操作"></a>2.基本操作</h1><h2 id="说明："><a href="#说明：" class="headerlink" title="说明："></a>说明：</h2><ul>
+<li>workspace：工作区</li>
+<li>staging area：暂存区&#x2F;缓存区</li>
+<li>local repository：版本库或本地仓库</li>
+<li>remote repository：远程仓库</li>
+</ul>
+<h2 id="一些简单的操作步骤："><a href="#一些简单的操作步骤：" class="headerlink" title="一些简单的操作步骤："></a>一些简单的操作步骤：</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git init	- 初始化仓库。</span><br><span class="line">$ git add .	- 添加文件到暂存区。</span><br><span class="line">$ git commit	- 将暂存区内容添加到仓库中。</span><br></pre></td></tr></table></figure>
+
+<p>具体操作可以在网上查询：<a target="_blank" rel="noopener" href="https://www.runoob.com/git/git-tutorial.html">Git教程</a></p>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/06/01/new/git%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/" data-id="cliczqn5a00000wuyfdlrfrz4" data-title="git常用指令" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/06/01/git%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/" data-id="clid410fx00009guy4j79bzq8" data-title="git使用教程" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -142,11 +157,11 @@
 </ul>
 <h2 id="2-压缩软件"><a href="#2-压缩软件" class="headerlink" title="2.压缩软件"></a>2.压缩软件</h2><ul>
 <li><strong>360zip：</strong><a target="_blank" rel="noopener" href="http://www.360totalsecurity.com/zh-cn/360zip/">下载</a></li>
-<li><strong>7z：</strong><a target="_blank" rel="noopener" href="https://wwrf.lanzout.com/iXnWc0pv7jib">下载</a> 提取码：ctoe</li>
+<li><strong>7z：</strong><a target="_blank" rel="noopener" href="https://wwrf.lanzout.com/iXnWc0pv7jib">下载</a> 提取码：<strong>ctoe</strong></li>
 </ul>
 <h2 id="3-浏览器"><a href="#3-浏览器" class="headerlink" title="3.浏览器"></a>3.浏览器</h2><p>推荐：<strong>RCEdge</strong>、<strong>RCChrome</strong>、<strong>RCFirefox</strong>	<a target="_blank" rel="noopener" href="https://www.runningcheese.com/aaa">链接</a></p>
 <h2 id="4-代理软件"><a href="#4-代理软件" class="headerlink" title="4.代理软件"></a>4.代理软件</h2><ul>
-<li><strong>dev-sidecar：</strong>用于加速github，如打开，下载，git与github远程仓库的连接<br><a target="_blank" rel="noopener" href="https://github.com/docmirror/dev-sidecar">Github链接</a>	<a target="_blank" rel="noopener" href="https://hub.fgit.ml/docmirror/dev-sidecar">镜像链接</a></li>
+<li><strong>dev-sidecar：</strong>用于加速github，如打开，下载，git与github远程仓库的连接<br><a target="_blank" rel="noopener" href="https://github.com/docmirror/dev-sidecar">Github链接</a>、<a target="_blank" rel="noopener" href="https://hub.fgit.ml/docmirror/dev-sidecar">镜像链接</a></li>
 <li><strong>Nekoray：</strong><a target="_blank" rel="noopener" href="https://github.com/MatsuriDayo/nekoray">下载</a></li>
 <li><strong>v2rayN：</strong><a target="_blank" rel="noopener" href="https://github.com/2dust/v2rayN">下载</a></li>
 </ul>
@@ -155,7 +170,25 @@
 <li><strong>NDM：</strong><a target="_blank" rel="noopener" href="https://www.neatdownloadmanager.com/index.php/en/">下载</a></li>
 <li><strong>迅雷绿色版：</strong><a target="_blank" rel="noopener" href="https://wwrf.lanzout.com/iTrx60t5b70d">下载</a></li>
 </ul>
-<h2 id="6"><a href="#6" class="headerlink" title="6."></a>6.</h2>
+<h2 id="6-系统软件"><a href="#6-系统软件" class="headerlink" title="6.系统软件"></a>6.系统软件</h2><ul>
+<li><strong>office tool plus：用于Microsoft Office部署</strong><a target="_blank" rel="noopener" href="https://otp.landian.vip/zh-cn/download.html">下载</a></li>
+<li><strong>Dism++：</strong><a target="_blank" rel="noopener" href="https://wwrf.lanzout.com/imZoT0sfmk8j">下载</a></li>
+<li><strong>火绒：</strong><a target="_blank" rel="noopener" href="https://www.huorong.cn/person5.html?v=1">下载</a></li>
+</ul>
+<h2 id="7-其它工具类软件"><a href="#7-其它工具类软件" class="headerlink" title="7.其它工具类软件"></a>7.其它工具类软件</h2><ul>
+<li><strong>Everything：文件搜索</strong><a target="_blank" rel="noopener" href="https://wwrf.lanzout.com/ifKSz0o6mpeh">下载</a></li>
+<li><strong>Imageglass：图片打开软件</strong><a target="_blank" rel="noopener" href="https://www.123pan.com/s/50R7Vv-kyAIh.html">下载</a></li>
+<li><strong>Potplayer：视频播放软件</strong><a target="_blank" rel="noopener" href="https://wwrf.lanzout.com/ilbmf0o6mp8b">下载</a></li>
+<li><strong>MusicPlayer2：音乐播放软件</strong><a target="_blank" rel="noopener" href="https://github.com/zhongyang219/MusicPlayer2">下载</a></li>
+</ul>
+<h2 id="8-清理卸载类软件"><a href="#8-清理卸载类软件" class="headerlink" title="8.清理卸载类软件"></a>8.清理卸载类软件</h2><ul>
+<li><strong>WiseCare365、Reo Uninstaller pro、Bulk Crap Uninsataller：</strong><a target="_blank" rel="noopener" href="https://wwrf.lanzout.com/b047r6eva">下载</a> 提取码：how9</li>
+</ul>
+<h2 id="9-MarkDown编辑"><a href="#9-MarkDown编辑" class="headerlink" title="9.MarkDown编辑"></a>9.MarkDown编辑</h2><ul>
+<li><strong>Typora：</strong><a target="_blank" rel="noopener" href="https://wwrf.lanzout.com/b0482mf4b">下载</a> 提取码：<strong>cpv3</strong></li>
+<li><strong>Marktext汉化版：</strong><a target="_blank" rel="noopener" href="https://github.com/chinayangxiaowei/marktext-chinese-language-pack">下载</a></li>
+</ul>
+
       
     </div>
     <footer class="article-footer">
@@ -253,7 +286,7 @@
       <ul>
         
           <li>
-            <a href="/2023/06/01/new/git%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/">git常用指令</a>
+            <a href="/2023/06/01/git%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">git使用教程</a>
           </li>
         
           <li>
