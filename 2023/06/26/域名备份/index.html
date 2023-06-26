@@ -4,13 +4,17 @@
   <meta charset="utf-8">
   
   
-  <title>Hexo</title>
+  <title>域名备份 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/index.html">
+  <meta name="description" content="私人备份（适用于nekoray）直连IP：12geoip:cngeoip:private 直连域名：123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798">
+<meta property="og:type" content="article">
+<meta property="og:title" content="域名备份">
+<meta property="og:url" content="http://example.com/2023/06/26/%E5%9F%9F%E5%90%8D%E5%A4%87%E4%BB%BD/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="私人备份（适用于nekoray）直连IP：12geoip:cngeoip:private 直连域名：123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-06-26T10:56:30.000Z">
+<meta property="article:modified_time" content="2023-06-26T11:13:00.128Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
   
@@ -71,9 +75,7 @@
 </header>
 
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-域名备份" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+        <section id="main"><article id="post-域名备份" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2023/06/26/%E5%9F%9F%E5%90%8D%E5%A4%87%E4%BB%BD/" class="article-date">
   <time class="dt-published" datetime="2023-06-26T10:56:30.000Z" itemprop="datePublished">2023-06-26</time>
@@ -86,8 +88,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2023/06/26/%E5%9F%9F%E5%90%8D%E5%A4%87%E4%BB%BD/">域名备份</a>
+    <h1 class="p-name article-title" itemprop="headline name">
+      域名备份
     </h1>
   
 
@@ -112,200 +114,19 @@
     </footer>
   </div>
   
-</article>
-
-
-
+    
+<nav id="article-nav">
   
-    <article id="post-git使用教程" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2023/06/01/git%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/" class="article-date">
-  <time class="dt-published" datetime="2023-06-01T10:25:17.000Z" itemprop="datePublished">2023-06-01</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2023/06/01/git%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">git使用教程</a>
-    </h1>
+    <a href="/2023/06/01/git%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">git使用教程</div>
+    </a>
   
+</nav>
 
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="1-基本配置"><a href="#1-基本配置" class="headerlink" title="1.基本配置"></a>1.基本配置</h1><h2 id="1-设置用户信息"><a href="#1-设置用户信息" class="headerlink" title="1.设置用户信息"></a>1.设置用户信息</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &quot;用户名&quot;</span><br><span class="line">git config --global user.email &quot;邮箱&quot;</span><br></pre></td></tr></table></figure>
-<h2 id="2-代理设置"><a href="#2-代理设置" class="headerlink" title="2.代理设置"></a>2.代理设置</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global http.proxy socks5://127.0.0.1:&quot;Socks监听端口&quot;</span><br><span class="line">git config --global https.proxy socks5://127.0.0.1:&quot;Socks监听端口&quot;</span><br></pre></td></tr></table></figure>
-<p><strong>127.0.0.1</strong> 是本地回环地址，表示电脑自己地址<br><img src="https://s2.loli.net/2023/06/01/A8okalTDP5izUp4.png" alt="设置.png"><br>总之，这里需要把 git 的代理设置为和代理软件一致的协议、地址和端口。这里用的是 socks 监听端口。如果想使用 http 代理（如上图)，则需要在代理软件的设置中开启 http 代理，并设置一个不同的端口，比如”HTTP监听端口”。然后就可以在 git 的代理设置中使用像 <a target="_blank" rel="noopener" href="http://127.0.0.1:1081/">http://127.0.0.1:1081</a> 这样的地址了。<br><strong>清除代理：</strong>如果要取消 Git 的 HTTP 代理设置：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global --unset http.proxy</span><br><span class="line">git config --global --unset https.proxy</span><br></pre></td></tr></table></figure>
-<p>这会将 Git 的 HTTP 代理设置从全局配置中删除，并且 Git 将会直接连接到远程 Git 仓库，不再使用代理服务器。</p>
-<h2 id="查看git配置："><a href="#查看git配置：" class="headerlink" title="查看git配置：**"></a>查看git配置：**</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config -l</span><br></pre></td></tr></table></figure>
-<h1 id="2-基本操作"><a href="#2-基本操作" class="headerlink" title="2.基本操作"></a>2.基本操作</h1><h2 id="说明："><a href="#说明：" class="headerlink" title="说明："></a>说明：</h2><ul>
-<li>workspace：工作区</li>
-<li>staging area：暂存区&#x2F;缓存区</li>
-<li>local repository：版本库或本地仓库</li>
-<li>remote repository：远程仓库</li>
-</ul>
-<h2 id="一些简单的操作步骤："><a href="#一些简单的操作步骤：" class="headerlink" title="一些简单的操作步骤："></a>一些简单的操作步骤：</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git init	- 初始化仓库。</span><br><span class="line">$ git add .	- 添加文件到暂存区。</span><br><span class="line">$ git commit	- 将暂存区内容添加到仓库中。</span><br></pre></td></tr></table></figure>
-
-<p>具体操作可以在网上查询：<a target="_blank" rel="noopener" href="https://www.runoob.com/git/git-tutorial.html">Git教程</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2023/06/01/git%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/" data-id="clid410fx00009guy4j79bzq8" data-title="git使用教程" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
   
 </article>
-
-
-
-  
-    <article id="post-电脑常用软件" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2023/06/01/%E7%94%B5%E8%84%91%E5%B8%B8%E7%94%A8%E8%BD%AF%E4%BB%B6/" class="article-date">
-  <time class="dt-published" datetime="2023-06-01T03:30:33.000Z" itemprop="datePublished">2023-06-01</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2023/06/01/%E7%94%B5%E8%84%91%E5%B8%B8%E7%94%A8%E8%BD%AF%E4%BB%B6/">电脑常用软件</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="1-电脑激活"><a href="#1-电脑激活" class="headerlink" title="1.电脑激活"></a>1.电脑激活</h2><ul>
-<li>代码远程激活：用管理员身份打开powershell，输入：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">irm https://massgrave.dev/get | iex</span><br></pre></td></tr></table></figure></li>
-<li>软件激活：可用来激活office<br><strong>HEU_KMS_Activator：</strong><a target="_blank" rel="noopener" href="https://github.com/zbezj/HEU_KMS_Activator">下载</a></li>
-</ul>
-<h2 id="2-压缩软件"><a href="#2-压缩软件" class="headerlink" title="2.压缩软件"></a>2.压缩软件</h2><ul>
-<li><strong>360zip：</strong><a target="_blank" rel="noopener" href="http://www.360totalsecurity.com/zh-cn/360zip/">下载</a></li>
-<li><strong>7z：</strong><a target="_blank" rel="noopener" href="https://wwrf.lanzout.com/iXnWc0pv7jib">下载</a> 提取码：<strong>ctoe</strong></li>
-</ul>
-<h2 id="3-浏览器"><a href="#3-浏览器" class="headerlink" title="3.浏览器"></a>3.浏览器</h2><p>推荐：<strong>RCEdge</strong>、<strong>RCChrome</strong>、<strong>RCFirefox</strong>	<a target="_blank" rel="noopener" href="https://www.runningcheese.com/aaa">链接</a></p>
-<h2 id="4-代理软件"><a href="#4-代理软件" class="headerlink" title="4.代理软件"></a>4.代理软件</h2><ul>
-<li><strong>Nekoray：</strong><a target="_blank" rel="noopener" href="https://github.com/MatsuriDayo/nekoray">下载</a>	<a target="_blank" rel="noopener" href="https://wwrf.lanzout.com/ijnaO0yyujeh">蓝奏云链接</a></li>
-<li><strong>v2rayN：</strong><a target="_blank" rel="noopener" href="https://github.com/2dust/v2rayN">下载</a></li>
-</ul>
-<h2 id="5-下载类软件"><a href="#5-下载类软件" class="headerlink" title="5.下载类软件"></a>5.下载类软件</h2><ul>
-<li><strong>IDM：</strong><a target="_blank" rel="noopener" href="https://www.123pan.com/s/50R7Vv-AyAIh.html">下载</a></li>
-<li><strong>NDM：</strong><a target="_blank" rel="noopener" href="https://www.neatdownloadmanager.com/index.php/en/">下载</a></li>
-<li><strong>迅雷绿色版：</strong><a target="_blank" rel="noopener" href="https://wwrf.lanzout.com/iTrx60t5b70d">下载</a></li>
-</ul>
-<h2 id="6-系统软件"><a href="#6-系统软件" class="headerlink" title="6.系统软件"></a>6.系统软件</h2><ul>
-<li><strong>office tool plus：用于Microsoft Office部署</strong><a target="_blank" rel="noopener" href="https://otp.landian.vip/zh-cn/download.html">下载</a></li>
-<li><strong>Dism++：</strong><a target="_blank" rel="noopener" href="https://wwrf.lanzout.com/imZoT0sfmk8j">下载</a></li>
-<li><strong>火绒：</strong><a target="_blank" rel="noopener" href="https://www.huorong.cn/person5.html?v=1">下载</a></li>
-</ul>
-<h2 id="7-其它工具类软件"><a href="#7-其它工具类软件" class="headerlink" title="7.其它工具类软件"></a>7.其它工具类软件</h2><ul>
-<li><strong>Everything：文件搜索</strong><a target="_blank" rel="noopener" href="https://wwrf.lanzout.com/ifKSz0o6mpeh">下载</a></li>
-<li><strong>Imageglass：图片打开软件</strong><a target="_blank" rel="noopener" href="https://www.123pan.com/s/50R7Vv-kyAIh.html">下载</a></li>
-<li><strong>Potplayer：视频播放软件</strong><a target="_blank" rel="noopener" href="https://wwrf.lanzout.com/ilbmf0o6mp8b">下载</a></li>
-<li><strong>MusicPlayer2：音乐播放软件</strong><a target="_blank" rel="noopener" href="https://github.com/zhongyang219/MusicPlayer2">下载</a></li>
-<li><strong>Snipaste：截图</strong></li>
-<li><strong>SumatraPDF：本地电子书阅读器</strong><a target="_blank" rel="noopener" href="https://www.sumatrapdfreader.org/download-free-pdf-viewer">下载</a></li>
-</ul>
-<h2 id="8-清理卸载类软件"><a href="#8-清理卸载类软件" class="headerlink" title="8.清理卸载类软件"></a>8.清理卸载类软件</h2><ul>
-<li><strong>WiseCare365、Reo Uninstaller pro、Bulk Crap Uninsataller：</strong><a target="_blank" rel="noopener" href="https://wwrf.lanzout.com/b047r6eva">下载</a> 提取码：how9</li>
-</ul>
-<h2 id="9-MarkDown编辑"><a href="#9-MarkDown编辑" class="headerlink" title="9.MarkDown编辑"></a>9.MarkDown编辑</h2><ul>
-<li><strong>Typora：</strong><a target="_blank" rel="noopener" href="https://wwrf.lanzout.com/b0482mf4b">下载</a> 提取码：<strong>cpv3</strong></li>
-<li><strong>Marktext汉化版：</strong><a target="_blank" rel="noopener" href="https://github.com/chinayangxiaowei/marktext-chinese-language-pack">下载</a></li>
-</ul>
-<h2 id="10-代码编辑"><a href="#10-代码编辑" class="headerlink" title="10.代码编辑"></a>10.代码编辑</h2><ul>
-<li><strong>notepad++：</strong><a target="_blank" rel="noopener" href="https://github.com/notepad-plus-plus/notepad-plus-plus">下载</a></li>
-<li><strong>Mingw：</strong><a target="_blank" rel="noopener" href="https://sourceforge.net/projects/mingw-w64/files/">下载</a></li>
-</ul>
-<h2 id="11-其它软件"><a href="#11-其它软件" class="headerlink" title="11.其它软件"></a>11.其它软件</h2><ul>
-<li><strong>阿里云盘小白羊版：</strong><a target="_blank" rel="noopener" href="https://github.com/odomu/aliyunpan">下载</a></li>
-<li><strong>telegram（便携版）：</strong><a target="_blank" rel="noopener" href="https://github.com/telegramdesktop/tdesktop">下载</a></li>
-<li><strong>discord（便携版）：</strong><a target="_blank" rel="noopener" href="https://github.com/portapps/discord-portable">下载</a></li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2023/06/01/%E7%94%B5%E8%84%91%E5%B8%B8%E7%94%A8%E8%BD%AF%E4%BB%B6/" data-id="clicvyrgu0000wwuy2b6f46wa" data-title="电脑常用软件" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-hello-world" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2023/06/01/hello-world/" class="article-date">
-  <time class="dt-published" datetime="2023-06-01T03:19:44.497Z" itemprop="datePublished">2023-06-01</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2023/06/01/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2023/06/01/hello-world/" data-id="clickppzb0000oguyhhoi86ag" data-title="Hello World" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
 </section>
