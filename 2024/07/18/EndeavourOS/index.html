@@ -1,0 +1,1384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Hexo Theme Redefine">
+    
+    <meta name="author" content="loskyertt">
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="http://example.com/2024/07/18/endeavouros/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+        <meta name="description" content="这篇文章主要记录自己使用EndeavourOS Linux（Arch系的发行版）的过程，有一些配置，以及遇到的一些问题和解决办法。理论上这些解决办法在其它Linux发行版下也适用。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="EndeavourOS 使用记录">
+<meta property="og:url" content="http://example.com/2024/07/18/EndeavourOS/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="这篇文章主要记录自己使用EndeavourOS Linux（Arch系的发行版）的过程，有一些配置，以及遇到的一些问题和解决办法。理论上这些解决办法在其它Linux发行版下也适用。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-07-18T16:21:15.000Z">
+<meta property="article:modified_time" content="2024-08-06T12:41:28.001Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="conda">
+<meta property="article:tag" content="docker">
+<meta property="article:tag" content="linux">
+<meta name="twitter:card" content="summary">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/redefine-favicon.svg" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/redefine-favicon.svg">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/images/redefine-favicon.svg">
+    <!--- Page Info-->
+    
+    <title>
+        
+            EndeavourOS 使用记录 -
+        
+        sky&#39;s blog
+    </title>
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+
+
+    <!--- Inject Part-->
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/assets/build/styles.css">
+
+    
+
+    
+<link rel="stylesheet" href="/fonts/GeistMono/geist-mono.css">
+
+    
+<link rel="stylesheet" href="/fonts/Geist/geist.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+
+    
+        
+<script src="/js/libs/anime.min.js"></script>
+
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"example.com","root":"/","language":"en","path":"search.xml"};
+    window.theme = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":true,"link_icon":true,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.4rem","h3":"1.9rem","h4":"1.6rem","h5":"1.4rem","h6":"1.3rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":["Unknown"]},"code_block":{"copy":true,"style":"mac","font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"recommendation":{"enable":true,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null,"default_mode":"light"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":false,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":true,"open_graph":true,"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/wallhaven-wqery6-light.webp","dark":"/images/wallhaven-wqery6-dark.webp"},"title":"吾日三省吾身","subtitle":{"text":["Loading..."],"hitokoto":{"enable":true,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":{"github":"https://github.com/loskyertt","instagram":null,"zhihu":null,"twitter":"https://x.com/loskyertt","email":"loskyertt@cug.edu.cn"},"qrs":{"weixin":null}}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null,"lrc":null}]},"mermaid":{"enable":false,"version":"9.3.0"}},"version":"2.6.4","navbar":{"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":35},"width":{"home":"1200px","pages":"1000px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Google":{"path":"https://ww.google.com/","icon":"fa-brands fa-google"},"Archives":{"path":"/archives","icon":"fa-regular fa-archive"}},"search":{"enable":true,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"show_on_mobile":true,"links":null},"article_date_format":"YYYY-MM-DD","categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footerStart":"2022/8/17 11:45:14"};
+    window.lang_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+<!--        <span class="swup-progress-icon">-->
+<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+<!--        </span>-->
+    
+</div>
+
+
+
+    <style>
+    :root {
+        --preloader-background-color: #fff;
+        --preloader-text-color: #000;
+    }
+
+    @media (prefers-color-scheme: dark) {
+        :root {
+            --preloader-background-color: #202124;
+            --preloader-text-color: #fff;
+        }
+    }
+
+    @media (prefers-color-scheme: light) {
+        :root {
+            --preloader-background-color: #fff;
+            --preloader-text-color: #000;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .ml13 {
+            font-size: 2.6rem !important; /* Adjust this value as needed */
+        }
+    }
+
+    .preloader {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem; /* Tailwind 'gap-4' is 1rem */
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        padding: 12px;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh; /* 'h-screen' is 100% of the viewport height */
+        background-color: var(--preloader-background-color);
+        z-index: 1100; /* 'z-[1100]' sets the z-index */
+        transition: opacity 0.2s ease-in-out;
+    }
+
+    .ml13 {
+        font-size: 3.2rem;
+        /* text-transform: uppercase; */
+        color: var(--preloader-text-color);
+        letter-spacing: -1px;
+        font-weight: 500;
+        font-family: 'Chillax-Variable', sans-serif;
+        text-align: center;
+    }
+
+    .ml13 .word {
+        display: inline-flex;
+        flex-wrap: wrap;
+        white-space: nowrap;
+    }
+
+    .ml13 .letter {
+        display: inline-block;
+        line-height: 1em;
+    }
+</style>
+
+<div class="preloader">
+    <h2 class="ml13">
+        sky&#39;s blog
+    </h2>
+    <script>
+        var textWrapper = document.querySelector('.ml13');
+        // Split text into words
+        var words = textWrapper.textContent.trim().split(' ');
+
+        // Clear the existing content
+        textWrapper.innerHTML = '';
+
+        // Wrap each word and its letters in spans
+        words.forEach(function(word) {
+            var wordSpan = document.createElement('span');
+            wordSpan.classList.add('word');
+            wordSpan.innerHTML = word.replace(/\S/g, "<span class='letter'>$&</span>");
+            textWrapper.appendChild(wordSpan);
+            textWrapper.appendChild(document.createTextNode(' ')); // Add space between words
+        });
+
+        var animation = anime.timeline({loop: true})
+            .add({
+                targets: '.ml13 .letter',
+                translateY: [40,0],
+                translateZ: 0,
+                opacity: [0,1],
+                filter: ['blur(5px)', 'blur(0px)'], // Starting from blurred to unblurred
+                easing: "easeOutExpo",
+                duration: 1400,
+                delay: (el, i) => 300 + 30 * i,
+            }).add({
+                targets: '.ml13 .letter',
+                translateY: [0,-40],
+                opacity: [1,0],
+                filter: ['blur(0px)', 'blur(5px)'], // Ending from unblurred to blurred
+                easing: "easeInExpo",
+                duration: 1200,
+                delay: (el, i) => 100 + 30 * i,
+                complete: function() {
+                    hidePreloader(); // Call hidePreloader after the animation completes
+                }
+            });
+
+        let themeStatus = JSON.parse(localStorage.getItem('REDEFINE-THEME-STATUS'))?.isDark;
+
+        // If the theme status is not found in local storage, check the preferred color scheme
+        if (themeStatus === undefined || themeStatus === null) {
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                themeStatus = 'dark';
+            } else {
+                themeStatus = 'light';
+            }
+        }
+
+        // Now you can use the themeStatus variable in your code
+        if (themeStatus) {
+            document.documentElement.style.setProperty('--preloader-background-color', '#202124');
+            document.documentElement.style.setProperty('--preloader-text-color', '#fff');
+        } else {
+            document.documentElement.style.setProperty('--preloader-background-color', '#fff');
+            document.documentElement.style.setProperty('--preloader-text-color', '#000');
+        }
+
+        window.addEventListener('load', function () {
+            setTimeout(hidePreloader, 5000); // Call hidePreloader after 5000 milliseconds if not already called by animation
+        });
+
+        function hidePreloader() {
+            var preloader = document.querySelector('.preloader');
+            preloader.style.opacity = '0';
+            setTimeout(function () {
+                preloader.style.display = 'none';
+            }, 200);
+        }
+    </script>
+</div>
+
+<main class="page-container" id="swup">
+
+    
+
+    <div class="main-content-container">
+
+
+        <div class="main-content-header">
+            <header class="navbar-container px-6 md:px-12">
+
+    <div class="navbar-content ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                sky&#39;s blog
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/"
+                                        >
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    HOME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   target="_blank" rel="noopener" href="https://ww.google.com/"
+                                        >
+                                    <i class="fa-brands fa-google fa-fw"></i>
+                                    GOOGLE
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/archives"
+                                        >
+                                    <i class="fa-regular fa-archive fa-fw"></i>
+                                    ARCHIVES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-screen w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/"
+                        >
+                            <span>
+                                HOME
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           target="_blank" rel="noopener" href="https://ww.google.com/"
+                        >
+                            <span>
+                                GOOGLE
+                            </span>
+                            
+                                <i class="fa-brands fa-google fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/archives"
+                        >
+                            <span>
+                                ARCHIVES
+                            </span>
+                            
+                                <i class="fa-regular fa-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">10</div>
+        <div class="label text-third-text-color text-sm">Tags</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">0</div>
+        <div class="label text-third-text-color text-sm">Categories</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">13</div>
+        <div class="label text-third-text-color text-sm">Posts</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="main-content-body">
+
+            
+
+            <div class="main-content">
+
+                
+                    <div class="post-page-container flex relative justify-between box-border w-full h-full">
+    <div class="article-content-container">
+
+        <div class="article-title relative w-full">
+            
+                
+                
+                <img src="https://i0.wp.com/endeavouros.com/wp-content/uploads/2023/10/Endy_planet_ARM.png?resize=1536%2C864&amp;ssl=1" alt="EndeavourOS 使用记录" class="w-full h-60 sm:h-72 md:h-80 object-cover sm:rounded-t-large dark:brightness-75"/>
+                
+                <div class="w-full flex items-center absolute bottom-0 justify-start">
+                    <h1 class="article-title-cover text-center mx-6 my-6 text-second-text-color bg-background-color-transparent px-4 py-3 text-3xl sm:text-4xl md:text-5xl font-semibold backdrop-blur-lg rounded-xl border border-border-color ">EndeavourOS 使用记录</h1>
+                </div>
+            
+            </div>
+
+        
+            <div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+                <div class="avatar w-[46px] h-[46px] flex-shrink-0 rounded-medium border border-border-color p-[1px]">
+                    <img src="/images/me.jpg">
+                </div>
+                <div class="info flex flex-col justify-between">
+                    <div class="author flex items-center">
+                        <span class="name text-default-text-color text-lg font-semibold">loskyertt</span>
+                        
+                            <span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Unknown</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2024-07-18 16:21:15</span>
+        <span class="mobile">2024-07-18 16:21:15</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2024-08-06 12:41:28</span>
+            <span class="mobile">2024-08-06 12:41:28</span>
+            <span class="hover-info">Updated</span>
+        </span>
+    
+
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/conda/">conda</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/docker/">docker</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/linux/">linux</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>4k Words</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>17 Mins</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        
+
+
+        <div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+            <h1 id="一、N卡驱动"><a href="#一、N卡驱动" class="headerlink" title="一、N卡驱动"></a>一、N卡驱动</h1><p><code>EndeavourOS</code>对N卡用户的支持比较友好，在安装该系统时，选择有<code>Nvidia</code>那一行的进行安装即可，会自动安装最新的适应当前显卡的闭源驱动。如果是<code>Arch Linux</code>，建议看这篇文章，同时提到有双显卡如何进行切换 <a class="link"   target="_blank" rel="noopener" href="https://archlinuxstudio.github.io/ArchLinuxTutorial/#/" >Arch Linux 安装使用教程 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>，如果是<code>Arch</code>系其它发行版（像<code>Manjaro</code>），请自行找教程，这里提到的方式不一定适用你。</p>
+<h2 id="1-1-安装方式一"><a href="#1-1-安装方式一" class="headerlink" title="1.1 安装方式一"></a>1.1 安装方式一</h2><ul>
+<li><strong>全面更新系统以及安装依赖工具</strong></li>
+</ul>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -Syu base-devel dkms</span><br></pre></td></tr></table></figure></div>
+
+<p>对于新版本的显卡型号，直接运行下面这条指令即可：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 必须安装</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -S nvidia nvidia-settings lib32-nvidia-utils</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="1-2-安装方式二"><a href="#1-2-安装方式二" class="headerlink" title="1.2 安装方式二"></a>1.2 安装方式二</h2><p>如果安装有<code>mwhd</code>工具，可以使用以下方法：</p>
+<ul>
+<li><p><strong>自动安装推荐的开源驱动程序</strong></p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> mhwd -a pci free 0300</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p><strong>自动安装推荐的闭源驱动程序：</strong></p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> mhwd -a pci nonfree 0300</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<p>终端输入：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvidia-smi</span><br></pre></td></tr></table></figure></div>
+<p>如果有返回信息，表示安装成功。</p>
+<h2 id="1-3-查看显卡信息"><a href="#1-3-查看显卡信息" class="headerlink" title="1.3 查看显卡信息"></a>1.3 查看显卡信息</h2><p>简单的过滤，显示有关 VGA 设备的基本信息。</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lspci -vnn | grep VGA</span><br></pre></td></tr></table></figure></div>
+
+<p>提供更详细的信息，包括驱动程序信息。</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lspci -k | grep -EA3 <span class="string">&#x27;VGA|3D&#x27;</span></span><br></pre></td></tr></table></figure></div>
+
+<p>提供非常详细且易读的图形信息，适合快速了解系统图形设备和驱动状态。</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">inxi -G</span><br></pre></td></tr></table></figure></div>
+
+<p>手动安装的话，从官网下载对应型号的驱动，一定要把下载好的驱动文件放到主文件夹（<code>~</code>）下！在<code>BIOS</code>终端界面，中文会显示乱码。</p>
+<h2 id="1-4-补充"><a href="#1-4-补充" class="headerlink" title="1.4 补充"></a>1.4 补充</h2><ul>
+<li><strong><code>nvidia-hook</code>, <code>nvidia-inst</code>, <code>nvidia-utils</code> 的用途：</strong></li>
+</ul>
+<h3 id="1-4-1-nvidia-hook"><a href="#1-4-1-nvidia-hook" class="headerlink" title="1.4.1 nvidia-hook"></a>1.4.1 nvidia-hook</h3><p><code>nvidia-hook</code> 是一个 Pacman 钩子脚本，用于在内核更新时自动重新生成 NVIDIA 内核模块。这可以确保你的 NVIDIA 驱动程序在内核更新后继续正常工作，而无需手动干预。</p>
+<p><strong>功能：</strong></p>
+<ul>
+<li>自动在内核更新后重新生成 NVIDIA 内核模块。</li>
+<li>提高系统更新的便利性，减少因驱动兼容性问题导致的系统启动问题。</li>
+</ul>
+<h3 id="1-4-2-nvidia-inst"><a href="#1-4-2-nvidia-inst" class="headerlink" title="1.4.2 nvidia-inst"></a>1.4.2 nvidia-inst</h3><p><code>nvidia-inst</code> 是 EndeavourOS 提供的一个脚本，用于安装和配置 NVIDIA 驱动程序。它简化了在 EndeavourOS 系统上安装 NVIDIA 驱动的过程。</p>
+<p><strong>功能：</strong></p>
+<ul>
+<li>自动检测你的显卡型号。</li>
+<li>安装合适版本的 NVIDIA 驱动程序。</li>
+<li>配置系统以使用新的驱动程序。</li>
+</ul>
+<h3 id="1-4-3-nvidia-utils"><a href="#1-4-3-nvidia-utils" class="headerlink" title="1.4.3 nvidia-utils"></a>1.4.3 nvidia-utils</h3><p><code>nvidia-utils</code> 包含 NVIDIA 驱动程序的核心用户空间组件和实用工具。这个包提供了运行 NVIDIA 驱动程序所需的库和命令行工具。</p>
+<p><strong>功能：</strong></p>
+<ul>
+<li>提供核心的 NVIDIA 驱动库。</li>
+<li>包含用于查询和配置 NVIDIA 显卡的命令行工具，如 <code>nvidia-smi</code>。</li>
+<li>包含 OpenGL 库和 Vulkan 库，用于支持高性能图形渲染。</li>
+</ul>
+<p> <code>nvidia-hook</code>, <code>nvidia-inst</code>, <code>nvidia-utils</code> 不能完全替代 <code>nvidia-settings</code> 和 <code>lib32-nvidia-utils</code>。</p>
+<h3 id="1-4-4-nvidia-settings"><a href="#1-4-4-nvidia-settings" class="headerlink" title="1.4.4 nvidia-settings"></a>1.4.4 nvidia-settings</h3><p><code>nvidia-settings</code> 是一个独立的图形化配置工具，用于调整和配置 NVIDIA 显卡的各种设置。它提供了一个图形界面，允许用户进行以下操作：</p>
+<ul>
+<li>配置显示器布局（多显示器设置）。</li>
+<li>调整显卡性能参数（如风扇速度、功率模式）。</li>
+<li>配置 OpenGL 设置。</li>
+<li>管理显示器色彩和亮度设置。</li>
+</ul>
+<p><strong>替代情况：</strong></p>
+<ul>
+<li><code>nvidia-utils</code> 提供了一些命令行工具，但没有图形界面和用户友好的配置选项。</li>
+<li><code>nvidia-settings</code> 提供了更丰富和直观的配置选项，尤其适用于需要频繁调整显卡设置的用户。</li>
+</ul>
+<h3 id="1-4-5-lib32-nvidia-utils"><a href="#1-4-5-lib32-nvidia-utils" class="headerlink" title="1.4.5 lib32-nvidia-utils"></a>1.4.5 lib32-nvidia-utils</h3><p><code>lib32-nvidia-utils</code> 是 32 位 NVIDIA 驱动程序库的集合，用于在 64 位系统上运行 32 位应用程序（如一些旧版游戏和软件）。这些库对于兼容 32 位应用程序至关重要。</p>
+<p><strong>替代情况：</strong></p>
+<ul>
+<li><code>nvidia-utils</code> 包含 64 位库，不包括 32 位库。</li>
+<li>如果你需要运行 32 位应用程序，仍然需要安装 <code>lib32-nvidia-utils</code>。</li>
+</ul>
+<h1 id="二、终端代理设置"><a href="#二、终端代理设置" class="headerlink" title="二、终端代理设置"></a>二、终端代理设置</h1><p>建议加上，在进行通过终端的下载、更新系统、<code>conda</code>下载或者<code>git clone</code>时，能走代理来提高下载速度。但是<code>docker</code>需要单独配置一套代理。</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kate ~/.zshrc</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li><strong>在<code>.zshrc</code>中添加以下内容：</strong></li>
+</ul>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># where proxy</span><br><span class="line">proxy()&#123;</span><br><span class="line">  export http_proxy=&quot;http://127.0.0.1:2334&quot;</span><br><span class="line">  export https_proxy=&quot;http://127.0.0.1:2334&quot;</span><br><span class="line">  echo &quot;HTTP Proxy on by hiddify&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># where noproxy</span><br><span class="line">noproxy()&#123;</span><br><span class="line">  unset http_proxy</span><br><span class="line">  unset https_proxy</span><br><span class="line">  echo &quot;HTTP Proxy off&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+<p>根据实际情况填写自己的代理端口。</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> ~/.zshrc</span><br></pre></td></tr></table></figure></div>
+
+<p>通过在终端输入<code>proxy</code>或者<code>noproxy</code>来开启或关闭代理。</p>
+<p>输入下面指令，可以查看终端代理地址：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">env</span> | grep -i proxy</span><br></pre></td></tr></table></figure></div>
+
+
+<h1 id="三、zsh配置"><a href="#三、zsh配置" class="headerlink" title="三、zsh配置"></a>三、zsh配置</h1><h2 id="3-1-样式配置（prompt-PS1）"><a href="#3-1-样式配置（prompt-PS1）" class="headerlink" title="3.1 样式配置（prompt&#x2F;PS1）"></a>3.1 样式配置（prompt&#x2F;PS1）</h2><table>
+<thead>
+<tr>
+<th>Code</th>
+<th align="center">Info</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>%T</td>
+<td align="center">系统时间（时：分）</td>
+</tr>
+<tr>
+<td>%*</td>
+<td align="center">系统时间（时：分：秒）</td>
+</tr>
+<tr>
+<td>%D</td>
+<td align="center">系统日期（年-月-日）</td>
+</tr>
+<tr>
+<td>%n</td>
+<td align="center">用户名称（即：当前登陆终端的用户的名称，和whami命令输出相同）</td>
+</tr>
+<tr>
+<td>%B</td>
+<td align="center">开始到结束使用粗体打印</td>
+</tr>
+<tr>
+<td>%b</td>
+<td align="center">开始到结束使用粗体打印</td>
+</tr>
+<tr>
+<td>%U</td>
+<td align="center">开始到结束使用下划线打印</td>
+</tr>
+<tr>
+<td>%u</td>
+<td align="center">开始到结束使用下划线打印</td>
+</tr>
+<tr>
+<td>%d</td>
+<td align="center">你当前的工作目录</td>
+</tr>
+<tr>
+<td>%~</td>
+<td align="center">你目前的目录相对于～的相对路径</td>
+</tr>
+<tr>
+<td>%M</td>
+<td align="center">计算机的主机名</td>
+</tr>
+<tr>
+<td>%m</td>
+<td align="center">计算机的主机名（在第一个句号之前截断）</td>
+</tr>
+<tr>
+<td>%l</td>
+<td align="center">你当前的tty</td>
+</tr>
+<tr>
+<td>%F{色码}</td>
+<td align="center">用来设定某个颜色的开始</td>
+</tr>
+<tr>
+<td>%f</td>
+<td align="center">用来设定成预设的样式， 也可以说是设定好的颜色结束</td>
+</tr>
+</tbody></table>
+<ul>
+<li><strong>换行示例：</strong></li>
+</ul>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">NEWLINE=$&#x27;\n&#x27;</span><br><span class="line">PROMPT=&quot;%&#123;$fg[green]%&#125;%d %t %&#123;$reset_color%&#125;%# $&#123;NEWLINE&#125;&quot;</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li><strong>显示git分支：</strong><div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">parse_git_branch() &#123;</span><br><span class="line">  git branch 2&gt; /dev/null | sed -e &#x27;/^[^*]/d&#x27; -e &#x27;s/* \(.*\)/ (\1)/&#x27;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<h3 id="3-1-1推荐配置："><a href="#3-1-1推荐配置：" class="headerlink" title="3.1.1推荐配置："></a>3.1.1推荐配置：</h3><ul>
+<li><p><strong>配置1：</strong></p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># PROMPT</span><br><span class="line">parse_git_branch() &#123;</span><br><span class="line">  git branch 2&gt; /dev/null | sed -e &#x27;/^[^*]/d&#x27; -e &#x27;s/* \(.*\)/ (\1)/&#x27;</span><br><span class="line">&#125;</span><br><span class="line">NEWLINE=$&#x27;\n&#x27; # 换行</span><br><span class="line">PS1=&quot;%B%F&#123;2&#125;%D%f %F&#123;60&#125;%*%f%b [%F&#123;184&#125;%n%f@%F&#123;30&#125;%~%f]$(parse_git_branch)$&#123;NEWLINE&#125;%F&#123;111&#125;$%f &quot;</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p><strong>配置2：</strong></p>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># PROMPT</span><br><span class="line">NEWLINE=$&#x27;\n&#x27; # 换行</span><br><span class="line">PS1=&quot;%B%F&#123;2&#125;%D%f %F&#123;60&#125;%*%f%b [%F&#123;184&#125;%n%f@%F&#123;30&#125;%~%f]$&#123;NEWLINE&#125;%F&#123;111&#125;╰─❯%f&quot;</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p><strong>配置3：</strong></p>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># PROMPT</span><br><span class="line">ZSH_NEWLINE=$&#x27;\n&#x27;</span><br><span class="line">export PROMPT=&quot; %F&#123;46&#125;%F %(?.%F&#123;green&#125;√.%F&#123;red&#125;?%?)%f  %B%F&#123;69&#125;%~ $&#123;ZSH_NEWLINE&#125; %F&#123;119&#125;==&gt;%f%b &quot;</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<h2 id="3-2-插件配置"><a href="#3-2-插件配置" class="headerlink" title="3.2 插件配置"></a>3.2 插件配置</h2><ul>
+<li><p><strong>备份：</strong></p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cp</span> ~/.zshrc ~/.zshrc.backup</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p><strong>创建配置文件夹：</strong></p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> -p .zsh/plugins</span><br><span class="line"><span class="built_in">cp</span> .zshrc .zsh/</span><br><span class="line"><span class="built_in">mv</span> .zsh_history .zsh/</span><br></pre></td></tr></table></figure></div>
+<p>注：若没有<code>.zsh_history</code>，那么需要用<code>touch</code>指令创建。</p>
+</li>
+<li><p><strong>然后编辑文件夹<code>.zsh</code>中的<code>.zshrc</code>copy，加上：</strong></p>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">### ZSH HOME</span><br><span class="line">export ZSH=$HOME/.zsh</span><br><span class="line"></span><br><span class="line">### ---- history config ----------</span><br><span class="line">export HISTFILE=$ZSH/.zsh_history</span><br><span class="line"></span><br><span class="line"># How many commands zsh will load to memory.</span><br><span class="line">export HISTSIZE=10000</span><br><span class="line"></span><br><span class="line"># How maney commands history will save on file.</span><br><span class="line">export SAVEHIST=10000</span><br><span class="line"></span><br><span class="line"># History won&#x27;t save duplicates.</span><br><span class="line">setopt HIST_IGNORE_ALL_DUPS</span><br><span class="line"></span><br><span class="line"># History won&#x27;t show duplicates on search.</span><br><span class="line">setopt HIST_FIND_NO_DUPS</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p><strong>安装插件：</strong></p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/.zsh/plugins</span><br><span class="line"></span><br><span class="line">git <span class="built_in">clone</span>  https://github.com/zdharma-continuum/fast-syntax-highlighting.git</span><br><span class="line"></span><br><span class="line">git <span class="built_in">clone</span> https://github.com/zsh-users/zsh-autosuggestions.git</span><br><span class="line"></span><br><span class="line">git <span class="built_in">clone</span> https://github.com/zsh-users/zsh-completions.git</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p><strong>在<code>.zshrc</code>copy中添加：</strong></p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">source $ZSH/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh</span><br><span class="line">fpath=($ZSH/plugins/zsh-completions/src $fpath)</span><br><span class="line"></span><br><span class="line"># zsh-autosuggestions:config</span><br><span class="line">source $ZSH/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh</span><br><span class="line">ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE=&quot;fg=#ff00ff,bg=cyan,bold,underline&quot;</span><br><span class="line">ZSH_AUTOSUGGEST_STRATEGY=(history completion)</span><br><span class="line">ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20</span><br><span class="line"></span><br><span class="line"># end config</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p><strong>链接：</strong><br>最后就是创建符号链接，这样我们就可以通过更改<code>~/.zshrc</code>Copy来同步更改<code>.zsh/.zshrc</code>Copy配置文件了。首先需要确认<code>~</code>目录下没有<code>.zshrc</code>文件，如果有，就<code>rm .zshrc</code>。此时可以开始创建符号链接了.</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ln</span> -s ~/.zsh/.zshrc ~/.zshrc</span><br><span class="line"></span><br><span class="line"><span class="built_in">source</span> ~/.zshrc</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<p>可以通过<code>ls -la</code>来查看是否链接成功。</p>
+<h2 id="3-3-完整的配置内容"><a href="#3-3-完整的配置内容" class="headerlink" title="3.3 完整的配置内容"></a>3.3 完整的配置内容</h2><div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">###-----------------zsh config--------------------</span><br><span class="line">### ZSH HOME</span><br><span class="line">export ZSH=$HOME/.zsh</span><br><span class="line"></span><br><span class="line">### ---- history config ----------</span><br><span class="line">export HISTFILE=$ZSH/.zsh_history</span><br><span class="line"></span><br><span class="line"># How many commands zsh will load to memory.</span><br><span class="line">export HISTSIZE=10000</span><br><span class="line"></span><br><span class="line"># How maney commands history will save on file.</span><br><span class="line">export SAVEHIST=10000</span><br><span class="line"></span><br><span class="line"># History won&#x27;t save duplicates.</span><br><span class="line">setopt HIST_IGNORE_ALL_DUPS</span><br><span class="line"></span><br><span class="line"># History won&#x27;t show duplicates on search.</span><br><span class="line">setopt HIST_FIND_NO_DUPS</span><br><span class="line"></span><br><span class="line">source $ZSH/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh</span><br><span class="line">fpath=($ZSH/plugins/zsh-completions/src $fpath)</span><br><span class="line"></span><br><span class="line"># zsh-autosuggestions:config</span><br><span class="line">source $ZSH/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh</span><br><span class="line">ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE=&quot;fg=#ff00ff,bg=cyan,bold,underline&quot;</span><br><span class="line">ZSH_AUTOSUGGEST_STRATEGY=(history completion)</span><br><span class="line">ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20</span><br><span class="line"></span><br><span class="line"># end config</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="3-4-问题汇总"><a href="#3-4-问题汇总" class="headerlink" title="3.4 问题汇总"></a>3.4 问题汇总</h2><h3 id="3-4-1-历史命令问题"><a href="#3-4-1-历史命令问题" class="headerlink" title="3.4.1 历史命令问题"></a>3.4.1 历史命令问题</h3><p>出现这种情况<code>zsh: corrupt history file /home/sky/.zsh/.zsh_history</code>。有的时候系统因为默写原因强行启动的时候会破坏zsh的历史文件。<br>解决办法：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cp</span> ~/.zsh_history ~/.zsh_history_backup</span><br><span class="line"><span class="built_in">rm</span> ~/.zsh_history</span><br><span class="line">strings -eS ~/.zsh_history_backup &gt; ~/.zsh_history</span><br><span class="line"><span class="built_in">fc</span> -R ~/.zsh_history</span><br></pre></td></tr></table></figure></div>
+<p>如果上述步骤没有解决问题，可能是因为.zsh_history文件严重损坏。在这种情况下，需要放弃旧的历史记录并创建一个新的文件。</p>
+<h3 id="3-4-2-安装-oh-my-zsh-可能会出现的问题"><a href="#3-4-2-安装-oh-my-zsh-可能会出现的问题" class="headerlink" title="3.4.2 安装 oh my zsh 可能会出现的问题"></a>3.4.2 安装 oh my zsh 可能会出现的问题</h3><p><strong>注意：</strong> 如果是安装<code>oh my zsh</code>可能会出现下面的问题：</p>
+<p>1.发现安装完<code>oh my zsh</code>后终端中有些命令不能使用：<br>编辑<code>.zshrc</code>发现里面内容都被替换掉了，之前的配置内容都被转移到一个叫<code>.zshrc.pre-oh-my-zsh</code>文件中。</p>
+<h1 id="四、中文输入法配置"><a href="#四、中文输入法配置" class="headerlink" title="四、中文输入法配置"></a>四、中文输入法配置</h1><h2 id="4-1-推荐方式"><a href="#4-1-推荐方式" class="headerlink" title="4.1 推荐方式"></a>4.1 推荐方式</h2><div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yay -Sy fcitx-im fcitx-configtool</span><br></pre></td></tr></table></figure></div>
+
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kate ~/.xprofile</span><br></pre></td></tr></table></figure></div>
+<p>输入以下内容：</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export GTK_IM_MODULE=fcitx</span><br><span class="line">export QT_IM_MODULE=fcitx</span><br><span class="line">export XMODIFIERS=&quot;@im=fcitx&quot;</span><br></pre></td></tr></table></figure></div>
+
+<p>如果在<code>~</code>目录创建的<code>.xprofile</code>配置文件没有生效，可以这样做：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kate /etc/environment</span><br></pre></td></tr></table></figure></div>
+
+<p>然后在里面加入：</p>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export GTK_IM_MODULE=fcitx</span><br><span class="line">export QT_IM_MODULE=fcitx</span><br><span class="line">export XMODIFIERS=&quot;@im=fcitx&quot;</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="4-2-其它（没试过）"><a href="#4-2-其它（没试过）" class="headerlink" title="4.2 其它（没试过）"></a>4.2 其它（没试过）</h2><p><strong>方式一：</strong></p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装fcitx5</span></span><br><span class="line"><span class="comment">#基础包组</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -S fcitx5-im</span><br><span class="line"><span class="comment">#官方中文输入引擎</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -S fcitx5-chinese-addons</span><br><span class="line"><span class="comment">#日文输入引擎</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -S fcitx5-anthy</span><br><span class="line"><span class="comment">#萌娘百科词库（挂梯子）</span></span><br><span class="line">yay -S fcitx5-pinyin-moegirl</span><br><span class="line"><span class="comment">#中文维基百科词库</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -S fcitx5-pinyin-zhwiki</span><br><span class="line"><span class="comment">#主题</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -S fcitx5-material-color</span><br></pre></td></tr></table></figure></div>
+
+<p>编辑配置文件：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kate /etc/environment</span><br></pre></td></tr></table></figure></div>
+
+<p>输入以下内容：</p>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">GTK_IM_MODULE=fcitx</span><br><span class="line">QT_IM_MODULE=fcitx</span><br><span class="line">XMODIFIERS=@im=fcitx</span><br><span class="line">SDL_IM_MODULE=fcitx</span><br></pre></td></tr></table></figure></div>
+
+<h1 id="五、其它问题汇总"><a href="#五、其它问题汇总" class="headerlink" title="五、其它问题汇总"></a>五、其它问题汇总</h1><h2 id="5-1-证书安装问题"><a href="#5-1-证书安装问题" class="headerlink" title="5.1 证书安装问题"></a>5.1 证书安装问题</h2><p>有时候可能无法安装<code>ca-certificates</code>这一系列证书，排除掉网络问题后，大概率就是时间问题。解决办法：</p>
+<ol>
+<li><p><strong>同步系统时间</strong>：<br>运行以下命令以确保系统时间是准确的：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> ntpd -qg</span><br><span class="line"><span class="built_in">sudo</span> hwclock --systohc</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p><strong>手动更新CA证书</strong>：</p>
+</li>
+</ol>
+<ul>
+<li>将信任的CA证书复制到<code>/etc/pki/ca-trust/source/anchors/</code>。确保证书是PEM或DER格式。</li>
+<li>然后，运行以下命令来更新系统中的CA证书：<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> update-ca-trust</span><br></pre></td></tr></table></figure></div>
+————一般到这里就能解决了————-</li>
+</ul>
+<ol>
+<li><strong>重新安装软件包</strong>：<br>可以尝试重新安装<code>ca-certificates</code>和<code>ca-certificates-utils</code>：<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S ca-certificates ca-certificates-utils</span><br></pre></td></tr></table></figure></div></li>
+</ol>
+<h2 id="5-2-镜像源问题"><a href="#5-2-镜像源问题" class="headerlink" title="5.2 镜像源问题"></a>5.2 镜像源问题</h2><p>如果下载或者更新速度较慢，可以用 Arch 清华镜像源：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kate /etc/pacman.d/mirrorlist</span><br></pre></td></tr></table></figure></div>
+<p>然后在首行加上：</p>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/$repo/os/$arch</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="5-3-签名验证问题"><a href="#5-3-签名验证问题" class="headerlink" title="5.3 签名验证问题"></a>5.3 签名验证问题</h2><div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(735/735) 正在检查软件包完整性                        [------------------------------------] 100% **错误：**libinstpatch: 来自 &quot;Brett Cornwall &lt;brett@i--b.com&gt;&quot; 的签名是未知信任的- **:: 文件 /var/cache/pacman/pkg/libinstpatch-1.1.6-3-x86_64.pkg.tar.zst 已损坏 (无效或已损坏的软件包 (PGP 签名))**. **打算删除吗？ [Y/n] ** **错误：**fluidsynth: 来自 &quot;Brett Cornwall &lt;brett@i--b.com&gt;&quot; 的签名是未知信任的**坏** **:: 文件 /var/cache/pacman/pkg/fluidsynth-2.3.6-1-x86_64.pkg.tar.zst 已损坏 (无效或已损坏的软件包 (PGP 签名)).** **打算删除吗？ [Y/n]</span><br></pre></td></tr></table></figure></div>
+
+<p>如果遇到以上这种问题（比如在执行<code>sudo pacman -Syu</code>时），可以这样做：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kate /etc/pacman.conf</span><br></pre></td></tr></table></figure></div>
+
+<p>然后找到<code>SigLevel</code>那一行，暂时禁用签名检查（这是一个临时的、有风险的解决方案），修改为：</p>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SigLevel = Never</span><br></pre></td></tr></table></figure></div>
+
+<h1 id="六、miniconda3-配置"><a href="#六、miniconda3-配置" class="headerlink" title="六、miniconda3 配置"></a>六、miniconda3 配置</h1><p><strong>注：</strong> 如果用的是<code>miniforge</code>，操作方式与此类似。</p>
+<h2 id="6-1-把conda集成到zsh终端中"><a href="#6-1-把conda集成到zsh终端中" class="headerlink" title="6.1 把conda集成到zsh终端中"></a>6.1 把<code>conda</code>集成到<code>zsh</code>终端中</h2><h3 id="6-1-1-详细步骤"><a href="#6-1-1-详细步骤" class="headerlink" title="6.1.1 详细步骤"></a>6.1.1 详细步骤</h3><ol>
+<li><strong>添加<code>conda</code>环境变量：</strong></li>
+</ol>
+<p>把这行代码加入到<code>.zshrc</code>中：</p>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export PATH=/opt/miniconda3/bin:$PATH</span><br></pre></td></tr></table></figure></div>
+
+<p>终端输入这行可以防止conda自动激活环境（建议加上）：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda config --<span class="built_in">set</span> auto_activate_base <span class="literal">false</span></span><br></pre></td></tr></table></figure></div>
+
+<ol start="2">
+<li><strong>重新加载 <code>~/.zshrc</code> 文件：</strong></li>
+</ol>
+<p>在终端中运行以下命令重新加载配置文件：</p>
+<div class="highlight-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> ~/.zshrc</span><br></pre></td></tr></table></figure></div>
+
+<ol start="3">
+<li><strong>运行 <code>conda init</code>：</strong></li>
+</ol>
+<p>初始化 conda 环境：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 这是conda默认安装的位置</span></span><br><span class="line">/opt/miniconda3/bin/conda init zsh</span><br></pre></td></tr></table></figure></div>
+
+<ol start="4">
+<li><strong>再次重新加载 <code>~/.zshrc</code> 文件：</strong></li>
+</ol>
+<p>再次运行以下命令重新加载配置文件：</p>
+<div class="highlight-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> ~/.zshrc</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="6-1-2-验证"><a href="#6-1-2-验证" class="headerlink" title="6.1.2 验证"></a>6.1.2 验证</h3><p>验证 conda 是否配置好：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda --version</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="6-1-3-一步到位操作"><a href="#6-1-3-一步到位操作" class="headerlink" title="6.1.3 一步到位操作"></a>6.1.3 一步到位操作</h3><p>可以不用管以上操作，直接把这段复制到<code>.zshrc</code>中，注意安装miniconda的路径：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># &gt;&gt;&gt; conda initialize &gt;&gt;&gt;</span></span><br><span class="line"><span class="comment"># !! Contents within this block are managed by &#x27;conda init&#x27; !!</span></span><br><span class="line">__conda_setup=<span class="string">&quot;<span class="subst">$(&#x27;/opt/miniconda3/bin/conda&#x27; &#x27;shell.zsh&#x27; &#x27;hook&#x27; 2&gt; /dev/null)</span>&quot;</span></span><br><span class="line"><span class="keyword">if</span> [ $? -eq 0 ]; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">eval</span> <span class="string">&quot;<span class="variable">$__conda_setup</span>&quot;</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    <span class="keyword">if</span> [ -f <span class="string">&quot;/opt/miniconda3/etc/profile.d/conda.sh&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line">        . <span class="string">&quot;/opt/miniconda3/etc/profile.d/conda.sh&quot;</span></span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="built_in">export</span> PATH=<span class="string">&quot;/opt/miniconda3/bin:<span class="variable">$PATH</span>&quot;</span></span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"><span class="built_in">unset</span> __conda_setup</span><br><span class="line"><span class="comment"># &lt;&lt;&lt; conda initialize &lt;&lt;&lt;</span></span><br><span class="line"><span class="built_in">export</span> CRYPTOGRAPHY_OPENSSL_NO_LEGACY=1</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="6-2-问题汇总"><a href="#6-2-问题汇总" class="headerlink" title="6.2 问题汇总"></a>6.2 问题汇总</h2><h3 id="6-2-1-OpenSSL-问题"><a href="#6-2-1-OpenSSL-问题" class="headerlink" title="6.2.1  OpenSSL 问题"></a>6.2.1  OpenSSL 问题</h3><p>当运行<code>conda activate base</code>时，可能出现下面问题：</p>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> $ conda activate base</span><br><span class="line">Error while loading conda entry point: conda-content-trust (OpenSSL 3.0&#x27;s legacy provider failed to load. This is a fatal error by default, but cryptography supports running without legacy algorithms by setting the environment variable CRYPTOGRAPHY_OPENSSL_NO_LEGACY. If you did not expect this error, you have likely made a mistake with your OpenSSL configuration.)</span><br><span class="line"></span><br><span class="line">CondaError: Run &#x27;conda init&#x27; before &#x27;conda activate&#x27;</span><br></pre></td></tr></table></figure></div>
+
+<p>根据该的错误信息，问题可能与 OpenSSL 版本有关。OpenSSL 3.0 引入了一些变化，可能导致与某些软件包的兼容性问题。在此情况下，设置环境变量<code>CRYPTOGRAPHY_OPENSSL_NO_LEGACY</code>可能会解决问题。</p>
+<ul>
+<li><strong>解决方法：</strong></li>
+</ul>
+<p>编辑 <code>~/.zshrc</code> 文件，添加以下行到 <code>~/.zshrc</code> 文件：</p>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export CRYPTOGRAPHY_OPENSSL_NO_LEGACY=1</span><br></pre></td></tr></table></figure></div>
+
+<p>保存并退出编辑器，然后执行<code>source ~/.zshrc</code>。</p>
+<h1 id="七、docker-配置"><a href="#七、docker-配置" class="headerlink" title="七、docker 配置"></a>七、docker 配置</h1><h2 id="7-1-安装-docker"><a href="#7-1-安装-docker" class="headerlink" title="7.1 安装 docker"></a>7.1 安装 docker</h2><ul>
+<li><strong>安装方式一：</strong></li>
+</ul>
+<p>通过<code>yay</code>直接安装（全局安装）：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yay -Sy docker docker-compose</span><br></pre></td></tr></table></figure></div>
+<p><code>docker-compose</code>可选安装，它可以通过配置文件<code>Dockerfile</code>来构建镜像。</p>
+<ul>
+<li><strong>安装方式二：</strong></li>
+</ul>
+<p>通过<code>conda</code>安装（局部安装，可全局使用）：</p>
+<p>首先需要创建虚拟环境用于存储安装的<code>docker</code>和<code>docker-compose</code>。</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda create --name docker python=3.12</span><br></pre></td></tr></table></figure></div>
+<p>Python版本可自己选择。</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda install docker docker-compose -c conda-forge</span><br></pre></td></tr></table></figure></div>
+
+<p>这里的<code>-c conda-forge</code>一定要加，默认的<code>conda.org</code>源没有<code>docker</code>。</p>
+<p>安装好的<code>docker</code>和<code>docker-compose</code>是在该路径下：<br><code>~/.conda/envs/docker/bin/docker</code><br><code>~/.conda/envs/docker/bin/docker-compose</code></p>
+<h2 id="7-2-docker-基本操作"><a href="#7-2-docker-基本操作" class="headerlink" title="7.2 docker 基本操作"></a>7.2 docker 基本操作</h2><h3 id="7-2-1-docker-服务"><a href="#7-2-1-docker-服务" class="headerlink" title="7.2.1 docker 服务"></a>7.2.1 docker 服务</h3><div class="highlight-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 启动docker服务</span></span><br><span class="line"><span class="built_in">sudo</span> systemctl start docker</span><br><span class="line"></span><br><span class="line"><span class="comment"># 关闭docker服务</span></span><br><span class="line"><span class="built_in">sudo</span> systemctl stop docker.service docker.socket</span><br></pre></td></tr></table></figure></div>
+
+<p>检查<code>docker</code>服务状态：</p>
+<div class="highlight-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status docker</span><br></pre></td></tr></table></figure></div>
+
+<p>开机自启动设置：</p>
+<div class="highlight-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 设置开机自启动</span></span><br><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> docker</span><br><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> docker.socket</span><br><span class="line"></span><br><span class="line"><span class="comment"># 关闭开机自启动</span></span><br><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">disable</span> docker</span><br><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">disable</span> docker.socket</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="7-2-2-添加用户到-docker-组"><a href="#7-2-2-添加用户到-docker-组" class="headerlink" title="7.2.2 添加用户到 docker 组"></a>7.2.2 添加用户到 docker 组</h3><p>为了避免每次运行<code>docker</code>命令时都需要使用 <code>sudo</code>，可以将当前用户添加到 <code>docker</code> 组：</p>
+<div class="highlight-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> usermod -aG docker <span class="variable">$USER</span></span><br></pre></td></tr></table></figure></div>
+
+<p>然后，重新登录以使更改生效，或者重新加载用户组信息：</p>
+<div class="highlight-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 登录</span></span><br><span class="line">newgrp docker</span><br><span class="line"></span><br><span class="line"><span class="comment"># 退出</span></span><br><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure></div>
+
+<h2 id="7-3-代理配置（推荐）"><a href="#7-3-代理配置（推荐）" class="headerlink" title="7.3 代理配置（推荐）"></a>7.3 代理配置（推荐）</h2><p>1.创建<code>docker</code>相关的<code>systemd</code>目录，这个目录下的配置将覆盖<code>docker</code>的默认配置：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">mkdir</span> -p /etc/systemd/system/docker.service.d</span><br></pre></td></tr></table></figure></div>
+
+<p>2.新建配置文件：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kate /etc/systemd/system/docker.service.d/proxy.conf</span><br></pre></td></tr></table></figure></div>
+
+<p>将以下内容复制到<code>proxy.conf</code>中：</p>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[Service]</span><br><span class="line">Environment=&quot;HTTP_PROXY=http://127.0.0.1:2334&quot;</span><br><span class="line">Environment=&quot;HTTPS_PROXY=http://127.0.0.1:2334&quot;</span><br></pre></td></tr></table></figure></div>
+
+<p>这里需要根据自己实际的代理端口填写。</p>
+<p>3.如果自己建了私有的镜像仓库，需要<code>docker</code>绕过代理服务器直连，那么配置<code>NO_PROXY</code>变量：</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[Service]</span><br><span class="line">Environment=&quot;HTTP_PROXY=http://proxy.example.com:80&quot;</span><br><span class="line">Environment=&quot;HTTPS_PROXY=https://proxy.example.com:443&quot;</span><br><span class="line">Environment=&quot;NO_PROXY=your-registry.com,10.10.10.10,*.example.com&quot;</span><br></pre></td></tr></table></figure></div>
+
+<p>多个<code>NO_PROXY</code>变量的值用逗号分隔，而且可以使用通配符（*），极端情况下，如果<code>NO_PROXY=*</code>，那么所有请求都将不通过代理服务器。</p>
+<p>4.重新加载配置文件，重启<code>docker</code>：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl daemon-reload</span><br><span class="line"><span class="built_in">sudo</span> systemctl restart docker</span><br></pre></td></tr></table></figure></div>
+
+<p>5.检查确认环境变量已经正确配置：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl show --property=Environment docker</span><br></pre></td></tr></table></figure></div>
+
+<p>像输出以下内容就成功了：</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Environment=HTTP_PROXY=http://127.0.0.1:2334 HTTPS_PROXY=http://127.0.0.1:2334</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="7-4-命令简化配置"><a href="#7-4-命令简化配置" class="headerlink" title="7.4 命令简化配置"></a>7.4 命令简化配置</h2><p>查看容器：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看运行中的容器</span></span><br><span class="line">docker ps</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看所用容器</span></span><br><span class="line">docker ps -a</span><br><span class="line"></span><br><span class="line"><span class="comment"># 格式化查看容器</span></span><br><span class="line">docker ps --format <span class="string">&quot;table &#123;&#123;.ID&#125;&#125;\t&#123;&#123;.Image&#125;&#125;\t&#123;&#123;.Ports&#125;&#125;\t&#123;&#123;.Status&#125;&#125;\t&#123;&#123;.Names&#125;&#125;&quot;</span></span><br></pre></td></tr></table></figure></div>
+
+<p>命令简化（推荐加到.bashrc或者.zshrc中）：</p>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alias dps=&#x27;docker ps --format &quot;table &#123;&#123;.ID&#125;&#125;\t&#123;&#123;.Image&#125;&#125;\t&#123;&#123;.Ports&#125;&#125;\t&#123;&#123;.Status&#125;&#125;\t&#123;&#123;.Names&#125;&#125;&quot;&#x27;</span><br></pre></td></tr></table></figure></div>
+
+        </div>
+
+        
+            <div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> EndeavourOS 使用记录</li>
+        <li><strong>Author:</strong> loskyertt</li>
+        <li><strong>Created at
+                :</strong> 2024-07-18 16:21:15</li>
+        
+            <li>
+                <strong>Updated at
+                    :</strong> 2024-08-06 12:41:28
+            </li>
+        
+        <li>
+            <strong>Link:</strong> https://redefine.ohevan.com/2024/07/18/EndeavourOS/
+        </li>
+        <li>
+            <strong>
+                License:
+            </strong>
+            
+
+            
+                This work is licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a>.
+            
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+            <ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+                
+                    <li class="tag-item mx-0.5">
+                        <a href="/tags/conda/">#conda</a>&nbsp;
+                    </li>
+                
+                    <li class="tag-item mx-0.5">
+                        <a href="/tags/docker/">#docker</a>&nbsp;
+                    </li>
+                
+                    <li class="tag-item mx-0.5">
+                        <a href="/tags/linux/">#linux</a>&nbsp;
+                    </li>
+                
+            </ul>
+        
+
+        
+  <div class="recommended-article px-2 sm:px-6 md:px-8">
+   <div class="recommended-desktop">
+    <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>推荐阅读</span>
+    </div>
+    <div class="recommended-article-group"><a class="recommended-article-item" href="/2024/07/19/Conda教程/" title="Conda教程" rel="bookmark">
+  <img src="/images/wallhaven-wqery6-light.webp" alt="Conda教程" class="!max-w-none">
+  <span class="title">Conda教程</span>
+</a><a class="recommended-article-item" href="/2024/07/24/Docker问题汇总/" title="使用Docker时的问题汇总和解决方式" rel="bookmark">
+  <img src="/images/wallhaven-wqery6-light.webp" alt="使用Docker时的问题汇总和解决方式" class="!max-w-none">
+  <span class="title">使用Docker时的问题汇总和解决方式</span>
+</a><a class="recommended-article-item" href="/2024/07/24/Linux指令/" title="Linux 指令" rel="bookmark">
+  <img src="https://softwarelab.org/wp-content/uploads/Linux.jpg" alt="Linux 指令" class="!max-w-none">
+  <span class="title">Linux 指令</span>
+</a></div>
+   </div>
+   <div class="recommended-mobile">
+   <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>推荐阅读</span>
+   </div>
+   <div class="recommended-article-group"><a class="recommended-article-item" href="/2024/07/19/Conda教程/" title="Conda教程" rel="bookmark">
+  <img src="/images/wallhaven-wqery6-light.webp" alt="Conda教程" class="!max-w-none">
+  <span class="title">Conda教程</span>
+</a><a class="recommended-article-item" href="/2024/07/24/Docker问题汇总/" title="使用Docker时的问题汇总和解决方式" rel="bookmark">
+  <img src="/images/wallhaven-wqery6-light.webp" alt="使用Docker时的问题汇总和解决方式" class="!max-w-none">
+  <span class="title">使用Docker时的问题汇总和解决方式</span>
+</a></div>
+   </div>
+  </div>
+
+        
+            <div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+                
+                    <div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+                        <a class="prev"
+                        rel="prev"
+                        href="/2024/07/19/Git%E6%95%99%E7%A8%8B/"
+                        >
+                            <span class="left arrow-icon flex justify-center items-center">
+                                <i class="fa-solid fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex justify-center items-center">
+                                <span class="post-nav-title-item">Git教程</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+            </div>
+        
+
+
+        
+            <div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+                <div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        Comments
+    </div>
+    
+
+        
+            
+    <div id="waline"></div>
+    <script type="module" data-swup-reload-script>
+      import { init } from '/js/libs/waline.mjs';
+
+      function loadWaline() {
+        init({
+          el: '#waline',
+          serverURL: 'https://example.example.com',
+          lang: 'zh-CN',
+          dark: 'body[class~="dark-mode"]',
+          reaction: false,
+          requiredMeta: ['nick', 'mail'],
+          emoji: [],
+          recaptchaV3Key: "wasd",
+          
+        });
+      }
+
+      if (typeof swup !== 'undefined') {
+        loadWaline();
+      } else {
+        window.addEventListener('DOMContentLoaded', loadWaline);
+      }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+
+    
+        <div class="toc-content-container">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <div class="toc-title">On this page</div>
+        <div class="page-title">EndeavourOS 使用记录</div>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E3%80%81N%E5%8D%A1%E9%A9%B1%E5%8A%A8"><span class="nav-text">一、N卡驱动</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-%E5%AE%89%E8%A3%85%E6%96%B9%E5%BC%8F%E4%B8%80"><span class="nav-text">1.1 安装方式一</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-%E5%AE%89%E8%A3%85%E6%96%B9%E5%BC%8F%E4%BA%8C"><span class="nav-text">1.2 安装方式二</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-%E6%9F%A5%E7%9C%8B%E6%98%BE%E5%8D%A1%E4%BF%A1%E6%81%AF"><span class="nav-text">1.3 查看显卡信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-%E8%A1%A5%E5%85%85"><span class="nav-text">1.4 补充</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-1-nvidia-hook"><span class="nav-text">1.4.1 nvidia-hook</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-2-nvidia-inst"><span class="nav-text">1.4.2 nvidia-inst</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-3-nvidia-utils"><span class="nav-text">1.4.3 nvidia-utils</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-4-nvidia-settings"><span class="nav-text">1.4.4 nvidia-settings</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-5-lib32-nvidia-utils"><span class="nav-text">1.4.5 lib32-nvidia-utils</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E7%BB%88%E7%AB%AF%E4%BB%A3%E7%90%86%E8%AE%BE%E7%BD%AE"><span class="nav-text">二、终端代理设置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%89%E3%80%81zsh%E9%85%8D%E7%BD%AE"><span class="nav-text">三、zsh配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-%E6%A0%B7%E5%BC%8F%E9%85%8D%E7%BD%AE%EF%BC%88prompt-PS1%EF%BC%89"><span class="nav-text">3.1 样式配置（prompt&#x2F;PS1）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-1%E6%8E%A8%E8%8D%90%E9%85%8D%E7%BD%AE%EF%BC%9A"><span class="nav-text">3.1.1推荐配置：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-%E6%8F%92%E4%BB%B6%E9%85%8D%E7%BD%AE"><span class="nav-text">3.2 插件配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-%E5%AE%8C%E6%95%B4%E7%9A%84%E9%85%8D%E7%BD%AE%E5%86%85%E5%AE%B9"><span class="nav-text">3.3 完整的配置内容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB"><span class="nav-text">3.4 问题汇总</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-1-%E5%8E%86%E5%8F%B2%E5%91%BD%E4%BB%A4%E9%97%AE%E9%A2%98"><span class="nav-text">3.4.1 历史命令问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-2-%E5%AE%89%E8%A3%85-oh-my-zsh-%E5%8F%AF%E8%83%BD%E4%BC%9A%E5%87%BA%E7%8E%B0%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-text">3.4.2 安装 oh my zsh 可能会出现的问题</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E4%B8%AD%E6%96%87%E8%BE%93%E5%85%A5%E6%B3%95%E9%85%8D%E7%BD%AE"><span class="nav-text">四、中文输入法配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-%E6%8E%A8%E8%8D%90%E6%96%B9%E5%BC%8F"><span class="nav-text">4.1 推荐方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-%E5%85%B6%E5%AE%83%EF%BC%88%E6%B2%A1%E8%AF%95%E8%BF%87%EF%BC%89"><span class="nav-text">4.2 其它（没试过）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E5%85%B6%E5%AE%83%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB"><span class="nav-text">五、其它问题汇总</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-%E8%AF%81%E4%B9%A6%E5%AE%89%E8%A3%85%E9%97%AE%E9%A2%98"><span class="nav-text">5.1 证书安装问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-%E9%95%9C%E5%83%8F%E6%BA%90%E9%97%AE%E9%A2%98"><span class="nav-text">5.2 镜像源问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-3-%E7%AD%BE%E5%90%8D%E9%AA%8C%E8%AF%81%E9%97%AE%E9%A2%98"><span class="nav-text">5.3 签名验证问题</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%AD%E3%80%81miniconda3-%E9%85%8D%E7%BD%AE"><span class="nav-text">六、miniconda3 配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#6-1-%E6%8A%8Aconda%E9%9B%86%E6%88%90%E5%88%B0zsh%E7%BB%88%E7%AB%AF%E4%B8%AD"><span class="nav-text">6.1 把conda集成到zsh终端中</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-1-1-%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4"><span class="nav-text">6.1.1 详细步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-1-2-%E9%AA%8C%E8%AF%81"><span class="nav-text">6.1.2 验证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-1-3-%E4%B8%80%E6%AD%A5%E5%88%B0%E4%BD%8D%E6%93%8D%E4%BD%9C"><span class="nav-text">6.1.3 一步到位操作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-2-%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB"><span class="nav-text">6.2 问题汇总</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-2-1-OpenSSL-%E9%97%AE%E9%A2%98"><span class="nav-text">6.2.1  OpenSSL 问题</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%83%E3%80%81docker-%E9%85%8D%E7%BD%AE"><span class="nav-text">七、docker 配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#7-1-%E5%AE%89%E8%A3%85-docker"><span class="nav-text">7.1 安装 docker</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-2-docker-%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C"><span class="nav-text">7.2 docker 基本操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#7-2-1-docker-%E6%9C%8D%E5%8A%A1"><span class="nav-text">7.2.1 docker 服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-2-2-%E6%B7%BB%E5%8A%A0%E7%94%A8%E6%88%B7%E5%88%B0-docker-%E7%BB%84"><span class="nav-text">7.2.2 添加用户到 docker 组</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-3-%E4%BB%A3%E7%90%86%E9%85%8D%E7%BD%AE%EF%BC%88%E6%8E%A8%E8%8D%90%EF%BC%89"><span class="nav-text">7.3 代理配置（推荐）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-4-%E5%91%BD%E4%BB%A4%E7%AE%80%E5%8C%96%E9%85%8D%E7%BD%AE"><span class="nav-text">7.4 命令简化配置</span></a></li></ol></li></ol>
+
+    </div>
+</div>
+        </div>
+    
+</div>
+
+
+
+                
+
+            </div>
+
+            
+
+        </div>
+
+        <div class="main-content-footer">
+            <footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2024&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">loskyertt</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        13 posts in total
+                    </span>
+                    
+                        <span>
+                            13.6k words in total
+                        </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">VISITOR COUNT</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">TOTAL PAGE VIEWS</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">POWERED BY <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a></span>
+            <span class="text-sm lg:block">THEME&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.6.4</a></span>
+        </div>
+        
+        
+            <div>
+                Blog up for <span class="odometer" id="runtime_days" ></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="article-tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="right-bottom-tools page-aside-toggle">
+                <i class="fa-regular fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fa-regular fa-comments"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-side-tools-container">
+        <div class="side-tools-container">
+    <ul class="hidden-tools-list">
+        <li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+            <i class="fa-regular fa-magnifying-glass-plus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+            <i class="fa-regular fa-magnifying-glass-minus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+            <i class="fa-regular fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+
+        <li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+            <i class="fa-regular fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="visible-tools-list">
+        <li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+            <i class="fa-regular fa-cog fa-spin"></i>
+        </li>
+        
+            <li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
+        
+        
+    </ul>
+</div>
+
+    </div>
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fa-solid fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fa-solid fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+    
+<script src="/js/libs/Swup.min.js"></script>
+
+<script src="/js/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/js/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/js/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/js/libs/SwupScrollPlugin.min.js"></script>
+
+<script src="/js/libs/SwupPreloadPlugin.min.js"></script>
+
+<script>
+    const swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+</script>
+
+
+
+
+
+
+
+<script src="/js/tools/imageViewer.js" type="module"></script>
+
+<script src="/js/utils.js" type="module"></script>
+
+<script src="/js/main.js" type="module"></script>
+
+<script src="/js/layouts/navbarShrink.js" type="module"></script>
+
+<script src="/js/tools/scrollTopBottom.js" type="module"></script>
+
+<script src="/js/tools/lightDarkSwitch.js" type="module"></script>
+
+<script src="/js/layouts/categoryList.js" type="module"></script>
+
+
+
+    
+<script src="/js/tools/localSearch.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/tools/codeBlock.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/layouts/lazyload.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/tools/runtime.js"></script>
+
+    
+<script src="/js/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+  
+<script src="/js/libs/Typed.min.js"></script>
+
+  
+<script src="/js/plugins/typed.js" type="module"></script>
+
+
+
+
+
+
+
+
+
+<div class="post-scripts" data-swup-reload-script>
+    
+        
+<script src="/js/tools/tocToggle.js" type="module"></script>
+
+<script src="/js/layouts/toc.js" type="module"></script>
+
+<script src="/js/plugins/tabs.js" type="module"></script>
+
+    
+</div>
+
+
+</body>
+</html>
