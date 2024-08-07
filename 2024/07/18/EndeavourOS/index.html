@@ -25,13 +25,17 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="这篇文章主要记录自己使用EndeavourOS Linux（Arch系的发行版）的过程，有一些配置，以及遇到的一些问题和解决办法。理论上这些解决办法在其它Linux发行版下也适用。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://s21.ax1x.com/2024/08/06/pkxNlJH.png">
+<meta property="og:image" content="https://s21.ax1x.com/2024/08/06/pkxNQFe.png">
+<meta property="og:image" content="https://s21.ax1x.com/2024/08/06/pkxN1Wd.png">
 <meta property="article:published_time" content="2024-07-18T16:21:15.000Z">
-<meta property="article:modified_time" content="2024-08-06T12:41:28.001Z">
+<meta property="article:modified_time" content="2024-08-07T03:26:52.400Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="conda">
 <meta property="article:tag" content="docker">
 <meta property="article:tag" content="linux">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s21.ax1x.com/2024/08/06/pkxNlJH.png">
     
     
     <!--- Icon Part-->
@@ -502,8 +506,8 @@
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2024-08-06 12:41:28</span>
-            <span class="mobile">2024-08-06 12:41:28</span>
+            <span class="desktop">2024-08-07 03:26:52</span>
+            <span class="mobile">2024-08-07 03:26:52</span>
             <span class="hover-info">Updated</span>
         </span>
     
@@ -533,12 +537,12 @@
     
     
         <span class="article-wordcount article-meta-item">
-            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>4k Words</span>
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>4.2k Words</span>
         </span>
     
     
         <span class="article-min2read article-meta-item">
-            <i class="fa-regular fa-clock"></i>&nbsp;<span>17 Mins</span>
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>18 Mins</span>
         </span>
     
     
@@ -808,6 +812,19 @@
 <p>然后找到<code>SigLevel</code>那一行，暂时禁用签名检查（这是一个临时的、有风险的解决方案），修改为：</p>
 <div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SigLevel = Never</span><br></pre></td></tr></table></figure></div>
 
+<h2 id="5-4-文件未通过校验"><a href="#5-4-文件未通过校验" class="headerlink" title="5.4 文件未通过校验"></a>5.4 文件未通过校验</h2><p>比如在构建包时有类似的如下报错信息：</p>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">正在验证 source 文件，</span><br><span class="line">使用sha512sums... </span><br><span class="line"> nekoray ... 通过</span><br><span class="line"> nekobox.sh ... 通过</span><br><span class="line"> nekobox.desktop ... 通过</span><br><span class="line"> 1350.patch ... 失败. ==&gt; 错误： 一个或多个文件没有通过有效性检查！0</span><br></pre></td></tr></table></figure></div>
+
+<ol>
+<li><p><strong>清理之前的构建：</strong></p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">makepkg --clean</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p><strong>更新 PKGBUILD 文件中的校验和。进入构建文件的目录，然后使用以下命令：</strong></p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">updpkgsums</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p><strong>重新构建：</strong></p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">makepkg -si</span><br></pre></td></tr></table></figure></div></li>
+</ol>
 <h1 id="六、miniconda3-配置"><a href="#六、miniconda3-配置" class="headerlink" title="六、miniconda3 配置"></a>六、miniconda3 配置</h1><p><strong>注：</strong> 如果用的是<code>miniforge</code>，操作方式与此类似。</p>
 <h2 id="6-1-把conda集成到zsh终端中"><a href="#6-1-把conda集成到zsh终端中" class="headerlink" title="6.1 把conda集成到zsh终端中"></a>6.1 把<code>conda</code>集成到<code>zsh</code>终端中</h2><h3 id="6-1-1-详细步骤"><a href="#6-1-1-详细步骤" class="headerlink" title="6.1.1 详细步骤"></a>6.1.1 详细步骤</h3><ol>
 <li><strong>添加<code>conda</code>环境变量：</strong></li>
@@ -913,6 +930,30 @@
 <p>命令简化（推荐加到.bashrc或者.zshrc中）：</p>
 <div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alias dps=&#x27;docker ps --format &quot;table &#123;&#123;.ID&#125;&#125;\t&#123;&#123;.Image&#125;&#125;\t&#123;&#123;.Ports&#125;&#125;\t&#123;&#123;.Status&#125;&#125;\t&#123;&#123;.Names&#125;&#125;&quot;&#x27;</span><br></pre></td></tr></table></figure></div>
 
+<h1 id="八、美化"><a href="#八、美化" class="headerlink" title="八、美化"></a>八、美化</h1><h2 id="8-1-推荐全局主题"><a href="#8-1-推荐全局主题" class="headerlink" title="8.1 推荐全局主题"></a>8.1 推荐全局主题</h2><ol>
+<li><p>全局主题下载：<br><a target="_blank" rel="noopener" href="https://imgse.com/i/pkxNlJH"><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s21.ax1x.com/2024/08/06/pkxNlJH.png"
+                      alt="pkxNlJH.png"
+                ><figcaption>pkxNlJH.png</figcaption></figure></a></p>
+</li>
+<li><p>plasma 外观样式：<br><a target="_blank" rel="noopener" href="https://imgse.com/i/pkxNQFe"><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s21.ax1x.com/2024/08/06/pkxNQFe.png"
+                      alt="pkxNQFe.png"
+                ><figcaption>pkxNQFe.png</figcaption></figure></a></p>
+</li>
+<li><p>示例：<br><a target="_blank" rel="noopener" href="https://imgse.com/i/pkxN1Wd"><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s21.ax1x.com/2024/08/06/pkxN1Wd.png"
+                      alt="pkxN1Wd.png"
+                ><figcaption>pkxN1Wd.png</figcaption></figure></a></p>
+</li>
+</ol>
+
         </div>
 
         
@@ -926,7 +967,7 @@
         
             <li>
                 <strong>Updated at
-                    :</strong> 2024-08-06 12:41:28
+                    :</strong> 2024-08-07 03:26:52
             </li>
         
         <li>
@@ -1072,7 +1113,7 @@
     <div class="post-toc">
         <div class="toc-title">On this page</div>
         <div class="page-title">EndeavourOS 使用记录</div>
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E3%80%81N%E5%8D%A1%E9%A9%B1%E5%8A%A8"><span class="nav-text">一、N卡驱动</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-%E5%AE%89%E8%A3%85%E6%96%B9%E5%BC%8F%E4%B8%80"><span class="nav-text">1.1 安装方式一</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-%E5%AE%89%E8%A3%85%E6%96%B9%E5%BC%8F%E4%BA%8C"><span class="nav-text">1.2 安装方式二</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-%E6%9F%A5%E7%9C%8B%E6%98%BE%E5%8D%A1%E4%BF%A1%E6%81%AF"><span class="nav-text">1.3 查看显卡信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-%E8%A1%A5%E5%85%85"><span class="nav-text">1.4 补充</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-1-nvidia-hook"><span class="nav-text">1.4.1 nvidia-hook</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-2-nvidia-inst"><span class="nav-text">1.4.2 nvidia-inst</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-3-nvidia-utils"><span class="nav-text">1.4.3 nvidia-utils</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-4-nvidia-settings"><span class="nav-text">1.4.4 nvidia-settings</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-5-lib32-nvidia-utils"><span class="nav-text">1.4.5 lib32-nvidia-utils</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E7%BB%88%E7%AB%AF%E4%BB%A3%E7%90%86%E8%AE%BE%E7%BD%AE"><span class="nav-text">二、终端代理设置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%89%E3%80%81zsh%E9%85%8D%E7%BD%AE"><span class="nav-text">三、zsh配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-%E6%A0%B7%E5%BC%8F%E9%85%8D%E7%BD%AE%EF%BC%88prompt-PS1%EF%BC%89"><span class="nav-text">3.1 样式配置（prompt&#x2F;PS1）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-1%E6%8E%A8%E8%8D%90%E9%85%8D%E7%BD%AE%EF%BC%9A"><span class="nav-text">3.1.1推荐配置：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-%E6%8F%92%E4%BB%B6%E9%85%8D%E7%BD%AE"><span class="nav-text">3.2 插件配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-%E5%AE%8C%E6%95%B4%E7%9A%84%E9%85%8D%E7%BD%AE%E5%86%85%E5%AE%B9"><span class="nav-text">3.3 完整的配置内容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB"><span class="nav-text">3.4 问题汇总</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-1-%E5%8E%86%E5%8F%B2%E5%91%BD%E4%BB%A4%E9%97%AE%E9%A2%98"><span class="nav-text">3.4.1 历史命令问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-2-%E5%AE%89%E8%A3%85-oh-my-zsh-%E5%8F%AF%E8%83%BD%E4%BC%9A%E5%87%BA%E7%8E%B0%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-text">3.4.2 安装 oh my zsh 可能会出现的问题</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E4%B8%AD%E6%96%87%E8%BE%93%E5%85%A5%E6%B3%95%E9%85%8D%E7%BD%AE"><span class="nav-text">四、中文输入法配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-%E6%8E%A8%E8%8D%90%E6%96%B9%E5%BC%8F"><span class="nav-text">4.1 推荐方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-%E5%85%B6%E5%AE%83%EF%BC%88%E6%B2%A1%E8%AF%95%E8%BF%87%EF%BC%89"><span class="nav-text">4.2 其它（没试过）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E5%85%B6%E5%AE%83%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB"><span class="nav-text">五、其它问题汇总</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-%E8%AF%81%E4%B9%A6%E5%AE%89%E8%A3%85%E9%97%AE%E9%A2%98"><span class="nav-text">5.1 证书安装问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-%E9%95%9C%E5%83%8F%E6%BA%90%E9%97%AE%E9%A2%98"><span class="nav-text">5.2 镜像源问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-3-%E7%AD%BE%E5%90%8D%E9%AA%8C%E8%AF%81%E9%97%AE%E9%A2%98"><span class="nav-text">5.3 签名验证问题</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%AD%E3%80%81miniconda3-%E9%85%8D%E7%BD%AE"><span class="nav-text">六、miniconda3 配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#6-1-%E6%8A%8Aconda%E9%9B%86%E6%88%90%E5%88%B0zsh%E7%BB%88%E7%AB%AF%E4%B8%AD"><span class="nav-text">6.1 把conda集成到zsh终端中</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-1-1-%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4"><span class="nav-text">6.1.1 详细步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-1-2-%E9%AA%8C%E8%AF%81"><span class="nav-text">6.1.2 验证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-1-3-%E4%B8%80%E6%AD%A5%E5%88%B0%E4%BD%8D%E6%93%8D%E4%BD%9C"><span class="nav-text">6.1.3 一步到位操作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-2-%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB"><span class="nav-text">6.2 问题汇总</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-2-1-OpenSSL-%E9%97%AE%E9%A2%98"><span class="nav-text">6.2.1  OpenSSL 问题</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%83%E3%80%81docker-%E9%85%8D%E7%BD%AE"><span class="nav-text">七、docker 配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#7-1-%E5%AE%89%E8%A3%85-docker"><span class="nav-text">7.1 安装 docker</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-2-docker-%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C"><span class="nav-text">7.2 docker 基本操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#7-2-1-docker-%E6%9C%8D%E5%8A%A1"><span class="nav-text">7.2.1 docker 服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-2-2-%E6%B7%BB%E5%8A%A0%E7%94%A8%E6%88%B7%E5%88%B0-docker-%E7%BB%84"><span class="nav-text">7.2.2 添加用户到 docker 组</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-3-%E4%BB%A3%E7%90%86%E9%85%8D%E7%BD%AE%EF%BC%88%E6%8E%A8%E8%8D%90%EF%BC%89"><span class="nav-text">7.3 代理配置（推荐）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-4-%E5%91%BD%E4%BB%A4%E7%AE%80%E5%8C%96%E9%85%8D%E7%BD%AE"><span class="nav-text">7.4 命令简化配置</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E3%80%81N%E5%8D%A1%E9%A9%B1%E5%8A%A8"><span class="nav-text">一、N卡驱动</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-%E5%AE%89%E8%A3%85%E6%96%B9%E5%BC%8F%E4%B8%80"><span class="nav-text">1.1 安装方式一</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-%E5%AE%89%E8%A3%85%E6%96%B9%E5%BC%8F%E4%BA%8C"><span class="nav-text">1.2 安装方式二</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-%E6%9F%A5%E7%9C%8B%E6%98%BE%E5%8D%A1%E4%BF%A1%E6%81%AF"><span class="nav-text">1.3 查看显卡信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-%E8%A1%A5%E5%85%85"><span class="nav-text">1.4 补充</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-1-nvidia-hook"><span class="nav-text">1.4.1 nvidia-hook</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-2-nvidia-inst"><span class="nav-text">1.4.2 nvidia-inst</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-3-nvidia-utils"><span class="nav-text">1.4.3 nvidia-utils</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-4-nvidia-settings"><span class="nav-text">1.4.4 nvidia-settings</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-5-lib32-nvidia-utils"><span class="nav-text">1.4.5 lib32-nvidia-utils</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E7%BB%88%E7%AB%AF%E4%BB%A3%E7%90%86%E8%AE%BE%E7%BD%AE"><span class="nav-text">二、终端代理设置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%89%E3%80%81zsh%E9%85%8D%E7%BD%AE"><span class="nav-text">三、zsh配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-%E6%A0%B7%E5%BC%8F%E9%85%8D%E7%BD%AE%EF%BC%88prompt-PS1%EF%BC%89"><span class="nav-text">3.1 样式配置（prompt&#x2F;PS1）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-1%E6%8E%A8%E8%8D%90%E9%85%8D%E7%BD%AE%EF%BC%9A"><span class="nav-text">3.1.1推荐配置：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-%E6%8F%92%E4%BB%B6%E9%85%8D%E7%BD%AE"><span class="nav-text">3.2 插件配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-%E5%AE%8C%E6%95%B4%E7%9A%84%E9%85%8D%E7%BD%AE%E5%86%85%E5%AE%B9"><span class="nav-text">3.3 完整的配置内容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB"><span class="nav-text">3.4 问题汇总</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-1-%E5%8E%86%E5%8F%B2%E5%91%BD%E4%BB%A4%E9%97%AE%E9%A2%98"><span class="nav-text">3.4.1 历史命令问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-2-%E5%AE%89%E8%A3%85-oh-my-zsh-%E5%8F%AF%E8%83%BD%E4%BC%9A%E5%87%BA%E7%8E%B0%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-text">3.4.2 安装 oh my zsh 可能会出现的问题</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E4%B8%AD%E6%96%87%E8%BE%93%E5%85%A5%E6%B3%95%E9%85%8D%E7%BD%AE"><span class="nav-text">四、中文输入法配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-%E6%8E%A8%E8%8D%90%E6%96%B9%E5%BC%8F"><span class="nav-text">4.1 推荐方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-%E5%85%B6%E5%AE%83%EF%BC%88%E6%B2%A1%E8%AF%95%E8%BF%87%EF%BC%89"><span class="nav-text">4.2 其它（没试过）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E5%85%B6%E5%AE%83%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB"><span class="nav-text">五、其它问题汇总</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-%E8%AF%81%E4%B9%A6%E5%AE%89%E8%A3%85%E9%97%AE%E9%A2%98"><span class="nav-text">5.1 证书安装问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-%E9%95%9C%E5%83%8F%E6%BA%90%E9%97%AE%E9%A2%98"><span class="nav-text">5.2 镜像源问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-3-%E7%AD%BE%E5%90%8D%E9%AA%8C%E8%AF%81%E9%97%AE%E9%A2%98"><span class="nav-text">5.3 签名验证问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-4-%E6%96%87%E4%BB%B6%E6%9C%AA%E9%80%9A%E8%BF%87%E6%A0%A1%E9%AA%8C"><span class="nav-text">5.4 文件未通过校验</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%AD%E3%80%81miniconda3-%E9%85%8D%E7%BD%AE"><span class="nav-text">六、miniconda3 配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#6-1-%E6%8A%8Aconda%E9%9B%86%E6%88%90%E5%88%B0zsh%E7%BB%88%E7%AB%AF%E4%B8%AD"><span class="nav-text">6.1 把conda集成到zsh终端中</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-1-1-%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4"><span class="nav-text">6.1.1 详细步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-1-2-%E9%AA%8C%E8%AF%81"><span class="nav-text">6.1.2 验证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-1-3-%E4%B8%80%E6%AD%A5%E5%88%B0%E4%BD%8D%E6%93%8D%E4%BD%9C"><span class="nav-text">6.1.3 一步到位操作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-2-%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB"><span class="nav-text">6.2 问题汇总</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-2-1-OpenSSL-%E9%97%AE%E9%A2%98"><span class="nav-text">6.2.1  OpenSSL 问题</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%83%E3%80%81docker-%E9%85%8D%E7%BD%AE"><span class="nav-text">七、docker 配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#7-1-%E5%AE%89%E8%A3%85-docker"><span class="nav-text">7.1 安装 docker</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-2-docker-%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C"><span class="nav-text">7.2 docker 基本操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#7-2-1-docker-%E6%9C%8D%E5%8A%A1"><span class="nav-text">7.2.1 docker 服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-2-2-%E6%B7%BB%E5%8A%A0%E7%94%A8%E6%88%B7%E5%88%B0-docker-%E7%BB%84"><span class="nav-text">7.2.2 添加用户到 docker 组</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-3-%E4%BB%A3%E7%90%86%E9%85%8D%E7%BD%AE%EF%BC%88%E6%8E%A8%E8%8D%90%EF%BC%89"><span class="nav-text">7.3 代理配置（推荐）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-4-%E5%91%BD%E4%BB%A4%E7%AE%80%E5%8C%96%E9%85%8D%E7%BD%AE"><span class="nav-text">7.4 命令简化配置</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%AB%E3%80%81%E7%BE%8E%E5%8C%96"><span class="nav-text">八、美化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#8-1-%E6%8E%A8%E8%8D%90%E5%85%A8%E5%B1%80%E4%B8%BB%E9%A2%98"><span class="nav-text">8.1 推荐全局主题</span></a></li></ol></li></ol>
 
     </div>
 </div>
@@ -1109,7 +1150,7 @@
                     </span>
                     
                         <span>
-                            13.6k words in total
+                            13.8k words in total
                         </span>
                     
                 </p>

@@ -814,6 +814,19 @@
 <p>然后找到<code>SigLevel</code>那一行，暂时禁用签名检查（这是一个临时的、有风险的解决方案），修改为：</p>
 <div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">SigLevel = Never</span><br></pre></td></tr></table></figure></div>
 
+<h2 id="5-4-文件未通过校验"><a href="#5-4-文件未通过校验" class="headerlink" title="5.4 文件未通过校验"></a>5.4 文件未通过校验</h2><p>比如在构建包时有类似的如下报错信息：</p>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">正在验证 source 文件，</span><br><span class="line">使用sha512sums... </span><br><span class="line"> nekoray ... 通过</span><br><span class="line"> nekobox.sh ... 通过</span><br><span class="line"> nekobox.desktop ... 通过</span><br><span class="line"> 1350.patch ... 失败. ==&gt; 错误： 一个或多个文件没有通过有效性检查！0</span><br></pre></td></tr></table></figure></div>
+
+<ol>
+<li><p><strong>清理之前的构建：</strong></p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">makepkg --clean</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p><strong>更新 PKGBUILD 文件中的校验和。进入构建文件的目录，然后使用以下命令：</strong></p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">updpkgsums</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p><strong>重新构建：</strong></p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">makepkg -si</span><br></pre></td></tr></table></figure></div></li>
+</ol>
 <h1 id="六、miniconda3-配置"><a href="#六、miniconda3-配置" class="headerlink" title="六、miniconda3 配置"></a>六、miniconda3 配置</h1><p><strong>注：</strong> 如果用的是<code>miniforge</code>，操作方式与此类似。</p>
 <h2 id="6-1-把conda集成到zsh终端中"><a href="#6-1-把conda集成到zsh终端中" class="headerlink" title="6.1 把conda集成到zsh终端中"></a>6.1 把<code>conda</code>集成到<code>zsh</code>终端中</h2><h3 id="6-1-1-详细步骤"><a href="#6-1-1-详细步骤" class="headerlink" title="6.1.1 详细步骤"></a>6.1.1 详细步骤</h3><ol>
 <li><strong>添加<code>conda</code>环境变量：</strong></li>
@@ -918,6 +931,30 @@
 
 <p>命令简化（推荐加到.bashrc或者.zshrc中）：</p>
 <div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">alias dps=&#x27;docker ps --format &quot;table &#123;&#123;.ID&#125;&#125;\t&#123;&#123;.Image&#125;&#125;\t&#123;&#123;.Ports&#125;&#125;\t&#123;&#123;.Status&#125;&#125;\t&#123;&#123;.Names&#125;&#125;&quot;&#x27;</span><br></pre></td></tr></table></figure></div>
+
+<h1 id="八、美化"><a href="#八、美化" class="headerlink" title="八、美化"></a>八、美化</h1><h2 id="8-1-推荐全局主题"><a href="#8-1-推荐全局主题" class="headerlink" title="8.1 推荐全局主题"></a>8.1 推荐全局主题</h2><ol>
+<li><p>全局主题下载：<br><a href="https://imgse.com/i/pkxNlJH"><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s21.ax1x.com/2024/08/06/pkxNlJH.png"
+                      alt="pkxNlJH.png"
+                ><figcaption>pkxNlJH.png</figcaption></figure></a></p>
+</li>
+<li><p>plasma 外观样式：<br><a href="https://imgse.com/i/pkxNQFe"><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s21.ax1x.com/2024/08/06/pkxNQFe.png"
+                      alt="pkxNQFe.png"
+                ><figcaption>pkxNQFe.png</figcaption></figure></a></p>
+</li>
+<li><p>示例：<br><a href="https://imgse.com/i/pkxN1Wd"><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s21.ax1x.com/2024/08/06/pkxN1Wd.png"
+                      alt="pkxN1Wd.png"
+                ><figcaption>pkxN1Wd.png</figcaption></figure></a></p>
+</li>
+</ol>
 ]]></content>
       <tags>
         <tag>conda</tag>
