@@ -561,6 +561,97 @@
       </tags>
   </entry>
   <entry>
+    <title>Git教程</title>
+    <url>/2024/07/19/Git%E6%95%99%E7%A8%8B/</url>
+    <content><![CDATA[<h1 id="一、-SSH-密钥"><a href="#一、-SSH-密钥" class="headerlink" title="一、 SSH 密钥"></a>一、 SSH 密钥</h1><p>需要提前安装好<code>OpenSSH</code>:</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S openssh</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="1-1-生成-SSH-密钥"><a href="#1-1-生成-SSH-密钥" class="headerlink" title="1.1 生成 SSH 密钥"></a>1.1 生成 SSH 密钥</h2><p>如果还没有 SSH 密钥，可以生成一个：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 推荐</span></span><br><span class="line">ssh-keygen -t ed25519 -C <span class="string">&quot;your_email@example.com&quot;</span></span><br></pre></td></tr></table></figure></div>
+<p>或者</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa -b 4096 -C <span class="string">&quot;your_email@example.com&quot;</span></span><br></pre></td></tr></table></figure></div>
+
+<p>按照提示完成生成过程，默认会在 <code>~/.ssh/</code> 目录下生成 <code>id_ed25519</code>（不能告诉别人）和<code>id_ed25519.pub</code>（公有的） 文件。第二种生成密钥的方式对应的文件是<code>id_rsa</code> 和 <code>id_rsa.pub</code>。</p>
+<h2 id="1-2-添加-SSH-密钥到-GitHub"><a href="#1-2-添加-SSH-密钥到-GitHub" class="headerlink" title="1.2 添加 SSH 密钥到 GitHub"></a>1.2 添加 SSH 密钥到 GitHub</h2><ol>
+<li>将生成的公钥添加到 GitHub。在终端中运行：</li>
+</ol>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cat</span> ~/.ssh/id_ed25519.pub</span><br></pre></td></tr></table></figure></div>
+
+<p>输出示例：</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">ssh-ed25519 AAAAC3NzANDAKlZDI1NTE5AAAaaaN/oaWb4GZetVkiI5/8d1gezLHWpT46mnaAnkJAbwXpp loskyertt0403@gmail.com</span><br></pre></td></tr></table></figure></div>
+
+<ol start="2">
+<li>复制输出的公钥内容（从 ssh-ed25519 开始，直到邮箱地址结束）。（或者打开<code>sh/id_rsa.pub</code> 文件，复制其中的内容。）</li>
+<li>登录到 GitHub，导航到“Settings”。</li>
+<li>在左侧菜单中选择“<a class="link"   href="https://github.com/settings/keys" >SSH and GPG keys 设置页面 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>”。</li>
+<li>点击“New SSH key”，粘贴你的公钥并保存。</li>
+</ol>
+<h2 id="1-3-配置仓库使用-SSH-URL"><a href="#1-3-配置仓库使用-SSH-URL" class="headerlink" title="1.3 配置仓库使用 SSH URL"></a>1.3 配置仓库使用 SSH URL</h2><ol>
+<li>更新远程仓库的 URL 以使用 SSH：</li>
+</ol>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">git remote set-url origin git@github.com:loskyertt/Recorder_Backup.git</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="1-4-推送更改"><a href="#1-4-推送更改" class="headerlink" title="1.4 推送更改"></a>1.4 推送更改</h2><p>现在可以使用 SSH 进行推送：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">git push origin main</span><br></pre></td></tr></table></figure></div>
+
+
+<h1 id="二、个人访问令牌（Personal-Access-Token，PAT）"><a href="#二、个人访问令牌（Personal-Access-Token，PAT）" class="headerlink" title="二、个人访问令牌（Personal Access Token，PAT）"></a>二、个人访问令牌（Personal Access Token，PAT）</h1><ol>
+<li><p><strong>生成个人访问令牌</strong>：</p>
+<ul>
+<li>登录到你的 GitHub 账户。</li>
+<li>进入 <a class="link"   href="https://github.com/settings/tokens" >GitHub 个人访问令牌设置页面 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>。</li>
+<li>点击 <code>Generate new token</code> 按钮。</li>
+<li>在令牌的描述中输入一个名称。</li>
+<li>选择所需的权限（例如 <code>repo</code>）。</li>
+<li>生成令牌并复制。</li>
+</ul>
+</li>
+<li><p><strong>使用个人访问令牌进行认证</strong>：</p>
+<ul>
+<li>在你运行 <code>git push</code> 时，会提示你输入用户名和密码。在提示用户名时，输入你的 GitHub 用户名。在提示密码时，输入刚刚生成的个人访问令牌。</li>
+</ul>
+</li>
+</ol>
+<h1 id="三、git基本配置"><a href="#三、git基本配置" class="headerlink" title="三、git基本配置"></a>三、git基本配置</h1><h2 id="3-1-设置用户信息"><a href="#3-1-设置用户信息" class="headerlink" title="3.1 设置用户信息"></a>3.1 设置用户信息</h2><div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global user.name <span class="string">&quot;用户名&quot;</span></span><br><span class="line">git config --global user.email <span class="string">&quot;邮箱&quot;</span></span><br></pre></td></tr></table></figure></div>
+<h2 id="3-2-代理设置"><a href="#3-2-代理设置" class="headerlink" title="3.2 代理设置"></a>3.2 代理设置</h2><p><strong>注：<code>linux</code>只需要在终端配置代理即可。</strong></p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global http.proxy socks5://127.0.0.1:<span class="string">&quot;端口&quot;</span></span><br><span class="line">git config --global https.proxy socks5://127.0.0.1:<span class="string">&quot;端口&quot;</span></span><br></pre></td></tr></table></figure></div>
+
+<p>如果要取消代理：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global --<span class="built_in">unset</span> http.proxy</span><br><span class="line">git config --global --<span class="built_in">unset</span> https.proxy</span><br></pre></td></tr></table></figure></div>
+]]></content>
+      <tags>
+        <tag>linux</tag>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux(EndeavourOS) 给 Steam 设置代理</title>
+    <url>/2024/07/24/Linux_Steam/</url>
+    <content><![CDATA[<h1 id="1-解决"><a href="#1-解决" class="headerlink" title="1.解决"></a>1.解决</h1><ol>
+<li><p>打开 Steam 大屏模式（ <strong>一定是大屏模式！</strong> ）。<br><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://nyalog.oss-cn-hongkong.aliyuncs.com/NyaLog/articles/Steam%20Linux%20%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/Steam-BigScreen-min.png"
+                      alt="大屏模式"
+                ><figcaption>大屏模式</figcaption></figure></p>
+</li>
+<li><p>然后在设置里进入网络设置界面，然后点开填入自己的代理地址和端口。<br><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://nyalog.oss-cn-hongkong.aliyuncs.com/NyaLog/articles/Steam%20Linux%20%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/Steam-proxy-min.png"
+                      alt="设置界面"
+                ><figcaption>设置界面</figcaption></figure></p>
+</li>
+<li><p>设置成功后退出重启 Steam 即可。</p>
+</li>
+</ol>
+]]></content>
+      <tags>
+        <tag>linux</tag>
+        <tag>steam</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>EndeavourOS 使用记录</title>
     <url>/2024/07/18/EndeavourOS/</url>
     <content><![CDATA[<h1 id="一、N卡驱动"><a href="#一、N卡驱动" class="headerlink" title="一、N卡驱动"></a>一、N卡驱动</h1><p><code>EndeavourOS</code>对N卡用户的支持比较友好，在安装该系统时，选择有<code>Nvidia</code>那一行的进行安装即可，会自动安装最新的适应当前显卡的闭源驱动。如果是<code>Arch Linux</code>，建议看这篇文章，同时提到有双显卡如何进行切换 <a class="link"   href="https://archlinuxstudio.github.io/ArchLinuxTutorial/#/" >Arch Linux 安装使用教程 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>，如果是<code>Arch</code>系其它发行版（像<code>Manjaro</code>），请自行找教程，这里提到的方式不一定适用你。</p>
@@ -963,97 +1054,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Git教程</title>
-    <url>/2024/07/19/Git%E6%95%99%E7%A8%8B/</url>
-    <content><![CDATA[<h1 id="一、-SSH-密钥"><a href="#一、-SSH-密钥" class="headerlink" title="一、 SSH 密钥"></a>一、 SSH 密钥</h1><p>需要提前安装好<code>OpenSSH</code>:</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S openssh</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="1-1-生成-SSH-密钥"><a href="#1-1-生成-SSH-密钥" class="headerlink" title="1.1 生成 SSH 密钥"></a>1.1 生成 SSH 密钥</h2><p>如果还没有 SSH 密钥，可以生成一个：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 推荐</span></span><br><span class="line">ssh-keygen -t ed25519 -C <span class="string">&quot;your_email@example.com&quot;</span></span><br></pre></td></tr></table></figure></div>
-<p>或者</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa -b 4096 -C <span class="string">&quot;your_email@example.com&quot;</span></span><br></pre></td></tr></table></figure></div>
-
-<p>按照提示完成生成过程，默认会在 <code>~/.ssh/</code> 目录下生成 <code>id_ed25519</code>（不能告诉别人）和<code>id_ed25519.pub</code>（公有的） 文件。第二种生成密钥的方式对应的文件是<code>id_rsa</code> 和 <code>id_rsa.pub</code>。</p>
-<h2 id="1-2-添加-SSH-密钥到-GitHub"><a href="#1-2-添加-SSH-密钥到-GitHub" class="headerlink" title="1.2 添加 SSH 密钥到 GitHub"></a>1.2 添加 SSH 密钥到 GitHub</h2><ol>
-<li>将生成的公钥添加到 GitHub。在终端中运行：</li>
-</ol>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cat</span> ~/.ssh/id_ed25519.pub</span><br></pre></td></tr></table></figure></div>
-
-<p>输出示例：</p>
-<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">ssh-ed25519 AAAAC3NzANDAKlZDI1NTE5AAAaaaN/oaWb4GZetVkiI5/8d1gezLHWpT46mnaAnkJAbwXpp loskyertt0403@gmail.com</span><br></pre></td></tr></table></figure></div>
-
-<ol start="2">
-<li>复制输出的公钥内容（从 ssh-ed25519 开始，直到邮箱地址结束）。（或者打开<code>sh/id_rsa.pub</code> 文件，复制其中的内容。）</li>
-<li>登录到 GitHub，导航到“Settings”。</li>
-<li>在左侧菜单中选择“<a class="link"   href="https://github.com/settings/keys" >SSH and GPG keys 设置页面 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>”。</li>
-<li>点击“New SSH key”，粘贴你的公钥并保存。</li>
-</ol>
-<h2 id="1-3-配置仓库使用-SSH-URL"><a href="#1-3-配置仓库使用-SSH-URL" class="headerlink" title="1.3 配置仓库使用 SSH URL"></a>1.3 配置仓库使用 SSH URL</h2><ol>
-<li>更新远程仓库的 URL 以使用 SSH：</li>
-</ol>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">git remote set-url origin git@github.com:loskyertt/Recorder_Backup.git</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="1-4-推送更改"><a href="#1-4-推送更改" class="headerlink" title="1.4 推送更改"></a>1.4 推送更改</h2><p>现在可以使用 SSH 进行推送：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">git push origin main</span><br></pre></td></tr></table></figure></div>
-
-
-<h1 id="二、个人访问令牌（Personal-Access-Token，PAT）"><a href="#二、个人访问令牌（Personal-Access-Token，PAT）" class="headerlink" title="二、个人访问令牌（Personal Access Token，PAT）"></a>二、个人访问令牌（Personal Access Token，PAT）</h1><ol>
-<li><p><strong>生成个人访问令牌</strong>：</p>
-<ul>
-<li>登录到你的 GitHub 账户。</li>
-<li>进入 <a class="link"   href="https://github.com/settings/tokens" >GitHub 个人访问令牌设置页面 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>。</li>
-<li>点击 <code>Generate new token</code> 按钮。</li>
-<li>在令牌的描述中输入一个名称。</li>
-<li>选择所需的权限（例如 <code>repo</code>）。</li>
-<li>生成令牌并复制。</li>
-</ul>
-</li>
-<li><p><strong>使用个人访问令牌进行认证</strong>：</p>
-<ul>
-<li>在你运行 <code>git push</code> 时，会提示你输入用户名和密码。在提示用户名时，输入你的 GitHub 用户名。在提示密码时，输入刚刚生成的个人访问令牌。</li>
-</ul>
-</li>
-</ol>
-<h1 id="三、git基本配置"><a href="#三、git基本配置" class="headerlink" title="三、git基本配置"></a>三、git基本配置</h1><h2 id="3-1-设置用户信息"><a href="#3-1-设置用户信息" class="headerlink" title="3.1 设置用户信息"></a>3.1 设置用户信息</h2><div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global user.name <span class="string">&quot;用户名&quot;</span></span><br><span class="line">git config --global user.email <span class="string">&quot;邮箱&quot;</span></span><br></pre></td></tr></table></figure></div>
-<h2 id="3-2-代理设置"><a href="#3-2-代理设置" class="headerlink" title="3.2 代理设置"></a>3.2 代理设置</h2><p><strong>注：<code>linux</code>只需要在终端配置代理即可。</strong></p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global http.proxy socks5://127.0.0.1:<span class="string">&quot;端口&quot;</span></span><br><span class="line">git config --global https.proxy socks5://127.0.0.1:<span class="string">&quot;端口&quot;</span></span><br></pre></td></tr></table></figure></div>
-
-<p>如果要取消代理：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global --<span class="built_in">unset</span> http.proxy</span><br><span class="line">git config --global --<span class="built_in">unset</span> https.proxy</span><br></pre></td></tr></table></figure></div>
-]]></content>
-      <tags>
-        <tag>linux</tag>
-        <tag>git</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Linux(EndeavourOS) 给 Steam 设置代理</title>
-    <url>/2024/07/24/Linux_Steam/</url>
-    <content><![CDATA[<h1 id="1-解决"><a href="#1-解决" class="headerlink" title="1.解决"></a>1.解决</h1><ol>
-<li><p>打开 Steam 大屏模式（ <strong>一定是大屏模式！</strong> ）。<br><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://nyalog.oss-cn-hongkong.aliyuncs.com/NyaLog/articles/Steam%20Linux%20%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/Steam-BigScreen-min.png"
-                      alt="大屏模式"
-                ><figcaption>大屏模式</figcaption></figure></p>
-</li>
-<li><p>然后在设置里进入网络设置界面，然后点开填入自己的代理地址和端口。<br><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://nyalog.oss-cn-hongkong.aliyuncs.com/NyaLog/articles/Steam%20Linux%20%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/Steam-proxy-min.png"
-                      alt="设置界面"
-                ><figcaption>设置界面</figcaption></figure></p>
-</li>
-<li><p>设置成功后退出重启 Steam 即可。</p>
-</li>
-</ol>
-]]></content>
-      <tags>
-        <tag>linux</tag>
-        <tag>steam</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Linux 指令</title>
     <url>/2024/07/24/Linux%E6%8C%87%E4%BB%A4/</url>
     <content><![CDATA[<h1 id="一、包管理器"><a href="#一、包管理器" class="headerlink" title="一、包管理器"></a>一、包管理器</h1><h2 id="1-1-介绍"><a href="#1-1-介绍" class="headerlink" title="1.1 介绍"></a>1.1 介绍</h2><p>  在 <code>EndeavouOS</code>（以及其他基于<code>Arch</code>的发行版）中，<code>pacman</code> 是一个用于软件包管理的命令行工具。下面是 <code>pacman</code> 命令的详细解释：</p>
@@ -1217,7 +1217,7 @@
 <p>开启代理，输入：</p>
 <div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">mihomo -d ./</span><br></pre></td></tr></table></figure></div>
 <p>然后打开浏览器输入<code>http://127.0.0.1:9090/ui</code>就能进入代理界面。</p>
-<h1 id="5-使用现成的镜像配置"><a href="#5-使用现成的镜像配置" class="headerlink" title="5.使用现成的镜像配置"></a>5.使用现成的镜像配置</h1><p>如果以上步骤觉得太麻烦，可以使用我推送到 Docker Hub 上的镜像：</p>
+<h1 id="5-使用现成的镜像配置"><a href="#5-使用现成的镜像配置" class="headerlink" title="5.使用现成的镜像配置"></a>5.使用现成的镜像配置</h1><h2 id="5-1-方式一"><a href="#5-1-方式一" class="headerlink" title="5.1 方式一"></a>5.1 方式一</h2><p>如果以上步骤觉得太麻烦，可以使用我推送到 Docker Hub 上的镜像：</p>
 <div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker pull loskyertt/clashmeta:debian-v1.8.16</span><br></pre></td></tr></table></figure></div>
 
 <p>然后先创建临时容器：</p>
@@ -1237,7 +1237,23 @@
 
 <p>开启代理</p>
 <div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /root/clashmeta</span><br><span class="line"></span><br><span class="line">mihomo -d ./</span><br></pre></td></tr></table></figure></div>
-<p>然后打开浏览器输入<code>http://127.0.0.1:9090/ui</code>就能进入代理界面。<br><figure class="image-caption"><img  
+<p>然后打开浏览器输入<code>http://127.0.0.1:9090/ui</code>就能进入代理界面。</p>
+<h2 id="5-2-方式二（推荐）"><a href="#5-2-方式二（推荐）" class="headerlink" title="5.2 方式二（推荐）"></a>5.2 方式二（推荐）</h2><p>还是使用现成的镜像：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker pull loskyertt/clashmeta:1.8.16</span><br></pre></td></tr></table></figure></div>
+
+<p>直接创建容器：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -itd --restart always --name clashmeta --workdir /clashmeta/ -p 7890:7890 -p 9090:9090 loskyertt/clashmeta:1.8.16 mihomo -d ./</span><br></pre></td></tr></table></figure></div>
+
+<p>把配置文件复制到主机当前目录：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker <span class="built_in">cp</span> clashmeta:/clashmeta/config.yaml .</span><br></pre></td></tr></table></figure></div>
+
+<p>修改配置文件，在里面填入自己的订阅链接，然后重新把配置文件复制进去覆盖掉：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker <span class="built_in">cp</span> config.yaml clashmeta:/clashmeta/</span><br></pre></td></tr></table></figure></div>
+
+<p>重启容器：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker restart clashmeta</span><br></pre></td></tr></table></figure></div>
+<p>然后打开浏览器输入<code>http://127.0.0.1:9090/ui</code>就能进入代理界面。</p>
+<h1 id="6-结果图"><a href="#6-结果图" class="headerlink" title="6.结果图"></a>6.结果图</h1><p><figure class="image-caption"><img  
                      lazyload
                      src="/images/loading.svg"
                      data-src="https://s2.loli.net/2024/07/25/ulftdepWhZK3YR4.png"
@@ -1249,8 +1265,8 @@
                      data-src="https://s2.loli.net/2024/07/25/qxW3TZfYP5lBS9p.png"
                       alt="image04.png"
                 ><figcaption>image04.png</figcaption></figure></p>
-<h1 id="6-注意事项"><a href="#6-注意事项" class="headerlink" title="6.注意事项"></a>6.注意事项</h1><p>如果发现仍然不能科学上网，可以打开“设置”检查下“代理设置”，手动设置代理地址和端口<code>127.0.0.1:7890</code>（火狐浏览器可能需要在内置的浏览器设置中进行配置下）。对于 Windows 用户来说，其实操作逻辑都是一样的（当然也可以不用 docker ），配置完后注意设置防火墙就行。</p>
-<h1 id="6-参考教程"><a href="#6-参考教程" class="headerlink" title="6.参考教程"></a>6.参考教程</h1><ul>
+<h1 id="7-注意事项"><a href="#7-注意事项" class="headerlink" title="7.注意事项"></a>7.注意事项</h1><p>如果发现仍然不能科学上网，可以打开“设置”检查下“代理设置”，手动设置代理地址和端口<code>127.0.0.1:7890</code>（火狐浏览器可能需要在内置的浏览器设置中进行配置下）。对于 Windows 用户来说，其实操作逻辑都是一样的（当然也可以不用 docker ），配置完后注意设置防火墙就行。</p>
+<h1 id="8-参考教程"><a href="#8-参考教程" class="headerlink" title="8.参考教程"></a>8.参考教程</h1><ul>
 <li><a class="link"   href="https://www.youtube.com/watch?v=d-2vCYLjXHs&t=23s" >【进阶使用】Clash Meta 纯内核使用教程|多机场融合|规则自动更新|Tun虚拟网卡模式|避免DNS泄露|WebRTC泄露 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></li>
 </ul>
 ]]></content>
@@ -1262,7 +1278,7 @@
       </tags>
   </entry>
   <entry>
-    <title></title>
+    <title>Win10 SSH 服务配置</title>
     <url>/2024/07/30/Openssh%E9%85%8D%E7%BD%AE/</url>
     <content><![CDATA[<h1 id="1-Windows-10-下安装-SSH-服务（Openssh）"><a href="#1-Windows-10-下安装-SSH-服务（Openssh）" class="headerlink" title="1.Windows 10 下安装 SSH 服务（Openssh）"></a>1.Windows 10 下安装 SSH 服务（Openssh）</h1><p><a href="https://github.com/PowerShell/Win32-OpenSSH"> <strong>Openssh 下载地址</strong> </a></p>
 <h2 id="1-1-解压"><a href="#1-1-解压" class="headerlink" title="1.1 解压"></a>1.1 解压</h2><p>解压到如下目录（建议加压到<code>C:\Program Files</code>下，不然会出现未知错误）：</p>
