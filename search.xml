@@ -121,7 +121,7 @@
     <url>/2024/07/30/Docker-Openwrt/</url>
     <content><![CDATA[<h1 id="1-前言"><a href="#1-前言" class="headerlink" title="1.前言"></a>1.前言</h1><p>这几天想试着玩一下<code>Openwrt</code>来作旁路由，但是又没有软路由固件，后来考虑到<code>Openwrt</code>也是基于 Linux 的，那么在 Docker Hub 上应该有其对应的镜像吧，然后查了下果真有。于是有了后续的操作 … …</p>
 <p><strong>推荐的镜像：</strong> <a class="link"   href="https://hub.docker.com/r/zzsrv/openwrt" >zzsrv&#x2F;openwrt <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
-<h1 id="2-准备工作"><a href="#2-准备工作" class="headerlink" title="2.准备工作"></a>2.准备工作</h1><p>建议是在虚拟机上安装一个 Linux 系统，我在实体机上（Linux 系统）试了下，是能成功，但是在该电脑上无法访问<code>Openwrt</code>的 <code>ip</code>地址，在其它设备（比如手机）能正常访问。</p>
+<h1 id="2-准备工作"><a href="#2-准备工作" class="headerlink" title="2.准备工作"></a>2.准备工作</h1><p>建议是在虚拟机上安装一个 Linux 系统，我在实体机上（Linux 系统）试了下，是能成功，但是在该电脑上无法访问<code>Openwrt</code>的 <code>ip</code>地址，在其它设备（比如手机）能正常访问（需要多做一些配置）。</p>
 <h2 id="2-1-虚拟机安装"><a href="#2-1-虚拟机安装" class="headerlink" title="2.1 虚拟机安装"></a>2.1 虚拟机安装</h2><p>虚拟机在这里只推荐<code>VirtualBox</code>。<a class="link"   href="https://www.virtualbox.org/wiki/Downloads" >下载地址 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
 <p>还需要下载插件：<a class="link"   href="https://download.virtualbox.org/virtualbox/7.0.20/Oracle_VM_VirtualBox_Extension_Pack-7.0.20.vbox-extpack" >点这里 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a><br>或者点图片这里红色方框处的下载连接：<br><figure class="image-caption"><img  
                      lazyload
@@ -203,7 +203,7 @@
 </ul>
 <h1 id="4-虚拟机内的网络配置"><a href="#4-虚拟机内的网络配置" class="headerlink" title="4.虚拟机内的网络配置"></a>4.虚拟机内的网络配置</h1><h2 id="4-1-查看网络接口信息"><a href="#4-1-查看网络接口信息" class="headerlink" title="4.1 查看网络接口信息"></a>4.1 查看网络接口信息</h2><ul>
 <li><p>查看网络接口：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">ip addr</span><br><span class="line"></span><br><span class="line"><span class="comment"># 或者（不一点能用，可能没有预装 net-tools）</span></span><br><span class="line">ifconfig</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">ip addr</span><br><span class="line"></span><br><span class="line"><span class="comment"># 或者（不一定能用，可能没有预装 net-tools）</span></span><br><span class="line">ifconfig</span><br></pre></td></tr></table></figure></div>
 </li>
 <li><p>输出结果：</p>
 <div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">~</span><br><span class="line">❯ ip addr</span><br><span class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000</span><br><span class="line">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span><br><span class="line">    inet 127.0.0.1/8 scope host lo</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">    inet6 ::1/128 scope host noprefixroute </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">2: enp0s3: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc fq_codel state UP group default qlen 1000</span><br><span class="line">    link/ether 08:00:27:ff:93:f7 brd ff:ff:ff:ff:ff:ff</span><br><span class="line">    inet 192.168.2.23/24 brd 192.168.2.255 scope global dynamic noprefixroute enp0s3</span><br><span class="line">       valid_lft 85878sec preferred_lft 85878sec</span><br><span class="line">    inet6 fe80::d521:edc1:580f:1e00/64 scope link noprefixroute </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">3: docker0: &lt;NO-CARRIER,BROADCAST,MULTICAST,UP&gt; mtu 1500 qdisc noqueue state DOWN group default </span><br><span class="line">    link/ether 02:42:8a:53:e6:cf brd ff:ff:ff:ff:ff:ff</span><br><span class="line">    inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line"></span><br></pre></td></tr></table></figure></div></li>
@@ -335,7 +335,47 @@
                       alt="登录界面"
                 ><figcaption>登录界面</figcaption></figure></p>
 <p>后面我先学一下怎么用<code>OpenClash</code>，然后更新用<code>OpenClash</code>科学上网的教程。</p>
-<h1 id="6-参考教程"><a href="#6-参考教程" class="headerlink" title="6.参考教程"></a>6.参考教程</h1><ul>
+<h1 id="6-实体机中安装-docker-OpenWrt-的配置"><a href="#6-实体机中安装-docker-OpenWrt-的配置" class="headerlink" title="6.实体机中安装 docker + OpenWrt 的配置"></a>6.实体机中安装 docker + OpenWrt 的配置</h1><h2 id="6-1-问题说明"><a href="#6-1-问题说明" class="headerlink" title="6.1 问题说明"></a>6.1 问题说明</h2><p>前面的步骤与在虚拟机中的一样，但是在创建并配置好 OpenWrt 的容器后，你会发现在宿主机中无法访问<code>192.168.2.3</code>（创建的容器的ip addr），但是其它设备（前提是在同一个网关下，比如手机）是能成功访问<code>192.168.2.3</code>的。</p>
+<p><strong>原因：</strong></p>
+<p>在<code>Docker</code>中使用<code>macvlan</code>网络驱动时，容器和宿主机的网络栈是分离的。这意味着：</p>
+<ul>
+<li>容器的网络接口<code>192.168.2.3</code>是在<code>macvlan</code>网络上，而宿主机的网络接口不能直接与<code>macvlan</code>网络中的容器进行通信。</li>
+<li>因为<code>macvlan</code>网络的特性，宿主机的网络接口不会自动知道<code>macvlan</code>网络中的设备。</li>
+</ul>
+<h2 id="6-2-解决办法"><a href="#6-2-解决办法" class="headerlink" title="6.2 解决办法"></a>6.2 解决办法</h2><h3 id="6-2-1-创建-maclan-接口"><a href="#6-2-1-创建-maclan-接口" class="headerlink" title="6.2.1 创建 maclan 接口"></a>6.2.1 创建 maclan 接口</h3><p>创建一个名为<code>macvlan0</code>的新虚拟网络接口，它基于物理接口<code>enp0s3</code>：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> ip <span class="built_in">link</span> add macvlan0 <span class="built_in">link</span> enp0s3 <span class="built_in">type</span> macvlan mode bridge</span><br></pre></td></tr></table></figure></div>
+<p><code>macvlan</code>允许在一个物理网络接口上创建多个虚拟网络接口，每个都有自己的 MAC 地址。桥接模式允许 macvlan 接口相互通信。</p>
+<p>为这个新接口分配了 IP 地址<code>192.168.2.250</code>，使其成为<code>192.168.2.0/24</code>网络的一部分：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> ip addr add 192.168.2.250/24 dev macvlan0</span><br></pre></td></tr></table></figure></div>
+<p>激活这个新接口，使其能够开始网络通信：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> ip <span class="built_in">link</span> <span class="built_in">set</span> macvlan0 up</span><br></pre></td></tr></table></figure></div>
+
+<p>注意需要把<code>enp0s3</code>替换为自己实际的网络驱动接口。这个时候在浏览器输入<code>192.168.2.3</code>就拿正常访问了。</p>
+<p>这种配置的主要用途是允许主机直接参与到<code>macvlan</code>网络中，这对于与 Docker macvlan 网络中的容器通信特别有用。它创建了一个”桥梁”，让主机能够与 macvlan 网络中的设备（如 Docker 容器）进行直接通信，而不需要通过 Docker 的网络栈。</p>
+<h3 id="6-2-2-撤销创建的-macvlan-配置"><a href="#6-2-2-撤销创建的-macvlan-配置" class="headerlink" title="6.2.2 撤销创建的 macvlan 配置"></a>6.2.2 撤销创建的 macvlan 配置</h3><p>如果要删除创建的<code>macvlan</code>接口，可以进行以下操作：</p>
+<ol>
+<li>删除 IP 地址:<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> ip addr del 192.168.2.250/24 dev macvlan0</span><br></pre></td></tr></table></figure></div></li>
+<li>关闭 macvlan 接口:<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> ip <span class="built_in">link</span> <span class="built_in">set</span> macvlan0 down</span><br></pre></td></tr></table></figure></div></li>
+<li>删除 macvlan 接口:<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> ip <span class="built_in">link</span> del macvlan0</span><br></pre></td></tr></table></figure></div></li>
+</ol>
+<p>解释：</p>
+<ul>
+<li><code>ip addr del</code>: 删除之前添加的 IP 地址</li>
+<li><code>ip link set down</code>: 关闭网络接口</li>
+<li><code>ip link del</code>: 完全删除网络接口</li>
+</ul>
+<p>执行这些命令后，你创建的<code>macvlan</code>接口及其配置就会被完全移除。</p>
+<p>额外提示：</p>
+<h3 id="6-2-3-查看当前配置"><a href="#6-2-3-查看当前配置" class="headerlink" title="6.2.3  查看当前配置:"></a>6.2.3  查看当前配置:</h3><p>   在执行这些步骤之前和之后，你可以使用以下命令查看网络配置，以确保更改已经生效：<br>   <div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">ip addr show</span><br><span class="line">ip <span class="built_in">link</span> show</span><br></pre></td></tr></table></figure></div></p>
+<ol start="2">
+<li><p>保存配置:<br>如果你经常需要切换这些配置，可以考虑创建脚本来自动化这个过程。例如，创建一个脚本来添加配置，另一个脚本来删除配置。</p>
+</li>
+<li><p>系统重启:<br>请注意，这些更改在系统重启后不会保持。如果你希望这些更改是永久的，需要将它们添加到网络配置文件中或创建一个系统启动脚本。</p>
+</li>
+<li><p>小心操作:<br>在执行这些命令时要小心，特别是如果你是通过远程连接（如 SSH）管理系统。错误的网络配置可能会导致你失去对系统的访问。</p>
+</li>
+</ol>
+<h1 id="7-参考教程"><a href="#7-参考教程" class="headerlink" title="7.参考教程"></a>7.参考教程</h1><ul>
 <li><a class="link"   href="https://www.youtube.com/watch?v=6OeGOK2-1zo&list=PL7XUZPsvfw3CKvDijuA5CO_oLbBwJCYTt&index=4" >docker + openwrt把windows变成最强软路由，游戏、翻墙两不误(Linux-Mint&#x2F;ubuntu、VirtualBox、docker、openwrt) <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></li>
 <li><a class="link"   href="https://www.youtube.com/watch?v=mlsTzDsBhLs&list=PL7XUZPsvfw3CKvDijuA5CO_oLbBwJCYTt&index=6" >Openwrt Docker 镜像 安装详细过程实现科学上网，没有设备也可以体验|软路由|旁路网关 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></li>
 <li><a class="link"   href="https://hub.docker.com/r/zzsrv/openwrt" >zzsrv&#x2F;openwrt <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></li>
@@ -347,6 +387,70 @@
         <tag>proxy</tag>
         <tag>openwrt</tag>
         <tag>虚拟机</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>使用Docker时的问题汇总和解决方式</title>
+    <url>/2024/07/24/Docker%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/</url>
+    <content><![CDATA[<h1 id="1-启动-Docker-失败"><a href="#1-启动-Docker-失败" class="headerlink" title="1.启动 Docker 失败"></a>1.启动 Docker 失败</h1><p>如果发现<code>docker</code>启动失败，可以通过以下命令输出<code>docker</code>运行日志来定位问题所在：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> journalctl -u docker.service --no-pager | <span class="built_in">tail</span> -n 50</span><br></pre></td></tr></table></figure></div>
+
+<p>如果问题仍无法解决，可以尝试更彻底的方法：</p>
+<ol>
+<li>卸载 Docker：</li>
+</ol>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -R docker</span><br></pre></td></tr></table></figure></div>
+
+<ol start="2">
+<li>删除 Docker 相关的所有数据和配置：</li>
+</ol>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> -rf /var/lib/docker</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> -rf /etc/docker</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> -rf ~/.docker</span><br></pre></td></tr></table></figure></div>
+
+<ol start="3">
+<li>重新安装 Docker：</li>
+</ol>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S docker</span><br></pre></td></tr></table></figure></div>
+
+<ol start="4">
+<li>启动 Docker 服务：</li>
+</ol>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start docker</span><br></pre></td></tr></table></figure></div>
+
+<ol start="5">
+<li>检查 Docker 服务状态：</li>
+</ol>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status docker</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="1-1-网络冲突导致启动失败"><a href="#1-1-网络冲突导致启动失败" class="headerlink" title="1.1 网络冲突导致启动失败"></a>1.1 网络冲突导致启动失败</h2><p>日志内容如下：</p>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">failed to start daemon: Error initializing network controller: error creating default &quot;bridge&quot; network: cannot create network c13e4912d03075485921194eecec303af8f714e77ad529759990f5b7ca155c68 (docker0): conflicts with network 1b9dcc9575e5af33281149149481d0eca4a5d60de0fac2f9264f0b265ab955db (docker0): networks have same bridge name</span><br></pre></td></tr></table></figure></div>
+<p>这个错误表明 Docker 试图创建默认的 bridge 网络，但是遇到了冲突，因为已经存在一个同名的网络。</p>
+<p><strong>解决办法：</strong></p>
+<ol>
+<li>停止 Docker 服务：</li>
+</ol>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl stop docker</span><br></pre></td></tr></table></figure></div>
+
+<ol start="2">
+<li>删除现有的 Docker 网络配置：</li>
+</ol>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> -rf /var/lib/docker/network</span><br></pre></td></tr></table></figure></div>
+
+<ol start="3">
+<li>删除 docker0 网桥：</li>
+</ol>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> ip <span class="built_in">link</span> delete docker0</span><br></pre></td></tr></table></figure></div>
+
+<ol start="4">
+<li>重新启动 Docker 服务：</li>
+</ol>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start docker</span><br></pre></td></tr></table></figure></div>
+
+<ol start="5">
+<li>检查 Docker 服务状态：</li>
+</ol>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status docker</span><br></pre></td></tr></table></figure></div>]]></content>
+      <tags>
+        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -494,161 +598,6 @@
 ]]></content>
       <tags>
         <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>使用Docker时的问题汇总和解决方式</title>
-    <url>/2024/07/24/Docker%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/</url>
-    <content><![CDATA[<h1 id="1-启动-Docker-失败"><a href="#1-启动-Docker-失败" class="headerlink" title="1.启动 Docker 失败"></a>1.启动 Docker 失败</h1><p>如果发现<code>docker</code>启动失败，可以通过以下命令输出<code>docker</code>运行日志来定位问题所在：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> journalctl -u docker.service --no-pager | <span class="built_in">tail</span> -n 50</span><br></pre></td></tr></table></figure></div>
-
-<p>如果问题仍无法解决，可以尝试更彻底的方法：</p>
-<ol>
-<li>卸载 Docker：</li>
-</ol>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -R docker</span><br></pre></td></tr></table></figure></div>
-
-<ol start="2">
-<li>删除 Docker 相关的所有数据和配置：</li>
-</ol>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> -rf /var/lib/docker</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> -rf /etc/docker</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> -rf ~/.docker</span><br></pre></td></tr></table></figure></div>
-
-<ol start="3">
-<li>重新安装 Docker：</li>
-</ol>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S docker</span><br></pre></td></tr></table></figure></div>
-
-<ol start="4">
-<li>启动 Docker 服务：</li>
-</ol>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start docker</span><br></pre></td></tr></table></figure></div>
-
-<ol start="5">
-<li>检查 Docker 服务状态：</li>
-</ol>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status docker</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="1-1-网络冲突导致启动失败"><a href="#1-1-网络冲突导致启动失败" class="headerlink" title="1.1 网络冲突导致启动失败"></a>1.1 网络冲突导致启动失败</h2><p>日志内容如下：</p>
-<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">failed to start daemon: Error initializing network controller: error creating default &quot;bridge&quot; network: cannot create network c13e4912d03075485921194eecec303af8f714e77ad529759990f5b7ca155c68 (docker0): conflicts with network 1b9dcc9575e5af33281149149481d0eca4a5d60de0fac2f9264f0b265ab955db (docker0): networks have same bridge name</span><br></pre></td></tr></table></figure></div>
-<p>这个错误表明 Docker 试图创建默认的 bridge 网络，但是遇到了冲突，因为已经存在一个同名的网络。</p>
-<p><strong>解决办法：</strong></p>
-<ol>
-<li>停止 Docker 服务：</li>
-</ol>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl stop docker</span><br></pre></td></tr></table></figure></div>
-
-<ol start="2">
-<li>删除现有的 Docker 网络配置：</li>
-</ol>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> -rf /var/lib/docker/network</span><br></pre></td></tr></table></figure></div>
-
-<ol start="3">
-<li>删除 docker0 网桥：</li>
-</ol>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> ip <span class="built_in">link</span> delete docker0</span><br></pre></td></tr></table></figure></div>
-
-<ol start="4">
-<li>重新启动 Docker 服务：</li>
-</ol>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start docker</span><br></pre></td></tr></table></figure></div>
-
-<ol start="5">
-<li>检查 Docker 服务状态：</li>
-</ol>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status docker</span><br></pre></td></tr></table></figure></div>]]></content>
-      <tags>
-        <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Git教程</title>
-    <url>/2024/07/19/Git%E6%95%99%E7%A8%8B/</url>
-    <content><![CDATA[<h1 id="一、-SSH-密钥"><a href="#一、-SSH-密钥" class="headerlink" title="一、 SSH 密钥"></a>一、 SSH 密钥</h1><p>需要提前安装好<code>OpenSSH</code>:</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S openssh</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="1-1-生成-SSH-密钥"><a href="#1-1-生成-SSH-密钥" class="headerlink" title="1.1 生成 SSH 密钥"></a>1.1 生成 SSH 密钥</h2><p>如果还没有 SSH 密钥，可以生成一个：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 推荐</span></span><br><span class="line">ssh-keygen -t ed25519 -C <span class="string">&quot;your_email@example.com&quot;</span></span><br></pre></td></tr></table></figure></div>
-<p>或者</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa -b 4096 -C <span class="string">&quot;your_email@example.com&quot;</span></span><br></pre></td></tr></table></figure></div>
-
-<p>按照提示完成生成过程，默认会在 <code>~/.ssh/</code> 目录下生成 <code>id_ed25519</code>（不能告诉别人）和<code>id_ed25519.pub</code>（公有的） 文件。第二种生成密钥的方式对应的文件是<code>id_rsa</code> 和 <code>id_rsa.pub</code>。</p>
-<h2 id="1-2-添加-SSH-密钥到-GitHub"><a href="#1-2-添加-SSH-密钥到-GitHub" class="headerlink" title="1.2 添加 SSH 密钥到 GitHub"></a>1.2 添加 SSH 密钥到 GitHub</h2><ol>
-<li>将生成的公钥添加到 GitHub。在终端中运行：</li>
-</ol>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cat</span> ~/.ssh/id_ed25519.pub</span><br></pre></td></tr></table></figure></div>
-
-<p>输出示例：</p>
-<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">ssh-ed25519 AAAAC3NzANDAKlZDI1NTE5AAAaaaN/oaWb4GZetVkiI5/8d1gezLHWpT46mnaAnkJAbwXpp loskyertt0403@gmail.com</span><br></pre></td></tr></table></figure></div>
-
-<ol start="2">
-<li>复制输出的公钥内容（从 ssh-ed25519 开始，直到邮箱地址结束）。（或者打开<code>sh/id_rsa.pub</code> 文件，复制其中的内容。）</li>
-<li>登录到 GitHub，导航到“Settings”。</li>
-<li>在左侧菜单中选择“<a class="link"   href="https://github.com/settings/keys" >SSH and GPG keys 设置页面 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>”。</li>
-<li>点击“New SSH key”，粘贴你的公钥并保存。</li>
-</ol>
-<h2 id="1-3-配置仓库使用-SSH-URL"><a href="#1-3-配置仓库使用-SSH-URL" class="headerlink" title="1.3 配置仓库使用 SSH URL"></a>1.3 配置仓库使用 SSH URL</h2><ol>
-<li>更新远程仓库的 URL 以使用 SSH：</li>
-</ol>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">git remote set-url origin git@github.com:loskyertt/Recorder_Backup.git</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="1-4-推送更改"><a href="#1-4-推送更改" class="headerlink" title="1.4 推送更改"></a>1.4 推送更改</h2><p>现在可以使用 SSH 进行推送：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">git push origin main</span><br></pre></td></tr></table></figure></div>
-
-
-<h1 id="二、个人访问令牌（Personal-Access-Token，PAT）"><a href="#二、个人访问令牌（Personal-Access-Token，PAT）" class="headerlink" title="二、个人访问令牌（Personal Access Token，PAT）"></a>二、个人访问令牌（Personal Access Token，PAT）</h1><ol>
-<li><p><strong>生成个人访问令牌</strong>：</p>
-<ul>
-<li>登录到你的 GitHub 账户。</li>
-<li>进入 <a class="link"   href="https://github.com/settings/tokens" >GitHub 个人访问令牌设置页面 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>。</li>
-<li>点击 <code>Generate new token</code> 按钮。</li>
-<li>在令牌的描述中输入一个名称。</li>
-<li>选择所需的权限（例如 <code>repo</code>）。</li>
-<li>生成令牌并复制。</li>
-</ul>
-</li>
-<li><p><strong>使用个人访问令牌进行认证</strong>：</p>
-<ul>
-<li>在你运行 <code>git push</code> 时，会提示你输入用户名和密码。在提示用户名时，输入你的 GitHub 用户名。在提示密码时，输入刚刚生成的个人访问令牌。</li>
-</ul>
-</li>
-</ol>
-<h1 id="三、git基本配置"><a href="#三、git基本配置" class="headerlink" title="三、git基本配置"></a>三、git基本配置</h1><h2 id="3-1-设置用户信息"><a href="#3-1-设置用户信息" class="headerlink" title="3.1 设置用户信息"></a>3.1 设置用户信息</h2><div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global user.name <span class="string">&quot;用户名&quot;</span></span><br><span class="line">git config --global user.email <span class="string">&quot;邮箱&quot;</span></span><br></pre></td></tr></table></figure></div>
-<h2 id="3-2-代理设置"><a href="#3-2-代理设置" class="headerlink" title="3.2 代理设置"></a>3.2 代理设置</h2><p><strong>注：<code>linux</code>只需要在终端配置代理即可。</strong></p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global http.proxy socks5://127.0.0.1:<span class="string">&quot;端口&quot;</span></span><br><span class="line">git config --global https.proxy socks5://127.0.0.1:<span class="string">&quot;端口&quot;</span></span><br></pre></td></tr></table></figure></div>
-
-<p>如果要取消代理：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global --<span class="built_in">unset</span> http.proxy</span><br><span class="line">git config --global --<span class="built_in">unset</span> https.proxy</span><br></pre></td></tr></table></figure></div>
-]]></content>
-      <tags>
-        <tag>linux</tag>
-        <tag>git</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Linux(EndeavourOS) 给 Steam 设置代理</title>
-    <url>/2024/07/24/Linux_Steam/</url>
-    <content><![CDATA[<h1 id="1-解决"><a href="#1-解决" class="headerlink" title="1.解决"></a>1.解决</h1><ol>
-<li><p>打开 Steam 大屏模式（ <strong>一定是大屏模式！</strong> ）。<br><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://nyalog.oss-cn-hongkong.aliyuncs.com/NyaLog/articles/Steam%20Linux%20%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/Steam-BigScreen-min.png"
-                      alt="大屏模式"
-                ><figcaption>大屏模式</figcaption></figure></p>
-</li>
-<li><p>然后在设置里进入网络设置界面，然后点开填入自己的代理地址和端口。<br><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://nyalog.oss-cn-hongkong.aliyuncs.com/NyaLog/articles/Steam%20Linux%20%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/Steam-proxy-min.png"
-                      alt="设置界面"
-                ><figcaption>设置界面</figcaption></figure></p>
-</li>
-<li><p>设置成功后退出重启 Steam 即可。</p>
-</li>
-</ol>
-]]></content>
-      <tags>
-        <tag>linux</tag>
-        <tag>steam</tag>
       </tags>
   </entry>
   <entry>
@@ -1051,6 +1000,97 @@
         <tag>conda</tag>
         <tag>docker</tag>
         <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Git教程</title>
+    <url>/2024/07/19/Git%E6%95%99%E7%A8%8B/</url>
+    <content><![CDATA[<h1 id="一、-SSH-密钥"><a href="#一、-SSH-密钥" class="headerlink" title="一、 SSH 密钥"></a>一、 SSH 密钥</h1><p>需要提前安装好<code>OpenSSH</code>:</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S openssh</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="1-1-生成-SSH-密钥"><a href="#1-1-生成-SSH-密钥" class="headerlink" title="1.1 生成 SSH 密钥"></a>1.1 生成 SSH 密钥</h2><p>如果还没有 SSH 密钥，可以生成一个：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 推荐</span></span><br><span class="line">ssh-keygen -t ed25519 -C <span class="string">&quot;your_email@example.com&quot;</span></span><br></pre></td></tr></table></figure></div>
+<p>或者</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa -b 4096 -C <span class="string">&quot;your_email@example.com&quot;</span></span><br></pre></td></tr></table></figure></div>
+
+<p>按照提示完成生成过程，默认会在 <code>~/.ssh/</code> 目录下生成 <code>id_ed25519</code>（不能告诉别人）和<code>id_ed25519.pub</code>（公有的） 文件。第二种生成密钥的方式对应的文件是<code>id_rsa</code> 和 <code>id_rsa.pub</code>。</p>
+<h2 id="1-2-添加-SSH-密钥到-GitHub"><a href="#1-2-添加-SSH-密钥到-GitHub" class="headerlink" title="1.2 添加 SSH 密钥到 GitHub"></a>1.2 添加 SSH 密钥到 GitHub</h2><ol>
+<li>将生成的公钥添加到 GitHub。在终端中运行：</li>
+</ol>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cat</span> ~/.ssh/id_ed25519.pub</span><br></pre></td></tr></table></figure></div>
+
+<p>输出示例：</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">ssh-ed25519 AAAAC3NzANDAKlZDI1NTE5AAAaaaN/oaWb4GZetVkiI5/8d1gezLHWpT46mnaAnkJAbwXpp loskyertt0403@gmail.com</span><br></pre></td></tr></table></figure></div>
+
+<ol start="2">
+<li>复制输出的公钥内容（从 ssh-ed25519 开始，直到邮箱地址结束）。（或者打开<code>sh/id_rsa.pub</code> 文件，复制其中的内容。）</li>
+<li>登录到 GitHub，导航到“Settings”。</li>
+<li>在左侧菜单中选择“<a class="link"   href="https://github.com/settings/keys" >SSH and GPG keys 设置页面 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>”。</li>
+<li>点击“New SSH key”，粘贴你的公钥并保存。</li>
+</ol>
+<h2 id="1-3-配置仓库使用-SSH-URL"><a href="#1-3-配置仓库使用-SSH-URL" class="headerlink" title="1.3 配置仓库使用 SSH URL"></a>1.3 配置仓库使用 SSH URL</h2><ol>
+<li>更新远程仓库的 URL 以使用 SSH：</li>
+</ol>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">git remote set-url origin git@github.com:loskyertt/Recorder_Backup.git</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="1-4-推送更改"><a href="#1-4-推送更改" class="headerlink" title="1.4 推送更改"></a>1.4 推送更改</h2><p>现在可以使用 SSH 进行推送：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">git push origin main</span><br></pre></td></tr></table></figure></div>
+
+
+<h1 id="二、个人访问令牌（Personal-Access-Token，PAT）"><a href="#二、个人访问令牌（Personal-Access-Token，PAT）" class="headerlink" title="二、个人访问令牌（Personal Access Token，PAT）"></a>二、个人访问令牌（Personal Access Token，PAT）</h1><ol>
+<li><p><strong>生成个人访问令牌</strong>：</p>
+<ul>
+<li>登录到你的 GitHub 账户。</li>
+<li>进入 <a class="link"   href="https://github.com/settings/tokens" >GitHub 个人访问令牌设置页面 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>。</li>
+<li>点击 <code>Generate new token</code> 按钮。</li>
+<li>在令牌的描述中输入一个名称。</li>
+<li>选择所需的权限（例如 <code>repo</code>）。</li>
+<li>生成令牌并复制。</li>
+</ul>
+</li>
+<li><p><strong>使用个人访问令牌进行认证</strong>：</p>
+<ul>
+<li>在你运行 <code>git push</code> 时，会提示你输入用户名和密码。在提示用户名时，输入你的 GitHub 用户名。在提示密码时，输入刚刚生成的个人访问令牌。</li>
+</ul>
+</li>
+</ol>
+<h1 id="三、git基本配置"><a href="#三、git基本配置" class="headerlink" title="三、git基本配置"></a>三、git基本配置</h1><h2 id="3-1-设置用户信息"><a href="#3-1-设置用户信息" class="headerlink" title="3.1 设置用户信息"></a>3.1 设置用户信息</h2><div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global user.name <span class="string">&quot;用户名&quot;</span></span><br><span class="line">git config --global user.email <span class="string">&quot;邮箱&quot;</span></span><br></pre></td></tr></table></figure></div>
+<h2 id="3-2-代理设置"><a href="#3-2-代理设置" class="headerlink" title="3.2 代理设置"></a>3.2 代理设置</h2><p><strong>注：<code>linux</code>只需要在终端配置代理即可。</strong></p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global http.proxy socks5://127.0.0.1:<span class="string">&quot;端口&quot;</span></span><br><span class="line">git config --global https.proxy socks5://127.0.0.1:<span class="string">&quot;端口&quot;</span></span><br></pre></td></tr></table></figure></div>
+
+<p>如果要取消代理：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global --<span class="built_in">unset</span> http.proxy</span><br><span class="line">git config --global --<span class="built_in">unset</span> https.proxy</span><br></pre></td></tr></table></figure></div>
+]]></content>
+      <tags>
+        <tag>linux</tag>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux(EndeavourOS) 给 Steam 设置代理</title>
+    <url>/2024/07/24/Linux_Steam/</url>
+    <content><![CDATA[<h1 id="1-解决"><a href="#1-解决" class="headerlink" title="1.解决"></a>1.解决</h1><ol>
+<li><p>打开 Steam 大屏模式（ <strong>一定是大屏模式！</strong> ）。<br><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://nyalog.oss-cn-hongkong.aliyuncs.com/NyaLog/articles/Steam%20Linux%20%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/Steam-BigScreen-min.png"
+                      alt="大屏模式"
+                ><figcaption>大屏模式</figcaption></figure></p>
+</li>
+<li><p>然后在设置里进入网络设置界面，然后点开填入自己的代理地址和端口。<br><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://nyalog.oss-cn-hongkong.aliyuncs.com/NyaLog/articles/Steam%20Linux%20%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/Steam-proxy-min.png"
+                      alt="设置界面"
+                ><figcaption>设置界面</figcaption></figure></p>
+</li>
+<li><p>设置成功后退出重启 Steam 即可。</p>
+</li>
+</ol>
+]]></content>
+      <tags>
+        <tag>linux</tag>
+        <tag>steam</tag>
       </tags>
   </entry>
   <entry>

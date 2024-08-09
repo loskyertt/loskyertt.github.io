@@ -36,7 +36,7 @@
 <meta property="og:image" content="https://im.gurl.eu.org/file/5cbd9d8cdb9722e37a8eb.png">
 <meta property="og:image" content="https://im.gurl.eu.org/file/e906fa1645fab9b347b8d.png">
 <meta property="article:published_time" content="2024-07-30T01:32:03.000Z">
-<meta property="article:modified_time" content="2024-07-30T00:54:27.010Z">
+<meta property="article:modified_time" content="2024-08-09T16:41:50.963Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="docker">
 <meta property="article:tag" content="linux">
@@ -511,8 +511,8 @@
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2024-07-30 00:54:27</span>
-            <span class="mobile">2024-07-30 00:54:27</span>
+            <span class="desktop">2024-08-09 16:41:50</span>
+            <span class="mobile">2024-08-09 16:41:50</span>
             <span class="hover-info">Updated</span>
         </span>
     
@@ -550,12 +550,12 @@
     
     
         <span class="article-wordcount article-meta-item">
-            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>2.7k Words</span>
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>3.5k Words</span>
         </span>
     
     
         <span class="article-min2read article-meta-item">
-            <i class="fa-regular fa-clock"></i>&nbsp;<span>10 Mins</span>
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>13 Mins</span>
         </span>
     
     
@@ -576,7 +576,7 @@
         <div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
             <h1 id="1-前言"><a href="#1-前言" class="headerlink" title="1.前言"></a>1.前言</h1><p>这几天想试着玩一下<code>Openwrt</code>来作旁路由，但是又没有软路由固件，后来考虑到<code>Openwrt</code>也是基于 Linux 的，那么在 Docker Hub 上应该有其对应的镜像吧，然后查了下果真有。于是有了后续的操作 … …</p>
 <p><strong>推荐的镜像：</strong> <a class="link"   target="_blank" rel="noopener" href="https://hub.docker.com/r/zzsrv/openwrt" >zzsrv&#x2F;openwrt <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
-<h1 id="2-准备工作"><a href="#2-准备工作" class="headerlink" title="2.准备工作"></a>2.准备工作</h1><p>建议是在虚拟机上安装一个 Linux 系统，我在实体机上（Linux 系统）试了下，是能成功，但是在该电脑上无法访问<code>Openwrt</code>的 <code>ip</code>地址，在其它设备（比如手机）能正常访问。</p>
+<h1 id="2-准备工作"><a href="#2-准备工作" class="headerlink" title="2.准备工作"></a>2.准备工作</h1><p>建议是在虚拟机上安装一个 Linux 系统，我在实体机上（Linux 系统）试了下，是能成功，但是在该电脑上无法访问<code>Openwrt</code>的 <code>ip</code>地址，在其它设备（比如手机）能正常访问（需要多做一些配置）。</p>
 <h2 id="2-1-虚拟机安装"><a href="#2-1-虚拟机安装" class="headerlink" title="2.1 虚拟机安装"></a>2.1 虚拟机安装</h2><p>虚拟机在这里只推荐<code>VirtualBox</code>。<a class="link"   target="_blank" rel="noopener" href="https://www.virtualbox.org/wiki/Downloads" >下载地址 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
 <p>还需要下载插件：<a class="link"   target="_blank" rel="noopener" href="https://download.virtualbox.org/virtualbox/7.0.20/Oracle_VM_VirtualBox_Extension_Pack-7.0.20.vbox-extpack" >点这里 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a><br>或者点图片这里红色方框处的下载连接：<br><figure class="image-caption"><img  
                      lazyload
@@ -658,7 +658,7 @@
 </ul>
 <h1 id="4-虚拟机内的网络配置"><a href="#4-虚拟机内的网络配置" class="headerlink" title="4.虚拟机内的网络配置"></a>4.虚拟机内的网络配置</h1><h2 id="4-1-查看网络接口信息"><a href="#4-1-查看网络接口信息" class="headerlink" title="4.1 查看网络接口信息"></a>4.1 查看网络接口信息</h2><ul>
 <li><p>查看网络接口：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ip addr</span><br><span class="line"></span><br><span class="line"><span class="comment"># 或者（不一点能用，可能没有预装 net-tools）</span></span><br><span class="line">ifconfig</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ip addr</span><br><span class="line"></span><br><span class="line"><span class="comment"># 或者（不一定能用，可能没有预装 net-tools）</span></span><br><span class="line">ifconfig</span><br></pre></td></tr></table></figure></div>
 </li>
 <li><p>输出结果：</p>
 <div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">~</span><br><span class="line">❯ ip addr</span><br><span class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000</span><br><span class="line">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span><br><span class="line">    inet 127.0.0.1/8 scope host lo</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">    inet6 ::1/128 scope host noprefixroute </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">2: enp0s3: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc fq_codel state UP group default qlen 1000</span><br><span class="line">    link/ether 08:00:27:ff:93:f7 brd ff:ff:ff:ff:ff:ff</span><br><span class="line">    inet 192.168.2.23/24 brd 192.168.2.255 scope global dynamic noprefixroute enp0s3</span><br><span class="line">       valid_lft 85878sec preferred_lft 85878sec</span><br><span class="line">    inet6 fe80::d521:edc1:580f:1e00/64 scope link noprefixroute </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">3: docker0: &lt;NO-CARRIER,BROADCAST,MULTICAST,UP&gt; mtu 1500 qdisc noqueue state DOWN group default </span><br><span class="line">    link/ether 02:42:8a:53:e6:cf brd ff:ff:ff:ff:ff:ff</span><br><span class="line">    inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line"></span><br></pre></td></tr></table></figure></div></li>
@@ -790,7 +790,47 @@
                       alt="登录界面"
                 ><figcaption>登录界面</figcaption></figure></p>
 <p>后面我先学一下怎么用<code>OpenClash</code>，然后更新用<code>OpenClash</code>科学上网的教程。</p>
-<h1 id="6-参考教程"><a href="#6-参考教程" class="headerlink" title="6.参考教程"></a>6.参考教程</h1><ul>
+<h1 id="6-实体机中安装-docker-OpenWrt-的配置"><a href="#6-实体机中安装-docker-OpenWrt-的配置" class="headerlink" title="6.实体机中安装 docker + OpenWrt 的配置"></a>6.实体机中安装 docker + OpenWrt 的配置</h1><h2 id="6-1-问题说明"><a href="#6-1-问题说明" class="headerlink" title="6.1 问题说明"></a>6.1 问题说明</h2><p>前面的步骤与在虚拟机中的一样，但是在创建并配置好 OpenWrt 的容器后，你会发现在宿主机中无法访问<code>192.168.2.3</code>（创建的容器的ip addr），但是其它设备（前提是在同一个网关下，比如手机）是能成功访问<code>192.168.2.3</code>的。</p>
+<p><strong>原因：</strong></p>
+<p>在<code>Docker</code>中使用<code>macvlan</code>网络驱动时，容器和宿主机的网络栈是分离的。这意味着：</p>
+<ul>
+<li>容器的网络接口<code>192.168.2.3</code>是在<code>macvlan</code>网络上，而宿主机的网络接口不能直接与<code>macvlan</code>网络中的容器进行通信。</li>
+<li>因为<code>macvlan</code>网络的特性，宿主机的网络接口不会自动知道<code>macvlan</code>网络中的设备。</li>
+</ul>
+<h2 id="6-2-解决办法"><a href="#6-2-解决办法" class="headerlink" title="6.2 解决办法"></a>6.2 解决办法</h2><h3 id="6-2-1-创建-maclan-接口"><a href="#6-2-1-创建-maclan-接口" class="headerlink" title="6.2.1 创建 maclan 接口"></a>6.2.1 创建 maclan 接口</h3><p>创建一个名为<code>macvlan0</code>的新虚拟网络接口，它基于物理接口<code>enp0s3</code>：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> ip <span class="built_in">link</span> add macvlan0 <span class="built_in">link</span> enp0s3 <span class="built_in">type</span> macvlan mode bridge</span><br></pre></td></tr></table></figure></div>
+<p><code>macvlan</code>允许在一个物理网络接口上创建多个虚拟网络接口，每个都有自己的 MAC 地址。桥接模式允许 macvlan 接口相互通信。</p>
+<p>为这个新接口分配了 IP 地址<code>192.168.2.250</code>，使其成为<code>192.168.2.0/24</code>网络的一部分：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> ip addr add 192.168.2.250/24 dev macvlan0</span><br></pre></td></tr></table></figure></div>
+<p>激活这个新接口，使其能够开始网络通信：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> ip <span class="built_in">link</span> <span class="built_in">set</span> macvlan0 up</span><br></pre></td></tr></table></figure></div>
+
+<p>注意需要把<code>enp0s3</code>替换为自己实际的网络驱动接口。这个时候在浏览器输入<code>192.168.2.3</code>就拿正常访问了。</p>
+<p>这种配置的主要用途是允许主机直接参与到<code>macvlan</code>网络中，这对于与 Docker macvlan 网络中的容器通信特别有用。它创建了一个”桥梁”，让主机能够与 macvlan 网络中的设备（如 Docker 容器）进行直接通信，而不需要通过 Docker 的网络栈。</p>
+<h3 id="6-2-2-撤销创建的-macvlan-配置"><a href="#6-2-2-撤销创建的-macvlan-配置" class="headerlink" title="6.2.2 撤销创建的 macvlan 配置"></a>6.2.2 撤销创建的 macvlan 配置</h3><p>如果要删除创建的<code>macvlan</code>接口，可以进行以下操作：</p>
+<ol>
+<li>删除 IP 地址:<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> ip addr del 192.168.2.250/24 dev macvlan0</span><br></pre></td></tr></table></figure></div></li>
+<li>关闭 macvlan 接口:<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> ip <span class="built_in">link</span> <span class="built_in">set</span> macvlan0 down</span><br></pre></td></tr></table></figure></div></li>
+<li>删除 macvlan 接口:<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> ip <span class="built_in">link</span> del macvlan0</span><br></pre></td></tr></table></figure></div></li>
+</ol>
+<p>解释：</p>
+<ul>
+<li><code>ip addr del</code>: 删除之前添加的 IP 地址</li>
+<li><code>ip link set down</code>: 关闭网络接口</li>
+<li><code>ip link del</code>: 完全删除网络接口</li>
+</ul>
+<p>执行这些命令后，你创建的<code>macvlan</code>接口及其配置就会被完全移除。</p>
+<p>额外提示：</p>
+<h3 id="6-2-3-查看当前配置"><a href="#6-2-3-查看当前配置" class="headerlink" title="6.2.3  查看当前配置:"></a>6.2.3  查看当前配置:</h3><p>   在执行这些步骤之前和之后，你可以使用以下命令查看网络配置，以确保更改已经生效：<br>   <div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ip addr show</span><br><span class="line">ip <span class="built_in">link</span> show</span><br></pre></td></tr></table></figure></div></p>
+<ol start="2">
+<li><p>保存配置:<br>如果你经常需要切换这些配置，可以考虑创建脚本来自动化这个过程。例如，创建一个脚本来添加配置，另一个脚本来删除配置。</p>
+</li>
+<li><p>系统重启:<br>请注意，这些更改在系统重启后不会保持。如果你希望这些更改是永久的，需要将它们添加到网络配置文件中或创建一个系统启动脚本。</p>
+</li>
+<li><p>小心操作:<br>在执行这些命令时要小心，特别是如果你是通过远程连接（如 SSH）管理系统。错误的网络配置可能会导致你失去对系统的访问。</p>
+</li>
+</ol>
+<h1 id="7-参考教程"><a href="#7-参考教程" class="headerlink" title="7.参考教程"></a>7.参考教程</h1><ul>
 <li><a class="link"   target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=6OeGOK2-1zo&list=PL7XUZPsvfw3CKvDijuA5CO_oLbBwJCYTt&index=4" >docker + openwrt把windows变成最强软路由，游戏、翻墙两不误(Linux-Mint&#x2F;ubuntu、VirtualBox、docker、openwrt) <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></li>
 <li><a class="link"   target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=mlsTzDsBhLs&list=PL7XUZPsvfw3CKvDijuA5CO_oLbBwJCYTt&index=6" >Openwrt Docker 镜像 安装详细过程实现科学上网，没有设备也可以体验|软路由|旁路网关 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></li>
 <li><a class="link"   target="_blank" rel="noopener" href="https://hub.docker.com/r/zzsrv/openwrt" >zzsrv&#x2F;openwrt <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></li>
@@ -809,7 +849,7 @@
         
             <li>
                 <strong>Updated at
-                    :</strong> 2024-07-30 00:54:27
+                    :</strong> 2024-08-09 16:41:50
             </li>
         
         <li>
@@ -869,9 +909,9 @@
 </a><a class="recommended-article-item" href="/2024/07/24/Docker问题汇总/" title="使用Docker时的问题汇总和解决方式" rel="bookmark">
   <img src="/images/wallhaven-wqery6-light.webp" alt="使用Docker时的问题汇总和解决方式" class="!max-w-none">
   <span class="title">使用Docker时的问题汇总和解决方式</span>
-</a><a class="recommended-article-item" href="/2024/07/25/MiHomo教程/" title="MiHomo(Clash Meta) 纯内核使用教程" rel="bookmark">
-  <img src="/images/wallhaven-wqery6-light.webp" alt="MiHomo(Clash Meta) 纯内核使用教程" class="!max-w-none">
-  <span class="title">MiHomo(Clash Meta) 纯内核使用教程</span>
+</a><a class="recommended-article-item" href="/2024/07/18/EndeavourOS/" title="EndeavourOS 使用记录" rel="bookmark">
+  <img src="https://i0.wp.com/endeavouros.com/wp-content/uploads/2023/10/Endy_planet_ARM.png?resize=1536%2C864&ssl=1" alt="EndeavourOS 使用记录" class="!max-w-none">
+  <span class="title">EndeavourOS 使用记录</span>
 </a></div>
    </div>
    <div class="recommended-mobile">
@@ -978,7 +1018,7 @@
     <div class="post-toc">
         <div class="toc-title">On this page</div>
         <div class="page-title">Openwrt 在 Docker 下运行并作为旁路由</div>
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E5%89%8D%E8%A8%80"><span class="nav-text">1.前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="nav-text">2.准备工作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AE%89%E8%A3%85"><span class="nav-text">2.1 虚拟机安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-Linux%E5%AE%89%E8%A3%85"><span class="nav-text">2.2 Linux安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E5%88%9B%E5%BB%BA"><span class="nav-text">2.3 虚拟机的创建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E9%85%8D%E7%BD%AE"><span class="nav-text">2.4 虚拟机的配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-5-%E5%AE%89%E8%A3%85%E7%B3%BB%E7%BB%9F"><span class="nav-text">2.5 安装系统</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-Docker-%E9%85%8D%E7%BD%AE"><span class="nav-text">3.Docker 配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-%E5%AE%89%E8%A3%85-Docker"><span class="nav-text">3.1 安装 Docker</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-Docker-%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE"><span class="nav-text">3.2 Docker 服务配置</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%86%85%E7%9A%84%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE"><span class="nav-text">4.虚拟机内的网络配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-%E6%9F%A5%E7%9C%8B%E7%BD%91%E7%BB%9C%E6%8E%A5%E5%8F%A3%E4%BF%A1%E6%81%AF"><span class="nav-text">4.1 查看网络接口信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-%E5%BC%80%E5%90%AF%E6%B7%B7%E6%9D%82%E6%A8%A1%E5%BC%8F-promisc"><span class="nav-text">4.2 开启混杂模式(promisc)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-%E5%BB%BA%E7%AB%8B-docker-%E5%AD%90%E7%BD%91"><span class="nav-text">4.3 建立 docker 子网</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-%E6%90%AD%E5%BB%BA-Openwrt"><span class="nav-text">5.搭建 Openwrt</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-%E6%8B%89%E5%8F%96%E9%95%9C%E5%83%8F"><span class="nav-text">5.1 拉取镜像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-%E5%88%9B%E5%BB%BA%E5%AE%B9%E5%99%A8"><span class="nav-text">5.2 创建容器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-3-%E5%AE%B9%E5%99%A8%E9%85%8D%E7%BD%AE"><span class="nav-text">5.3 容器配置</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-%E5%8F%82%E8%80%83%E6%95%99%E7%A8%8B"><span class="nav-text">6.参考教程</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E5%89%8D%E8%A8%80"><span class="nav-text">1.前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="nav-text">2.准备工作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AE%89%E8%A3%85"><span class="nav-text">2.1 虚拟机安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-Linux%E5%AE%89%E8%A3%85"><span class="nav-text">2.2 Linux安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E5%88%9B%E5%BB%BA"><span class="nav-text">2.3 虚拟机的创建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E9%85%8D%E7%BD%AE"><span class="nav-text">2.4 虚拟机的配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-5-%E5%AE%89%E8%A3%85%E7%B3%BB%E7%BB%9F"><span class="nav-text">2.5 安装系统</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-Docker-%E9%85%8D%E7%BD%AE"><span class="nav-text">3.Docker 配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-%E5%AE%89%E8%A3%85-Docker"><span class="nav-text">3.1 安装 Docker</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-Docker-%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE"><span class="nav-text">3.2 Docker 服务配置</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%86%85%E7%9A%84%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE"><span class="nav-text">4.虚拟机内的网络配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-%E6%9F%A5%E7%9C%8B%E7%BD%91%E7%BB%9C%E6%8E%A5%E5%8F%A3%E4%BF%A1%E6%81%AF"><span class="nav-text">4.1 查看网络接口信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-%E5%BC%80%E5%90%AF%E6%B7%B7%E6%9D%82%E6%A8%A1%E5%BC%8F-promisc"><span class="nav-text">4.2 开启混杂模式(promisc)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-%E5%BB%BA%E7%AB%8B-docker-%E5%AD%90%E7%BD%91"><span class="nav-text">4.3 建立 docker 子网</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-%E6%90%AD%E5%BB%BA-Openwrt"><span class="nav-text">5.搭建 Openwrt</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-%E6%8B%89%E5%8F%96%E9%95%9C%E5%83%8F"><span class="nav-text">5.1 拉取镜像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-%E5%88%9B%E5%BB%BA%E5%AE%B9%E5%99%A8"><span class="nav-text">5.2 创建容器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-3-%E5%AE%B9%E5%99%A8%E9%85%8D%E7%BD%AE"><span class="nav-text">5.3 容器配置</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-%E5%AE%9E%E4%BD%93%E6%9C%BA%E4%B8%AD%E5%AE%89%E8%A3%85-docker-OpenWrt-%E7%9A%84%E9%85%8D%E7%BD%AE"><span class="nav-text">6.实体机中安装 docker + OpenWrt 的配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#6-1-%E9%97%AE%E9%A2%98%E8%AF%B4%E6%98%8E"><span class="nav-text">6.1 问题说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-2-%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95"><span class="nav-text">6.2 解决办法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-2-1-%E5%88%9B%E5%BB%BA-maclan-%E6%8E%A5%E5%8F%A3"><span class="nav-text">6.2.1 创建 maclan 接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-2-2-%E6%92%A4%E9%94%80%E5%88%9B%E5%BB%BA%E7%9A%84-macvlan-%E9%85%8D%E7%BD%AE"><span class="nav-text">6.2.2 撤销创建的 macvlan 配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-2-3-%E6%9F%A5%E7%9C%8B%E5%BD%93%E5%89%8D%E9%85%8D%E7%BD%AE"><span class="nav-text">6.2.3  查看当前配置:</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#7-%E5%8F%82%E8%80%83%E6%95%99%E7%A8%8B"><span class="nav-text">7.参考教程</span></a></li></ol>
 
     </div>
 </div>
@@ -1015,7 +1055,7 @@
                     </span>
                     
                         <span>
-                            13.9k words in total
+                            14.8k words in total
                         </span>
                     
                 </p>
