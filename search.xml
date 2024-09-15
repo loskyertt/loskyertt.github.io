@@ -31,89 +31,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Docker 配置 MySQL 教程</title>
-    <url>/2024/09/05/Docker-MySQL/</url>
-    <content><![CDATA[<h1 id="1-Docker-MySQL-配置"><a href="#1-Docker-MySQL-配置" class="headerlink" title="1.Docker-MySQL 配置"></a>1.Docker-MySQL 配置</h1><h2 id="1-1-拉取镜像与创建容器"><a href="#1-1-拉取镜像与创建容器" class="headerlink" title="1.1 拉取镜像与创建容器"></a>1.1 拉取镜像与创建容器</h2><ol>
-<li><p><strong>拉取 MySQL 镜像：</strong><br>通过运行 <code>docker pull mysql[:版本号]</code>，版本号可选，默认是latest。</p>
-</li>
-<li><p><strong>创建并运行 MySQL 容器（推荐）：</strong><br>使用以下命令来运行 MySQL 容器。这里假设想在主机上绑定3306端口，并设置一个root用户的密码：</p>
-</li>
-</ol>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run \</span><br><span class="line">--name some-mysql \</span><br><span class="line">-e MYSQL_ROOT_PASSWORD=1234 \</span><br><span class="line">-p 3306:3306 \</span><br><span class="line">-v ~/docker_volume/mysql/data:/var/lib/mysql \</span><br><span class="line">-v ~/docker_volume/mysql/init:/docker-entrypoint-initdb.d \</span><br><span class="line">-v ~/docker_volume/mysql/conf:/etc/mysql/conf.d \</span><br><span class="line">-d mysql:&lt;版本号&gt;</span><br></pre></td></tr></table></figure></div>
-
-<p><strong>以上命令的说明：</strong></p>
-<ul>
-<li><code>--name some-mysql</code>：给容器指定一个名称，比如 <code>some-mysql</code>。</li>
-<li><code>-e MYSQL_ROOT_PASSWORD=1234</code>：设置root用户的密码为 <code>1234</code>。</li>
-<li><code>mysql:latest</code>：使用最新版本的 MySQL 镜像。</li>
-<li><code>p</code>：设置端口，<code>3306:3306</code>中，前者是宿主机的端口，可以自定义，后者是映射到容器的端口。默认是<code>TCP</code>协议。</li>
-<li><code>-v</code>：挂载容器里的文件（<code>~/docker_volume/mysql/data</code>为本地目录）。<strong>注意：</strong> 要先创建好对应的文件路径！！同时本地文件夹会把容器内的文件夹完全覆盖！</li>
-</ul>
-<h2 id="1-2-连接到容器"><a href="#1-2-连接到容器" class="headerlink" title="1.2 连接到容器"></a>1.2 连接到容器</h2><ol>
-<li><strong>连接到 MySQL 容器：</strong></li>
-</ol>
-<p>进入到容器内部然后进行连接：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it some-mysql bash</span><br><span class="line"></span><br><span class="line">mysql -uroot -p</span><br></pre></td></tr></table></figure></div>
-
-<p>直接连接到容器：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it some-mysql mysql -uroot -p</span><br></pre></td></tr></table></figure></div>
-<p>这会启动一个终端会话，并要求输入上面设置的root用户的密码 (<code>1234</code>)。</p>
-<p>以上命令的说明：</p>
-<ol>
-<li><strong>docker exec：</strong></li>
-</ol>
-<ul>
-<li><strong>含义：</strong> 在一个已经运行的容器内执行命令。</li>
-<li><strong>用途：</strong> 允许你在运行的容器中执行新的命令。</li>
-</ul>
-<ol start="2">
-<li><strong>-it：</strong></li>
-</ol>
-<ul>
-<li><strong><code>-i</code> (interactive)：</strong> 保持标准输入（stdin）打开，使得你可以与容器中的进程进行交互。</li>
-<li><strong><code>-t</code> (tty)：</strong> 分配一个伪终端，提供一个终端会话环境。这两个选项一起使用可以进入容器并交互。</li>
-</ul>
-<ol start="3">
-<li><strong>some-mysql：</strong></li>
-</ol>
-<ul>
-<li><strong>含义：</strong> 容器的名称或 ID。</li>
-</ul>
-<ol start="4">
-<li><strong>mysql：</strong></li>
-</ol>
-<ul>
-<li><strong>含义：</strong> 这是在容器内执行的命令。在这个例子中，是启动 MySQL 客户端。</li>
-<li><strong>用途：</strong> 连接到 MySQL 数据库。</li>
-</ul>
-<ol start="5">
-<li><strong>-uroot：</strong></li>
-</ol>
-<ul>
-<li><strong><code>-u</code>：</strong> 指定 MySQL 客户端的用户名。</li>
-<li><strong>root：</strong> MySQL 数据库的用户名。在这个例子中，使用的是 <code>root</code> 用户。</li>
-</ul>
-<ol start="6">
-<li><strong><code>-p</code>：</strong></li>
-</ol>
-<ul>
-<li><strong>含义：</strong> 提示输入 MySQL 用户的密码。</li>
-<li><strong>用途：</strong> 在执行命令后，你会被提示输入 <code>root</code> 用户的密码。这个密码是在运行容器时通过 <code>MYSQL_ROOT_PASSWORD</code> 环境变量设置的。</li>
-</ul>
-<p>以上命令的 <code>-p 3306:3306</code> 会将主机的3306端口映射到容器的3306端口，这样可以从主机上的MySQL客户端连接到容器中的MySQL服务。</p>
-<h2 id="1-3-更改容器信息"><a href="#1-3-更改容器信息" class="headerlink" title="1.3 更改容器信息"></a>1.3 更改容器信息</h2><h3 id="1-3-1-方法一：停止并删除现有容器"><a href="#1-3-1-方法一：停止并删除现有容器" class="headerlink" title="1.3.1 方法一：停止并删除现有容器"></a>1.3.1 方法一：停止并删除现有容器</h3><p>首先，停止并删除现有的 <code>mysql-test</code> 容器：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker start mysql-test        <span class="comment"># 运行</span></span><br><span class="line">docker stop mysql-test        <span class="comment"># 停止</span></span><br><span class="line">docker <span class="built_in">rm</span> mysql-test        <span class="comment"># 删除</span></span><br></pre></td></tr></table></figure></div>
-<p>然后再重新创建<code>mysql-test</code>即可。</p>
-<h3 id="1-3-2-方法二：不同的容器名称"><a href="#1-3-2-方法二：不同的容器名称" class="headerlink" title="1.3.2 方法二：不同的容器名称"></a>1.3.2 方法二：不同的容器名称</h3><p>可以使用不同的名称来运行容器，这样就不需要删除现有的容器。例如：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run --name mysql-test-2 -e MYSQL_ROOT_PASSWORD=0403 -p 3307:3306 -d mysql:latest</span><br></pre></td></tr></table></figure></div>
-<p>这样会启动一个新容器，名称为 <code>mysql-test-2</code>，并绑定主机的3307端口到容器的3306端口。</p>
-<h2 id="1-4-查看容器信息"><a href="#1-4-查看容器信息" class="headerlink" title="1.4 查看容器信息"></a>1.4 查看容器信息</h2><p>查看容器或镜像内部信息（如端口，ip地址，挂载卷等）：</p>
-<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker inspect &lt;容器名/容器ID/镜像名/镜像ID&gt;</span><br></pre></td></tr></table></figure></div>]]></content>
-      <tags>
-        <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>通过Docker搭建Hexo博客</title>
     <url>/2024/07/24/Docker-Hexo/</url>
     <content><![CDATA[<h1 id="1-创建项目文件夹"><a href="#1-创建项目文件夹" class="headerlink" title="1.创建项目文件夹"></a>1.创建项目文件夹</h1><p>创建博客的工作</p>
@@ -200,18 +117,86 @@
       </tags>
   </entry>
   <entry>
-    <title>Dockerfile 教程</title>
-    <url>/2024/09/03/Dockerfile%E6%95%99%E7%A8%8B/</url>
-    <content><![CDATA[<h1 id="1-代理配置"><a href="#1-代理配置" class="headerlink" title="1.代理配置"></a>1.代理配置</h1><p>有时侯在构建镜像时，需要执行一些下载操作，没有配置国内镜像源的话，下载速度可能会很慢甚至出错，所以需要在 Dockerfile 中配置代理。</p>
-<p>在 Dockerfile 中加上：</p>
-<div class="highlight-container" data-rel="Dockerfile"><figure class="iseeu highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="keyword">ENV</span> http_proxy=http://your-proxy-address:port/</span><br><span class="line"><span class="keyword">ENV</span> https_proxy=http://your-proxy-address:port/</span><br></pre></td></tr></table></figure></div>
+    <title>Docker 配置 MySQL 教程</title>
+    <url>/2024/09/05/Docker-MySQL/</url>
+    <content><![CDATA[<h1 id="1-Docker-MySQL-配置"><a href="#1-Docker-MySQL-配置" class="headerlink" title="1.Docker-MySQL 配置"></a>1.Docker-MySQL 配置</h1><h2 id="1-1-拉取镜像与创建容器"><a href="#1-1-拉取镜像与创建容器" class="headerlink" title="1.1 拉取镜像与创建容器"></a>1.1 拉取镜像与创建容器</h2><ol>
+<li><p><strong>拉取 MySQL 镜像：</strong><br>通过运行 <code>docker pull mysql[:版本号]</code>，版本号可选，默认是latest。</p>
+</li>
+<li><p><strong>创建并运行 MySQL 容器（推荐）：</strong><br>使用以下命令来运行 MySQL 容器。这里假设想在主机上绑定3306端口，并设置一个root用户的密码：</p>
+</li>
+</ol>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run \</span><br><span class="line">--name some-mysql \</span><br><span class="line">-e MYSQL_ROOT_PASSWORD=1234 \</span><br><span class="line">-p 3306:3306 \</span><br><span class="line">-v ~/docker_volume/mysql/data:/var/lib/mysql \</span><br><span class="line">-v ~/docker_volume/mysql/init:/docker-entrypoint-initdb.d \</span><br><span class="line">-v ~/docker_volume/mysql/conf:/etc/mysql/conf.d \</span><br><span class="line">-d mysql:&lt;版本号&gt;</span><br></pre></td></tr></table></figure></div>
 
-<p><code>http_proxy</code>和<code>https_proxy</code>：这两个环境变量分别用于<code>HTTP</code>和<code>HTTPS</code>的代理服务器地址。你需要将<code>your-proxy-address:port</code>替换为宿主机在当前网络下的 IP 地址和代理端口。注意这里是宿主机的实际<code>IP</code>地址，不是本地回环（<code>loop</code>）地址。同过<code>ifconfig</code>或者<code>ip a</code>查看。</p>
-<p>这属于是 docker 的环境变量设置，环境变量通常不会自动写入容器中的配置文件，如<code>.bashrc</code>或<code>/etc/environment</code>，但它们会在容器启动时自动加载。</p>
-]]></content>
+<p><strong>以上命令的说明：</strong></p>
+<ul>
+<li><code>--name some-mysql</code>：给容器指定一个名称，比如 <code>some-mysql</code>。</li>
+<li><code>-e MYSQL_ROOT_PASSWORD=1234</code>：设置root用户的密码为 <code>1234</code>。</li>
+<li><code>mysql:latest</code>：使用最新版本的 MySQL 镜像。</li>
+<li><code>p</code>：设置端口，<code>3306:3306</code>中，前者是宿主机的端口，可以自定义，后者是映射到容器的端口。默认是<code>TCP</code>协议。</li>
+<li><code>-v</code>：挂载容器里的文件（<code>~/docker_volume/mysql/data</code>为本地目录）。<strong>注意：</strong> 要先创建好对应的文件路径！！同时本地文件夹会把容器内的文件夹完全覆盖！</li>
+</ul>
+<h2 id="1-2-连接到容器"><a href="#1-2-连接到容器" class="headerlink" title="1.2 连接到容器"></a>1.2 连接到容器</h2><ol>
+<li><strong>连接到 MySQL 容器：</strong></li>
+</ol>
+<p>进入到容器内部然后进行连接：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it some-mysql bash</span><br><span class="line"></span><br><span class="line">mysql -uroot -p</span><br></pre></td></tr></table></figure></div>
+
+<p>直接连接到容器：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it some-mysql mysql -uroot -p</span><br></pre></td></tr></table></figure></div>
+<p>这会启动一个终端会话，并要求输入上面设置的root用户的密码 (<code>1234</code>)。</p>
+<p>以上命令的说明：</p>
+<ol>
+<li><strong>docker exec：</strong></li>
+</ol>
+<ul>
+<li><strong>含义：</strong> 在一个已经运行的容器内执行命令。</li>
+<li><strong>用途：</strong> 允许你在运行的容器中执行新的命令。</li>
+</ul>
+<ol start="2">
+<li><strong>-it：</strong></li>
+</ol>
+<ul>
+<li><strong><code>-i</code> (interactive)：</strong> 保持标准输入（stdin）打开，使得你可以与容器中的进程进行交互。</li>
+<li><strong><code>-t</code> (tty)：</strong> 分配一个伪终端，提供一个终端会话环境。这两个选项一起使用可以进入容器并交互。</li>
+</ul>
+<ol start="3">
+<li><strong>some-mysql：</strong></li>
+</ol>
+<ul>
+<li><strong>含义：</strong> 容器的名称或 ID。</li>
+</ul>
+<ol start="4">
+<li><strong>mysql：</strong></li>
+</ol>
+<ul>
+<li><strong>含义：</strong> 这是在容器内执行的命令。在这个例子中，是启动 MySQL 客户端。</li>
+<li><strong>用途：</strong> 连接到 MySQL 数据库。</li>
+</ul>
+<ol start="5">
+<li><strong>-uroot：</strong></li>
+</ol>
+<ul>
+<li><strong><code>-u</code>：</strong> 指定 MySQL 客户端的用户名。</li>
+<li><strong>root：</strong> MySQL 数据库的用户名。在这个例子中，使用的是 <code>root</code> 用户。</li>
+</ul>
+<ol start="6">
+<li><strong><code>-p</code>：</strong></li>
+</ol>
+<ul>
+<li><strong>含义：</strong> 提示输入 MySQL 用户的密码。</li>
+<li><strong>用途：</strong> 在执行命令后，你会被提示输入 <code>root</code> 用户的密码。这个密码是在运行容器时通过 <code>MYSQL_ROOT_PASSWORD</code> 环境变量设置的。</li>
+</ul>
+<p>以上命令的 <code>-p 3306:3306</code> 会将主机的3306端口映射到容器的3306端口，这样可以从主机上的MySQL客户端连接到容器中的MySQL服务。</p>
+<h2 id="1-3-更改容器信息"><a href="#1-3-更改容器信息" class="headerlink" title="1.3 更改容器信息"></a>1.3 更改容器信息</h2><h3 id="1-3-1-方法一：停止并删除现有容器"><a href="#1-3-1-方法一：停止并删除现有容器" class="headerlink" title="1.3.1 方法一：停止并删除现有容器"></a>1.3.1 方法一：停止并删除现有容器</h3><p>首先，停止并删除现有的 <code>mysql-test</code> 容器：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker start mysql-test        <span class="comment"># 运行</span></span><br><span class="line">docker stop mysql-test        <span class="comment"># 停止</span></span><br><span class="line">docker <span class="built_in">rm</span> mysql-test        <span class="comment"># 删除</span></span><br></pre></td></tr></table></figure></div>
+<p>然后再重新创建<code>mysql-test</code>即可。</p>
+<h3 id="1-3-2-方法二：不同的容器名称"><a href="#1-3-2-方法二：不同的容器名称" class="headerlink" title="1.3.2 方法二：不同的容器名称"></a>1.3.2 方法二：不同的容器名称</h3><p>可以使用不同的名称来运行容器，这样就不需要删除现有的容器。例如：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run --name mysql-test-2 -e MYSQL_ROOT_PASSWORD=0403 -p 3307:3306 -d mysql:latest</span><br></pre></td></tr></table></figure></div>
+<p>这样会启动一个新容器，名称为 <code>mysql-test-2</code>，并绑定主机的3307端口到容器的3306端口。</p>
+<h2 id="1-4-查看容器信息"><a href="#1-4-查看容器信息" class="headerlink" title="1.4 查看容器信息"></a>1.4 查看容器信息</h2><p>查看容器或镜像内部信息（如端口，ip地址，挂载卷等）：</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker inspect &lt;容器名/容器ID/镜像名/镜像ID&gt;</span><br></pre></td></tr></table></figure></div>]]></content>
       <tags>
         <tag>docker</tag>
-        <tag>proxy</tag>
       </tags>
   </entry>
   <entry>
@@ -484,10 +469,25 @@
       </categories>
       <tags>
         <tag>docker</tag>
-        <tag>proxy</tag>
         <tag>linux</tag>
+        <tag>proxy</tag>
         <tag>openwrt</tag>
         <tag>虚拟机</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Dockerfile 教程</title>
+    <url>/2024/09/03/Dockerfile%E6%95%99%E7%A8%8B/</url>
+    <content><![CDATA[<h1 id="1-代理配置"><a href="#1-代理配置" class="headerlink" title="1.代理配置"></a>1.代理配置</h1><p>有时侯在构建镜像时，需要执行一些下载操作，没有配置国内镜像源的话，下载速度可能会很慢甚至出错，所以需要在 Dockerfile 中配置代理。</p>
+<p>在 Dockerfile 中加上：</p>
+<div class="highlight-container" data-rel="Dockerfile"><figure class="iseeu highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="keyword">ENV</span> http_proxy=http://your-proxy-address:port/</span><br><span class="line"><span class="keyword">ENV</span> https_proxy=http://your-proxy-address:port/</span><br></pre></td></tr></table></figure></div>
+
+<p><code>http_proxy</code>和<code>https_proxy</code>：这两个环境变量分别用于<code>HTTP</code>和<code>HTTPS</code>的代理服务器地址。你需要将<code>your-proxy-address:port</code>替换为宿主机在当前网络下的 IP 地址和代理端口。注意这里是宿主机的实际<code>IP</code>地址，不是本地回环（<code>loop</code>）地址。同过<code>ifconfig</code>或者<code>ip a</code>查看。</p>
+<p>这属于是 docker 的环境变量设置，环境变量通常不会自动写入容器中的配置文件，如<code>.bashrc</code>或<code>/etc/environment</code>，但它们会在容器启动时自动加载。</p>
+]]></content>
+      <tags>
+        <tag>docker</tag>
+        <tag>proxy</tag>
       </tags>
   </entry>
   <entry>
@@ -738,6 +738,84 @@
       </tags>
   </entry>
   <entry>
+    <title>在 Docker 容器中使用宿主机的代理</title>
+    <url>/2024/08/16/Dokcer%E5%AE%B9%E5%99%A8%E4%BB%A3%E7%90%86/</url>
+    <content><![CDATA[<h1 id="1-拉取镜像"><a href="#1-拉取镜像" class="headerlink" title="1.拉取镜像"></a>1.拉取镜像</h1><p>这里以<code>ubuntu</code>镜像为例子：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker pull ubuntu</span><br></pre></td></tr></table></figure></div>
+
+<h1 id="2-容器内配置代理的方式"><a href="#2-容器内配置代理的方式" class="headerlink" title="2.容器内配置代理的方式"></a>2.容器内配置代理的方式</h1><h2 id="2-1-方式一（host-模式）"><a href="#2-1-方式一（host-模式）" class="headerlink" title="2.1 方式一（host 模式）"></a>2.1 方式一（host 模式）</h2><p>运行完后退出容器：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker  run -it --name=<span class="built_in">test</span> --network=host ubuntu</span><br></pre></td></tr></table></figure></div>
+
+<p>因为在容器里默认是没有安装编辑器的，要么通过在容器内下载（<code>apt install vi</code>），要么通过在宿主机里对文件进行编辑后再通过<code>docker cp</code>复制到容器里。</p>
+<p>编辑宿主机的<code>.bashrc</code>文件，在里面添加代理配置：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">kate ~/.bashrc</span><br></pre></td></tr></table></figure></div>
+
+<p>打开后在里面添加：</p>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line"># where proxy</span><br><span class="line">proxy()&#123;</span><br><span class="line">  export http_proxy=&quot;http://127.0.0.1:7890&quot;</span><br><span class="line">  export https_proxy=&quot;http://127.0.0.1:7890&quot;</span><br><span class="line">  echo &quot;HTTP Proxy on&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># where noproxy</span><br><span class="line">noproxy()&#123;</span><br><span class="line">  unset http_proxy</span><br><span class="line">  unset https_proxy</span><br><span class="line">  echo &quot;HTTP Proxy off&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+<p><code>7890</code>是<code>clash</code>的代理端口。</p>
+<p>然后把<code>.bashrc</code>复制到<code>test</code>容器的<code>/root</code>下：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker <span class="built_in">cp</span> ~/.bashrc <span class="built_in">test</span>:/root/</span><br></pre></td></tr></table></figure></div>
+
+<p>可以重启下容器：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker restart <span class="built_in">test</span></span><br></pre></td></tr></table></figure></div>
+
+<p>进入容器：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it <span class="built_in">test</span> bash</span><br></pre></td></tr></table></figure></div>
+
+<p>开启并查看代理：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 开启代理</span></span><br><span class="line">proxy</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看代理</span></span><br><span class="line"><span class="built_in">env</span> | grep -i proxy</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="2-1-1-原理"><a href="#2-1-1-原理" class="headerlink" title="2.1.1 原理"></a>2.1.1 原理</h3><p><em><strong>一、<code>host</code> 网络模式的特点</strong></em></p>
+<ol>
+<li><p><strong>共享网络堆栈</strong> ：</p>
+<ul>
+<li>容器与宿主机共享网络堆栈，因此容器和宿主机的网络接口和端口是直接共享的。</li>
+<li>容器中的服务可以直接通过宿主机的 IP 地址和端口访问，不需要额外的端口映射。</li>
+</ul>
+</li>
+<li><p><strong>无需端口映射</strong>：</p>
+<ul>
+<li>在 <code>host</code> 网络模式下，你不需要使用 <code>-p</code> 或 <code>--publish</code> 选项来映射端口。</li>
+<li>容器中的服务将直接监听宿主机的端口，可以通过宿主机的 IP 地址直接访问。</li>
+</ul>
+</li>
+<li><p><strong>网络性能</strong> ：</p>
+<ul>
+<li>由于没有虚拟网络桥接的开销，<code>host</code> 网络模式通常提供更高的网络性能。</li>
+</ul>
+</li>
+<li><p><strong>网络隔离</strong> ：</p>
+<ul>
+<li>使用 <code>host</code> 网络模式时，容器与宿主机网络没有隔离，这意味着容器可以访问宿主机上所有可访问的网络资源，也可能对宿主机网络造成安全风险。</li>
+</ul>
+</li>
+</ol>
+<p><em><strong>二、注意事项</strong></em></p>
+<ul>
+<li><strong>安全性</strong> ：由于容器与宿主机共享网络，容器可能会有更大的安全风险，因为它可以直接访问宿主机的网络资源。</li>
+<li><strong>网络冲突</strong> ：如果容器和宿主机上的应用程序尝试监听相同的端口，可能会发生端口冲突。</li>
+</ul>
+<h2 id="2-2-方式二（bridge-模式）"><a href="#2-2-方式二（bridge-模式）" class="headerlink" title="2.2 方式二（bridge 模式）"></a>2.2 方式二（bridge 模式）</h2><p>运行完后退出容器：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -it --name=<span class="built_in">test</span> ubuntu</span><br></pre></td></tr></table></figure></div>
+
+<p>这里同样需要修改<code>.bashrc</code>文件，但是代理地址不再是宿主机的本地回环地址了，惹事宿主机的实际 <code>ip</code>地址。</p>
+<p>查询宿主机的<code>ip</code>地址：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">ip a</span><br><span class="line"></span><br><span class="line"><span class="comment"># 或者</span></span><br><span class="line">ifconfig</span><br></pre></td></tr></table></figure></div>
+
+<p>编辑<code>.bashrc</code>文件：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">kate ~/.bashrc</span><br></pre></td></tr></table></figure></div>
+
+<p>打开后在里面添加：</p>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line"># where proxy</span><br><span class="line">proxy()&#123;</span><br><span class="line">  export http_proxy=&quot;http://&lt;宿主机的 ip 地址&gt;:7890&quot;</span><br><span class="line">  export https_proxy=&quot;http://&lt;宿主机的 ip 地址&gt;:7890&quot;</span><br><span class="line">  echo &quot;HTTP Proxy on&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># where noproxy</span><br><span class="line">noproxy()&#123;</span><br><span class="line">  unset http_proxy</span><br><span class="line">  unset https_proxy</span><br><span class="line">  echo &quot;HTTP Proxy off&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="2-2-1-原理"><a href="#2-2-1-原理" class="headerlink" title="2.2.1 原理"></a>2.2.1 原理</h3><p>如果是在桥接模式下在容器中使用 <code>127.0.0.1</code> 来访问宿主机的服务（如代理服务），这个 IP 地址将指向容器本身，而不是宿主机。因此要让容器访问宿主机上的服务（例如宿主机上的代理服务），应该使用宿主机的实际 IP 地址，或者在 Docker 中使用特定的地址来实现宿主机的访问。</p>
+]]></content>
+      <tags>
+        <tag>docker</tag>
+        <tag>proxy</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>EndeavourOS 使用记录</title>
     <url>/2024/07/18/EndeavourOS/</url>
     <content><![CDATA[<h1 id="一、N卡驱动"><a href="#一、N卡驱动" class="headerlink" title="一、N卡驱动"></a>一、N卡驱动</h1><p><code>EndeavourOS</code>对N卡用户的支持比较友好，在安装该系统时，选择有<code>Nvidia</code>那一行的进行安装即可，会自动安装最新的适应当前显卡的闭源驱动。如果是<code>Arch Linux</code>，建议看这篇文章，同时提到有双显卡如何进行切换 <a class="link"   href="https://archlinuxstudio.github.io/ArchLinuxTutorial/#/" >Arch Linux 安装使用教程 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>，如果是<code>Arch</code>系其它发行版（像<code>Manjaro</code>），请自行找教程，这里提到的方式不一定适用你。</p>
@@ -912,87 +990,9 @@
       </tags>
   </entry>
   <entry>
-    <title>在 Docker 容器中使用宿主机的代理</title>
-    <url>/2024/08/16/Dokcer%E5%AE%B9%E5%99%A8%E4%BB%A3%E7%90%86/</url>
-    <content><![CDATA[<h1 id="1-拉取镜像"><a href="#1-拉取镜像" class="headerlink" title="1.拉取镜像"></a>1.拉取镜像</h1><p>这里以<code>ubuntu</code>镜像为例子：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker pull ubuntu</span><br></pre></td></tr></table></figure></div>
-
-<h1 id="2-容器内配置代理的方式"><a href="#2-容器内配置代理的方式" class="headerlink" title="2.容器内配置代理的方式"></a>2.容器内配置代理的方式</h1><h2 id="2-1-方式一（host-模式）"><a href="#2-1-方式一（host-模式）" class="headerlink" title="2.1 方式一（host 模式）"></a>2.1 方式一（host 模式）</h2><p>运行完后退出容器：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker  run -it --name=<span class="built_in">test</span> --network=host ubuntu</span><br></pre></td></tr></table></figure></div>
-
-<p>因为在容器里默认是没有安装编辑器的，要么通过在容器内下载（<code>apt install vi</code>），要么通过在宿主机里对文件进行编辑后再通过<code>docker cp</code>复制到容器里。</p>
-<p>编辑宿主机的<code>.bashrc</code>文件，在里面添加代理配置：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">kate ~/.bashrc</span><br></pre></td></tr></table></figure></div>
-
-<p>打开后在里面添加：</p>
-<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line"># where proxy</span><br><span class="line">proxy()&#123;</span><br><span class="line">  export http_proxy=&quot;http://127.0.0.1:7890&quot;</span><br><span class="line">  export https_proxy=&quot;http://127.0.0.1:7890&quot;</span><br><span class="line">  echo &quot;HTTP Proxy on&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># where noproxy</span><br><span class="line">noproxy()&#123;</span><br><span class="line">  unset http_proxy</span><br><span class="line">  unset https_proxy</span><br><span class="line">  echo &quot;HTTP Proxy off&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
-<p><code>7890</code>是<code>clash</code>的代理端口。</p>
-<p>然后把<code>.bashrc</code>复制到<code>test</code>容器的<code>/root</code>下：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker <span class="built_in">cp</span> ~/.bashrc <span class="built_in">test</span>:/root/</span><br></pre></td></tr></table></figure></div>
-
-<p>可以重启下容器：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker restart <span class="built_in">test</span></span><br></pre></td></tr></table></figure></div>
-
-<p>进入容器：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it <span class="built_in">test</span> bash</span><br></pre></td></tr></table></figure></div>
-
-<p>开启并查看代理：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 开启代理</span></span><br><span class="line">proxy</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看代理</span></span><br><span class="line"><span class="built_in">env</span> | grep -i proxy</span><br></pre></td></tr></table></figure></div>
-
-<h3 id="2-1-1-原理"><a href="#2-1-1-原理" class="headerlink" title="2.1.1 原理"></a>2.1.1 原理</h3><p><em><strong>一、<code>host</code> 网络模式的特点</strong></em></p>
-<ol>
-<li><p><strong>共享网络堆栈</strong> ：</p>
-<ul>
-<li>容器与宿主机共享网络堆栈，因此容器和宿主机的网络接口和端口是直接共享的。</li>
-<li>容器中的服务可以直接通过宿主机的 IP 地址和端口访问，不需要额外的端口映射。</li>
-</ul>
-</li>
-<li><p><strong>无需端口映射</strong>：</p>
-<ul>
-<li>在 <code>host</code> 网络模式下，你不需要使用 <code>-p</code> 或 <code>--publish</code> 选项来映射端口。</li>
-<li>容器中的服务将直接监听宿主机的端口，可以通过宿主机的 IP 地址直接访问。</li>
-</ul>
-</li>
-<li><p><strong>网络性能</strong> ：</p>
-<ul>
-<li>由于没有虚拟网络桥接的开销，<code>host</code> 网络模式通常提供更高的网络性能。</li>
-</ul>
-</li>
-<li><p><strong>网络隔离</strong> ：</p>
-<ul>
-<li>使用 <code>host</code> 网络模式时，容器与宿主机网络没有隔离，这意味着容器可以访问宿主机上所有可访问的网络资源，也可能对宿主机网络造成安全风险。</li>
-</ul>
-</li>
-</ol>
-<p><em><strong>二、注意事项</strong></em></p>
-<ul>
-<li><strong>安全性</strong> ：由于容器与宿主机共享网络，容器可能会有更大的安全风险，因为它可以直接访问宿主机的网络资源。</li>
-<li><strong>网络冲突</strong> ：如果容器和宿主机上的应用程序尝试监听相同的端口，可能会发生端口冲突。</li>
-</ul>
-<h2 id="2-2-方式二（bridge-模式）"><a href="#2-2-方式二（bridge-模式）" class="headerlink" title="2.2 方式二（bridge 模式）"></a>2.2 方式二（bridge 模式）</h2><p>运行完后退出容器：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -it --name=<span class="built_in">test</span> ubuntu</span><br></pre></td></tr></table></figure></div>
-
-<p>这里同样需要修改<code>.bashrc</code>文件，但是代理地址不再是宿主机的本地回环地址了，惹事宿主机的实际 <code>ip</code>地址。</p>
-<p>查询宿主机的<code>ip</code>地址：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">ip a</span><br><span class="line"></span><br><span class="line"><span class="comment"># 或者</span></span><br><span class="line">ifconfig</span><br></pre></td></tr></table></figure></div>
-
-<p>编辑<code>.bashrc</code>文件：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">kate ~/.bashrc</span><br></pre></td></tr></table></figure></div>
-
-<p>打开后在里面添加：</p>
-<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line"># where proxy</span><br><span class="line">proxy()&#123;</span><br><span class="line">  export http_proxy=&quot;http://&lt;宿主机的 ip 地址&gt;:7890&quot;</span><br><span class="line">  export https_proxy=&quot;http://&lt;宿主机的 ip 地址&gt;:7890&quot;</span><br><span class="line">  echo &quot;HTTP Proxy on&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># where noproxy</span><br><span class="line">noproxy()&#123;</span><br><span class="line">  unset http_proxy</span><br><span class="line">  unset https_proxy</span><br><span class="line">  echo &quot;HTTP Proxy off&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
-
-<h3 id="2-2-1-原理"><a href="#2-2-1-原理" class="headerlink" title="2.2.1 原理"></a>2.2.1 原理</h3><p>如果是在桥接模式下在容器中使用 <code>127.0.0.1</code> 来访问宿主机的服务（如代理服务），这个 IP 地址将指向容器本身，而不是宿主机。因此要让容器访问宿主机上的服务（例如宿主机上的代理服务），应该使用宿主机的实际 IP 地址，或者在 Docker 中使用特定的地址来实现宿主机的访问。</p>
-]]></content>
-      <tags>
-        <tag>docker</tag>
-        <tag>proxy</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Git教程</title>
     <url>/2024/07/19/Git%E6%95%99%E7%A8%8B/</url>
-    <content><![CDATA[<h1 id="一、-SSH-密钥"><a href="#一、-SSH-密钥" class="headerlink" title="一、 SSH 密钥"></a>一、 SSH 密钥</h1><p>需要提前安装好<code>OpenSSH</code>:</p>
+    <content><![CDATA[<h1 id="一、-SSH-连接"><a href="#一、-SSH-连接" class="headerlink" title="一、 SSH 连接"></a>一、 SSH 连接</h1><p>需要提前安装好<code>OpenSSH</code>:</p>
 <div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S openssh</span><br></pre></td></tr></table></figure></div>
 
 <h2 id="1-1-生成-SSH-密钥"><a href="#1-1-生成-SSH-密钥" class="headerlink" title="1.1 生成 SSH 密钥"></a>1.1 生成 SSH 密钥</h2><p>如果还没有 SSH 密钥，可以生成一个：</p>
@@ -1015,32 +1015,46 @@
 <li>在左侧菜单中选择“<a class="link"   href="https://github.com/settings/keys" >SSH and GPG keys 设置页面 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>”。</li>
 <li>点击“New SSH key”，粘贴你的公钥并保存。</li>
 </ol>
+<h2 id="1-3-连接验证"><a href="#1-3-连接验证" class="headerlink" title="1.3 连接验证"></a>1.3 连接验证</h2><p>用于检查是否能与远程的 GitHub 仓库进行连接。</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure></div>
+<p>加上<code>-v</code>参数可以显示更详细的连接信息。</p>
 <h2 id="1-3-配置仓库使用-SSH-URL"><a href="#1-3-配置仓库使用-SSH-URL" class="headerlink" title="1.3 配置仓库使用 SSH URL"></a>1.3 配置仓库使用 SSH URL</h2><ol>
 <li>更新远程仓库的 URL 以使用 SSH：</li>
 </ol>
 <div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">git remote set-url origin git@github.com:loskyertt/Recorder_Backup.git</span><br></pre></td></tr></table></figure></div>
 
-<h2 id="1-4-推送更改"><a href="#1-4-推送更改" class="headerlink" title="1.4 推送更改"></a>1.4 推送更改</h2><p>现在可以使用 SSH 进行推送：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">git push origin main</span><br></pre></td></tr></table></figure></div>
+<h2 id="1-4-无法连接"><a href="#1-4-无法连接" class="headerlink" title="1.4 无法连接"></a>1.4 无法连接</h2><p>当使用<code>ssh -T git@github.com</code>迟迟未返回连接的信息，这种情况可能是<code>~/.ssh/config</code>配置文件发生损坏或者没有该配置文件。</p>
+<p>修改或创建<code>config</code>配置文件：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">nano ~/.ssh/config</span><br></pre></td></tr></table></figure></div>
 
-
-<h1 id="二、个人访问令牌（Personal-Access-Token，PAT）"><a href="#二、个人访问令牌（Personal-Access-Token，PAT）" class="headerlink" title="二、个人访问令牌（Personal Access Token，PAT）"></a>二、个人访问令牌（Personal Access Token，PAT）</h1><ol>
-<li><p><strong>生成个人访问令牌</strong>：</p>
+<p>添加下面内容：</p>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">Host github.com</span><br><span class="line">  Hostname ssh.github.com</span><br><span class="line">  Port 22</span><br><span class="line">  User git</span><br></pre></td></tr></table></figure></div>
+<p><code>22</code>端口如果不行，可以改成<code>443</code>端口。</p>
+<h1 id="二、个人访问令牌（Personal-Access-Token，PAT）"><a href="#二、个人访问令牌（Personal-Access-Token，PAT）" class="headerlink" title="二、个人访问令牌（Personal Access Token，PAT）"></a>二、个人访问令牌（Personal Access Token，PAT）</h1><p>这种方式主要用于临时快速修改仓库，或者当 SSH 连接不可使用时使用。</p>
+<ol>
+<li><p><strong>生成个人访问令牌：</strong></p>
 <ul>
 <li>登录到你的 GitHub 账户。</li>
 <li>进入 <a class="link"   href="https://github.com/settings/tokens" >GitHub 个人访问令牌设置页面 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>。</li>
 <li>点击 <code>Generate new token</code> 按钮。</li>
-<li>在令牌的描述中输入一个名称。</li>
-<li>选择所需的权限（例如 <code>repo</code>）。</li>
-<li>生成令牌并复制。</li>
+<li>选择 “Personal access tokens” 然后点击 “Generate new token”。</li>
+<li>给令牌一个描述性的名称，选择适当的权限范围（至少需要<code>repo</code>权限）。</li>
+<li>生成令牌并复制（注意： <strong>令牌只会显示一次，请务必保存</strong> ）。</li>
 </ul>
 </li>
-<li><p><strong>使用个人访问令牌进行认证</strong>：</p>
+<li><p><strong>使用个人访问令牌进行认证：</strong></p>
 <ul>
-<li>在你运行 <code>git push</code> 时，会提示你输入用户名和密码。在提示用户名时，输入你的 GitHub 用户名。在提示密码时，输入刚刚生成的个人访问令牌。</li>
+<li>当 Git 提示输入密码时，使用您刚刚创建的个人访问令牌而不是密码。</li>
 </ul>
 </li>
+<li><p><strong>存储凭证（可选但推荐）：</strong><br>为了避免每次都输入令牌，您可以让 Git 记住你的凭证：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global credential.helper store</span><br></pre></td></tr></table></figure></div>
+<p>然后，下一次当您输入令牌时，Git 会记住它。</p>
+</li>
+<li><p><strong>更新远程 URL（如果需要）：</strong><br>如果SSH持续出现问题,您可以暂时使用 HTTPS 方式进行操作。可以通过以下命令将仓库的远程URL改为HTTPS:</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">git remote set-url origin &lt;https://remote-url&gt;</span><br></pre></td></tr></table></figure></div></li>
 </ol>
+<p>一定要记住，个人访问令牌与密码具有相同的权限，因此要像对待密码一样谨慎地保护它。如果你认为令牌可能已经泄露，可以随时在 GitHub 设置中撤销它并生成一个新的。</p>
 <h1 id="三、git基本配置"><a href="#三、git基本配置" class="headerlink" title="三、git基本配置"></a>三、git基本配置</h1><h2 id="3-1-设置用户信息"><a href="#3-1-设置用户信息" class="headerlink" title="3.1 设置用户信息"></a>3.1 设置用户信息</h2><div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global user.name <span class="string">&quot;用户名&quot;</span></span><br><span class="line">git config --global user.email <span class="string">&quot;邮箱&quot;</span></span><br></pre></td></tr></table></figure></div>
 <h2 id="3-2-代理设置"><a href="#3-2-代理设置" class="headerlink" title="3.2 代理设置"></a>3.2 代理设置</h2><p><strong>注：<code>linux</code>只需要在终端配置代理即可。</strong></p>
 <div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global http.proxy socks5://127.0.0.1:<span class="string">&quot;端口&quot;</span></span><br><span class="line">git config --global https.proxy socks5://127.0.0.1:<span class="string">&quot;端口&quot;</span></span><br></pre></td></tr></table></figure></div>
@@ -1383,107 +1397,6 @@
       </tags>
   </entry>
   <entry>
-    <title>MiHomo(Clash Meta) 纯内核使用教程</title>
-    <url>/2024/07/25/MiHomo%E6%95%99%E7%A8%8B/</url>
-    <content><![CDATA[<h1 id="1-前言（说明）"><a href="#1-前言（说明）" class="headerlink" title="1.前言（说明）"></a>1.前言（说明）</h1><p>在 <a class="link"   href="https://github.com/" >github <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a> 上其实有不少的客户端和服务端的软件，如果不喜欢折腾的话，这篇文章可能不怎么适合你，建议直接使用第三方客户端的代理软件。这篇文章主要是记录自己使用 mihomo 的一些心得，因为强迫症的原因，所以是通过 docker 来部署整个代理服务的。当然，用 docker 部署也是有好处的，配置好后可以连同镜像一起打包备份或者<code>push</code>到 <a class="link"   href="https://hub.docker.com/" >Docker Hub <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a> 上，后续电脑环境改变了仍然能使用。</p>
-<h1 id="2-下载必要的文件"><a href="#2-下载必要的文件" class="headerlink" title="2.下载必要的文件"></a>2.下载必要的文件</h1><p>先把存放下载文件的项目文件夹创建好：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> ~/clashmeta &amp;&amp; <span class="built_in">cd</span> clashmeta</span><br></pre></td></tr></table></figure></div>
-<p>后续下载好的文件都放在<code>clashmeta</code>文件夹下。</p>
-<h2 id="2-1-内核"><a href="#2-1-内核" class="headerlink" title="2.1 内核"></a>2.1 内核</h2><p><a class="link"   href="https://github.com/MetaCubeX/mihomo/releases" >稳定版下载地址 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
-<p>我这里用的是 debian 镜像，所以下载的是这个版本：<br><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://s2.loli.net/2024/07/25/n5DSvEiMquTJ7fC.png"
-                      alt="image01.png"
-                ><figcaption>image01.png</figcaption></figure></p>
-<h2 id="2-2-GeoIP-GeoSite-库"><a href="#2-2-GeoIP-GeoSite-库" class="headerlink" title="2.2 GeoIP &amp; GeoSite 库"></a>2.2 GeoIP &amp; GeoSite 库</h2><p><a class="link"   href="https://gcore.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.dat" >GeoIP 库下载 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a><br><a class="link"   href="https://gcore.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geosite.dat" >GeoSite 库下载 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
-<h2 id="2-3-config-yaml-配置文件"><a href="#2-3-config-yaml-配置文件" class="headerlink" title="2.3 config.yaml 配置文件"></a>2.3 config.yaml 配置文件</h2><p><a class="link"   href="https://github.com/loskyertt/clash_meta/blob/master/config.yaml" >config.yaml 下载 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
-<p>需要把<code>config.yaml</code>这部分内容修改以下：<br><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://s2.loli.net/2024/07/25/uwHzqYafTrVlxE2.png"
-                      alt="image02.png"
-                ><figcaption>image02.png</figcaption></figure></p>
-<p>填上自己的机场链接即可。</p>
-<h2 id="2-4-UI-文件"><a href="#2-4-UI-文件" class="headerlink" title="2.4 UI 文件"></a>2.4 UI 文件</h2><p><a class="link"   href="https://github.com/loskyertt/clash_meta/blob/master/ui.tgz" >ui 下载 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
-<h1 id="3-拉取镜像"><a href="#3-拉取镜像" class="headerlink" title="3.拉取镜像"></a>3.拉取镜像</h1><p>mihomo 的作者在 Docker Hub 上是有镜像的，但是里面没有说明文档，不知道怎么用，所以就没用它的镜像。</p>
-<p>直接拉取最新的稳定版本的 debian 镜像即可：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker pull debian</span><br></pre></td></tr></table></figure></div>
-
-<h1 id="4-开始配置"><a href="#4-开始配置" class="headerlink" title="4.开始配置"></a>4.开始配置</h1><h2 id="4-1-创建容器"><a href="#4-1-创建容器" class="headerlink" title="4.1 创建容器"></a>4.1 创建容器</h2><div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -it --name clashmeta -p 7890:7890 -p 9090:9090 -v ~/clashmeta:/root/clashmeta debian:latest /bin/bash</span><br></pre></td></tr></table></figure></div>
-<p>此时直接进入了创建好的容器内部。<br><strong>说明：</strong> 这里的<code>7890</code>端口是代理端口，<code>9090</code>端口是本地网站端口。</p>
-<h2 id="4-2-容器内的操作"><a href="#4-2-容器内的操作" class="headerlink" title="4.2 容器内的操作"></a>4.2 容器内的操作</h2><div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /root/clashmeta</span><br></pre></td></tr></table></figure></div>
-
-<p>执行：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">dpkg -i mihomo-linux-amd64-v1.18.6.deb</span><br></pre></td></tr></table></figure></div>
-<p>把<code>mihomo</code>安装到容器内。可以通过<code>which mihomo</code>来查看是否安装成功。</p>
-<p>开启代理，输入：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">mihomo -d ./</span><br></pre></td></tr></table></figure></div>
-<p>然后打开浏览器输入<code>http://127.0.0.1:9090/ui</code>就能进入代理界面。</p>
-<h1 id="5-使用现成的镜像配置"><a href="#5-使用现成的镜像配置" class="headerlink" title="5.使用现成的镜像配置"></a>5.使用现成的镜像配置</h1><h2 id="5-1-方式一"><a href="#5-1-方式一" class="headerlink" title="5.1 方式一"></a>5.1 方式一</h2><p>如果以上步骤觉得太麻烦，可以使用我推送到 Docker Hub 上的镜像：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker pull loskyertt/clashmeta:debian-v1.8.16</span><br></pre></td></tr></table></figure></div>
-
-<p>然后先创建临时容器：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -it --name=temp loskyertt/clashmeta:debian-v1.8.16 /bin/bash</span><br></pre></td></tr></table></figure></div>
-<p>然后输入<code>exit</code>退出。</p>
-<p>把<code>clashmeta</code>文件复制到宿主机：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker <span class="built_in">cp</span> temp:/root/clashmeta_backup/ ~/</span><br></pre></td></tr></table></figure></div>
-
-<p>重命名：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mv</span> clashmeta_backup clashmeta</span><br></pre></td></tr></table></figure></div>
-
-<p>可以把该临时容器停止并删除：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker stop temp &amp;&amp; docker <span class="built_in">rm</span> temp</span><br></pre></td></tr></table></figure></div>
-
-<p>重新创建一个容器，可以实现代理（记得修改<code>config.yml</code>文件）：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -it --name clashmeta -p 7890:7890 -p 9090:9090 -v ~/clashmeta:/root/clashmeta loskyertt/clashmeta:debian-v1.8.16 /bin/bash</span><br></pre></td></tr></table></figure></div>
-
-<p>开启代理</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /root/clashmeta</span><br><span class="line"></span><br><span class="line">mihomo -d ./</span><br></pre></td></tr></table></figure></div>
-<p>然后打开浏览器输入<code>http://127.0.0.1:9090/ui</code>就能进入代理界面。</p>
-<h2 id="5-2-方式二（推荐）"><a href="#5-2-方式二（推荐）" class="headerlink" title="5.2 方式二（推荐）"></a>5.2 方式二（推荐）</h2><p>还是使用现成的镜像：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker pull loskyertt/clashmeta:1.8.16</span><br></pre></td></tr></table></figure></div>
-
-<p>直接创建容器：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -itd --restart always --name clashmeta --workdir /clashmeta/ -p 7890:7890 -p 9090:9090 loskyertt/clashmeta:1.8.16 mihomo -d ./</span><br></pre></td></tr></table></figure></div>
-
-<p>把配置文件复制到主机当前目录：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker <span class="built_in">cp</span> clashmeta:/clashmeta/config.yaml .</span><br></pre></td></tr></table></figure></div>
-
-<p>修改配置文件，在里面填入自己的订阅链接，然后重新把配置文件复制进去覆盖掉：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker <span class="built_in">cp</span> config.yaml clashmeta:/clashmeta/</span><br></pre></td></tr></table></figure></div>
-
-<p>重启容器：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker restart clashmeta</span><br></pre></td></tr></table></figure></div>
-<p>然后打开浏览器输入<code>http://127.0.0.1:9090/ui</code>就能进入代理界面。</p>
-<h1 id="6-结果图"><a href="#6-结果图" class="headerlink" title="6.结果图"></a>6.结果图</h1><p><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://s2.loli.net/2024/07/25/ulftdepWhZK3YR4.png"
-                      alt="image03.png"
-                ><figcaption>image03.png</figcaption></figure></p>
-<p><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://s2.loli.net/2024/07/25/qxW3TZfYP5lBS9p.png"
-                      alt="image04.png"
-                ><figcaption>image04.png</figcaption></figure></p>
-<h1 id="7-注意事项"><a href="#7-注意事项" class="headerlink" title="7.注意事项"></a>7.注意事项</h1><p>如果发现仍然不能科学上网，可以打开“设置”检查下“代理设置”，手动设置代理地址和端口<code>127.0.0.1:7890</code>（火狐浏览器可能需要在内置的浏览器设置中进行配置下）。对于 Windows 用户来说，其实操作逻辑都是一样的（当然也可以不用 docker ），配置完后注意设置防火墙就行。</p>
-<h1 id="8-参考教程"><a href="#8-参考教程" class="headerlink" title="8.参考教程"></a>8.参考教程</h1><ul>
-<li><a class="link"   href="https://www.youtube.com/watch?v=d-2vCYLjXHs&t=23s" >【进阶使用】Clash Meta 纯内核使用教程|多机场融合|规则自动更新|Tun虚拟网卡模式|避免DNS泄露|WebRTC泄露 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>科学上网</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-        <tag>proxy</tag>
-        <tag>linux</tag>
-        <tag>clash</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Linux 指令</title>
     <url>/2024/07/24/Linux%E6%8C%87%E4%BB%A4/</url>
     <content><![CDATA[<h1 id="一、包管理器"><a href="#一、包管理器" class="headerlink" title="一、包管理器"></a>一、包管理器</h1><h2 id="1-1-介绍"><a href="#1-1-介绍" class="headerlink" title="1.1 介绍"></a>1.1 介绍</h2><p>  在 <code>EndeavouOS</code>（以及其他基于<code>Arch</code>的发行版）中，<code>pacman</code> 是一个用于软件包管理的命令行工具。下面是 <code>pacman</code> 命令的详细解释：</p>
@@ -1730,6 +1643,107 @@
       </tags>
   </entry>
   <entry>
+    <title>MiHomo(Clash Meta) 纯内核使用教程</title>
+    <url>/2024/07/25/MiHomo%E6%95%99%E7%A8%8B/</url>
+    <content><![CDATA[<h1 id="1-前言（说明）"><a href="#1-前言（说明）" class="headerlink" title="1.前言（说明）"></a>1.前言（说明）</h1><p>在 <a class="link"   href="https://github.com/" >github <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a> 上其实有不少的客户端和服务端的软件，如果不喜欢折腾的话，这篇文章可能不怎么适合你，建议直接使用第三方客户端的代理软件。这篇文章主要是记录自己使用 mihomo 的一些心得，因为强迫症的原因，所以是通过 docker 来部署整个代理服务的。当然，用 docker 部署也是有好处的，配置好后可以连同镜像一起打包备份或者<code>push</code>到 <a class="link"   href="https://hub.docker.com/" >Docker Hub <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a> 上，后续电脑环境改变了仍然能使用。</p>
+<h1 id="2-下载必要的文件"><a href="#2-下载必要的文件" class="headerlink" title="2.下载必要的文件"></a>2.下载必要的文件</h1><p>先把存放下载文件的项目文件夹创建好：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> ~/clashmeta &amp;&amp; <span class="built_in">cd</span> clashmeta</span><br></pre></td></tr></table></figure></div>
+<p>后续下载好的文件都放在<code>clashmeta</code>文件夹下。</p>
+<h2 id="2-1-内核"><a href="#2-1-内核" class="headerlink" title="2.1 内核"></a>2.1 内核</h2><p><a class="link"   href="https://github.com/MetaCubeX/mihomo/releases" >稳定版下载地址 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<p>我这里用的是 debian 镜像，所以下载的是这个版本：<br><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s2.loli.net/2024/07/25/n5DSvEiMquTJ7fC.png"
+                      alt="image01.png"
+                ><figcaption>image01.png</figcaption></figure></p>
+<h2 id="2-2-GeoIP-GeoSite-库"><a href="#2-2-GeoIP-GeoSite-库" class="headerlink" title="2.2 GeoIP &amp; GeoSite 库"></a>2.2 GeoIP &amp; GeoSite 库</h2><p><a class="link"   href="https://gcore.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.dat" >GeoIP 库下载 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a><br><a class="link"   href="https://gcore.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geosite.dat" >GeoSite 库下载 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<h2 id="2-3-config-yaml-配置文件"><a href="#2-3-config-yaml-配置文件" class="headerlink" title="2.3 config.yaml 配置文件"></a>2.3 config.yaml 配置文件</h2><p><a class="link"   href="https://github.com/loskyertt/clash_meta/blob/master/config.yaml" >config.yaml 下载 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<p>需要把<code>config.yaml</code>这部分内容修改以下：<br><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s2.loli.net/2024/07/25/uwHzqYafTrVlxE2.png"
+                      alt="image02.png"
+                ><figcaption>image02.png</figcaption></figure></p>
+<p>填上自己的机场链接即可。</p>
+<h2 id="2-4-UI-文件"><a href="#2-4-UI-文件" class="headerlink" title="2.4 UI 文件"></a>2.4 UI 文件</h2><p><a class="link"   href="https://github.com/loskyertt/clash_meta/blob/master/ui.tgz" >ui 下载 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<h1 id="3-拉取镜像"><a href="#3-拉取镜像" class="headerlink" title="3.拉取镜像"></a>3.拉取镜像</h1><p>mihomo 的作者在 Docker Hub 上是有镜像的，但是里面没有说明文档，不知道怎么用，所以就没用它的镜像。</p>
+<p>直接拉取最新的稳定版本的 debian 镜像即可：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker pull debian</span><br></pre></td></tr></table></figure></div>
+
+<h1 id="4-开始配置"><a href="#4-开始配置" class="headerlink" title="4.开始配置"></a>4.开始配置</h1><h2 id="4-1-创建容器"><a href="#4-1-创建容器" class="headerlink" title="4.1 创建容器"></a>4.1 创建容器</h2><div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -it --name clashmeta -p 7890:7890 -p 9090:9090 -v ~/clashmeta:/root/clashmeta debian:latest /bin/bash</span><br></pre></td></tr></table></figure></div>
+<p>此时直接进入了创建好的容器内部。<br><strong>说明：</strong> 这里的<code>7890</code>端口是代理端口，<code>9090</code>端口是本地网站端口。</p>
+<h2 id="4-2-容器内的操作"><a href="#4-2-容器内的操作" class="headerlink" title="4.2 容器内的操作"></a>4.2 容器内的操作</h2><div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /root/clashmeta</span><br></pre></td></tr></table></figure></div>
+
+<p>执行：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">dpkg -i mihomo-linux-amd64-v1.18.6.deb</span><br></pre></td></tr></table></figure></div>
+<p>把<code>mihomo</code>安装到容器内。可以通过<code>which mihomo</code>来查看是否安装成功。</p>
+<p>开启代理，输入：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">mihomo -d ./</span><br></pre></td></tr></table></figure></div>
+<p>然后打开浏览器输入<code>http://127.0.0.1:9090/ui</code>就能进入代理界面。</p>
+<h1 id="5-使用现成的镜像配置"><a href="#5-使用现成的镜像配置" class="headerlink" title="5.使用现成的镜像配置"></a>5.使用现成的镜像配置</h1><h2 id="5-1-方式一"><a href="#5-1-方式一" class="headerlink" title="5.1 方式一"></a>5.1 方式一</h2><p>如果以上步骤觉得太麻烦，可以使用我推送到 Docker Hub 上的镜像：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker pull loskyertt/clashmeta:debian-v1.8.16</span><br></pre></td></tr></table></figure></div>
+
+<p>然后先创建临时容器：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -it --name=temp loskyertt/clashmeta:debian-v1.8.16 /bin/bash</span><br></pre></td></tr></table></figure></div>
+<p>然后输入<code>exit</code>退出。</p>
+<p>把<code>clashmeta</code>文件复制到宿主机：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker <span class="built_in">cp</span> temp:/root/clashmeta_backup/ ~/</span><br></pre></td></tr></table></figure></div>
+
+<p>重命名：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mv</span> clashmeta_backup clashmeta</span><br></pre></td></tr></table></figure></div>
+
+<p>可以把该临时容器停止并删除：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker stop temp &amp;&amp; docker <span class="built_in">rm</span> temp</span><br></pre></td></tr></table></figure></div>
+
+<p>重新创建一个容器，可以实现代理（记得修改<code>config.yml</code>文件）：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -it --name clashmeta -p 7890:7890 -p 9090:9090 -v ~/clashmeta:/root/clashmeta loskyertt/clashmeta:debian-v1.8.16 /bin/bash</span><br></pre></td></tr></table></figure></div>
+
+<p>开启代理</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /root/clashmeta</span><br><span class="line"></span><br><span class="line">mihomo -d ./</span><br></pre></td></tr></table></figure></div>
+<p>然后打开浏览器输入<code>http://127.0.0.1:9090/ui</code>就能进入代理界面。</p>
+<h2 id="5-2-方式二（推荐）"><a href="#5-2-方式二（推荐）" class="headerlink" title="5.2 方式二（推荐）"></a>5.2 方式二（推荐）</h2><p>还是使用现成的镜像：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker pull loskyertt/clashmeta:1.8.16</span><br></pre></td></tr></table></figure></div>
+
+<p>直接创建容器：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -itd --restart always --name clashmeta --workdir /clashmeta/ -p 7890:7890 -p 9090:9090 loskyertt/clashmeta:1.8.16 mihomo -d ./</span><br></pre></td></tr></table></figure></div>
+
+<p>把配置文件复制到主机当前目录：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker <span class="built_in">cp</span> clashmeta:/clashmeta/config.yaml .</span><br></pre></td></tr></table></figure></div>
+
+<p>修改配置文件，在里面填入自己的订阅链接，然后重新把配置文件复制进去覆盖掉：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker <span class="built_in">cp</span> config.yaml clashmeta:/clashmeta/</span><br></pre></td></tr></table></figure></div>
+
+<p>重启容器：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker restart clashmeta</span><br></pre></td></tr></table></figure></div>
+<p>然后打开浏览器输入<code>http://127.0.0.1:9090/ui</code>就能进入代理界面。</p>
+<h1 id="6-结果图"><a href="#6-结果图" class="headerlink" title="6.结果图"></a>6.结果图</h1><p><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s2.loli.net/2024/07/25/ulftdepWhZK3YR4.png"
+                      alt="image03.png"
+                ><figcaption>image03.png</figcaption></figure></p>
+<p><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s2.loli.net/2024/07/25/qxW3TZfYP5lBS9p.png"
+                      alt="image04.png"
+                ><figcaption>image04.png</figcaption></figure></p>
+<h1 id="7-注意事项"><a href="#7-注意事项" class="headerlink" title="7.注意事项"></a>7.注意事项</h1><p>如果发现仍然不能科学上网，可以打开“设置”检查下“代理设置”，手动设置代理地址和端口<code>127.0.0.1:7890</code>（火狐浏览器可能需要在内置的浏览器设置中进行配置下）。对于 Windows 用户来说，其实操作逻辑都是一样的（当然也可以不用 docker ），配置完后注意设置防火墙就行。</p>
+<h1 id="8-参考教程"><a href="#8-参考教程" class="headerlink" title="8.参考教程"></a>8.参考教程</h1><ul>
+<li><a class="link"   href="https://www.youtube.com/watch?v=d-2vCYLjXHs&t=23s" >【进阶使用】Clash Meta 纯内核使用教程|多机场融合|规则自动更新|Tun虚拟网卡模式|避免DNS泄露|WebRTC泄露 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>科学上网</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>linux</tag>
+        <tag>proxy</tag>
+        <tag>clash</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Win10 SSH 服务配置</title>
     <url>/2024/07/30/Openssh%E9%85%8D%E7%BD%AE/</url>
     <content><![CDATA[<h1 id="1-Windows-10-下安装-SSH-服务（Openssh）"><a href="#1-Windows-10-下安装-SSH-服务（Openssh）" class="headerlink" title="1.Windows 10 下安装 SSH 服务（Openssh）"></a>1.Windows 10 下安装 SSH 服务（Openssh）</h1><h2 id="1-1-下载"><a href="#1-1-下载" class="headerlink" title="1.1 下载"></a>1.1 下载</h2><p><a href="https://github.com/PowerShell/Win32-OpenSSH"> <strong>Openssh 下载地址</strong> </a></p>
@@ -1891,6 +1905,36 @@
       </tags>
   </entry>
   <entry>
+    <title>VirtualBox 实现主机与虚拟机（CachyOS）传文件</title>
+    <url>/2024/08/01/VirtualBox%E4%B8%BB%E6%9C%BA%E4%B8%8E%E8%99%9A%E6%8B%9F%E6%9C%BA%E9%97%B4%E4%BC%A0%E6%96%87%E4%BB%B6/</url>
+    <content><![CDATA[<h1 id="1-VirtualBox-中实现主机与虚拟机之间传输文件"><a href="#1-VirtualBox-中实现主机与虚拟机之间传输文件" class="headerlink" title="1.VirtualBox 中实现主机与虚拟机之间传输文件"></a>1.VirtualBox 中实现主机与虚拟机之间传输文件</h1><h2 id="1-1-VirtualBox-中的设置"><a href="#1-1-VirtualBox-中的设置" class="headerlink" title="1.1 VirtualBox 中的设置"></a>1.1 VirtualBox 中的设置</h2><p>如图所示：</p>
+<ul>
+<li><p>进入虚拟机的设置：<br><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://im.gurl.eu.org/file/b852b7e357c0db8eb549d.png"
+                      alt="图一"
+                ><figcaption>图一</figcaption></figure></p>
+</li>
+<li><p>创建主机挂载目录：<br><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://im.gurl.eu.org/file/a6030bd1051ef5e2c8ced.png"
+                      alt="图二"
+                ><figcaption>图二</figcaption></figure></p>
+</li>
+</ul>
+<h2 id="1-2-虚拟机中的设置"><a href="#1-2-虚拟机中的设置" class="headerlink" title="1.2 虚拟机中的设置"></a>1.2 虚拟机中的设置</h2><p>在虚拟机中创建共享目录：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> ~/share -p</span><br></pre></td></tr></table></figure></div>
+
+<p>将主机的那个共享目录挂载到<code>~/share</code>文件夹下：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> mount -t vboxsf CachyOS_share ~/share/</span><br></pre></td></tr></table></figure></div>
+]]></content>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Zerotier 使用教程</title>
     <url>/2024/08/18/Zerotier%E6%95%99%E7%A8%8B/</url>
     <content><![CDATA[<h1 id="1-登录或注册-Zerotier-官网帐号"><a href="#1-登录或注册-Zerotier-官网帐号" class="headerlink" title="1.登录或注册 Zerotier 官网帐号"></a>1.登录或注册 Zerotier 官网帐号</h1><p><a class="link"   href="https://www.zerotier.com/" >官网地址 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
@@ -1937,96 +1981,6 @@
         <tag>linux</tag>
         <tag>ssh</tag>
         <tag>内网穿透</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>VirtualBox 实现主机与虚拟机（CachyOS）传文件</title>
-    <url>/2024/08/01/VirtualBox%E4%B8%BB%E6%9C%BA%E4%B8%8E%E8%99%9A%E6%8B%9F%E6%9C%BA%E9%97%B4%E4%BC%A0%E6%96%87%E4%BB%B6/</url>
-    <content><![CDATA[<h1 id="1-VirtualBox-中实现主机与虚拟机之间传输文件"><a href="#1-VirtualBox-中实现主机与虚拟机之间传输文件" class="headerlink" title="1.VirtualBox 中实现主机与虚拟机之间传输文件"></a>1.VirtualBox 中实现主机与虚拟机之间传输文件</h1><h2 id="1-1-VirtualBox-中的设置"><a href="#1-1-VirtualBox-中的设置" class="headerlink" title="1.1 VirtualBox 中的设置"></a>1.1 VirtualBox 中的设置</h2><p>如图所示：</p>
-<ul>
-<li><p>进入虚拟机的设置：<br><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://im.gurl.eu.org/file/b852b7e357c0db8eb549d.png"
-                      alt="图一"
-                ><figcaption>图一</figcaption></figure></p>
-</li>
-<li><p>创建主机挂载目录：<br><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://im.gurl.eu.org/file/a6030bd1051ef5e2c8ced.png"
-                      alt="图二"
-                ><figcaption>图二</figcaption></figure></p>
-</li>
-</ul>
-<h2 id="1-2-虚拟机中的设置"><a href="#1-2-虚拟机中的设置" class="headerlink" title="1.2 虚拟机中的设置"></a>1.2 虚拟机中的设置</h2><p>在虚拟机中创建共享目录：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> ~/share -p</span><br></pre></td></tr></table></figure></div>
-
-<p>将主机的那个共享目录挂载到<code>~/share</code>文件夹下：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> mount -t vboxsf CachyOS_share ~/share/</span><br></pre></td></tr></table></figure></div>
-]]></content>
-      <tags>
-        <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>解决 Linux 下使用 matplotlib 中文乱码问题</title>
-    <url>/2024/09/14/linux-matplotli%E4%B9%B1%E7%A0%81%E8%A7%A3%E5%86%B3/</url>
-    <content><![CDATA[<h1 id="1-出现的问题"><a href="#1-出现的问题" class="headerlink" title="1.出现的问题"></a>1.出现的问题</h1><p>以下面这个代码为例：</p>
-<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line">x = np.arange(<span class="number">1</span>, <span class="number">12</span>)</span><br><span class="line">y = x ** <span class="number">2</span> + <span class="number">4</span></span><br><span class="line">plt.title(<span class="string">&quot;Matplotlib demo&quot;</span>)</span><br><span class="line">plt.xlabel(<span class="string">&quot;时间(分钟)&quot;</span>)</span><br><span class="line">plt.ylabel(<span class="string">&quot;金额($)&quot;</span>)</span><br><span class="line">plt.plot(x,y)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure></div>
-
-
-<p>在 Linux 下使用 Python 的<code>matplotlib</code>包默认是会出现乱码的：<br><a href="https://imgse.com/i/pAuEYVI"><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://s21.ax1x.com/2024/09/14/pAuEYVI.png"
-                      alt="乱码.png"
-                ><figcaption>乱码.png</figcaption></figure></a></p>
-<h1 id="2-解决方法"><a href="#2-解决方法" class="headerlink" title="2.解决方法"></a>2.解决方法</h1><h2 id="2-1-下载字体"><a href="#2-1-下载字体" class="headerlink" title="2.1 下载字体"></a>2.1 下载字体</h2><p>网上常用的中文字体是<code>SimHei</code>，<a class="link"   href="https://github.com/StellarCN/scp_zh/blob/master/fonts/SimHei.ttf" >下载地址 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
-<h2 id="2-2-查找存放字体的文件夹"><a href="#2-2-查找存放字体的文件夹" class="headerlink" title="2.2 查找存放字体的文件夹"></a>2.2 查找存放字体的文件夹</h2><div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib</span><br><span class="line"> </span><br><span class="line"><span class="built_in">print</span>(matplotlib.matplotlib_fname())   <span class="comment"># 查找字体路径</span></span><br></pre></td></tr></table></figure></div>
-<p>运行这段代码会打印出字体存放路径，如：</p>
-<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">/home/sky/miniconda3/envs/test/lib/python3.12/site-packages/matplotlib/mpl-data/matplotlibrc</span><br></pre></td></tr></table></figure></div>
-<p>删掉<code>matplotlibrc</code>这部分后然后进入目录下：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /home/sky/miniconda3/envs/test/lib/python3.12/site-packages/matplotlib/mpl-data/</span><br></pre></td></tr></table></figure></div>
-
-<p>然后进入存放字体的目录：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> fonts/ttf </span><br></pre></td></tr></table></figure></div>
-
-<p>把下载好的字体文件<code>SimHei.ttf</code>复制到<code>ttf</code>目录下：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cp</span> ~/下载/SimHei.ttf .  </span><br></pre></td></tr></table></figure></div>
-
-<p>然后回到<code>mpl-data</code>目录下，修改<code>matplotlibrc</code>文件：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">nano matplotlibrc</span><br></pre></td></tr></table></figure></div>
-
-<p>找到<code>font.serif</code>，<code>font.sans-serif</code>所在位置，如下如所示。在冒号后面加入<code>SimHei</code>，保存退出：<br><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://ask.qcloudimg.com/http-save/7111610/0607e838f2d09fae745de8c5950949ef.png"
-                      alt="修改的地方"
-                ><figcaption>修改的地方</figcaption></figure></p>
-<h2 id="2-3-清理缓存"><a href="#2-3-清理缓存" class="headerlink" title="2.3 清理缓存"></a>2.3 清理缓存</h2><p>查找缓存位置：</p>
-<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib    </span><br><span class="line"><span class="built_in">print</span>(matplotlib.get_cachedir())</span><br></pre></td></tr></table></figure></div>
-
-<p>把缓存文件删除即可：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">rm</span> ~/.cache/matplotlib -rf</span><br></pre></td></tr></table></figure></div>
-
-<h1 id="3-解决示例"><a href="#3-解决示例" class="headerlink" title="3.解决示例"></a>3.解决示例</h1><p><a href="https://imgse.com/i/pAuERiV"><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://s21.ax1x.com/2024/09/14/pAuERiV.png"
-                      alt="正常输出.png"
-                ><figcaption>正常输出.png</figcaption></figure></a></p>
-<h2 id="3-1-参考教程"><a href="#3-1-参考教程" class="headerlink" title="3.1 参考教程"></a>3.1 参考教程</h2><ul>
-<li><a class="link"   href="https://developer.aliyun.com/article/1577567" >【Deepin20系统】Linux系统中永久解决matplotlib画图中文乱码问题和使用seaborn中文乱码问题 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></li>
-<li><a class="link"   href="https://cloud.tencent.com/developer/article/1877673" >解决Python使用matplotlib绘图时出现的中文乱码问题 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>Python</category>
-      </categories>
-      <tags>
-        <tag>linux</tag>
-        <tag>matplotlib</tag>
       </tags>
   </entry>
   <entry>
@@ -2085,6 +2039,66 @@
 ]]></content>
       <tags>
         <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>解决 Linux 下使用 matplotlib 中文乱码问题</title>
+    <url>/2024/09/14/linux-matplotli%E4%B9%B1%E7%A0%81%E8%A7%A3%E5%86%B3/</url>
+    <content><![CDATA[<h1 id="1-出现的问题"><a href="#1-出现的问题" class="headerlink" title="1.出现的问题"></a>1.出现的问题</h1><p>以下面这个代码为例：</p>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line">x = np.arange(<span class="number">1</span>, <span class="number">12</span>)</span><br><span class="line">y = x ** <span class="number">2</span> + <span class="number">4</span></span><br><span class="line">plt.title(<span class="string">&quot;Matplotlib demo&quot;</span>)</span><br><span class="line">plt.xlabel(<span class="string">&quot;时间(分钟)&quot;</span>)</span><br><span class="line">plt.ylabel(<span class="string">&quot;金额($)&quot;</span>)</span><br><span class="line">plt.plot(x,y)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure></div>
+
+
+<p>在 Linux 下使用 Python 的<code>matplotlib</code>包默认是会出现乱码的：<br><a href="https://imgse.com/i/pAuEYVI"><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s21.ax1x.com/2024/09/14/pAuEYVI.png"
+                      alt="乱码.png"
+                ><figcaption>乱码.png</figcaption></figure></a></p>
+<h1 id="2-解决方法"><a href="#2-解决方法" class="headerlink" title="2.解决方法"></a>2.解决方法</h1><h2 id="2-1-下载字体"><a href="#2-1-下载字体" class="headerlink" title="2.1 下载字体"></a>2.1 下载字体</h2><p>网上常用的中文字体是<code>SimHei</code>，<a class="link"   href="https://github.com/StellarCN/scp_zh/blob/master/fonts/SimHei.ttf" >下载地址 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<h2 id="2-2-查找存放字体的文件夹"><a href="#2-2-查找存放字体的文件夹" class="headerlink" title="2.2 查找存放字体的文件夹"></a>2.2 查找存放字体的文件夹</h2><div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(matplotlib.matplotlib_fname())   <span class="comment"># 查找字体路径</span></span><br></pre></td></tr></table></figure></div>
+<p>运行这段代码会打印出字体存放路径，如：</p>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">/home/sky/miniconda3/envs/test/lib/python3.12/site-packages/matplotlib/mpl-data/matplotlibrc</span><br></pre></td></tr></table></figure></div>
+<p>删掉<code>matplotlibrc</code>这部分后然后进入目录下：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /home/sky/miniconda3/envs/test/lib/python3.12/site-packages/matplotlib/mpl-data/</span><br></pre></td></tr></table></figure></div>
+
+<p>然后进入存放字体的目录：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> fonts/ttf</span><br></pre></td></tr></table></figure></div>
+
+<p>把下载好的字体文件<code>SimHei.ttf</code>复制到<code>ttf</code>目录下：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cp</span> ~/下载/SimHei.ttf .</span><br></pre></td></tr></table></figure></div>
+
+<p>然后回到<code>mpl-data</code>目录下，修改<code>matplotlibrc</code>文件：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">nano matplotlibrc</span><br></pre></td></tr></table></figure></div>
+
+<p>找到<code>font.serif</code>，<code>font.sans-serif</code>所在位置，如下如所示。在冒号后面加入<code>SimHei</code>，保存退出：<br><a href="https://imgse.com/i/pAuJFz9"><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s21.ax1x.com/2024/09/15/pAuJFz9.md.png"
+                      alt="修改的地方"
+                ><figcaption>修改的地方</figcaption></figure></a></p>
+<h2 id="2-3-清理缓存"><a href="#2-3-清理缓存" class="headerlink" title="2.3 清理缓存"></a>2.3 清理缓存</h2><p>查找缓存位置：</p>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib</span><br><span class="line"><span class="built_in">print</span>(matplotlib.get_cachedir())</span><br></pre></td></tr></table></figure></div>
+
+<p>把缓存文件删除即可：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">rm</span> ~/.cache/matplotlib -rf</span><br></pre></td></tr></table></figure></div>
+
+<h1 id="3-解决示例"><a href="#3-解决示例" class="headerlink" title="3.解决示例"></a>3.解决示例</h1><p><a href="https://imgse.com/i/pAuERiV"><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s21.ax1x.com/2024/09/14/pAuERiV.png"
+                      alt="正常输出.png"
+                ><figcaption>正常输出.png</figcaption></figure></a></p>
+<h2 id="3-1-参考教程"><a href="#3-1-参考教程" class="headerlink" title="3.1 参考教程"></a>3.1 参考教程</h2><ul>
+<li><a class="link"   href="https://developer.aliyun.com/article/1577567" >【Deepin20系统】Linux系统中永久解决matplotlib画图中文乱码问题和使用seaborn中文乱码问题 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></li>
+<li><a class="link"   href="https://cloud.tencent.com/developer/article/1877673" >解决Python使用matplotlib绘图时出现的中文乱码问题 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Python</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+        <tag>matplotlib</tag>
       </tags>
   </entry>
   <entry>

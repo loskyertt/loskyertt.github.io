@@ -26,10 +26,10 @@
 <meta property="og:description" content="false">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://s21.ax1x.com/2024/09/14/pAuEYVI.png">
-<meta property="og:image" content="https://ask.qcloudimg.com/http-save/7111610/0607e838f2d09fae745de8c5950949ef.png">
+<meta property="og:image" content="https://s21.ax1x.com/2024/09/15/pAuJFz9.md.png">
 <meta property="og:image" content="https://s21.ax1x.com/2024/09/14/pAuERiV.png">
 <meta property="article:published_time" content="2024-09-14T15:01:53.000Z">
-<meta property="article:modified_time" content="2024-09-14T13:25:40.432Z">
+<meta property="article:modified_time" content="2024-09-15T01:52:11.873Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="linux">
 <meta property="article:tag" content="matplotlib">
@@ -501,8 +501,8 @@
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2024-09-14 13:25:40</span>
-            <span class="mobile">2024-09-14 13:25:40</span>
+            <span class="desktop">2024-09-15 01:52:11</span>
+            <span class="mobile">2024-09-15 01:52:11</span>
             <span class="hover-info">Updated</span>
         </span>
     
@@ -544,7 +544,7 @@
     
     
         <span class="article-wordcount article-meta-item">
-            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>362 Words</span>
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>360 Words</span>
         </span>
     
     
@@ -579,29 +579,29 @@
                       alt="乱码.png"
                 ><figcaption>乱码.png</figcaption></figure></a></p>
 <h1 id="2-解决方法"><a href="#2-解决方法" class="headerlink" title="2.解决方法"></a>2.解决方法</h1><h2 id="2-1-下载字体"><a href="#2-1-下载字体" class="headerlink" title="2.1 下载字体"></a>2.1 下载字体</h2><p>网上常用的中文字体是<code>SimHei</code>，<a class="link"   target="_blank" rel="noopener" href="https://github.com/StellarCN/scp_zh/blob/master/fonts/SimHei.ttf" >下载地址 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
-<h2 id="2-2-查找存放字体的文件夹"><a href="#2-2-查找存放字体的文件夹" class="headerlink" title="2.2 查找存放字体的文件夹"></a>2.2 查找存放字体的文件夹</h2><div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib</span><br><span class="line"> </span><br><span class="line"><span class="built_in">print</span>(matplotlib.matplotlib_fname())   <span class="comment"># 查找字体路径</span></span><br></pre></td></tr></table></figure></div>
+<h2 id="2-2-查找存放字体的文件夹"><a href="#2-2-查找存放字体的文件夹" class="headerlink" title="2.2 查找存放字体的文件夹"></a>2.2 查找存放字体的文件夹</h2><div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(matplotlib.matplotlib_fname())   <span class="comment"># 查找字体路径</span></span><br></pre></td></tr></table></figure></div>
 <p>运行这段代码会打印出字体存放路径，如：</p>
 <div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/home/sky/miniconda3/envs/test/lib/python3.12/site-packages/matplotlib/mpl-data/matplotlibrc</span><br></pre></td></tr></table></figure></div>
 <p>删掉<code>matplotlibrc</code>这部分后然后进入目录下：</p>
 <div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /home/sky/miniconda3/envs/test/lib/python3.12/site-packages/matplotlib/mpl-data/</span><br></pre></td></tr></table></figure></div>
 
 <p>然后进入存放字体的目录：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> fonts/ttf </span><br></pre></td></tr></table></figure></div>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> fonts/ttf</span><br></pre></td></tr></table></figure></div>
 
 <p>把下载好的字体文件<code>SimHei.ttf</code>复制到<code>ttf</code>目录下：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cp</span> ~/下载/SimHei.ttf .  </span><br></pre></td></tr></table></figure></div>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cp</span> ~/下载/SimHei.ttf .</span><br></pre></td></tr></table></figure></div>
 
 <p>然后回到<code>mpl-data</code>目录下，修改<code>matplotlibrc</code>文件：</p>
 <div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nano matplotlibrc</span><br></pre></td></tr></table></figure></div>
 
-<p>找到<code>font.serif</code>，<code>font.sans-serif</code>所在位置，如下如所示。在冒号后面加入<code>SimHei</code>，保存退出：<br><figure class="image-caption"><img  
+<p>找到<code>font.serif</code>，<code>font.sans-serif</code>所在位置，如下如所示。在冒号后面加入<code>SimHei</code>，保存退出：<br><a target="_blank" rel="noopener" href="https://imgse.com/i/pAuJFz9"><figure class="image-caption"><img  
                      lazyload
                      src="/images/loading.svg"
-                     data-src="https://ask.qcloudimg.com/http-save/7111610/0607e838f2d09fae745de8c5950949ef.png"
+                     data-src="https://s21.ax1x.com/2024/09/15/pAuJFz9.md.png"
                       alt="修改的地方"
-                ><figcaption>修改的地方</figcaption></figure></p>
+                ><figcaption>修改的地方</figcaption></figure></a></p>
 <h2 id="2-3-清理缓存"><a href="#2-3-清理缓存" class="headerlink" title="2.3 清理缓存"></a>2.3 清理缓存</h2><p>查找缓存位置：</p>
-<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib    </span><br><span class="line"><span class="built_in">print</span>(matplotlib.get_cachedir())</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib</span><br><span class="line"><span class="built_in">print</span>(matplotlib.get_cachedir())</span><br></pre></td></tr></table></figure></div>
 
 <p>把缓存文件删除即可：</p>
 <div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">rm</span> ~/.cache/matplotlib -rf</span><br></pre></td></tr></table></figure></div>
@@ -630,7 +630,7 @@
         
             <li>
                 <strong>Updated at
-                    :</strong> 2024-09-14 13:25:40
+                    :</strong> 2024-09-15 01:52:11
             </li>
         
         <li>
@@ -809,7 +809,7 @@
                     </span>
                     
                         <span>
-                            24.2k words in total
+                            24.5k words in total
                         </span>
                     
                 </p>
