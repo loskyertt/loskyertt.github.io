@@ -29,8 +29,9 @@
 <meta property="og:image" content="https://s21.ax1x.com/2024/09/15/pAuJFz9.md.png">
 <meta property="og:image" content="https://s21.ax1x.com/2024/09/14/pAuERiV.png">
 <meta property="article:published_time" content="2024-09-14T15:01:53.000Z">
-<meta property="article:modified_time" content="2024-09-15T01:52:11.873Z">
+<meta property="article:modified_time" content="2024-09-18T14:32:32.335Z">
 <meta property="article:author" content="John Doe">
+<meta property="article:tag" content="python">
 <meta property="article:tag" content="linux">
 <meta property="article:tag" content="matplotlib">
 <meta name="twitter:card" content="summary">
@@ -443,11 +444,11 @@
         <div class="label text-third-text-color text-sm">Tags</div>
     </a>
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
-        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">5</div>
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">4</div>
         <div class="label text-third-text-color text-sm">Categories</div>
     </a>
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
-        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">28</div>
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">29</div>
         <div class="label text-third-text-color text-sm">Posts</div>
     </a>
 </div>
@@ -501,8 +502,8 @@
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2024-09-15 01:52:11</span>
-            <span class="mobile">2024-09-15 01:52:11</span>
+            <span class="desktop">2024-09-18 14:32:32</span>
+            <span class="mobile">2024-09-18 14:32:32</span>
             <span class="hover-info">Updated</span>
         </span>
     
@@ -516,7 +517,7 @@
                     
                         
                         <li>
-                            <a href="/categories/Python/">Python</a>&nbsp;
+                            <a href="/categories/Python%E6%8A%80%E5%B7%A7/">Python技巧</a>&nbsp;
                         </li>
                     
                     
@@ -530,7 +531,11 @@
             <ul>
                 
                     <li>
-                        <a href="/tags/linux/">linux</a>&nbsp;
+                        <a href="/tags/python/">python</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/linux/">linux</a>&nbsp;
                     </li>
                 
                     <li>
@@ -544,7 +549,7 @@
     
     
         <span class="article-wordcount article-meta-item">
-            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>360 Words</span>
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>362 Words</span>
         </span>
     
     
@@ -579,17 +584,17 @@
                       alt="乱码.png"
                 ><figcaption>乱码.png</figcaption></figure></a></p>
 <h1 id="2-解决方法"><a href="#2-解决方法" class="headerlink" title="2.解决方法"></a>2.解决方法</h1><h2 id="2-1-下载字体"><a href="#2-1-下载字体" class="headerlink" title="2.1 下载字体"></a>2.1 下载字体</h2><p>网上常用的中文字体是<code>SimHei</code>，<a class="link"   target="_blank" rel="noopener" href="https://github.com/StellarCN/scp_zh/blob/master/fonts/SimHei.ttf" >下载地址 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
-<h2 id="2-2-查找存放字体的文件夹"><a href="#2-2-查找存放字体的文件夹" class="headerlink" title="2.2 查找存放字体的文件夹"></a>2.2 查找存放字体的文件夹</h2><div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(matplotlib.matplotlib_fname())   <span class="comment"># 查找字体路径</span></span><br></pre></td></tr></table></figure></div>
+<h2 id="2-2-查找存放字体的文件夹"><a href="#2-2-查找存放字体的文件夹" class="headerlink" title="2.2 查找存放字体的文件夹"></a>2.2 查找存放字体的文件夹</h2><div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib</span><br><span class="line"> </span><br><span class="line"><span class="built_in">print</span>(matplotlib.matplotlib_fname())   <span class="comment"># 查找字体路径</span></span><br></pre></td></tr></table></figure></div>
 <p>运行这段代码会打印出字体存放路径，如：</p>
 <div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/home/sky/miniconda3/envs/test/lib/python3.12/site-packages/matplotlib/mpl-data/matplotlibrc</span><br></pre></td></tr></table></figure></div>
 <p>删掉<code>matplotlibrc</code>这部分后然后进入目录下：</p>
 <div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /home/sky/miniconda3/envs/test/lib/python3.12/site-packages/matplotlib/mpl-data/</span><br></pre></td></tr></table></figure></div>
 
 <p>然后进入存放字体的目录：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> fonts/ttf</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> fonts/ttf </span><br></pre></td></tr></table></figure></div>
 
 <p>把下载好的字体文件<code>SimHei.ttf</code>复制到<code>ttf</code>目录下：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cp</span> ~/下载/SimHei.ttf .</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cp</span> ~/下载/SimHei.ttf .  </span><br></pre></td></tr></table></figure></div>
 
 <p>然后回到<code>mpl-data</code>目录下，修改<code>matplotlibrc</code>文件：</p>
 <div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nano matplotlibrc</span><br></pre></td></tr></table></figure></div>
@@ -601,7 +606,7 @@
                       alt="修改的地方"
                 ><figcaption>修改的地方</figcaption></figure></a></p>
 <h2 id="2-3-清理缓存"><a href="#2-3-清理缓存" class="headerlink" title="2.3 清理缓存"></a>2.3 清理缓存</h2><p>查找缓存位置：</p>
-<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib</span><br><span class="line"><span class="built_in">print</span>(matplotlib.get_cachedir())</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib    </span><br><span class="line"><span class="built_in">print</span>(matplotlib.get_cachedir())</span><br></pre></td></tr></table></figure></div>
 
 <p>把缓存文件删除即可：</p>
 <div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">rm</span> ~/.cache/matplotlib -rf</span><br></pre></td></tr></table></figure></div>
@@ -630,7 +635,7 @@
         
             <li>
                 <strong>Updated at
-                    :</strong> 2024-09-15 01:52:11
+                    :</strong> 2024-09-18 14:32:32
             </li>
         
         <li>
@@ -656,6 +661,10 @@
             <ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
                 
                     <li class="tag-item mx-0.5">
+                        <a href="/tags/python/">#python</a>&nbsp;
+                    </li>
+                
+                    <li class="tag-item mx-0.5">
                         <a href="/tags/linux/">#linux</a>&nbsp;
                     </li>
                 
@@ -675,9 +684,9 @@
     <div class="recommended-article-group"><a class="recommended-article-item" href="/2024/09/17/01Python爬虫/" title="Python 爬虫教程 01" rel="bookmark">
   <img src="/images/wallhaven-wqery6-light.webp" alt="Python 爬虫教程 01" class="!max-w-none">
   <span class="title">Python 爬虫教程 01</span>
-</a><a class="recommended-article-item" href="/2024/09/16/多进程和多线程编程/" title="Python 下的多进程和多线程编程" rel="bookmark">
-  <img src="/images/wallhaven-wqery6-light.webp" alt="Python 下的多进程和多线程编程" class="!max-w-none">
-  <span class="title">Python 下的多进程和多线程编程</span>
+</a><a class="recommended-article-item" href="/2024/09/21/Python-获取代理ip/" title="Python 获取当前代理 IP" rel="bookmark">
+  <img src="/images/wallhaven-wqery6-light.webp" alt="Python 获取当前代理 IP" class="!max-w-none">
+  <span class="title">Python 获取当前代理 IP</span>
 </a><a class="recommended-article-item" href="/2024/07/24/Linux指令/" title="Linux 指令" rel="bookmark">
   <img src="https://softwarelab.org/wp-content/uploads/Linux.jpg" alt="Linux 指令" class="!max-w-none">
   <span class="title">Linux 指令</span>
@@ -690,9 +699,9 @@
    <div class="recommended-article-group"><a class="recommended-article-item" href="/2024/09/17/01Python爬虫/" title="Python 爬虫教程 01" rel="bookmark">
   <img src="/images/wallhaven-wqery6-light.webp" alt="Python 爬虫教程 01" class="!max-w-none">
   <span class="title">Python 爬虫教程 01</span>
-</a><a class="recommended-article-item" href="/2024/09/16/多进程和多线程编程/" title="Python 下的多进程和多线程编程" rel="bookmark">
-  <img src="/images/wallhaven-wqery6-light.webp" alt="Python 下的多进程和多线程编程" class="!max-w-none">
-  <span class="title">Python 下的多进程和多线程编程</span>
+</a><a class="recommended-article-item" href="/2024/09/21/Python-获取代理ip/" title="Python 获取当前代理 IP" rel="bookmark">
+  <img src="/images/wallhaven-wqery6-light.webp" alt="Python 获取当前代理 IP" class="!max-w-none">
+  <span class="title">Python 获取当前代理 IP</span>
 </a></div>
    </div>
   </div>
@@ -703,7 +712,7 @@
                     <div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
                         <a class="prev"
                         rel="prev"
-                        href="/2024/09/16/%E5%A4%9A%E8%BF%9B%E7%A8%8B%E5%92%8C%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B/"
+                        href="/2024/09/16/Python-%E5%A4%9A%E8%BF%9B%E7%A8%8B%E5%92%8C%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B/"
                         >
                             <span class="left arrow-icon flex justify-center items-center">
                                 <i class="fa-solid fa-chevron-left"></i>
@@ -820,11 +829,11 @@
                 
                 <p class="post-count space-x-0.5">
                     <span>
-                        28 posts in total
+                        29 posts in total
                     </span>
                     
                         <span>
-                            30.7k words in total
+                            32k words in total
                         </span>
                     
                 </p>

@@ -31,7 +31,7 @@
 <meta property="og:image" content="https://s2.loli.net/2024/09/17/1JbukLBxFqTNgOm.png">
 <meta property="og:image" content="https://s21.ax1x.com/2024/09/18/pAK8ozd.png">
 <meta property="article:published_time" content="2024-09-17T12:25:45.000Z">
-<meta property="article:modified_time" content="2024-09-18T14:34:01.706Z">
+<meta property="article:modified_time" content="2024-09-19T01:40:57.859Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="python">
 <meta name="twitter:card" content="summary">
@@ -444,11 +444,11 @@
         <div class="label text-third-text-color text-sm">Tags</div>
     </a>
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
-        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">5</div>
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">4</div>
         <div class="label text-third-text-color text-sm">Categories</div>
     </a>
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
-        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">28</div>
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">29</div>
         <div class="label text-third-text-color text-sm">Posts</div>
     </a>
 </div>
@@ -502,8 +502,8 @@
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2024-09-18 14:34:01</span>
-            <span class="mobile">2024-09-18 14:34:01</span>
+            <span class="desktop">2024-09-19 01:40:57</span>
+            <span class="mobile">2024-09-19 01:40:57</span>
             <span class="hover-info">Updated</span>
         </span>
     
@@ -541,12 +541,12 @@
     
     
         <span class="article-wordcount article-meta-item">
-            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>3.4k Words</span>
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>4.5k Words</span>
         </span>
     
     
         <span class="article-min2read article-meta-item">
-            <i class="fa-regular fa-clock"></i>&nbsp;<span>14 Mins</span>
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>18 Mins</span>
         </span>
     
     
@@ -771,6 +771,131 @@
 <p>通过类名来查找：</p>
 <div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">t_list = bs.select(<span class="string">&quot;.mnav&quot;</span>) </span><br></pre></td></tr></table></figure></div>
 <p>在 CSS 中，<code>.（点号）</code>表示选择具有特定类名的元素。<code>.mnav</code>表示选择所有<code>class=&quot;mnav&quot;</code>的元素。</p>
+<h1 id="5-re-包讲解"><a href="#5-re-包讲解" class="headerlink" title="5.re 包讲解"></a>5.re 包讲解</h1><p>Python 的 <code>re</code> 包用于处理正则表达式（Regular Expressions），它提供了在字符串中进行模式匹配、替换、拆分等操作的功能。正则表达式是一种强大的工具，可以用来查找、匹配和操作字符串中的特定模式。</p>
+<h2 id="5-1-re-包的常用方法"><a href="#5-1-re-包的常用方法" class="headerlink" title="5.1 re 包的常用方法"></a>5.1 re 包的常用方法</h2><ol>
+<li><p><strong>re.match()：</strong></p>
+<ul>
+<li>作用：从字符串的起始位置开始匹配正则表达式。</li>
+<li>如果匹配成功，返回一个 <code>Match</code> 对象；如果不匹配，返回 <code>None</code>。</li>
+<li>示例：<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line">result = re.<span class="keyword">match</span>(<span class="string">r&#x27;\d+&#x27;</span>, <span class="string">&#x27;123abc456&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(result.group())  <span class="comment"># 输出: &#x27;123&#x27;</span></span><br></pre></td></tr></table></figure></div></li>
+</ul>
+</li>
+<li><p><strong>re.search()：</strong></p>
+<ul>
+<li>作用：扫描整个字符串，找到第一个符合正则表达式的匹配项。</li>
+<li>如果匹配成功，返回一个 <code>Match</code> 对象；如果不匹配，返回 <code>None</code>。</li>
+<li>示例：<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">result = re.search(<span class="string">r&#x27;\d+&#x27;</span>, <span class="string">&#x27;abc123xyz456&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(result.group())  <span class="comment"># 输出: &#x27;123&#x27;</span></span><br></pre></td></tr></table></figure></div></li>
+</ul>
+</li>
+<li><p><strong>re.findall()：</strong></p>
+<ul>
+<li>作用：返回字符串中所有与正则表达式匹配的部分，结果是一个列表。</li>
+<li>示例：<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">result = re.findall(<span class="string">r&#x27;\d+&#x27;</span>, <span class="string">&#x27;abc123xyz456&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(result)  <span class="comment"># 输出: [&#x27;123&#x27;, &#x27;456&#x27;]</span></span><br></pre></td></tr></table></figure></div></li>
+</ul>
+</li>
+<li><p><strong>re.finditer()：</strong></p>
+<ul>
+<li>作用：返回一个迭代器，生成字符串中所有匹配的 <code>Match</code> 对象。</li>
+<li>示例：<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">matches = re.finditer(<span class="string">r&#x27;\d+&#x27;</span>, <span class="string">&#x27;abc123xyz456&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> <span class="keyword">match</span> <span class="keyword">in</span> matches:</span><br><span class="line">    <span class="built_in">print</span>(<span class="keyword">match</span>.group())  <span class="comment"># 输出: &#x27;123&#x27; &#x27;456&#x27;</span></span><br></pre></td></tr></table></figure></div></li>
+</ul>
+</li>
+<li><p><strong>re.sub()：</strong></p>
+<ul>
+<li>作用：将匹配的部分替换为指定的字符串。</li>
+<li>示例：<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">result = re.sub(<span class="string">r&#x27;\d+&#x27;</span>, <span class="string">&#x27;NUMBER&#x27;</span>, <span class="string">&#x27;abc123xyz456&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(result)  <span class="comment"># 输出: &#x27;abcNUMBERxyzNUMBER&#x27;</span></span><br></pre></td></tr></table></figure></div></li>
+</ul>
+</li>
+<li><p><strong>re.split()：</strong></p>
+<ul>
+<li>作用：根据正则表达式匹配的部分分割字符串，返回列表。</li>
+<li>示例：<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">result = re.split(<span class="string">r&#x27;\d+&#x27;</span>, <span class="string">&#x27;abc123xyz456&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(result)  <span class="comment"># 输出: [&#x27;abc&#x27;, &#x27;xyz&#x27;, &#x27;&#x27;]</span></span><br></pre></td></tr></table></figure></div></li>
+</ul>
+</li>
+<li><p><strong>re.compile()：</strong></p>
+<ul>
+<li>作用：将正则表达式编译成正则对象，以便多次复用。</li>
+<li>示例：<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pattern = re.<span class="built_in">compile</span>(<span class="string">r&#x27;\d+&#x27;</span>)</span><br><span class="line">result = pattern.findall(<span class="string">&#x27;abc123xyz456&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(result)  <span class="comment"># 输出: [&#x27;123&#x27;, &#x27;456&#x27;]</span></span><br></pre></td></tr></table></figure></div></li>
+</ul>
+</li>
+</ol>
+<h2 id="5-2-正则表达式的常用操作符"><a href="#5-2-正则表达式的常用操作符" class="headerlink" title="5.2 正则表达式的常用操作符"></a>5.2 正则表达式的常用操作符</h2><ol>
+<li><p><strong><code>.</code></strong> （点号）：匹配任意单个字符（除换行符 <code>\n</code> 之外）。</p>
+<ul>
+<li>示例：<code>a.b</code> 可以匹配 <code>acb</code>, <code>a9b</code>, 但不能匹配 <code>ab</code>。</li>
+</ul>
+</li>
+<li><p><strong><code>^</code></strong> （脱字符）：匹配字符串的开头。</p>
+<ul>
+<li>示例：<code>^a</code> 可以匹配 <code>abc</code> 中的 <code>a</code>，但不能匹配 <code>bca</code>。</li>
+</ul>
+</li>
+<li><p><strong><code>$</code></strong> （美元符号）：匹配字符串的末尾。</p>
+<ul>
+<li>示例：<code>a$</code> 可以匹配 <code>bca</code> 中的 <code>a</code>，但不能匹配 <code>abc</code>。</li>
+</ul>
+</li>
+<li><p><strong><code>*</code></strong> （星号）：匹配前一个字符 0 次或多次。</p>
+<ul>
+<li>示例：<code>ab*</code> 可以匹配 <code>a</code>, <code>ab</code>, <code>abb</code>, <code>abbbbb</code>。</li>
+</ul>
+</li>
+<li><p><strong><code>+</code></strong> （加号）：匹配前一个字符 1 次或多次。</p>
+<ul>
+<li>示例：<code>ab+</code> 可以匹配 <code>ab</code>, <code>abb</code>, <code>abbbbb</code>，但不能匹配 <code>a</code>。</li>
+</ul>
+</li>
+<li><p><strong><code>?</code></strong> （问号）：匹配前一个字符 0 次或 1 次。</p>
+<ul>
+<li>示例：<code>ab?</code> 可以匹配 <code>a</code>, <code>ab</code>，但不能匹配 <code>abb</code>。</li>
+</ul>
+</li>
+<li><p><strong><code>&#123;m&#125;</code></strong> ：匹配前一个字符 <strong>正好 m 次</strong>。</p>
+<ul>
+<li>示例：<code>a&#123;3&#125;</code> 只能匹配 <code>aaa</code>。</li>
+</ul>
+</li>
+<li><p><strong><code>&#123;m,n&#125;</code></strong> ：匹配前一个字符 <strong>至少 m 次，至多 n 次</strong>。</p>
+<ul>
+<li>示例：<code>a&#123;2,4&#125;</code> 可以匹配 <code>aa</code>, <code>aaa</code>, <code>aaaa</code>。</li>
+</ul>
+</li>
+<li><p><strong><code>[]</code></strong> （字符集）：匹配字符集中的任意一个字符。</p>
+<ul>
+<li>示例：<code>[abc]</code> 可以匹配 <code>a</code>, <code>b</code>, <code>c</code> 中的任意一个。</li>
+</ul>
+</li>
+<li><p><strong><code>|</code></strong> （管道符号）：表示“或”运算符，匹配左边或右边的内容。</p>
+<ul>
+<li>示例：<code>a|b</code> 可以匹配 <code>a</code> 或 <code>b</code>。</li>
+</ul>
+</li>
+<li><p><strong><code>\</code></strong> （反斜杠）：用于转义特殊字符或表示特殊序列。</p>
+<ul>
+<li>示例：<code>\d</code> 匹配任意数字字符，<code>\s</code> 匹配任意空白字符，<code>\w</code> 匹配任意单词字符（字母、数字、下划线）。</li>
+</ul>
+</li>
+<li><p><strong><code>()</code></strong> （括号）：用于分组，或提取匹配的子字符串。</p>
+<ul>
+<li>示例：<code>(abc)+</code> 可以匹配 <code>abc</code>, <code>abcabc</code> 等。</li>
+<li>提取示例：<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">result = re.search(<span class="string">r&#x27;(abc)(\d+)&#x27;</span>, <span class="string">&#x27;abc123&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(result.groups())  <span class="comment"># 输出: (&#x27;abc&#x27;, &#x27;123&#x27;)</span></span><br></pre></td></tr></table></figure></div></li>
+</ul>
+</li>
+</ol>
+<h2 id="5-3-常用的特殊序列"><a href="#5-3-常用的特殊序列" class="headerlink" title="5.3 常用的特殊序列"></a>5.3 常用的特殊序列</h2><ul>
+<li><strong><code>\d</code></strong> ：匹配任何数字字符，等价于 <code>[0-9]</code>。</li>
+<li><strong><code>\D</code></strong> ：匹配任何非数字字符，等价于 <code>[^0-9]</code>。</li>
+<li><strong><code>\s</code></strong> ：匹配任何空白字符（空格、制表符等）。</li>
+<li><strong><code>\S</code></strong> ：匹配任何非空白字符。</li>
+<li><strong><code>\w</code></strong> ：匹配任何单词字符（字母、数字、下划线），等价于 <code>[a-zA-Z0-9_]</code>。</li>
+<li><strong><code>\W</code></strong> ：匹配任何非单词字符，等价于 <code>[^a-zA-Z0-9_]</code>。</li>
+</ul>
+<h2 id="5-4-实际应用示例"><a href="#5-4-实际应用示例" class="headerlink" title="5.4 实际应用示例"></a>5.4 实际应用示例</h2><ol>
+<li><p><strong>匹配电子邮件地址：</strong></p>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">email_pattern = <span class="string">r&#x27;\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]&#123;2,&#125;\b&#x27;</span></span><br><span class="line">email = <span class="string">&quot;contact@example.com&quot;</span></span><br><span class="line"><span class="keyword">if</span> re.<span class="keyword">match</span>(email_pattern, email):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Valid email&quot;</span>)</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p><strong>替换字符串中的数字：</strong></p>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">text = <span class="string">&quot;My phone number is 12345&quot;</span></span><br><span class="line">result = re.sub(<span class="string">r&#x27;\d+&#x27;</span>, <span class="string">&#x27;#####&#x27;</span>, text)</span><br><span class="line"><span class="built_in">print</span>(result)  <span class="comment"># 输出: &quot;My phone number is #####&quot;</span></span><br></pre></td></tr></table></figure></div></li>
+</ol>
 
         </div>
 
@@ -785,7 +910,7 @@
         
             <li>
                 <strong>Updated at
-                    :</strong> 2024-09-18 14:34:01
+                    :</strong> 2024-09-19 01:40:57
             </li>
         
         <li>
@@ -823,27 +948,27 @@
     <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
      <i aria-hidden="true"></i><span>推荐阅读</span>
     </div>
-    <div class="recommended-article-group"><a class="recommended-article-item" href="/2024/09/16/多进程和多线程编程/" title="Python 下的多进程和多线程编程" rel="bookmark">
-  <img src="/images/wallhaven-wqery6-light.webp" alt="Python 下的多进程和多线程编程" class="!max-w-none">
-  <span class="title">Python 下的多进程和多线程编程</span>
-</a><a class="recommended-article-item" href="/2024/09/14/linux-matplotli乱码解决/" title="解决 Linux 下使用 matplotlib 中文乱码问题" rel="bookmark">
-  <img src="/images/wallhaven-wqery6-light.webp" alt="解决 Linux 下使用 matplotlib 中文乱码问题" class="!max-w-none">
-  <span class="title">解决 Linux 下使用 matplotlib 中文乱码问题</span>
+    <div class="recommended-article-group"><a class="recommended-article-item" href="/2024/09/21/Python-获取代理ip/" title="Python 获取当前代理 IP" rel="bookmark">
+  <img src="/images/wallhaven-wqery6-light.webp" alt="Python 获取当前代理 IP" class="!max-w-none">
+  <span class="title">Python 获取当前代理 IP</span>
 </a><a class="recommended-article-item" href="/2024/07/24/Linux指令/" title="Linux 指令" rel="bookmark">
   <img src="https://softwarelab.org/wp-content/uploads/Linux.jpg" alt="Linux 指令" class="!max-w-none">
   <span class="title">Linux 指令</span>
+</a><a class="recommended-article-item" href="/2024/09/16/Python-多进程和多线程编程/" title="Python 下的多进程和多线程编程" rel="bookmark">
+  <img src="/images/wallhaven-wqery6-light.webp" alt="Python 下的多进程和多线程编程" class="!max-w-none">
+  <span class="title">Python 下的多进程和多线程编程</span>
 </a></div>
    </div>
    <div class="recommended-mobile">
    <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
      <i aria-hidden="true"></i><span>推荐阅读</span>
    </div>
-   <div class="recommended-article-group"><a class="recommended-article-item" href="/2024/09/16/多进程和多线程编程/" title="Python 下的多进程和多线程编程" rel="bookmark">
-  <img src="/images/wallhaven-wqery6-light.webp" alt="Python 下的多进程和多线程编程" class="!max-w-none">
-  <span class="title">Python 下的多进程和多线程编程</span>
-</a><a class="recommended-article-item" href="/2024/09/14/linux-matplotli乱码解决/" title="解决 Linux 下使用 matplotlib 中文乱码问题" rel="bookmark">
-  <img src="/images/wallhaven-wqery6-light.webp" alt="解决 Linux 下使用 matplotlib 中文乱码问题" class="!max-w-none">
-  <span class="title">解决 Linux 下使用 matplotlib 中文乱码问题</span>
+   <div class="recommended-article-group"><a class="recommended-article-item" href="/2024/09/21/Python-获取代理ip/" title="Python 获取当前代理 IP" rel="bookmark">
+  <img src="/images/wallhaven-wqery6-light.webp" alt="Python 获取当前代理 IP" class="!max-w-none">
+  <span class="title">Python 获取当前代理 IP</span>
+</a><a class="recommended-article-item" href="/2024/07/24/Linux指令/" title="Linux 指令" rel="bookmark">
+  <img src="https://softwarelab.org/wp-content/uploads/Linux.jpg" alt="Linux 指令" class="!max-w-none">
+  <span class="title">Linux 指令</span>
 </a></div>
    </div>
   </div>
@@ -851,11 +976,26 @@
         
             <div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
                 
+                    <div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+                        <a class="prev"
+                        rel="prev"
+                        href="/2024/09/21/Python-%E8%8E%B7%E5%8F%96%E4%BB%A3%E7%90%86ip/"
+                        >
+                            <span class="left arrow-icon flex justify-center items-center">
+                                <i class="fa-solid fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex justify-center items-center">
+                                <span class="post-nav-title-item">Python 获取当前代理 IP</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
                 
                     <div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
                         <a class="next"
                         rel="next"
-                        href="/2024/09/16/%E5%A4%9A%E8%BF%9B%E7%A8%8B%E5%92%8C%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B/"
+                        href="/2024/09/16/Python-%E5%A4%9A%E8%BF%9B%E7%A8%8B%E5%92%8C%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B/"
                         >
                             <span class="title flex justify-center items-center">
                                 <span class="post-nav-title-item">Python 下的多进程和多线程编程</span>
@@ -923,7 +1063,7 @@
     <div class="post-toc">
         <div class="toc-title">On this page</div>
         <div class="page-title">Python 爬虫教程 01</div>
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E6%B5%8F%E8%A7%88%E5%99%A8"><span class="nav-text">1.浏览器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-%E8%8E%B7%E5%8F%96%E9%A1%B5%E9%9D%A2%E4%BF%A1%E6%81%AF"><span class="nav-text">1.1 获取页面信息</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E9%85%8D%E7%BD%AE%E7%88%AC%E8%99%AB%E7%BC%96%E7%A8%8B%E7%8E%AF%E5%A2%83"><span class="nav-text">2.配置爬虫编程环境</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-urllib-%E5%8C%85%E8%AE%B2%E8%A7%A3"><span class="nav-text">3.urllib 包讲解</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-get-%E8%AF%B7%E6%B1%82"><span class="nav-text">3.1 get 请求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-post-%E8%AF%B7%E6%B1%82"><span class="nav-text">3.2 post 请求</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-1-POST-%E8%AF%B7%E6%B1%82%E7%9A%84%E7%94%A8%E9%80%94"><span class="nav-text">3.2.1 POST 请求的用途</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-2-%E5%B0%81%E8%A3%85%E6%95%B0%E6%8D%AE%E7%9A%84%E7%94%A8%E9%80%94"><span class="nav-text">3.2.2 封装数据的用途</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-3-%E5%B0%86%E6%95%B0%E6%8D%AE%E5%B0%81%E8%A3%85%E4%B8%BA-bytes-%E7%9A%84%E5%8E%9F%E5%9B%A0"><span class="nav-text">3.2.3 将数据封装为 bytes 的原因</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-%E8%B6%85%E6%97%B6%E5%A4%84%E7%90%86"><span class="nav-text">3.3 超时处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-%E6%9F%A5%E7%9C%8B%E5%93%8D%E5%BA%94"><span class="nav-text">3.4 查看响应</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-5-%E6%8A%8A%E8%AE%BF%E9%97%AE%E4%BC%AA%E8%A3%85%E6%88%90%E6%B5%8F%E8%A7%88%E5%99%A8"><span class="nav-text">3.5 把访问伪装成浏览器</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-bs4-%E5%8C%85%E8%AE%B2%E8%A7%A3"><span class="nav-text">4.bs4 包讲解</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-%E8%8E%B7%E5%8F%96%E6%A0%87%E7%AD%BE%E5%8F%8A%E5%85%B6%E9%87%8C%E7%9A%84%E5%86%85%E5%AE%B9"><span class="nav-text">4.1 获取标签及其里的内容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-%E6%96%87%E6%A1%A3%E7%9A%84%E9%81%8D%E5%8E%86"><span class="nav-text">4.2 文档的遍历</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-%E6%96%87%E6%A1%A3%E7%9A%84%E6%90%9C%E7%B4%A2"><span class="nav-text">4.3 文档的搜索</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E6%B5%8F%E8%A7%88%E5%99%A8"><span class="nav-text">1.浏览器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-%E8%8E%B7%E5%8F%96%E9%A1%B5%E9%9D%A2%E4%BF%A1%E6%81%AF"><span class="nav-text">1.1 获取页面信息</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E9%85%8D%E7%BD%AE%E7%88%AC%E8%99%AB%E7%BC%96%E7%A8%8B%E7%8E%AF%E5%A2%83"><span class="nav-text">2.配置爬虫编程环境</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-urllib-%E5%8C%85%E8%AE%B2%E8%A7%A3"><span class="nav-text">3.urllib 包讲解</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-get-%E8%AF%B7%E6%B1%82"><span class="nav-text">3.1 get 请求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-post-%E8%AF%B7%E6%B1%82"><span class="nav-text">3.2 post 请求</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-1-POST-%E8%AF%B7%E6%B1%82%E7%9A%84%E7%94%A8%E9%80%94"><span class="nav-text">3.2.1 POST 请求的用途</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-2-%E5%B0%81%E8%A3%85%E6%95%B0%E6%8D%AE%E7%9A%84%E7%94%A8%E9%80%94"><span class="nav-text">3.2.2 封装数据的用途</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-3-%E5%B0%86%E6%95%B0%E6%8D%AE%E5%B0%81%E8%A3%85%E4%B8%BA-bytes-%E7%9A%84%E5%8E%9F%E5%9B%A0"><span class="nav-text">3.2.3 将数据封装为 bytes 的原因</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-%E8%B6%85%E6%97%B6%E5%A4%84%E7%90%86"><span class="nav-text">3.3 超时处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-%E6%9F%A5%E7%9C%8B%E5%93%8D%E5%BA%94"><span class="nav-text">3.4 查看响应</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-5-%E6%8A%8A%E8%AE%BF%E9%97%AE%E4%BC%AA%E8%A3%85%E6%88%90%E6%B5%8F%E8%A7%88%E5%99%A8"><span class="nav-text">3.5 把访问伪装成浏览器</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-bs4-%E5%8C%85%E8%AE%B2%E8%A7%A3"><span class="nav-text">4.bs4 包讲解</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-%E8%8E%B7%E5%8F%96%E6%A0%87%E7%AD%BE%E5%8F%8A%E5%85%B6%E9%87%8C%E7%9A%84%E5%86%85%E5%AE%B9"><span class="nav-text">4.1 获取标签及其里的内容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-%E6%96%87%E6%A1%A3%E7%9A%84%E9%81%8D%E5%8E%86"><span class="nav-text">4.2 文档的遍历</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-%E6%96%87%E6%A1%A3%E7%9A%84%E6%90%9C%E7%B4%A2"><span class="nav-text">4.3 文档的搜索</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-re-%E5%8C%85%E8%AE%B2%E8%A7%A3"><span class="nav-text">5.re 包讲解</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-re-%E5%8C%85%E7%9A%84%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95"><span class="nav-text">5.1 re 包的常用方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%9A%84%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C%E7%AC%A6"><span class="nav-text">5.2 正则表达式的常用操作符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-3-%E5%B8%B8%E7%94%A8%E7%9A%84%E7%89%B9%E6%AE%8A%E5%BA%8F%E5%88%97"><span class="nav-text">5.3 常用的特殊序列</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-4-%E5%AE%9E%E9%99%85%E5%BA%94%E7%94%A8%E7%A4%BA%E4%BE%8B"><span class="nav-text">5.4 实际应用示例</span></a></li></ol></li></ol>
 
     </div>
 </div>
@@ -956,11 +1096,11 @@
                 
                 <p class="post-count space-x-0.5">
                     <span>
-                        28 posts in total
+                        29 posts in total
                     </span>
                     
                         <span>
-                            30.7k words in total
+                            32k words in total
                         </span>
                     
                 </p>
