@@ -1,36 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Conda教程</title>
-    <url>/2024/07/19/Conda%E6%95%99%E7%A8%8B/</url>
-    <content><![CDATA[<h1 id="一、conda-指令"><a href="#一、conda-指令" class="headerlink" title="一、conda 指令"></a>一、conda 指令</h1><h2 id="1-1-查看配置"><a href="#1-1-查看配置" class="headerlink" title="1.1 查看配置"></a>1.1 查看配置</h2><div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="code"><pre><span class="line">conda config --show channels    # 查看镜像源</span><br><span class="line">conda config --show-sources        # 查看配置文件内容</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="1-2-设置代理端口"><a href="#1-2-设置代理端口" class="headerlink" title="1.2 设置代理端口"></a>1.2 设置代理端口</h2><div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">添加代理地址端口</span></span><br><span class="line">conda config --set proxy_servers.http http://127.0.0.1:10809</span><br><span class="line">conda config --set proxy_servers.https http://127.0.0.1:10809</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">移除代理</span></span><br><span class="line">conda config --remove-key proxy_servers</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="1-3-conda环境"><a href="#1-3-conda环境" class="headerlink" title="1.3 conda环境"></a>1.3 conda环境</h2><div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 创建（带名字）</span></span><br><span class="line">conda create -n &lt;conda_name&gt; python=&lt;版本号&gt;</span><br><span class="line"><span class="comment"># 在指定文件路径下创建conda环境</span></span><br><span class="line">conda create --<span class="built_in">yes</span> --prefix /home/sky/桌面/pointTest/.conda python=3.11</span><br><span class="line"></span><br><span class="line"><span class="comment"># 激活conda环境</span></span><br><span class="line">conda activate &lt;conda_name&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 回到base环境</span></span><br><span class="line">conda deactivate</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看有哪些conda环境</span></span><br><span class="line">conda info --envs</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除全部环境</span></span><br><span class="line">conda remove -n env_name --all</span><br><span class="line"><span class="comment"># 删除指定环境</span></span><br><span class="line">conda <span class="built_in">env</span> remove -n env_name</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重命名环境（将 --clone 后面的环境重命名成 -n 后面的名字）</span></span><br><span class="line">conda create -n torch --<span class="built_in">clone</span> py3      <span class="comment"># 将 py3 重命名为 torch</span></span><br></pre></td></tr></table></figure></div>
-<p>注意：<code>--prefix/-p</code>不能与<code>--name/-n</code>同时使用！</p>
-<h2 id="1-4-下载库"><a href="#1-4-下载库" class="headerlink" title="1.4 下载库"></a>1.4 下载库</h2><div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">从 conda-forge 渠道中提供的包安装</span></span><br><span class="line">conda install -c conda-forge &lt;package_name&gt;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查询 conda-forge 中的包</span></span><br><span class="line">conda search -c conda-forge &lt;package_name&gt;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">安装指定版本的</span></span><br><span class="line">conda install -c conda-forge &lt;package_name&gt;=&lt;版本号&gt;</span><br></pre></td></tr></table></figure></div>
-
-<h3 id="1-4-1-安装GDAL库"><a href="#1-4-1-安装GDAL库" class="headerlink" title="1.4.1 安装GDAL库"></a>1.4.1 安装GDAL库</h3><div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash"> 安装 gdal 的依赖库 geos 和 proj</span></span><br><span class="line">conda install geos proj</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">安装指定版本GDAL</span></span><br><span class="line">conda install -c conda-forge gdal=3.2.1</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="1-5-迁移-conda-环境"><a href="#1-5-迁移-conda-环境" class="headerlink" title="1.5 迁移 conda 环境"></a>1.5 迁移 conda 环境</h2><p>将要迁移的环境打包</p>
-<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="code"><pre><span class="line">conda pack -n 虚拟环境名称 -o environment.tar.gz</span><br></pre></td></tr></table></figure></div>
-
-<p>如果报错：No command ‘conda pack’</p>
-<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">尝试使用</span></span><br><span class="line">conda install -c conda-forge conda-pack</span><br></pre></td></tr></table></figure></div>
-
-<p>复制压缩文件到新的电脑环境。进到conda的安装目录：&#x2F;anaconda(或者miniconda)&#x2F;envs&#x2F;</p>
-<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">对于 ubuntu 可以通过 whereis conda 查看 conda的安装路径</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="built_in">cd</span> 到 conda 的安装路径</span></span><br><span class="line">mkdir environment</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">解压conda环境：</span></span><br><span class="line">tar -xzvf environment.tar.gz -C  environment</span><br></pre></td></tr></table></figure></div>
-
-<h1 id="二、pip-指令"><a href="#二、pip-指令" class="headerlink" title="二、pip 指令"></a>二、pip 指令</h1><h2 id="2-1-使用临时镜像源下载库"><a href="#2-1-使用临时镜像源下载库" class="headerlink" title="2.1 使用临时镜像源下载库"></a>2.1 使用临时镜像源下载库</h2><div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="code"><pre><span class="line">pip install &lt;package_name&gt; -i &lt;镜像源url&gt;</span><br></pre></td></tr></table></figure></div>
-
-<h1 id="三、镜像源"><a href="#三、镜像源" class="headerlink" title="三、镜像源"></a>三、镜像源</h1><div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="code"><pre><span class="line">https://pypi.tuna.tsinghua.edu.cn/simple    # 清华</span><br><span class="line">https://pypi.mirrors.ustc.edu.cn/simple        # 中科大</span><br><span class="line">http://mirrors.aliyun.com/pypi/simple/        # 阿里云</span><br><span class="line">http://pypi.douban.com/simple/            # 豆瓣</span><br></pre></td></tr></table></figure></div>
-]]></content>
-      <tags>
-        <tag>conda</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Python 爬虫教程 01</title>
     <url>/2024/09/17/01Python%E7%88%AC%E8%99%AB/</url>
     <content><![CDATA[<h1 id="1-浏览器"><a href="#1-浏览器" class="headerlink" title="1.浏览器"></a>1.浏览器</h1><h2 id="1-1-获取页面信息"><a href="#1-1-获取页面信息" class="headerlink" title="1.1 获取页面信息"></a>1.1 获取页面信息</h2><p>进入要爬取的页面，按<code>F12</code>进入开发者模式：<br><figure class="image-caption"><img  
@@ -370,6 +340,36 @@
       </categories>
       <tags>
         <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Conda教程</title>
+    <url>/2024/07/19/Conda%E6%95%99%E7%A8%8B/</url>
+    <content><![CDATA[<h1 id="一、conda-指令"><a href="#一、conda-指令" class="headerlink" title="一、conda 指令"></a>一、conda 指令</h1><h2 id="1-1-查看配置"><a href="#1-1-查看配置" class="headerlink" title="1.1 查看配置"></a>1.1 查看配置</h2><div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="code"><pre><span class="line">conda config --show channels    # 查看镜像源</span><br><span class="line">conda config --show-sources        # 查看配置文件内容</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="1-2-设置代理端口"><a href="#1-2-设置代理端口" class="headerlink" title="1.2 设置代理端口"></a>1.2 设置代理端口</h2><div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">添加代理地址端口</span></span><br><span class="line">conda config --set proxy_servers.http http://127.0.0.1:10809</span><br><span class="line">conda config --set proxy_servers.https http://127.0.0.1:10809</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">移除代理</span></span><br><span class="line">conda config --remove-key proxy_servers</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="1-3-conda环境"><a href="#1-3-conda环境" class="headerlink" title="1.3 conda环境"></a>1.3 conda环境</h2><div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 创建（带名字）</span></span><br><span class="line">conda create -n &lt;conda_name&gt; python=&lt;版本号&gt;</span><br><span class="line"><span class="comment"># 在指定文件路径下创建conda环境</span></span><br><span class="line">conda create --<span class="built_in">yes</span> --prefix /home/sky/桌面/pointTest/.conda python=3.11</span><br><span class="line"></span><br><span class="line"><span class="comment"># 激活conda环境</span></span><br><span class="line">conda activate &lt;conda_name&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 回到base环境</span></span><br><span class="line">conda deactivate</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看有哪些conda环境</span></span><br><span class="line">conda info --envs</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除全部环境</span></span><br><span class="line">conda remove -n env_name --all</span><br><span class="line"><span class="comment"># 删除指定环境</span></span><br><span class="line">conda <span class="built_in">env</span> remove -n env_name</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重命名环境（将 --clone 后面的环境重命名成 -n 后面的名字）</span></span><br><span class="line">conda create -n torch --<span class="built_in">clone</span> py3      <span class="comment"># 将 py3 重命名为 torch</span></span><br></pre></td></tr></table></figure></div>
+<p>注意：<code>--prefix/-p</code>不能与<code>--name/-n</code>同时使用！</p>
+<h2 id="1-4-下载库"><a href="#1-4-下载库" class="headerlink" title="1.4 下载库"></a>1.4 下载库</h2><div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">从 conda-forge 渠道中提供的包安装</span></span><br><span class="line">conda install -c conda-forge &lt;package_name&gt;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查询 conda-forge 中的包</span></span><br><span class="line">conda search -c conda-forge &lt;package_name&gt;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">安装指定版本的</span></span><br><span class="line">conda install -c conda-forge &lt;package_name&gt;=&lt;版本号&gt;</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="1-4-1-安装GDAL库"><a href="#1-4-1-安装GDAL库" class="headerlink" title="1.4.1 安装GDAL库"></a>1.4.1 安装GDAL库</h3><div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash"> 安装 gdal 的依赖库 geos 和 proj</span></span><br><span class="line">conda install geos proj</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">安装指定版本GDAL</span></span><br><span class="line">conda install -c conda-forge gdal=3.2.1</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="1-5-迁移-conda-环境"><a href="#1-5-迁移-conda-环境" class="headerlink" title="1.5 迁移 conda 环境"></a>1.5 迁移 conda 环境</h2><p>将要迁移的环境打包</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="code"><pre><span class="line">conda pack -n 虚拟环境名称 -o environment.tar.gz</span><br></pre></td></tr></table></figure></div>
+
+<p>如果报错：No command ‘conda pack’</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">尝试使用</span></span><br><span class="line">conda install -c conda-forge conda-pack</span><br></pre></td></tr></table></figure></div>
+
+<p>复制压缩文件到新的电脑环境。进到conda的安装目录：&#x2F;anaconda(或者miniconda)&#x2F;envs&#x2F;</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">对于 ubuntu 可以通过 whereis conda 查看 conda的安装路径</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="built_in">cd</span> 到 conda 的安装路径</span></span><br><span class="line">mkdir environment</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">解压conda环境：</span></span><br><span class="line">tar -xzvf environment.tar.gz -C  environment</span><br></pre></td></tr></table></figure></div>
+
+<h1 id="二、pip-指令"><a href="#二、pip-指令" class="headerlink" title="二、pip 指令"></a>二、pip 指令</h1><h2 id="2-1-使用临时镜像源下载库"><a href="#2-1-使用临时镜像源下载库" class="headerlink" title="2.1 使用临时镜像源下载库"></a>2.1 使用临时镜像源下载库</h2><div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="code"><pre><span class="line">pip install &lt;package_name&gt; -i &lt;镜像源url&gt;</span><br></pre></td></tr></table></figure></div>
+
+<h1 id="三、镜像源"><a href="#三、镜像源" class="headerlink" title="三、镜像源"></a>三、镜像源</h1><div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="code"><pre><span class="line">https://pypi.tuna.tsinghua.edu.cn/simple    # 清华</span><br><span class="line">https://pypi.mirrors.ustc.edu.cn/simple        # 中科大</span><br><span class="line">http://mirrors.aliyun.com/pypi/simple/        # 阿里云</span><br><span class="line">http://pypi.douban.com/simple/            # 豆瓣</span><br></pre></td></tr></table></figure></div>
+]]></content>
+      <tags>
+        <tag>conda</tag>
       </tags>
   </entry>
   <entry>
@@ -886,70 +886,6 @@
       </tags>
   </entry>
   <entry>
-    <title>使用Docker时的问题汇总和解决方式</title>
-    <url>/2024/07/24/Docker%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/</url>
-    <content><![CDATA[<h1 id="1-启动-Docker-失败"><a href="#1-启动-Docker-失败" class="headerlink" title="1.启动 Docker 失败"></a>1.启动 Docker 失败</h1><p>如果发现<code>docker</code>启动失败，可以通过以下命令输出<code>docker</code>运行日志来定位问题所在：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> journalctl -u docker.service --no-pager | <span class="built_in">tail</span> -n 50</span><br></pre></td></tr></table></figure></div>
-
-<p>如果问题仍无法解决，可以尝试更彻底的方法：</p>
-<ol>
-<li>卸载 Docker：</li>
-</ol>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -R docker</span><br></pre></td></tr></table></figure></div>
-
-<ol start="2">
-<li>删除 Docker 相关的所有数据和配置：</li>
-</ol>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> -rf /var/lib/docker</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> -rf /etc/docker</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> -rf ~/.docker</span><br></pre></td></tr></table></figure></div>
-
-<ol start="3">
-<li>重新安装 Docker：</li>
-</ol>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S docker</span><br></pre></td></tr></table></figure></div>
-
-<ol start="4">
-<li>启动 Docker 服务：</li>
-</ol>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start docker</span><br></pre></td></tr></table></figure></div>
-
-<ol start="5">
-<li>检查 Docker 服务状态：</li>
-</ol>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status docker</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="1-1-网络冲突导致启动失败"><a href="#1-1-网络冲突导致启动失败" class="headerlink" title="1.1 网络冲突导致启动失败"></a>1.1 网络冲突导致启动失败</h2><p>日志内容如下：</p>
-<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">failed to start daemon: Error initializing network controller: error creating default &quot;bridge&quot; network: cannot create network c13e4912d03075485921194eecec303af8f714e77ad529759990f5b7ca155c68 (docker0): conflicts with network 1b9dcc9575e5af33281149149481d0eca4a5d60de0fac2f9264f0b265ab955db (docker0): networks have same bridge name</span><br></pre></td></tr></table></figure></div>
-<p>这个错误表明 Docker 试图创建默认的 bridge 网络，但是遇到了冲突，因为已经存在一个同名的网络。</p>
-<p><strong>解决办法：</strong></p>
-<ol>
-<li>停止 Docker 服务：</li>
-</ol>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl stop docker</span><br></pre></td></tr></table></figure></div>
-
-<ol start="2">
-<li>删除现有的 Docker 网络配置：</li>
-</ol>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> -rf /var/lib/docker/network</span><br></pre></td></tr></table></figure></div>
-
-<ol start="3">
-<li>删除 docker0 网桥：</li>
-</ol>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> ip <span class="built_in">link</span> delete docker0</span><br></pre></td></tr></table></figure></div>
-
-<ol start="4">
-<li>重新启动 Docker 服务：</li>
-</ol>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start docker</span><br></pre></td></tr></table></figure></div>
-
-<ol start="5">
-<li>检查 Docker 服务状态：</li>
-</ol>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status docker</span><br></pre></td></tr></table></figure></div>]]></content>
-      <tags>
-        <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Docker 教程</title>
     <url>/2024/07/24/Docker%E6%95%99%E7%A8%8B/</url>
     <content><![CDATA[<h1 id="一、基本指令"><a href="#一、基本指令" class="headerlink" title="一、基本指令"></a>一、基本指令</h1><h2 id="1-1-查看镜像版本"><a href="#1-1-查看镜像版本" class="headerlink" title="1.1 查看镜像版本"></a>1.1 查看镜像版本</h2><div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker inspect &lt;镜像ID&gt; | grep -i version</span><br></pre></td></tr></table></figure></div>
@@ -1075,6 +1011,70 @@
 <p>以后可以使用 <code>docker load</code> 命令从 tar 文件加载镜像。例如，从 <code>hexo_latest.tar</code> 加载镜像：</p>
 <div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker load -i hexo_latest.tar</span><br></pre></td></tr></table></figure></div>
 ]]></content>
+      <tags>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>使用Docker时的问题汇总和解决方式</title>
+    <url>/2024/07/24/Docker%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/</url>
+    <content><![CDATA[<h1 id="1-启动-Docker-失败"><a href="#1-启动-Docker-失败" class="headerlink" title="1.启动 Docker 失败"></a>1.启动 Docker 失败</h1><p>如果发现<code>docker</code>启动失败，可以通过以下命令输出<code>docker</code>运行日志来定位问题所在：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> journalctl -u docker.service --no-pager | <span class="built_in">tail</span> -n 50</span><br></pre></td></tr></table></figure></div>
+
+<p>如果问题仍无法解决，可以尝试更彻底的方法：</p>
+<ol>
+<li>卸载 Docker：</li>
+</ol>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -R docker</span><br></pre></td></tr></table></figure></div>
+
+<ol start="2">
+<li>删除 Docker 相关的所有数据和配置：</li>
+</ol>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> -rf /var/lib/docker</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> -rf /etc/docker</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> -rf ~/.docker</span><br></pre></td></tr></table></figure></div>
+
+<ol start="3">
+<li>重新安装 Docker：</li>
+</ol>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S docker</span><br></pre></td></tr></table></figure></div>
+
+<ol start="4">
+<li>启动 Docker 服务：</li>
+</ol>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start docker</span><br></pre></td></tr></table></figure></div>
+
+<ol start="5">
+<li>检查 Docker 服务状态：</li>
+</ol>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status docker</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="1-1-网络冲突导致启动失败"><a href="#1-1-网络冲突导致启动失败" class="headerlink" title="1.1 网络冲突导致启动失败"></a>1.1 网络冲突导致启动失败</h2><p>日志内容如下：</p>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">failed to start daemon: Error initializing network controller: error creating default &quot;bridge&quot; network: cannot create network c13e4912d03075485921194eecec303af8f714e77ad529759990f5b7ca155c68 (docker0): conflicts with network 1b9dcc9575e5af33281149149481d0eca4a5d60de0fac2f9264f0b265ab955db (docker0): networks have same bridge name</span><br></pre></td></tr></table></figure></div>
+<p>这个错误表明 Docker 试图创建默认的 bridge 网络，但是遇到了冲突，因为已经存在一个同名的网络。</p>
+<p><strong>解决办法：</strong></p>
+<ol>
+<li>停止 Docker 服务：</li>
+</ol>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl stop docker</span><br></pre></td></tr></table></figure></div>
+
+<ol start="2">
+<li>删除现有的 Docker 网络配置：</li>
+</ol>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> -rf /var/lib/docker/network</span><br></pre></td></tr></table></figure></div>
+
+<ol start="3">
+<li>删除 docker0 网桥：</li>
+</ol>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> ip <span class="built_in">link</span> delete docker0</span><br></pre></td></tr></table></figure></div>
+
+<ol start="4">
+<li>重新启动 Docker 服务：</li>
+</ol>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start docker</span><br></pre></td></tr></table></figure></div>
+
+<ol start="5">
+<li>检查 Docker 服务状态：</li>
+</ol>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status docker</span><br></pre></td></tr></table></figure></div>]]></content>
       <tags>
         <tag>docker</tag>
       </tags>
@@ -2606,6 +2606,9 @@
 <li><a class="link"   href="https://developer.aliyun.com/article/1577567" >【Deepin20系统】Linux系统中永久解决matplotlib画图中文乱码问题和使用seaborn中文乱码问题 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></li>
 <li><a class="link"   href="https://cloud.tencent.com/developer/article/1877673" >解决Python使用matplotlib绘图时出现的中文乱码问题 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></li>
 </ul>
+<h1 id="4-负号乱码解决"><a href="#4-负号乱码解决" class="headerlink" title="4.负号乱码解决"></a>4.负号乱码解决</h1><p>只要在前面加以段这个代码：</p>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 解决负号显示问题</span></span><br><span class="line">plt.rcParams[<span class="string">&#x27;axes.unicode_minus&#x27;</span>] = <span class="literal">False</span></span><br></pre></td></tr></table></figure></div>
+<p>就能正常显示负号</p>
 ]]></content>
       <categories>
         <category>Python技巧</category>
