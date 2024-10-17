@@ -343,6 +343,170 @@
       </tags>
   </entry>
   <entry>
+    <title>Python 爬虫教程 03</title>
+    <url>/2024/10/17/03Python%E7%88%AC%E8%99%AB/</url>
+    <content><![CDATA[<h1 id="1-无请求头访问"><a href="#1-无请求头访问" class="headerlink" title="1.无请求头访问"></a>1.无请求头访问</h1><p>如果不构建请求头，直接向目标网站发送请求：</p>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;https://spiderbuf.cn/playground/s02&quot;</span></span><br><span class="line"></span><br><span class="line">html = requests.get(url=url).text</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/02course/02.html&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">f.write(html)</span><br><span class="line">f.close()</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(html)</span><br><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/02course/data02.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    tds = tr.xpath(<span class="string">&#x27;./td&#x27;</span>)</span><br><span class="line">    s = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> td <span class="keyword">in</span> tds:</span><br><span class="line">        <span class="comment"># print(td.text)</span></span><br><span class="line">        s = s + <span class="built_in">str</span>(td.text) + <span class="string">&#x27; | &#x27;</span></span><br><span class="line">    <span class="built_in">print</span>(s)</span><br><span class="line">    <span class="keyword">if</span> s!= <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        f.write(s + <span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
+
+<p>输出结果：</p>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">&lt;!DOCTYPE HTML PUBLIC &quot;-//IETF//DTD HTML 2.0//EN&quot;&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;&lt;title&gt;403 Forbidden&lt;/title&gt;&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;center&gt;&lt;h1&gt;403 Forbidden&lt;/h1&gt;&lt;/center&gt;</span><br><span class="line">&lt;hr&gt;&lt;center&gt;tengine&lt;/center&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></div>
+<p>很容易被网站检测到是爬虫。</p>
+<h1 id="2-添加请求头"><a href="#2-添加请求头" class="headerlink" title="2.添加请求头"></a>2.添加请求头</h1><p>所以基本上在发送请求之前都会封装一个<code>http</code>请求的头部信息：</p>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">html = requests.get(url=url, headers=headers).text</span><br></pre></td></tr></table></figure></div>
+
+<p>有时候还需要往里面填入<code>Cookie</code>。甚至为了防止被检测到是爬虫，需要更换<code>User-Agent</code>，比如用火狐浏览器的等，或者浏览器不同版本的，这在网上可以查询到。</p>
+]]></content>
+      <categories>
+        <category>Python爬虫</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python 爬虫教程 02</title>
+    <url>/2024/10/17/02Python%E7%88%AC%E8%99%AB/</url>
+    <content><![CDATA[<h1 id="1-测试网址"><a href="#1-测试网址" class="headerlink" title="1.测试网址"></a>1.测试网址</h1><p><a class="link"   href="https://www.spiderbuf.cn/list" >测试网站 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<h1 id="2-编写代码"><a href="#2-编写代码" class="headerlink" title="2.编写代码"></a>2.编写代码</h1><h2 id="2-1-代码示例"><a href="#2-1-代码示例" class="headerlink" title="2.1 代码示例"></a>2.1 代码示例</h2><div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;https://spiderbuf.cn/playground/s01&quot;</span></span><br><span class="line"></span><br><span class="line">html = requests.get(url=url).text</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/01course/01.html&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">f.write(html)</span><br><span class="line">f.close()</span><br><span class="line"></span><br><span class="line"><span class="comment"># print(html)</span></span><br><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/01course/data01.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    tds = tr.xpath(<span class="string">&#x27;./td&#x27;</span>)</span><br><span class="line">    s = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> td <span class="keyword">in</span> tds:</span><br><span class="line">        <span class="comment"># 这里加 str 是为了防止 &lt;td&gt;&lt;/td&gt; 之间是空数据</span></span><br><span class="line">        s = s + <span class="built_in">str</span>(td.text) + <span class="string">&#x27; | &#x27;</span></span><br><span class="line">    <span class="built_in">print</span>(s)</span><br><span class="line">    <span class="comment"># 保存解析到的数据到本地</span></span><br><span class="line">    <span class="keyword">if</span> s!= <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        f.write(s + <span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
+
+<p>在很多时候，建议先把请求到的网页内容保存到本地（如上面代码所示），因为有时候解析数据无法一次性解析成功，那就会再向网页发送请求，这样不断的去访问服务器，就容易被服务器检测到是爬虫。</p>
+<h1 id="3-lxml-基础使用"><a href="#3-lxml-基础使用" class="headerlink" title="3.lxml 基础使用"></a>3.lxml 基础使用</h1><h2 id="3-1-XPath-基本语法"><a href="#3-1-XPath-基本语法" class="headerlink" title="3.1 XPath 基本语法"></a>3.1 XPath 基本语法</h2><ul>
+<li><code>/</code>：从根节点选择。根节点是一个 XML 或 HTML 文档的最顶层节点，所有其他元素都是它的子节点。</li>
+<li><code>//</code>：选择文档中的所有符合条件的节点，不论它们在文档的什么位置。</li>
+<li><code>.</code>：当前节点。</li>
+<li><code>..</code>：父节点。</li>
+<li><code>@</code>：选择属性。</li>
+<li><code>[ ]</code>：筛选器，添加条件。</li>
+<li><code>text()</code>：选择文本节点。</li>
+</ul>
+<h2 id="3-2-示例说明"><a href="#3-2-示例说明" class="headerlink" title="3.2 示例说明"></a>3.2 示例说明</h2><p>假设有如下 HTML 结构，<code>&lt;html&gt;</code>是根节点：</p>
+<div class="highlight-container" data-rel="Html"><figure class="iseeu highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">table</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">&quot;status&quot;</span>&gt;</span>在线<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span>&gt;</span>123<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">&quot;status&quot;</span>&gt;</span>离线<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span>&gt;</span>456<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">&quot;status&quot;</span>&gt;</span>在线<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span>&gt;</span>789<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></div>
+
+<h2 id="3-3-使用-XPath-提取数据"><a href="#3-3-使用-XPath-提取数据" class="headerlink" title="3.3 使用 XPath 提取数据"></a>3.3 使用 XPath 提取数据</h2><ol>
+<li><strong>提取所有行的 <code>&lt;td&gt;</code> 内容：</strong></li>
+</ol>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
+
+<p><code>//tr</code> 表示选择文档中所有的 <code>&lt;tr&gt;</code> 节点，不论它们在文档的哪个层级。</p>
+<ol start="2">
+<li><strong>提取某个特定列的数据：</strong></li>
+</ol>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">status_list = root.xpath(<span class="string">&#x27;//td[@class=&quot;status&quot;]/text()&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(status_list)</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li><code>//td[@class=&quot;status&quot;]</code>：选择所有 class 为 “status” 的 <code>&lt;td&gt;</code> 节点。</li>
+<li><code>/text()</code>：选择这些节点的文本内容。</li>
+</ul>
+<p><strong>结果：</strong></p>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">[<span class="string">&#x27;在线&#x27;</span>, <span class="string">&#x27;离线&#x27;</span>, <span class="string">&#x27;在线&#x27;</span>]</span><br></pre></td></tr></table></figure></div>
+
+<ol start="3">
+<li><strong>结合 <code>for</code> 循环逐行提取多个列的内容：</strong></li>
+</ol>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    status = tr.xpath(<span class="string">&#x27;./td[@class=&quot;status&quot;]/text()&#x27;</span>)[<span class="number">0</span>]  <span class="comment"># 获取状态</span></span><br><span class="line">    number = tr.xpath(<span class="string">&#x27;./td[2]/text()&#x27;</span>)[<span class="number">0</span>]  <span class="comment"># 获取数字</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;状态: <span class="subst">&#123;status&#125;</span>, 数字: <span class="subst">&#123;number&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li><code>./td[@class=&quot;status&quot;]/text()</code>：从当前行的 <code>&lt;td&gt;</code> 中选择 class 为 “status” 的列。</li>
+<li><code>./td[2]/text()</code>：选择当前行的第二个 <code>&lt;td&gt;</code> 节点的文本内容。</li>
+</ul>
+<p><strong>输出：</strong></p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">状态: 在线, 数字: 123</span><br><span class="line">状态: 离线, 数字: 456</span><br><span class="line">状态: 在线, 数字: 789</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="3-4-XPath-实用技巧"><a href="#3-4-XPath-实用技巧" class="headerlink" title="3.4 XPath 实用技巧"></a>3.4 XPath 实用技巧</h2><ol>
+<li><p><strong>使用属性选择节点：</strong></p>
+<ul>
+<li><code>//td[@class=&quot;status&quot;]</code> 选择所有 class 为 “status” 的 <code>&lt;td&gt;</code>。</li>
+<li><code>//a[@href]</code> 选择带有 <code>href</code> 属性的所有 <code>&lt;a&gt;</code> 标签。</li>
+</ul>
+</li>
+<li><p><strong>使用索引选择特定节点：</strong></p>
+<ul>
+<li><code>//tr[1]</code> 选择第一个 <code>&lt;tr&gt;</code> 节点。</li>
+<li><code>//td[2]</code> 选择当前 <code>&lt;tr&gt;</code> 中的第二个 <code>&lt;td&gt;</code> 节点。</li>
+</ul>
+</li>
+<li><p><strong>选择文本和属性：</strong></p>
+<ul>
+<li><code>//td/text()</code> 选择 <code>&lt;td&gt;</code> 内的文本。</li>
+<li><code>//a/@href</code> 选择所有 <code>&lt;a&gt;</code> 标签的 <code>href</code> 属性。</li>
+</ul>
+</li>
+<li><p><strong>条件筛选：</strong></p>
+<ul>
+<li><code>//tr[td[1]=&quot;在线&quot;]</code> 选择第一列文本为“在线”的行。</li>
+</ul>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>Python爬虫</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python 爬虫教程 05</title>
+    <url>/2024/10/17/05Python%E7%88%AC%E8%99%AB/</url>
+    <content><![CDATA[<h1 id="1-网页分析"><a href="#1-网页分析" class="headerlink" title="1.网页分析"></a>1.网页分析</h1><p>有时候要爬取的网页是需要翻页的，如图所示：</p>
+<p><a href="https://imgse.com/i/pAUAa1e"><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s21.ax1x.com/2024/10/17/pAUAa1e.png"
+                      alt="第一页.png"
+                ><figcaption>第一页.png</figcaption></figure></a></p>
+<p>设置有时候尽管网页需要翻页，但是在执行翻页操作时，地址栏（网址）没有发生变化，这时候可能隐藏在浏览器控制台的<code>network</code>中，如图所示：<br><a href="https://imgse.com/i/pAUAwXd"><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s21.ax1x.com/2024/10/17/pAUAwXd.png"
+                      alt="控制台.png"
+                ><figcaption>控制台.png</figcaption></figure></a></p>
+<h1 id="2-知道明确页数的情况"><a href="#2-知道明确页数的情况" class="headerlink" title="2.知道明确页数的情况"></a>2.知道明确页数的情况</h1><p>示例代码：</p>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">base_url = <span class="string">&quot;https://www.spiderbuf.cn/playground/s04?pageno=&#123;&#125;&quot;</span></span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 实现翻页爬取</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="number">6</span>):</span><br><span class="line">    url = base_url.<span class="built_in">format</span>(i)</span><br><span class="line">    html = requests.get(url=url, headers=headers).text</span><br><span class="line"></span><br><span class="line">    f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/04course/04_%d.html&#x27;</span> % i, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    f.write(html)</span><br><span class="line">    f.close()</span><br><span class="line"></span><br><span class="line">    root = etree.HTML(html)</span><br><span class="line">    trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/04course/data04_%d.txt&#x27;</span> % i, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    <span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">        tds = tr.xpath(<span class="string">&#x27;./td&#x27;</span>)</span><br><span class="line">        s = <span class="string">&#x27;&#x27;</span></span><br><span class="line">        <span class="keyword">for</span> td <span class="keyword">in</span> tds:</span><br><span class="line">            s = s + <span class="built_in">str</span>(td.xpath(<span class="string">&#x27;string(.)&#x27;</span>)) + <span class="string">&#x27;|&#x27;</span></span><br><span class="line">        <span class="built_in">print</span>(s)</span><br><span class="line">        <span class="keyword">if</span> s!= <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">            f.write(s + <span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
+
+<h1 id="3-不知道明确页数的情况"><a href="#3-不知道明确页数的情况" class="headerlink" title="3.不知道明确页数的情况"></a>3.不知道明确页数的情况</h1><p>可以通过查看网页源码找寻总页数，然后先用<code>xpath</code>解析网页里<code>总页数</code>的这个内容，再通过正则表达式解析出里面的数字：</p>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"><span class="keyword">import</span> re       <span class="comment"># 正则表达式库</span></span><br><span class="line"></span><br><span class="line">base_url = <span class="string">&quot;https://www.spiderbuf.cn/playground/s04?pageno=&#123;&#125;&quot;</span></span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">html_1 = requests.get(url= base_url.<span class="built_in">format</span>(<span class="number">1</span>), headers=headers).text</span><br><span class="line">root = etree.HTML(html_1)</span><br><span class="line">pages_text = root.xpath(<span class="string">&#x27;.//li/span/text()&#x27;</span>)    <span class="comment"># 返回的是一个列表</span></span><br><span class="line"><span class="built_in">print</span>(pages_text[<span class="number">0</span>])</span><br><span class="line"><span class="comment"># 正则表达式解析，提取数字</span></span><br><span class="line">pages = re.findall(<span class="string">&#x27;[0-9]&#x27;</span>, pages_text[<span class="number">0</span>])      <span class="comment"># 返回的是一个列表</span></span><br><span class="line"><span class="built_in">print</span>(pages)</span><br></pre></td></tr></table></figure></div>
+
+<p>输出结果：</p>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">共5页</span><br><span class="line">[&#x27;5&#x27;]</span><br></pre></td></tr></table></figure></div>
+
+<p>感觉这个方法并不怎么实用，因为这种情况的话是能直接在网页看到有多少页的，再解析就是多此一举了。提这个也只是为了引出正则表达式，关于正则表达式的教程，可以结合 AI 来学习。</p>
+]]></content>
+      <categories>
+        <category>Python爬虫</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python 爬虫教程 04</title>
+    <url>/2024/10/17/04Python%E7%88%AC%E8%99%AB/</url>
+    <content><![CDATA[<h1 id="1-测试案例"><a href="#1-测试案例" class="headerlink" title="1.测试案例"></a>1.测试案例</h1><div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;https://spiderbuf.cn/playground/s03&quot;</span></span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">html = requests.get(url=url, headers=headers).text</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/03course/03.html&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">f.write(html)</span><br><span class="line">f.close()</span><br><span class="line"></span><br><span class="line"><span class="comment"># print(html)</span></span><br><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/03course/data03.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    tds = tr.xpath(<span class="string">&#x27;./td&#x27;</span>)</span><br><span class="line">    s = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> td <span class="keyword">in</span> tds:</span><br><span class="line">        s = s + <span class="built_in">str</span>(td.text) + <span class="string">&#x27; | &#x27;</span></span><br><span class="line">    <span class="built_in">print</span>(s)</span><br><span class="line">    <span class="keyword">if</span> s!= <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        f.write(s + <span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
+
+<p>直接运行上面这段代码，会发现输出结果是这样的：</p>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">1 | None | CD-82-76-71-65-75 | 堡垒机 | 服务器 | Windows10 | 80,22,443 | </span><br><span class="line">                             | </span><br><span class="line">2 | None | E6-84-22-55-44-BE | 摄像头 | 摄像头 | HUAWEI | 80,22,443 | </span><br><span class="line">                             | </span><br><span class="line">3 | None | 37-01-AE-BE-5E-C0 | 文件服务器 | 服务器 | Linux | 80,22,443 | </span><br><span class="line">                             | </span><br><span class="line">4 | None | 84-A9-97-A8-B2-99 | 交换机 | 交换机 | HUAWEI | None | </span><br><span class="line">                             | </span><br><span class="line">5 | None | 8C-94-9D-85-6C-C1 | 堡垒机 | 服务器 | Windows10 | 80,22,443 | </span><br><span class="line">                             | </span><br><span class="line">6 | None | F2-10-E3-CA-DF-DC | 数据库服务器 | 服务器 | Windows10 | 80,22,443 | </span><br><span class="line">                             | </span><br><span class="line">7 | None | 46-9A-AF-F4-DC-33 | 数据库服务器 | 服务器 | Windows10 | 80,22,443 | </span><br><span class="line">                             | </span><br><span class="line">8 | None | B5-66-A6-0C-C6-57 | 堡垒机 | 服务器 | Linux | 80,22,443 | </span><br><span class="line">                             | </span><br><span class="line">9 | None | 5C-3F-8E-6E-D9-C5 | OA服务器 | 服务器 | Linux | 80,22,443 | </span><br><span class="line">                             | </span><br><span class="line">10 | None | EC-C6-79-88-4C-BA | 测试服务器 | 服务器 | Linux | 80,22,443 | </span><br><span class="line">                             | </span><br></pre></td></tr></table></figure></div>
+<p>第一列的内容都是<code>None</code>，这是为什么呢？</p>
+<h1 id="2-分析页面源码结构"><a href="#2-分析页面源码结构" class="headerlink" title="2.分析页面源码结构"></a>2.分析页面源码结构</h1><p>我们先来看下我们要爬取的页面的源码结构，是这段内容：</p>
+<div class="highlight-container" data-rel="Html"><figure class="iseeu highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">td</span>&gt;</span>1<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#&quot;</span>&gt;</span>172.16.80.178<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">td</span>&gt;</span>CD-82-76-71-65-75<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">td</span>&gt;</span>堡垒机<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">td</span>&gt;</span>服务器<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">td</span>&gt;</span>Windows10<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">td</span>&gt;</span>80,22,443<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">font</span> <span class="attr">color</span>=<span class="string">&quot;green&quot;</span>&gt;</span>在线<span class="tag">&lt;/<span class="name">font</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br></pre></td></tr></table></figure></div>
+
+<p>可以发现有两个部分：</p>
+<ul>
+<li>第二个<code>td</code>：<code>&lt;td&gt;&lt;a href=&quot;#&quot;&gt;172.16.80.178&lt;/a&gt;&lt;/td&gt;</code></li>
+<li>最后一个<code>td</code>：<code>&lt;td&gt;&lt;font color=&quot;green&quot;&gt;在线&lt;/font&gt;&lt;/td&gt;</code><br>这两个部分<code>&lt;td&gt;</code>里是不含内容的。要像这种<code>&lt;td&gt;文本&lt;/td&gt;</code>才说名含有内容，对于这种<code>&lt;td&gt;&lt;a&gt;文本&lt;a&gt;&lt;/td&gt;</code>是<code>&lt;a&gt;</code>含有内容，<code>&lt;td&gt;</code>不含。<br>所以我们要取出<code>&lt;a&gt;</code>节点里的内容应该怎么做呢？有一个思路是把<code>&lt;td&gt;</code>节点下的<code>&lt;a&gt;</code>节点的内容再取一遍，但这未免有点麻烦了。</li>
+</ul>
+<p>这里有一个简单的方法，把解析部分的代码改成这样：</p>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/03course/data03.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    tds = tr.xpath(<span class="string">&#x27;./td&#x27;</span>)</span><br><span class="line">    s = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> td <span class="keyword">in</span> tds:</span><br><span class="line">        s = s + <span class="built_in">str</span>(td.xpath(<span class="string">&#x27;string(.)&#x27;</span>)) + <span class="string">&#x27;|&#x27;</span>        <span class="comment"># 修改过后的解析操作</span></span><br><span class="line">    <span class="built_in">print</span>(s)</span><br><span class="line">    <span class="keyword">if</span> s!= <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        f.write(s + <span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
+<p>这种方式可以获取元素及其所有子元素的完整文本，而不仅仅是直接子节点的文本。<code>.</code>表示当前节点，这里就表示把当前节点的所有文本内容（包括子节点中的文本）提取出来。</p>
+]]></content>
+      <categories>
+        <category>Python爬虫</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Conda教程</title>
     <url>/2024/07/19/Conda%E6%95%99%E7%A8%8B/</url>
     <content><![CDATA[<h1 id="一、conda-指令"><a href="#一、conda-指令" class="headerlink" title="一、conda 指令"></a>一、conda 指令</h1><h2 id="1-1-查看配置"><a href="#1-1-查看配置" class="headerlink" title="1.1 查看配置"></a>1.1 查看配置</h2><div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="code"><pre><span class="line">conda config --show channels    # 查看镜像源</span><br><span class="line">conda config --show-sources        # 查看配置文件内容</span><br></pre></td></tr></table></figure></div>
@@ -2310,6 +2474,36 @@
       </tags>
   </entry>
   <entry>
+    <title>VirtualBox 实现主机与虚拟机（CachyOS）传文件</title>
+    <url>/2024/08/01/VirtualBox%E4%B8%BB%E6%9C%BA%E4%B8%8E%E8%99%9A%E6%8B%9F%E6%9C%BA%E9%97%B4%E4%BC%A0%E6%96%87%E4%BB%B6/</url>
+    <content><![CDATA[<h1 id="1-VirtualBox-中实现主机与虚拟机之间传输文件"><a href="#1-VirtualBox-中实现主机与虚拟机之间传输文件" class="headerlink" title="1.VirtualBox 中实现主机与虚拟机之间传输文件"></a>1.VirtualBox 中实现主机与虚拟机之间传输文件</h1><h2 id="1-1-VirtualBox-中的设置"><a href="#1-1-VirtualBox-中的设置" class="headerlink" title="1.1 VirtualBox 中的设置"></a>1.1 VirtualBox 中的设置</h2><p>如图所示：</p>
+<ul>
+<li><p>进入虚拟机的设置：<br><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://im.gurl.eu.org/file/b852b7e357c0db8eb549d.png"
+                      alt="图一"
+                ><figcaption>图一</figcaption></figure></p>
+</li>
+<li><p>创建主机挂载目录：<br><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://im.gurl.eu.org/file/a6030bd1051ef5e2c8ced.png"
+                      alt="图二"
+                ><figcaption>图二</figcaption></figure></p>
+</li>
+</ul>
+<h2 id="1-2-虚拟机中的设置"><a href="#1-2-虚拟机中的设置" class="headerlink" title="1.2 虚拟机中的设置"></a>1.2 虚拟机中的设置</h2><p>在虚拟机中创建共享目录：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> ~/share -p</span><br></pre></td></tr></table></figure></div>
+
+<p>将主机的那个共享目录挂载到<code>~/share</code>文件夹下：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> mount -t vboxsf CachyOS_share ~/share/</span><br></pre></td></tr></table></figure></div>
+]]></content>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>SSH 教程</title>
     <url>/2024/08/16/SSH%20%E6%95%99%E7%A8%8B/</url>
     <content><![CDATA[<h1 id="1-Windows-安装-SSH-工具"><a href="#1-Windows-安装-SSH-工具" class="headerlink" title="1.Windows 安装 SSH 工具"></a>1.Windows 安装 SSH 工具</h1><h2 id="1-1-方式一、使用-OpenSSH"><a href="#1-1-方式一、使用-OpenSSH" class="headerlink" title="1.1 方式一、使用 OpenSSH"></a>1.1 方式一、使用 OpenSSH</h2><p>可以直接搭配 Windows 的 PowerShell 使用，很轻量，但是功能少。配置方式可以参考我写的这篇文章：<a class="link"   href="https://loskyertt.github.io/2024/07/30/Openssh%E9%85%8D%E7%BD%AE/" >Win10 SSH 服务配置 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
@@ -2416,36 +2610,6 @@
       <tags>
         <tag>linux</tag>
         <tag>ssh</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>VirtualBox 实现主机与虚拟机（CachyOS）传文件</title>
-    <url>/2024/08/01/VirtualBox%E4%B8%BB%E6%9C%BA%E4%B8%8E%E8%99%9A%E6%8B%9F%E6%9C%BA%E9%97%B4%E4%BC%A0%E6%96%87%E4%BB%B6/</url>
-    <content><![CDATA[<h1 id="1-VirtualBox-中实现主机与虚拟机之间传输文件"><a href="#1-VirtualBox-中实现主机与虚拟机之间传输文件" class="headerlink" title="1.VirtualBox 中实现主机与虚拟机之间传输文件"></a>1.VirtualBox 中实现主机与虚拟机之间传输文件</h1><h2 id="1-1-VirtualBox-中的设置"><a href="#1-1-VirtualBox-中的设置" class="headerlink" title="1.1 VirtualBox 中的设置"></a>1.1 VirtualBox 中的设置</h2><p>如图所示：</p>
-<ul>
-<li><p>进入虚拟机的设置：<br><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://im.gurl.eu.org/file/b852b7e357c0db8eb549d.png"
-                      alt="图一"
-                ><figcaption>图一</figcaption></figure></p>
-</li>
-<li><p>创建主机挂载目录：<br><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://im.gurl.eu.org/file/a6030bd1051ef5e2c8ced.png"
-                      alt="图二"
-                ><figcaption>图二</figcaption></figure></p>
-</li>
-</ul>
-<h2 id="1-2-虚拟机中的设置"><a href="#1-2-虚拟机中的设置" class="headerlink" title="1.2 虚拟机中的设置"></a>1.2 虚拟机中的设置</h2><p>在虚拟机中创建共享目录：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> ~/share -p</span><br></pre></td></tr></table></figure></div>
-
-<p>将主机的那个共享目录挂载到<code>~/share</code>文件夹下：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> mount -t vboxsf CachyOS_share ~/share/</span><br></pre></td></tr></table></figure></div>
-]]></content>
-      <tags>
-        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -2880,6 +3044,38 @@
       <tags>
         <tag>linux</tag>
         <tag>ssh</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>搭建代理池</title>
+    <url>/2024/10/17/%E6%90%AD%E5%BB%BA%E4%BB%A3%E7%90%86%E6%B1%A0/</url>
+    <content><![CDATA[<h1 id="1-开源项目地址"><a href="#1-开源项目地址" class="headerlink" title="1.开源项目地址"></a>1.开源项目地址</h1><p><a class="link"   href="https://github.com/jhao104/proxy_pool" >jhao104&#x2F;proxy_pool <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<h1 id="2-搭建教程"><a href="#2-搭建教程" class="headerlink" title="2.搭建教程"></a>2.搭建教程</h1><h2 id="2-1-通过-docker-搭建"><a href="#2-1-通过-docker-搭建" class="headerlink" title="2.1 通过 docker 搭建"></a>2.1 通过 docker 搭建</h2><p>默认情况下，Docker 容器彼此无法通过<code>localhost</code>访问，需要通过容器的网络名称（桥接网络：<code>bridge</code>）进行通信。因此可以将<code>proxy_pool</code>和<code>redis</code>放在同一个 Docker 网络中。</p>
+<p><strong>创建网络：</strong></p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker network create mynetwork</span><br></pre></td></tr></table></figure></div>
+
+<p><strong>运行 Redis 容器并加入网络：</strong></p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -d --name redis --network=mynetwork -p 6379:6379 redis:latest</span><br></pre></td></tr></table></figure></div>
+
+<p><strong>运行<code>proxy_pool</code>容器并连接 Redis：</strong></p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -d --name proxy_pool --network=mynetwork --<span class="built_in">env</span> DB_CONN=redis://redis:6379/0 -p 5010:5010 jhao104/proxy_pool:latest</span><br></pre></td></tr></table></figure></div>
+
+<p><strong>查看日志信息：</strong></p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker logs proxy_pool</span><br></pre></td></tr></table></figure></div>
+
+<p>这是很就能看到获得的代理地址和端口。如下面所示：</p>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 39.175.75.144:30001     ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 8.221.141.88:8443       ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 47.109.83.196:8080      ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 185.49.31.205:8080      ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 72.10.160.171:11319     ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 102.213.146.206:8080    ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 79.110.202.131:8081     ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 178.130.40.231:8080     ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 188.166.56.246:80       ok</span><br></pre></td></tr></table></figure></div>
+
+<h1 id="3-使用教程"><a href="#3-使用教程" class="headerlink" title="3.使用教程"></a>3.使用教程</h1><p>代码示例：</p>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_proxy</span>():</span><br><span class="line">    <span class="keyword">return</span> requests.get(<span class="string">&quot;http://127.0.0.1:5010/get/&quot;</span>).json()</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">delete_proxy</span>(<span class="params">proxy</span>):</span><br><span class="line">    requests.get(<span class="string">&quot;http://127.0.0.1:5010/delete/?proxy=&#123;&#125;&quot;</span>.<span class="built_in">format</span>(proxy))</span><br><span class="line"></span><br><span class="line"><span class="comment"># your spider code</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">getHtml</span>(<span class="params">url, headers</span>):</span><br><span class="line">    retry_count = <span class="number">15</span></span><br><span class="line">    <span class="keyword">while</span> retry_count &gt; <span class="number">0</span>:</span><br><span class="line">        proxy = get_proxy().get(<span class="string">&quot;proxy&quot;</span>)</span><br><span class="line">        proxies = &#123;</span><br><span class="line">            <span class="string">&quot;http&quot;</span>: <span class="string">&quot;http://&quot;</span> + proxy,</span><br><span class="line">            <span class="string">&quot;https&quot;</span>: <span class="string">&quot;http://&quot;</span> + proxy</span><br><span class="line">            &#125;</span><br><span class="line">        <span class="built_in">print</span>(get_proxy().get(<span class="string">&quot;proxy&quot;</span>))</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="comment"># 使用代理访问</span></span><br><span class="line">            html = requests.get(url=url, headers=headers, proxies=proxies, timeout=<span class="number">5</span>)</span><br><span class="line">            <span class="keyword">return</span> html.text</span><br><span class="line">        <span class="keyword">except</span> Exception:</span><br><span class="line">            retry_count -= <span class="number">1</span></span><br><span class="line">            <span class="comment"># 删除代理池中代理</span></span><br><span class="line">            delete_proxy(proxy)</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;https://wuhan.anjuke.com/sale/p1/?from=esf_list&quot;</span></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36&quot;</span>,</span><br><span class="line">    <span class="string">&quot;Cookie&quot;</span>:  <span class="string">&quot;your-cookie&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">html_data = getHtml(url, headers)</span><br><span class="line"><span class="built_in">print</span>(html_data)</span><br></pre></td></tr></table></figure></div>
+<p><code>getHtml</code>函数中，会通过<code>while</code>循环来切换代理<code>ip</code>和<code>port</code>，直到请求成功，然后返回出结果并退出循环。</p>
+]]></content>
+      <categories>
+        <category>Python技巧</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+        <tag>docker</tag>
       </tags>
   </entry>
 </search>
