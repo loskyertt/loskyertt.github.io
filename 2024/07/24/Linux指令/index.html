@@ -1,0 +1,1271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Hexo Theme Redefine">
+    
+    <meta name="author" content="loskyertt">
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="http://example.com/2024/07/24/linux指令/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+        <meta name="description" content="主要用于记录下 Linux 指令，主要还是 EndeavourOS，不过除了包管理器，其它指令对各个发行版来说应该大差不差，当然记录的目的是为了方便自己查找。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux 指令">
+<meta property="og:url" content="http://example.com/2024/07/24/Linux%E6%8C%87%E4%BB%A4/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="主要用于记录下 Linux 指令，主要还是 EndeavourOS，不过除了包管理器，其它指令对各个发行版来说应该大差不差，当然记录的目的是为了方便自己查找。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-07-24T08:51:17.000Z">
+<meta property="article:modified_time" content="2024-11-13T03:07:10.566Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="linux">
+<meta name="twitter:card" content="summary">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/redefine-favicon.svg" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/redefine-favicon.svg">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/images/redefine-favicon.svg">
+    <!--- Page Info-->
+    
+    <title>
+        
+            Linux 指令 | sky&#39;s blog
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+
+
+    <!--- Inject Part-->
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/assets/build/styles.css">
+
+    
+
+    
+<link rel="stylesheet" href="/fonts/GeistMono/geist-mono.css">
+
+    
+<link rel="stylesheet" href="/fonts/Geist/geist.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+        
+<script src="/js/libs/anime.min.js"></script>
+
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"example.com","root":"/","language":"en","path":"search.xml"};
+    window.theme = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":true,"link_icon":true,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.4rem","h3":"1.9rem","h4":"1.6rem","h5":"1.4rem","h6":"1.3rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":["Unknown"]},"code_block":{"copy":true,"style":"mac","highlight_theme":{"light":"github","dark":"vs2015"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"recommendation":{"enable":true,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null,"default_mode":"light"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":false,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":true,"open_graph":true,"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/wallhaven-wqery6-light.webp","dark":"/images/wallhaven-wqery6-dark.webp"},"title":"吾日三省吾身","subtitle":{"text":["Loading..."],"hitokoto":{"enable":true,"show_author":false,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":{"github":"https://github.com/loskyertt","instagram":null,"zhihu":null,"twitter":"https://x.com/loskyertt","email":"loskyertt@cug.edu.cn"},"qrs":{"weixin":null}}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null,"lrc":null}]},"mermaid":{"enable":false,"version":"9.3.0"}},"version":"2.7.3","navbar":{"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":35},"width":{"home":"1200px","pages":"1000px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Google":{"path":"https://ww.google.com/","icon":"fa-brands fa-google"},"Archives":{"path":"/archives","icon":"fa-regular fa-archive"}},"search":{"enable":true,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"show_on_mobile":true,"links":null},"article_date_format":"YYYY-MM-DD","excerpt_length":200,"categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footerStart":"2022/8/17 11:45:14"};
+    window.lang_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+<!--        <span class="swup-progress-icon">-->
+<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+<!--        </span>-->
+    
+</div>
+
+
+
+    <style>
+    :root {
+        --preloader-background-color: #fff;
+        --preloader-text-color: #000;
+    }
+
+    @media (prefers-color-scheme: dark) {
+        :root {
+            --preloader-background-color: #202124;
+            --preloader-text-color: #fff;
+        }
+    }
+
+    @media (prefers-color-scheme: light) {
+        :root {
+            --preloader-background-color: #fff;
+            --preloader-text-color: #000;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .ml13 {
+            font-size: 2.6rem !important; /* Adjust this value as needed */
+        }
+    }
+
+    .preloader {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem; /* Tailwind 'gap-4' is 1rem */
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        padding: 12px;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh; /* 'h-screen' is 100% of the viewport height */
+        background-color: var(--preloader-background-color);
+        z-index: 1100; /* 'z-[1100]' sets the z-index */
+        transition: opacity 0.2s ease-in-out;
+    }
+
+    .ml13 {
+        font-size: 3.2rem;
+        /* text-transform: uppercase; */
+        color: var(--preloader-text-color);
+        letter-spacing: -1px;
+        font-weight: 500;
+        font-family: 'Chillax-Variable', sans-serif;
+        text-align: center;
+    }
+
+    .ml13 .word {
+        display: inline-flex;
+        flex-wrap: wrap;
+        white-space: nowrap;
+    }
+
+    .ml13 .letter {
+        display: inline-block;
+        line-height: 1em;
+    }
+</style>
+
+<div class="preloader">
+    <h2 class="ml13">
+        sky&#39;s blog
+    </h2>
+    <script>
+        var textWrapper = document.querySelector('.ml13');
+        // Split text into words
+        var words = textWrapper.textContent.trim().split(' ');
+
+        // Clear the existing content
+        textWrapper.innerHTML = '';
+
+        // Wrap each word and its letters in spans
+        words.forEach(function(word) {
+            var wordSpan = document.createElement('span');
+            wordSpan.classList.add('word');
+            wordSpan.innerHTML = word.replace(/\S/g, "<span class='letter'>$&</span>");
+            textWrapper.appendChild(wordSpan);
+            textWrapper.appendChild(document.createTextNode(' ')); // Add space between words
+        });
+
+        var animation = anime.timeline({ loop: true })
+            .add({
+                targets: '.ml13 .letter',
+                translateY: [20, 0],
+                translateZ: 0,
+                opacity: [0, 1],
+                filter: ['blur(5px)', 'blur(0px)'],
+                easing: "easeOutExpo",
+                duration: 1200,
+                delay: (el, i) => 300 + 20 * i,
+            })
+            .add({
+                targets: '.ml13 .letter',
+                translateY: [0, -20],
+                opacity: [1, 0],
+                filter: ['blur(0px)', 'blur(5px)'],
+                easing: "easeInExpo",
+                duration: 1000,
+                delay: (el, i) => 15 * i,
+                complete: function() {
+                    hidePreloader();
+                }
+            }, '-=700');
+
+
+        let themeStatus = JSON.parse(localStorage.getItem('REDEFINE-THEME-STATUS'))?.isDark;
+
+        // If the theme status is not found in local storage, check the preferred color scheme
+        if (themeStatus === undefined || themeStatus === null) {
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                themeStatus = 'dark';
+            } else {
+                themeStatus = 'light';
+            }
+        }
+
+        // Now you can use the themeStatus variable in your code
+        if (themeStatus) {
+            document.documentElement.style.setProperty('--preloader-background-color', '#202124');
+            document.documentElement.style.setProperty('--preloader-text-color', '#fff');
+        } else {
+            document.documentElement.style.setProperty('--preloader-background-color', '#fff');
+            document.documentElement.style.setProperty('--preloader-text-color', '#000');
+        }
+
+        window.addEventListener('load', function () {
+            setTimeout(hidePreloader, 5000); // Call hidePreloader after 5000 milliseconds if not already called by animation
+        });
+
+        function hidePreloader() {
+            var preloader = document.querySelector('.preloader');
+            preloader.style.opacity = '0';
+            setTimeout(function () {
+                preloader.style.display = 'none';
+            }, 200);
+        }
+    </script>
+</div>
+
+<main class="page-container" id="swup">
+
+    
+
+    <div class="main-content-container flex flex-col justify-between min-h-dvh">
+
+
+        <div class="main-content-header">
+            <header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                sky&#39;s blog
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/"
+                                        >
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    HOME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   target="_blank" rel="noopener" href="https://ww.google.com/"
+                                        >
+                                    <i class="fa-brands fa-google fa-fw"></i>
+                                    GOOGLE
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/archives"
+                                        >
+                                    <i class="fa-regular fa-archive fa-fw"></i>
+                                    ARCHIVES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/"
+                        >
+                            <span>
+                                HOME
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           target="_blank" rel="noopener" href="https://ww.google.com/"
+                        >
+                            <span>
+                                GOOGLE
+                            </span>
+                            
+                                <i class="fa-brands fa-google fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/archives"
+                        >
+                            <span>
+                                ARCHIVES
+                            </span>
+                            
+                                <i class="fa-regular fa-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">14</div>
+        <div class="label text-third-text-color text-sm">Tags</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">4</div>
+        <div class="label text-third-text-color text-sm">Categories</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">40</div>
+        <div class="label text-third-text-color text-sm">Posts</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="main-content-body">
+
+            
+
+            <div class="main-content">
+
+                
+                    <div class="post-page-container flex relative justify-between box-border w-full h-full">
+    <div class="article-content-container">
+
+        <div class="article-title relative w-full">
+            
+                
+                
+                <img src="https://softwarelab.org/wp-content/uploads/Linux.jpg" alt="Linux 指令" class="w-full h-60 sm:h-72 md:h-80 object-cover sm:rounded-t-large dark:brightness-75"/>
+                
+                <div class="w-full flex items-center absolute bottom-0 justify-start">
+                    <h1 class="article-title-cover text-center mx-6 my-6 text-second-text-color bg-background-color-transparent px-4 py-3 text-3xl sm:text-4xl md:text-5xl font-semibold backdrop-blur-lg rounded-xl border border-border-color ">Linux 指令</h1>
+                </div>
+            
+            </div>
+
+        
+            <div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+                <div class="avatar w-[46px] h-[46px] flex-shrink-0 rounded-medium border border-border-color p-[1px]">
+                    <img src="/images/me.jpg">
+                </div>
+                <div class="info flex flex-col justify-between">
+                    <div class="author flex items-center">
+                        <span class="name text-default-text-color text-lg font-semibold">loskyertt</span>
+                        
+                            <span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Unknown</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2024-07-24 08:51:17</span>
+        <span class="mobile">2024-07-24 08:51:17</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2024-11-13 03:07:10</span>
+            <span class="mobile">2024-11-13 03:07:10</span>
+            <span class="hover-info">Updated</span>
+        </span>
+    
+
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/linux/">linux</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>3.1k Words</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>12 Mins</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        
+
+
+        <div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+            <h1 id="一、包管理器"><a href="#一、包管理器" class="headerlink" title="一、包管理器"></a>一、包管理器</h1><h2 id="1-1-介绍"><a href="#1-1-介绍" class="headerlink" title="1.1 介绍"></a>1.1 介绍</h2><p>  在 <code>EndeavouOS</code>（以及其他基于<code>Arch</code>的发行版）中，<code>pacman</code> 是一个用于软件包管理的命令行工具。下面是 <code>pacman</code> 命令的详细解释：</p>
+<ul>
+<li><code>-S</code>：用于安装软件包。</li>
+<li><code>-y</code>：强制刷新软件包数据库。</li>
+<li><code>-yy</code>：强制刷新所有的软件包数据库。通常只需要一个 <code>-y</code> 就足够，但 <code>-yy</code> 用于解决某些情况下可能出现的数据库同步问题。</li>
+<li><code>-u</code>：更新所有已安装的软件包，用于更新系统或者<code>pacman</code>包含的软件以及以来库。</li>
+</ul>
+<p>对于所有用<code>pacman</code>进行的操作，都可以通过<code>yay</code>实现：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman yay</span><br></pre></td></tr></table></figure></div>
+<p><code>yay</code>支持的软件多一些（通过<code>aur</code>源）。</p>
+<h2 id="1-2-下载和更新"><a href="#1-2-下载和更新" class="headerlink" title="1.2 下载和更新"></a>1.2 下载和更新</h2><ul>
+<li><strong>要更新或下载指定的软件包：</strong><div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S 包名</span><br></pre></td></tr></table></figure></div>
+<code>pacman</code> 会检查你指定的软件包是否有新版本，如果有的话，就会下载并安装更新后的版本。</li>
+</ul>
+<h2 id="1-3-查看包-库信息"><a href="#1-3-查看包-库信息" class="headerlink" title="1.3 查看包&#x2F;库信息"></a>1.3 查看包&#x2F;库信息</h2><ul>
+<li><p><strong>查看包名信息</strong>：<br>显示指定软件包的信息，但不会安装或更新。这个选项可以用来查看某个软件包的详细信息，包括它的版本、依赖关系等。例如：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pacman -Si &lt;pkgname&gt;</span><br></pre></td></tr></table></figure></div>
+<p>查看包的简略信息</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yay -Qs &lt;pkgname&gt;</span><br></pre></td></tr></table></figure></div>
+<p>查看包的详细信息</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yay -Qi &lt;pkgname&gt;</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p><strong>查看可升级的包&#x2F;库：</strong><br>列出有可用更新的已安装软件包及其最新版本。</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -Qu</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<p>列出所有的外部软件包（即非官方仓库安装的包，如<code>AUR</code>软件包）：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pacman -Qm</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="1-4-卸载"><a href="#1-4-卸载" class="headerlink" title="1.4 卸载"></a>1.4 卸载</h2><h3 id="1-4-1-卸载单个软件包"><a href="#1-4-1-卸载单个软件包" class="headerlink" title="1.4.1 卸载单个软件包"></a>1.4.1 卸载单个软件包</h3><p>要卸载单个软件包，可以使用以下命令：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -R package_name</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="1-4-2-卸载软件包及其未使用的依赖"><a href="#1-4-2-卸载软件包及其未使用的依赖" class="headerlink" title="1.4.2 卸载软件包及其未使用的依赖"></a>1.4.2 卸载软件包及其未使用的依赖</h3><p>有时卸载一个包后，它的一些依赖包可能不再被其他软件包使用。要卸载软件包及其未使用的依赖，可以使用以下命令：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -Rns package_name</span><br></pre></td></tr></table></figure></div>
+
+<p>解释：</p>
+<ul>
+<li><code>-R</code>(–remove)：卸载指定的包。</li>
+<li><code>-n</code>(–nosave)：从系统中删除安装包的所有配置文件。</li>
+<li><code>-s</code>(–recursive)：递归地卸载未使用的依赖包。</li>
+</ul>
+<h3 id="1-4-3-强制卸载（不推荐）"><a href="#1-4-3-强制卸载（不推荐）" class="headerlink" title="1.4.3 强制卸载（不推荐）"></a>1.4.3 强制卸载（不推荐）</h3><p>在极少数情况下，可能需要强制卸载一个包，即使这可能会破坏系统的依赖关系。请谨慎使用此选项：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -Rdd package_name</span><br></pre></td></tr></table></figure></div>
+
+<p>解释：</p>
+<ul>
+<li><code>-d</code>：忽略依赖关系检查。</li>
+</ul>
+<h3 id="1-4-4-清理未使用的孤立包"><a href="#1-4-4-清理未使用的孤立包" class="headerlink" title="1.4.4 清理未使用的孤立包"></a>1.4.4 清理未使用的孤立包</h3><p>系统中可能会有一些未使用的孤立包，这些包是作为依赖安装的，但现在没有任何包依赖它们。可以使用以下命令清理这些孤立包：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -Rns $(pacman -Qtdq)</span><br></pre></td></tr></table></figure></div>
+
+<p>解释：</p>
+<ul>
+<li><code>pacman -Qtdq</code>：列出所有未使用的孤立包。</li>
+<li><code>-Rns</code>：递归地卸载未使用的包及其配置文件。</li>
+</ul>
+<h1 id="二、常用指令"><a href="#二、常用指令" class="headerlink" title="二、常用指令"></a>二、常用指令</h1><h2 id="2-1-查看开机启动项的方法"><a href="#2-1-查看开机启动项的方法" class="headerlink" title="2.1 查看开机启动项的方法"></a>2.1 查看开机启动项的方法</h2><h3 id="2-1-1-使用-systemctl-查看-systemd-服务"><a href="#2-1-1-使用-systemctl-查看-systemd-服务" class="headerlink" title="2.1.1 使用 systemctl 查看 systemd 服务"></a>2.1.1 使用 systemctl 查看 systemd 服务</h3><p>使用 <code>systemctl</code> 命令来列出所有启用的（开机自启动的）systemd 服务：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl list-unit-files --<span class="built_in">type</span>=service --state=enabled</span><br></pre></td></tr></table></figure></div>
+
+<p>查看当前运行的服务：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl list-units --<span class="built_in">type</span>=service --state=running</span><br></pre></td></tr></table></figure></div>
+
+<p>你也可以使用 <code>systemctl</code> 查看所有启用的单元文件，包括服务、套接字、目标等：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl list-unit-files --state=enabled</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="2-1-2-查看用户和系统级别的开机自启动应用"><a href="#2-1-2-查看用户和系统级别的开机自启动应用" class="headerlink" title="2.1.2 查看用户和系统级别的开机自启动应用"></a>2.1.2 查看用户和系统级别的开机自启动应用</h3><p>用户级别的开机自启动应用通常在 <code>~/.config/autostart</code> 目录下。你可以使用以下命令查看该目录中的内容：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 用户</span></span><br><span class="line"><span class="built_in">ls</span> ~/.config/autostart</span><br><span class="line"></span><br><span class="line"><span class="comment"># 系统</span></span><br><span class="line"><span class="built_in">ls</span> /etc/xdg/autostart</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="2-1-3-使用-crontab-查看定时任务"><a href="#2-1-3-使用-crontab-查看定时任务" class="headerlink" title="2.1.3 使用 crontab 查看定时任务"></a>2.1.3 使用 crontab 查看定时任务</h3><p>你还可以使用 <code>crontab</code> 查看是否有任何定时任务设置为在启动时运行。使用以下命令查看当前用户的 <code>crontab</code> 条目：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crontab -l</span><br></pre></td></tr></table></figure></div>
+
+<p>如果有需要在系统启动时运行的任务，它们通常会使用 <code>@reboot</code> 时间标志。</p>
+<h3 id="2-1-4-检查-etc-rc-local-文件"><a href="#2-1-4-检查-etc-rc-local-文件" class="headerlink" title="2.1.4 检查 &#x2F;etc&#x2F;rc.local 文件"></a>2.1.4 检查 &#x2F;etc&#x2F;rc.local 文件</h3><p>虽然 <code>rc.local</code> 文件在现代系统中不再常用，但有时仍然会使用它来设置开机自启动任务。你可以检查这个文件（如果存在）来查看是否有任何任务设置为在启动时运行：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> /etc/rc.local</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="2-2-文件操作"><a href="#2-2-文件操作" class="headerlink" title="2.2 文件操作"></a>2.2 文件操作</h2><h3 id="2-2-1-touch-指令"><a href="#2-2-1-touch-指令" class="headerlink" title="2.2.1 touch 指令"></a>2.2.1 touch 指令</h3><p>创建文件：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">touch</span> &lt;filename&gt;</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="2-2-2-mkdir-指令"><a href="#2-2-2-mkdir-指令" class="headerlink" title="2.2.2 mkdir 指令"></a>2.2.2 mkdir 指令</h3><p>创建文件夹：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> &lt;foldername&gt;</span><br></pre></td></tr></table></figure></div>
+<p>强行创建，比如当<code>&lt;folder1&gt;</code>不存在时：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> -p &lt;folder1&gt;/&lt;folder2&gt;</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="2-2-3-rm-指令"><a href="#2-2-3-rm-指令" class="headerlink" title="2.2.3 rm 指令"></a>2.2.3 rm 指令</h3><p>删除文件：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">rm</span> &lt;filename1&gt; &lt;filename2&gt;</span><br></pre></td></tr></table></figure></div>
+
+<p>删除该文件夹下的所有子文件</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">rm</span> &lt;foldername&gt;/ -rf</span><br></pre></td></tr></table></figure></div>
+
+<p>删除当前文件夹的所有文件</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">rm</span> * -rf</span><br></pre></td></tr></table></figure></div>
+
+<p><strong>注：</strong> 后缀的<code>-rf</code>是指强制删除（不会有警告），<code>-r</code>是指递归普通删除（若与其它文件有链接，会提出警告）。</p>
+<h3 id="2-2-4-cp-指令"><a href="#2-2-4-cp-指令" class="headerlink" title="2.2.4 cp 指令"></a>2.2.4 cp 指令</h3><p>复制文件夹操作需要加<code>-r</code>：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cp</span> &lt;foldername1&gt; &lt;foldername2&gt; -r</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="2-2-5-mv-指令"><a href="#2-2-5-mv-指令" class="headerlink" title="2.2.5 mv 指令"></a>2.2.5 mv 指令</h3><p>可以对文件或者文件夹进行重命名：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mv</span> test01.txt test02.txt</span><br></pre></td></tr></table></figure></div>
+<p>如果<code>test01.txt</code>存在，<code>test02.txt</code>不存在，会把<code>test01.txt</code>命名为<code>test02.txt</code>。</p>
+<p>对文件或者文件夹进行移动操作：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mv</span> /test.txt ~/temp</span><br></pre></td></tr></table></figure></div>
+<p>把<code>test.txt</code>移动到<code>~/temp</code>文件夹下。</p>
+<h3 id="2-5-6-加上-r-的用处"><a href="#2-5-6-加上-r-的用处" class="headerlink" title="2.5.6 加上 -r 的用处"></a>2.5.6 加上 -r 的用处</h3><p>总结下<code>rm</code>、<code>cp</code>、<code>mv</code>这三种指令，对文件夹操作都会加上<code>-r</code>。这里表示<code>加上</code>-r<code>（或</code>–recursive&#96;）选项后，这些命令会递归地操作目录及其内容。</p>
+<h3 id="2-5-7-find-指令"><a href="#2-5-7-find-指令" class="headerlink" title="2.5.7 find 指令"></a>2.5.7 find 指令</h3><ol>
+<li><p><strong>基本语法</strong> ：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find [路径] [选项] [表达式]</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p><strong>查找特定目录下的所有文件</strong> ：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find /path/to/directory</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p><strong>根据文件名查找</strong> ：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find /path/to/directory -name <span class="string">&quot;filename.txt&quot;</span></span><br></pre></td></tr></table></figure></div>
+<p>使用 <code>-iname</code> 可以进行不区分大小写的查找：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find /path/to/directory -iname <span class="string">&quot;filename.txt&quot;</span></span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p><strong>查找特定类型的文件</strong> ：<br>查找所有目录：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find /path/to/directory -<span class="built_in">type</span> d</span><br></pre></td></tr></table></figure></div>
+<p>查找所有普通文件：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find /path/to/directory -<span class="built_in">type</span> f</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p><strong>根据文件大小查找</strong> ：<br>查找大于 1MB 的文件：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find /path/to/directory -size +1M</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p><strong>根据修改时间查找</strong> ：<br>查找最近 7 天内修改过的文件：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find /path/to/directory -mtime -7</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p><strong>执行命令</strong> ：<br>找到文件后执行命令，例如删除找到的文件：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find /path/to/directory -name <span class="string">&quot;filename.txt&quot;</span> -<span class="built_in">exec</span> <span class="built_in">rm</span> &#123;&#125; \;</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p><strong>查找并列出文件的详细信息</strong>：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find /path/to/directory -name <span class="string">&quot;filename.txt&quot;</span> -<span class="built_in">ls</span></span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p><strong>结合多个条件</strong> ：<br>查找所有 <code>.txt</code> 文件并且大小大于 1MB：</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find /path/to/directory -name &quot;*.txt&quot; -size +1M</span><br></pre></td></tr></table></figure></div></li>
+</ol>
+<h2 id="2-3-赋予文件或文件夹权限"><a href="#2-3-赋予文件或文件夹权限" class="headerlink" title="2.3 赋予文件或文件夹权限"></a>2.3 赋予文件或文件夹权限</h2><ol>
+<li><p>使用<code>chmod</code>命令递归地更改文件夹内所有文件和子文件夹的权限：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">chmod</span> -R 777 /path/to/your/folder</span><br></pre></td></tr></table></figure></div>
+<p><code>-R</code>表示递归。</p>
+</li>
+<li><p>更改文件的权限而不更改文件夹的权限，可以结合<code>find</code>命令来实现：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find /path/to/your/folder -<span class="built_in">type</span> f -<span class="built_in">exec</span> <span class="built_in">chmod</span> 777 &#123;&#125; +</span><br></pre></td></tr></table></figure></div>
+<p>这将只更改所有文件的权限，而不影响文件夹的权限。</p>
+</li>
+<li><p>单独更改文件夹的权限（例如，给文件夹777权限，而文件保持不变）：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find /path/to/your/folder -<span class="built_in">type</span> d -<span class="built_in">exec</span> <span class="built_in">chmod</span> 777 &#123;&#125; +</span><br></pre></td></tr></table></figure></div></li>
+</ol>
+<h2 id="2-4-解压缩"><a href="#2-4-解压缩" class="headerlink" title="2.4 解压缩"></a>2.4 解压缩</h2><p><code>tar</code> 是一个常用的 Unix 和 Linux 工具，用于归档（打包）和压缩文件。</p>
+<p>参数如下：</p>
+<ul>
+<li><strong><code>-z</code></strong> ：通过 <code>gzip</code> 压缩或解压缩数据。这个选项告诉 <code>tar</code> 文件是经过 <code>gzip</code> 压缩的。用于处理<code>.tar.gz</code>或<code>.tgz</code>文件。</li>
+<li><strong>J</strong> ：使用<code>xz</code>来处理<code>.xz</code>格式的压缩文件。</li>
+<li><strong><code>-x</code></strong> ：解压缩归档文件。这个选项指示 <code>tar</code> 从归档文件中提取文件。</li>
+<li><strong><code>-v</code></strong> ：显示详细的输出。在解压缩或打包过程中，它会列出处理的文件名。</li>
+<li><strong><code>-f</code></strong> ：指定归档文件的名称。这个选项后面需要跟上归档文件的名称。</li>
+</ul>
+<h3 id="使用示例"><a href="#使用示例" class="headerlink" title="使用示例"></a>使用示例</h3><p>假设你有一个压缩的 tar 文件 <code>archive.tar.gz</code>，你可以使用以下命令来解压它：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf archive.tar.gz</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="2-5-切换为-root-用户"><a href="#2-5-切换为-root-用户" class="headerlink" title="2.5 切换为 root 用户"></a>2.5 切换为 root 用户</h2><h3 id="2-5-1-使用-su-命令"><a href="#2-5-1-使用-su-命令" class="headerlink" title="2.5.1 使用 su 命令"></a>2.5.1 使用 <code>su</code> 命令</h3><p><code>su</code>（switch user）命令可以用来切换到其他用户，包括 <code>root</code> 用户。</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">su -</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li><strong><code>-</code></strong> 选项（或 <code>--login</code>）会使 <code>su</code> 命令模拟一个完整的登录 shell，设置环境变量如 <code>PATH</code> 和 <code>HOME</code>，相当于从登录开始。</li>
+<li>执行命令后，你会被提示输入 <code>root</code> 用户的密码。如果密码正确，你会切换到 <code>root</code> 用户。</li>
+</ul>
+<p>如果你只想切换到 <code>root</code> 用户而不加载 <code>root</code> 用户的环境配置，可以省略 <code>-</code> 选项：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">su</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="2-5-2-使用-sudo-命令"><a href="#2-5-2-使用-sudo-命令" class="headerlink" title="2.5.2 使用 sudo 命令"></a>2.5.2 使用 <code>sudo</code> 命令</h3><p><code>sudo</code> 命令允许以 <code>root</code> 用户或其他用户的身份执行命令。要切换到 <code>root</code> 用户，你可以使用以下命令：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> -i</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li><strong><code>-i</code></strong> 选项使 <code>sudo</code> 模拟一个登录 shell，切换到 <code>root</code> 用户并加载 <code>root</code> 用户的环境变量。</li>
+</ul>
+<p>如果你只想以 <code>root</code> 用户身份执行单个命令，可以直接在命令前加上 <code>sudo</code>：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">command</span></span><br></pre></td></tr></table></figure></div>
+
+<p>例如：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">ls</span> /root</span><br></pre></td></tr></table></figure></div>
+
+<p>这会以 <code>root</code> 用户的权限执行 <code>ls /root</code> 命令。</p>
+<h3 id="2-5-3-使用-sudo-su-命令"><a href="#2-5-3-使用-sudo-su-命令" class="headerlink" title="2.5.3 使用 sudo su 命令"></a>2.5.3 使用 <code>sudo su</code> 命令</h3><p>你也可以通过 <code>sudo</code> 命令切换到 <code>root</code> 用户，使用以下命令：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> su -</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li><strong><code>sudo su -</code></strong> 组合命令先用 <code>sudo</code> 获得临时的 <code>root</code> 权限，再用 <code>su -</code> 切换到 <code>root</code> 用户。</li>
+</ul>
+<h3 id="2-5-4-注意事项"><a href="#2-5-4-注意事项" class="headerlink" title="2.5.4 注意事项"></a>2.5.4 注意事项</h3><ul>
+<li><strong><code>root</code> 密码</strong> ：你需要知道 <code>root</code> 用户的密码来使用 <code>su</code> 命令。<code>sudo</code> 需要你当前用户在 <code>sudoers</code> 文件中有权限执行 <code>sudo</code> 命令，且你需要输入你自己的用户密码。</li>
+<li><strong>权限管理</strong> ：在某些系统（如 Ubuntu）默认不启用 <code>root</code> 用户的密码，而是通过 <code>sudo</code> 提供管理员权限。你可能需要使用 <code>sudo</code> 命令而不是 <code>su</code> 来获得 <code>root</code> 权限。</li>
+</ul>
+<h2 id="2-6-查看文件大小"><a href="#2-6-查看文件大小" class="headerlink" title="2.6 查看文件大小"></a>2.6 查看文件大小</h2><h3 id="2-6-1-使用-du-命令"><a href="#2-6-1-使用-du-命令" class="headerlink" title="2.6.1 使用 du 命令"></a>2.6.1 使用 <code>du</code> 命令</h3><p><code>du</code>（disk usage）命令用于显示文件和目录的磁盘使用情况：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">du</span> -sh /path/to/directory</span><br></pre></td></tr></table></figure></div>
+
+<p><strong>参数解释：</strong></p>
+<ul>
+<li><strong><code>-s</code></strong> ：显示总计，只显示指定目录的总大小，而不是递归显示每个子目录。</li>
+<li><strong><code>-h</code></strong> ：以人类可读的格式显示大小（如 KB, MB, GB），使输出更易读。</li>
+</ul>
+<h3 id="2-6-2-使用-du-命令按大小排序"><a href="#2-6-2-使用-du-命令按大小排序" class="headerlink" title="2.6.2 使用 du 命令按大小排序"></a>2.6.2 使用 <code>du</code> 命令按大小排序</h3><p>如果你想按大小排序显示子目录，可以使用以下命令：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">du</span> -h /path/to/directory | <span class="built_in">sort</span> -h</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="2-6-3-使用-ls-命令查看目录大小"><a href="#2-6-3-使用-ls-命令查看目录大小" class="headerlink" title="2.6.3 使用 ls 命令查看目录大小"></a>2.6.3 使用 <code>ls</code> 命令查看目录大小</h3><p>尽管 <code>ls</code> 命令主要用于列出目录中的文件，它也可以用来查看目录的大小，但它的显示可能不如 <code>du</code> 直观。</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ls</span> -lh /path/to/directory</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li>**<code>-l</code>**：长格式列出文件信息，包括大小。</li>
+<li>**<code>-h</code>**：以人类可读的格式显示文件大小。</li>
+</ul>
+<h2 id="2-7-查看文件详细信息"><a href="#2-7-查看文件详细信息" class="headerlink" title="2.7 查看文件详细信息"></a>2.7 查看文件详细信息</h2><ol>
+<li><p><strong>使用 <code>stat</code> 命令：</strong></p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">stat</span> filename</span><br></pre></td></tr></table></figure></div>
+<p>这会显示文件的详细信息，包括创建时间（如果文件系统支持），通常在“Birth”字段下。如果你的文件系统不支持创建时间，它可能不会显示这个字段。</p>
+</li>
+<li><p><strong>使用 <code>debugfs</code> 工具（仅适用于 ext 文件系统）：</strong></p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> debugfs -R <span class="string">&#x27;stat &lt;inode&gt;&#x27;</span> /dev/sdXn</span><br></pre></td></tr></table></figure></div>
+<p>替换 <code>&lt;inode&gt;</code> 为实际的 inode 号，<code>/dev/sdXn</code> 为文件所在的分区。这种方法可以提供更详细的文件信息。</p>
+</li>
+<li><p><strong>文件系统支持：</strong><br>一些文件系统（如 ext4）支持创建时间，而其他文件系统（如 ext3）则可能不支持。如果你在 <code>stat</code> 输出中看不到创建时间，可能是因为你的文件系统不支持这一功能。</p>
+</li>
+</ol>
+<h1 id="三、提高编译速度的方法"><a href="#三、提高编译速度的方法" class="headerlink" title="三、提高编译速度的方法"></a>三、提高编译速度的方法</h1><h2 id="3-1-增加编译并行度"><a href="#3-1-增加编译并行度" class="headerlink" title="3.1 增加编译并行度"></a>3.1 增加编译并行度</h2><p>可以通过设置更多的并行编译任务来加速编译过程。使用与 CPU 核心数量相等或更多的并行任务数。设置 MAKEFLAGS 来实现这一点：</p>
+<p>编辑 &#x2F;etc&#x2F;makepkg.conf 文件，找到以下行并进行修改：</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MAKEFLAGS=&quot;-j$(nproc)&quot;</span><br></pre></td></tr></table></figure></div>
+<p><code>$(nproc)</code>会自动检测 CPU 核心数，并设置相同数量的并行任务。包括在执行<code>make</code>指令时，可以通过加<code>-j&lt;核心数&gt;</code>来手动指定编译时用CPU的核心数。</p>
+<h1 id="四、用户操作"><a href="#四、用户操作" class="headerlink" title="四、用户操作"></a>四、用户操作</h1><h2 id="4-1-创建一个新用户"><a href="#4-1-创建一个新用户" class="headerlink" title="4.1 创建一个新用户"></a>4.1 创建一个新用户</h2><div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> useradd -m &lt;new_username&gt;</span><br></pre></td></tr></table></figure></div>
+<p><code>-m</code>：创建用户的同时生成一个主目录。</p>
+<p>为新用户设置密码：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> passwd &lt;new_username&gt;</span><br></pre></td></tr></table></figure></div>
+
+<p>如果希望新用户拥有管理员权限，可以将其加入<code>sudo</code>组：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> usermod -aG <span class="built_in">sudo</span> &lt;new_username&gt;</span><br></pre></td></tr></table></figure></div>
+<p>Arch 系的发行版是用下面这种方式：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> usermod -aG wheel &lt;new_username&gt;</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="4-2-移除用户"><a href="#4-2-移除用户" class="headerlink" title="4.2 移除用户"></a>4.2 移除用户</h2><p>删除用户及其主目录：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> userdel -r &lt;username&gt;</span><br></pre></td></tr></table></figure></div>
+<p><code>-r</code>：删除用户的同时移除用户的主目录及文件。如果不使用<code>-r</code>，只会删除用户账号，不会删除用户的主目录和文件。</p>
+
+        </div>
+
+        
+            <div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> Linux 指令</li>
+        <li><strong>Author:</strong> loskyertt</li>
+        <li><strong>Created at
+                :</strong> 2024-07-24 08:51:17</li>
+        
+            <li>
+                <strong>Updated at
+                    :</strong> 2024-11-13 03:07:10
+            </li>
+        
+        <li>
+            <strong>Link:</strong> https://redefine.ohevan.com/2024/07/24/Linux指令/
+        </li>
+        <li>
+            <strong>
+                License:
+            </strong>
+            
+
+            
+                This work is licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a>.
+            
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+            <ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+                
+                    <li class="tag-item mx-0.5">
+                        <a href="/tags/linux/">#linux</a>&nbsp;
+                    </li>
+                
+            </ul>
+        
+
+        
+  <div class="recommended-article px-2 sm:px-6 md:px-8">
+   <div class="recommended-desktop">
+    <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>推荐阅读</span>
+    </div>
+    <div class="recommended-article-group"><a class="recommended-article-item" href="/2024/08/16/SSH 教程/" title="SSH 教程" rel="bookmark">
+  <img src="/images/wallhaven-wqery6-light.webp" alt="SSH 教程" class="!max-w-none">
+  <span class="title">SSH 教程</span>
+</a><a class="recommended-article-item" href="/2024/07/18/EndeavourOS/" title="EndeavourOS 使用记录" rel="bookmark">
+  <img src="https://i0.wp.com/endeavouros.com/wp-content/uploads/2023/10/Endy_planet_ARM.png?resize=1536%2C864&ssl=1" alt="EndeavourOS 使用记录" class="!max-w-none">
+  <span class="title">EndeavourOS 使用记录</span>
+</a><a class="recommended-article-item" href="/2024/07/24/Docker问题汇总/" title="使用Docker时的问题汇总和解决方式" rel="bookmark">
+  <img src="/images/wallhaven-wqery6-light.webp" alt="使用Docker时的问题汇总和解决方式" class="!max-w-none">
+  <span class="title">使用Docker时的问题汇总和解决方式</span>
+</a></div>
+   </div>
+   <div class="recommended-mobile">
+   <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>推荐阅读</span>
+   </div>
+   <div class="recommended-article-group"><a class="recommended-article-item" href="/2024/08/16/SSH 教程/" title="SSH 教程" rel="bookmark">
+  <img src="/images/wallhaven-wqery6-light.webp" alt="SSH 教程" class="!max-w-none">
+  <span class="title">SSH 教程</span>
+</a><a class="recommended-article-item" href="/2024/07/18/EndeavourOS/" title="EndeavourOS 使用记录" rel="bookmark">
+  <img src="https://i0.wp.com/endeavouros.com/wp-content/uploads/2023/10/Endy_planet_ARM.png?resize=1536%2C864&ssl=1" alt="EndeavourOS 使用记录" class="!max-w-none">
+  <span class="title">EndeavourOS 使用记录</span>
+</a></div>
+   </div>
+  </div>
+
+        
+            <div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+                
+                    <div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+                        <a class="prev"
+                        rel="prev"
+                        href="/2024/07/24/Docker%E6%95%99%E7%A8%8B/"
+                        >
+                            <span class="left arrow-icon flex justify-center items-center">
+                                <i class="fa-solid fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex justify-center items-center">
+                                <span class="post-nav-title-item">Docker 教程</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+                        <a class="next"
+                        rel="next"
+                        href="/2024/07/20/Linux-Docker/"
+                        >
+                            <span class="title flex justify-center items-center">
+                                <span class="post-nav-title-item">Linux 环境下配置 Docker</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex justify-center items-center">
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+
+        
+            <div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+                <div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        Comments
+    </div>
+    
+
+        
+            
+    <div id="waline"></div>
+    <script type="module" data-swup-reload-script>
+      import { init } from '/js/libs/waline.mjs';
+
+      function loadWaline() {
+        init({
+          el: '#waline',
+          serverURL: 'https://example.example.com',
+          lang: 'zh-CN',
+          dark: 'body[class~="dark-mode"]',
+          reaction: false,
+          requiredMeta: ['nick', 'mail'],
+          emoji: [],
+          recaptchaV3Key: "wasd",
+          
+        });
+      }
+
+      if (typeof swup !== 'undefined') {
+        loadWaline();
+      } else {
+        window.addEventListener('DOMContentLoaded', loadWaline);
+      }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+
+    
+        <div class="toc-content-container">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <div class="toc-title">On this page</div>
+        <div class="page-title">Linux 指令</div>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%8C%85%E7%AE%A1%E7%90%86%E5%99%A8"><span class="nav-text">一、包管理器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-%E4%BB%8B%E7%BB%8D"><span class="nav-text">1.1 介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-%E4%B8%8B%E8%BD%BD%E5%92%8C%E6%9B%B4%E6%96%B0"><span class="nav-text">1.2 下载和更新</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-%E6%9F%A5%E7%9C%8B%E5%8C%85-%E5%BA%93%E4%BF%A1%E6%81%AF"><span class="nav-text">1.3 查看包&#x2F;库信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-%E5%8D%B8%E8%BD%BD"><span class="nav-text">1.4 卸载</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-1-%E5%8D%B8%E8%BD%BD%E5%8D%95%E4%B8%AA%E8%BD%AF%E4%BB%B6%E5%8C%85"><span class="nav-text">1.4.1 卸载单个软件包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-2-%E5%8D%B8%E8%BD%BD%E8%BD%AF%E4%BB%B6%E5%8C%85%E5%8F%8A%E5%85%B6%E6%9C%AA%E4%BD%BF%E7%94%A8%E7%9A%84%E4%BE%9D%E8%B5%96"><span class="nav-text">1.4.2 卸载软件包及其未使用的依赖</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-3-%E5%BC%BA%E5%88%B6%E5%8D%B8%E8%BD%BD%EF%BC%88%E4%B8%8D%E6%8E%A8%E8%8D%90%EF%BC%89"><span class="nav-text">1.4.3 强制卸载（不推荐）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-4-%E6%B8%85%E7%90%86%E6%9C%AA%E4%BD%BF%E7%94%A8%E7%9A%84%E5%AD%A4%E7%AB%8B%E5%8C%85"><span class="nav-text">1.4.4 清理未使用的孤立包</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4"><span class="nav-text">二、常用指令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-%E6%9F%A5%E7%9C%8B%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8%E9%A1%B9%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-text">2.1 查看开机启动项的方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-1-%E4%BD%BF%E7%94%A8-systemctl-%E6%9F%A5%E7%9C%8B-systemd-%E6%9C%8D%E5%8A%A1"><span class="nav-text">2.1.1 使用 systemctl 查看 systemd 服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-2-%E6%9F%A5%E7%9C%8B%E7%94%A8%E6%88%B7%E5%92%8C%E7%B3%BB%E7%BB%9F%E7%BA%A7%E5%88%AB%E7%9A%84%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E5%8A%A8%E5%BA%94%E7%94%A8"><span class="nav-text">2.1.2 查看用户和系统级别的开机自启动应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-3-%E4%BD%BF%E7%94%A8-crontab-%E6%9F%A5%E7%9C%8B%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1"><span class="nav-text">2.1.3 使用 crontab 查看定时任务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-4-%E6%A3%80%E6%9F%A5-etc-rc-local-%E6%96%87%E4%BB%B6"><span class="nav-text">2.1.4 检查 &#x2F;etc&#x2F;rc.local 文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C"><span class="nav-text">2.2 文件操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-1-touch-%E6%8C%87%E4%BB%A4"><span class="nav-text">2.2.1 touch 指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-2-mkdir-%E6%8C%87%E4%BB%A4"><span class="nav-text">2.2.2 mkdir 指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-3-rm-%E6%8C%87%E4%BB%A4"><span class="nav-text">2.2.3 rm 指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-4-cp-%E6%8C%87%E4%BB%A4"><span class="nav-text">2.2.4 cp 指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-5-mv-%E6%8C%87%E4%BB%A4"><span class="nav-text">2.2.5 mv 指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-6-%E5%8A%A0%E4%B8%8A-r-%E7%9A%84%E7%94%A8%E5%A4%84"><span class="nav-text">2.5.6 加上 -r 的用处</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-7-find-%E6%8C%87%E4%BB%A4"><span class="nav-text">2.5.7 find 指令</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-%E8%B5%8B%E4%BA%88%E6%96%87%E4%BB%B6%E6%88%96%E6%96%87%E4%BB%B6%E5%A4%B9%E6%9D%83%E9%99%90"><span class="nav-text">2.3 赋予文件或文件夹权限</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-%E8%A7%A3%E5%8E%8B%E7%BC%A9"><span class="nav-text">2.4 解压缩</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B"><span class="nav-text">使用示例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-5-%E5%88%87%E6%8D%A2%E4%B8%BA-root-%E7%94%A8%E6%88%B7"><span class="nav-text">2.5 切换为 root 用户</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-1-%E4%BD%BF%E7%94%A8-su-%E5%91%BD%E4%BB%A4"><span class="nav-text">2.5.1 使用 su 命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-2-%E4%BD%BF%E7%94%A8-sudo-%E5%91%BD%E4%BB%A4"><span class="nav-text">2.5.2 使用 sudo 命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-3-%E4%BD%BF%E7%94%A8-sudo-su-%E5%91%BD%E4%BB%A4"><span class="nav-text">2.5.3 使用 sudo su 命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-4-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-text">2.5.4 注意事项</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-6-%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E5%A4%A7%E5%B0%8F"><span class="nav-text">2.6 查看文件大小</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-6-1-%E4%BD%BF%E7%94%A8-du-%E5%91%BD%E4%BB%A4"><span class="nav-text">2.6.1 使用 du 命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-6-2-%E4%BD%BF%E7%94%A8-du-%E5%91%BD%E4%BB%A4%E6%8C%89%E5%A4%A7%E5%B0%8F%E6%8E%92%E5%BA%8F"><span class="nav-text">2.6.2 使用 du 命令按大小排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-6-3-%E4%BD%BF%E7%94%A8-ls-%E5%91%BD%E4%BB%A4%E6%9F%A5%E7%9C%8B%E7%9B%AE%E5%BD%95%E5%A4%A7%E5%B0%8F"><span class="nav-text">2.6.3 使用 ls 命令查看目录大小</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-7-%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E8%AF%A6%E7%BB%86%E4%BF%A1%E6%81%AF"><span class="nav-text">2.7 查看文件详细信息</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E6%8F%90%E9%AB%98%E7%BC%96%E8%AF%91%E9%80%9F%E5%BA%A6%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-text">三、提高编译速度的方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-%E5%A2%9E%E5%8A%A0%E7%BC%96%E8%AF%91%E5%B9%B6%E8%A1%8C%E5%BA%A6"><span class="nav-text">3.1 增加编译并行度</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E7%94%A8%E6%88%B7%E6%93%8D%E4%BD%9C"><span class="nav-text">四、用户操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%96%B0%E7%94%A8%E6%88%B7"><span class="nav-text">4.1 创建一个新用户</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-%E7%A7%BB%E9%99%A4%E7%94%A8%E6%88%B7"><span class="nav-text">4.2 移除用户</span></a></li></ol></li></ol>
+
+    </div>
+</div>
+        </div>
+    
+</div>
+
+
+
+                
+
+            </div>
+
+            
+
+        </div>
+
+        <div class="main-content-footer">
+            <footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2024&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">loskyertt</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        40 posts in total
+                    </span>
+                    
+                        <span>
+                            39.1k words in total
+                        </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">VISITOR COUNT</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">TOTAL PAGE VIEWS</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">POWERED BY <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a></span>
+            <span class="text-sm lg:block">THEME&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.7.3</a></span>
+        </div>
+        
+        
+            <div>
+                Blog up for <span class="odometer" id="runtime_days" ></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="article-tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="right-bottom-tools page-aside-toggle">
+                <i class="fa-regular fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fa-regular fa-comments"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-side-tools-container">
+        <div class="side-tools-container">
+    <ul class="hidden-tools-list">
+        <li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+            <i class="fa-regular fa-magnifying-glass-plus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+            <i class="fa-regular fa-magnifying-glass-minus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+            <i class="fa-regular fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+
+        <li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+            <i class="fa-regular fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="visible-tools-list">
+        <li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+            <i class="fa-regular fa-cog fa-spin"></i>
+        </li>
+        
+            <li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
+        
+        
+    </ul>
+</div>
+
+    </div>
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fa-solid fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fa-solid fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+    
+<script src="/js/libs/Swup.min.js"></script>
+
+<script src="/js/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/js/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/js/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/js/libs/SwupScrollPlugin.min.js"></script>
+
+<script src="/js/libs/SwupPreloadPlugin.min.js"></script>
+
+<script>
+    const swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+</script>
+
+
+
+
+
+
+
+<script src="/js/tools/imageViewer.js" type="module"></script>
+
+<script src="/js/utils.js" type="module"></script>
+
+<script src="/js/main.js" type="module"></script>
+
+<script src="/js/layouts/navbarShrink.js" type="module"></script>
+
+<script src="/js/tools/scrollTopBottom.js" type="module"></script>
+
+<script src="/js/tools/lightDarkSwitch.js" type="module"></script>
+
+<script src="/js/layouts/categoryList.js" type="module"></script>
+
+
+
+    
+<script src="/js/tools/localSearch.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/tools/codeBlock.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/layouts/lazyload.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/tools/runtime.js"></script>
+
+    
+<script src="/js/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+  
+<script src="/js/libs/Typed.min.js"></script>
+
+  
+<script src="/js/plugins/typed.js" type="module"></script>
+
+
+
+
+
+
+
+
+
+
+
+    
+<script src="/js/tools/tocToggle.js" type="module" data-swup-reload-script=""></script>
+
+<script src="/js/layouts/toc.js" type="module" data-swup-reload-script=""></script>
+
+<script src="/js/plugins/tabs.js" type="module" data-swup-reload-script=""></script>
+
+
+
+
+<script src="/js/libs/moment-with-locales.min.js" data-swup-reload-script=""></script>
+
+
+<script src="/js/layouts/essays.js" type="module" data-swup-reload-script=""></script>
+
+
+
+
+</body>
+</html>

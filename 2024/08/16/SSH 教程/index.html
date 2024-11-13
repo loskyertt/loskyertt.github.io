@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Hexo Theme Redefine">
+    
+    <meta name="author" content="loskyertt">
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="http://example.com/2024/08/16/ssh 教程/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+        <meta name="description" content="主要记录平时用到的&#96;ssh&#96;指令以及使用方法。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SSH 教程">
+<meta property="og:url" content="http://example.com/2024/08/16/SSH%20%E6%95%99%E7%A8%8B/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="主要记录平时用到的&#96;ssh&#96;指令以及使用方法。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-08-16T17:04:17.000Z">
+<meta property="article:modified_time" content="2024-11-13T03:07:10.566Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="ssh">
+<meta name="twitter:card" content="summary">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/redefine-favicon.svg" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/redefine-favicon.svg">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/images/redefine-favicon.svg">
+    <!--- Page Info-->
+    
+    <title>
+        
+            SSH 教程 | sky&#39;s blog
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+
+
+    <!--- Inject Part-->
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/assets/build/styles.css">
+
+    
+
+    
+<link rel="stylesheet" href="/fonts/GeistMono/geist-mono.css">
+
+    
+<link rel="stylesheet" href="/fonts/Geist/geist.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+        
+<script src="/js/libs/anime.min.js"></script>
+
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"example.com","root":"/","language":"en","path":"search.xml"};
+    window.theme = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":true,"link_icon":true,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.4rem","h3":"1.9rem","h4":"1.6rem","h5":"1.4rem","h6":"1.3rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":["Unknown"]},"code_block":{"copy":true,"style":"mac","highlight_theme":{"light":"github","dark":"vs2015"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"recommendation":{"enable":true,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null,"default_mode":"light"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":false,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":true,"open_graph":true,"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/wallhaven-wqery6-light.webp","dark":"/images/wallhaven-wqery6-dark.webp"},"title":"吾日三省吾身","subtitle":{"text":["Loading..."],"hitokoto":{"enable":true,"show_author":false,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":{"github":"https://github.com/loskyertt","instagram":null,"zhihu":null,"twitter":"https://x.com/loskyertt","email":"loskyertt@cug.edu.cn"},"qrs":{"weixin":null}}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null,"lrc":null}]},"mermaid":{"enable":false,"version":"9.3.0"}},"version":"2.7.3","navbar":{"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":35},"width":{"home":"1200px","pages":"1000px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Google":{"path":"https://ww.google.com/","icon":"fa-brands fa-google"},"Archives":{"path":"/archives","icon":"fa-regular fa-archive"}},"search":{"enable":true,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"show_on_mobile":true,"links":null},"article_date_format":"YYYY-MM-DD","excerpt_length":200,"categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footerStart":"2022/8/17 11:45:14"};
+    window.lang_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+<!--        <span class="swup-progress-icon">-->
+<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+<!--        </span>-->
+    
+</div>
+
+
+
+    <style>
+    :root {
+        --preloader-background-color: #fff;
+        --preloader-text-color: #000;
+    }
+
+    @media (prefers-color-scheme: dark) {
+        :root {
+            --preloader-background-color: #202124;
+            --preloader-text-color: #fff;
+        }
+    }
+
+    @media (prefers-color-scheme: light) {
+        :root {
+            --preloader-background-color: #fff;
+            --preloader-text-color: #000;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .ml13 {
+            font-size: 2.6rem !important; /* Adjust this value as needed */
+        }
+    }
+
+    .preloader {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem; /* Tailwind 'gap-4' is 1rem */
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        padding: 12px;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh; /* 'h-screen' is 100% of the viewport height */
+        background-color: var(--preloader-background-color);
+        z-index: 1100; /* 'z-[1100]' sets the z-index */
+        transition: opacity 0.2s ease-in-out;
+    }
+
+    .ml13 {
+        font-size: 3.2rem;
+        /* text-transform: uppercase; */
+        color: var(--preloader-text-color);
+        letter-spacing: -1px;
+        font-weight: 500;
+        font-family: 'Chillax-Variable', sans-serif;
+        text-align: center;
+    }
+
+    .ml13 .word {
+        display: inline-flex;
+        flex-wrap: wrap;
+        white-space: nowrap;
+    }
+
+    .ml13 .letter {
+        display: inline-block;
+        line-height: 1em;
+    }
+</style>
+
+<div class="preloader">
+    <h2 class="ml13">
+        sky&#39;s blog
+    </h2>
+    <script>
+        var textWrapper = document.querySelector('.ml13');
+        // Split text into words
+        var words = textWrapper.textContent.trim().split(' ');
+
+        // Clear the existing content
+        textWrapper.innerHTML = '';
+
+        // Wrap each word and its letters in spans
+        words.forEach(function(word) {
+            var wordSpan = document.createElement('span');
+            wordSpan.classList.add('word');
+            wordSpan.innerHTML = word.replace(/\S/g, "<span class='letter'>$&</span>");
+            textWrapper.appendChild(wordSpan);
+            textWrapper.appendChild(document.createTextNode(' ')); // Add space between words
+        });
+
+        var animation = anime.timeline({ loop: true })
+            .add({
+                targets: '.ml13 .letter',
+                translateY: [20, 0],
+                translateZ: 0,
+                opacity: [0, 1],
+                filter: ['blur(5px)', 'blur(0px)'],
+                easing: "easeOutExpo",
+                duration: 1200,
+                delay: (el, i) => 300 + 20 * i,
+            })
+            .add({
+                targets: '.ml13 .letter',
+                translateY: [0, -20],
+                opacity: [1, 0],
+                filter: ['blur(0px)', 'blur(5px)'],
+                easing: "easeInExpo",
+                duration: 1000,
+                delay: (el, i) => 15 * i,
+                complete: function() {
+                    hidePreloader();
+                }
+            }, '-=700');
+
+
+        let themeStatus = JSON.parse(localStorage.getItem('REDEFINE-THEME-STATUS'))?.isDark;
+
+        // If the theme status is not found in local storage, check the preferred color scheme
+        if (themeStatus === undefined || themeStatus === null) {
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                themeStatus = 'dark';
+            } else {
+                themeStatus = 'light';
+            }
+        }
+
+        // Now you can use the themeStatus variable in your code
+        if (themeStatus) {
+            document.documentElement.style.setProperty('--preloader-background-color', '#202124');
+            document.documentElement.style.setProperty('--preloader-text-color', '#fff');
+        } else {
+            document.documentElement.style.setProperty('--preloader-background-color', '#fff');
+            document.documentElement.style.setProperty('--preloader-text-color', '#000');
+        }
+
+        window.addEventListener('load', function () {
+            setTimeout(hidePreloader, 5000); // Call hidePreloader after 5000 milliseconds if not already called by animation
+        });
+
+        function hidePreloader() {
+            var preloader = document.querySelector('.preloader');
+            preloader.style.opacity = '0';
+            setTimeout(function () {
+                preloader.style.display = 'none';
+            }, 200);
+        }
+    </script>
+</div>
+
+<main class="page-container" id="swup">
+
+    
+
+    <div class="main-content-container flex flex-col justify-between min-h-dvh">
+
+
+        <div class="main-content-header">
+            <header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                sky&#39;s blog
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/"
+                                        >
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    HOME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   target="_blank" rel="noopener" href="https://ww.google.com/"
+                                        >
+                                    <i class="fa-brands fa-google fa-fw"></i>
+                                    GOOGLE
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/archives"
+                                        >
+                                    <i class="fa-regular fa-archive fa-fw"></i>
+                                    ARCHIVES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/"
+                        >
+                            <span>
+                                HOME
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           target="_blank" rel="noopener" href="https://ww.google.com/"
+                        >
+                            <span>
+                                GOOGLE
+                            </span>
+                            
+                                <i class="fa-brands fa-google fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/archives"
+                        >
+                            <span>
+                                ARCHIVES
+                            </span>
+                            
+                                <i class="fa-regular fa-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">14</div>
+        <div class="label text-third-text-color text-sm">Tags</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">4</div>
+        <div class="label text-third-text-color text-sm">Categories</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">40</div>
+        <div class="label text-third-text-color text-sm">Posts</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="main-content-body">
+
+            
+
+            <div class="main-content">
+
+                
+                    <div class="post-page-container flex relative justify-between box-border w-full h-full">
+    <div class="article-content-container">
+
+        <div class="article-title relative w-full">
+            
+                <div class="w-full flex items-center pt-6 justify-start">
+                    <h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">SSH 教程</h1>
+                </div>
+            
+            </div>
+
+        
+            <div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+                <div class="avatar w-[46px] h-[46px] flex-shrink-0 rounded-medium border border-border-color p-[1px]">
+                    <img src="/images/me.jpg">
+                </div>
+                <div class="info flex flex-col justify-between">
+                    <div class="author flex items-center">
+                        <span class="name text-default-text-color text-lg font-semibold">loskyertt</span>
+                        
+                            <span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Unknown</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2024-08-16 17:04:17</span>
+        <span class="mobile">2024-08-16 17:04:17</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2024-11-13 03:07:10</span>
+            <span class="mobile">2024-11-13 03:07:10</span>
+            <span class="hover-info">Updated</span>
+        </span>
+    
+
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/linux/">linux</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/ssh/">ssh</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>1.3k Words</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>5 Mins</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        
+
+
+        <div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+            <h1 id="1-Windows-安装-SSH-工具"><a href="#1-Windows-安装-SSH-工具" class="headerlink" title="1.Windows 安装 SSH 工具"></a>1.Windows 安装 SSH 工具</h1><h2 id="1-1-方式一、使用-OpenSSH"><a href="#1-1-方式一、使用-OpenSSH" class="headerlink" title="1.1 方式一、使用 OpenSSH"></a>1.1 方式一、使用 OpenSSH</h2><p>可以直接搭配 Windows 的 PowerShell 使用，很轻量，但是功能少。配置方式可以参考我写的这篇文章：<a class="link"   target="_blank" rel="noopener" href="https://loskyertt.github.io/2024/07/30/Openssh%E9%85%8D%E7%BD%AE/" >Win10 SSH 服务配置 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<h2 id="1-2-方式二、使用-MobaXterm-（推荐）"><a href="#1-2-方式二、使用-MobaXterm-（推荐）" class="headerlink" title="1.2 方式二、使用  MobaXterm （推荐）"></a>1.2 方式二、使用  MobaXterm （推荐）</h2><p>本人用了下，效果还不错，就是没有中文。下载地址：<a class="link"   target="_blank" rel="noopener" href="https://mobaxterm.mobatek.net/download.html" >MobaXterm <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<h2 id="1-3-方式三、使用-WindTerm-（开源）"><a href="#1-3-方式三、使用-WindTerm-（开源）" class="headerlink" title="1.3 方式三、使用 WindTerm （开源）"></a>1.3 方式三、使用 WindTerm （开源）</h2><p>支持中文，在 GitHub 开源。下载地址：<a class="link"   target="_blank" rel="noopener" href="https://github.com/kingToolbox/WindTerm" >WindTerm <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<h2 id="1-4-方式三、其他"><a href="#1-4-方式三、其他" class="headerlink" title="1.4 方式三、其他"></a>1.4 方式三、其他</h2><p>Linux 下直接下载 OpenSSH 就行了，使用<code>zsh</code>或者<code>bash</code>终端。 </p>
+<p>其他 SSH 连接工具推荐：<a class="link"   target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1xJ4m1s7zX/?share_source=copy_web&vd_source=9fce48d1dc82a922216accb794549993" >视频地址 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<h1 id="2-远程主机的配置"><a href="#2-远程主机的配置" class="headerlink" title="2.远程主机的配置"></a>2.远程主机的配置</h1><h2 id="2-1-安装-OpenSSH"><a href="#2-1-安装-OpenSSH" class="headerlink" title="2.1 安装 OpenSSH"></a>2.1 安装 OpenSSH</h2><p>Linux 一般默认安装上的，如果没有，可以手动安装，这里以 Arch 系 Linux 为例：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S openssh</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="2-2-开启-SSH-服务"><a href="#2-2-开启-SSH-服务" class="headerlink" title="2.2 开启 SSH 服务"></a>2.2 开启 SSH 服务</h2><ul>
+<li><p>让 sshd 开机自启动：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> sshd</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>开启 sshd 服务：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start sshd</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>查看是否启动成功：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status sshd</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<h2 id="2-3-配置防火墙（一定要配置）"><a href="#2-3-配置防火墙（一定要配置）" class="headerlink" title="2.3 配置防火墙（一定要配置）"></a>2.3 配置防火墙（一定要配置）</h2><ul>
+<li><p><code>ufw</code> 防火墙：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> ufw allow ssh</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p><code>iptables</code>防火墙：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> iptables -A INPUT -p tcp --dport 22 -j ACCEPT</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p><code>firewalld</code>防火墙：<br>显示<code>firewalld</code>的当前防火墙配置状态：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> firewall-cmd --list-all</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<p>通常会显示以下信息：</p>
+<ul>
+<li><strong><code>interfaces</code></strong> : 显示与当前区域关联的网络接口。</li>
+<li><strong><code>sources</code></strong> : 显示与当前区域关联的 IP 源地址或子网。</li>
+<li><strong><code>services</code></strong> : 显示允许的服务列表（例如 <code>ssh</code>, <code>http</code>, <code>https</code> 等）。</li>
+<li><strong><code>ports</code></strong> : 显示手动添加的开放端口及其协议（例如 <code>22/tcp</code>, <code>80/tcp</code> 等）。</li>
+<li><strong><code>protocols</code></strong> : 显示允许的协议（通常包括 <code>ipv4</code> 和 <code>ipv6</code>）。</li>
+<li><strong><code>zone</code></strong> : 当前配置的区域名称。</li>
+<li><strong><code>forward</code></strong> : 显示转发规则（如果有的话）。</li>
+<li><strong><code>masquerade</code></strong> : 显示是否启用网络地址转换（NAT）。</li>
+</ul>
+<p>确保<code>22</code>端口被开放：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> firewall-cmd --add-service=ssh --permanent</span><br><span class="line"><span class="built_in">sudo</span> firewall-cmd --reload</span><br></pre></td></tr></table></figure></div>
+
+<p>也可以检查 SSH 配置文件：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nano /etc/ssh/sshd_config</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="2-4-查看日志"><a href="#2-4-查看日志" class="headerlink" title="2.4 查看日志"></a>2.4 查看日志</h2><p>如果你遇到任何问题，可以查看 SSH 服务的日志以获取更多信息：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> journalctl -u sshd</span><br></pre></td></tr></table></figure></div>
+
+<h1 id="3-常用指令"><a href="#3-常用指令" class="headerlink" title="3.常用指令"></a>3.常用指令</h1><h2 id="3-1-与远程主机进行连接"><a href="#3-1-与远程主机进行连接" class="headerlink" title="3.1 与远程主机进行连接"></a>3.1 与远程主机进行连接</h2><div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh &lt;用户名&gt;@&lt;远程主机 IP 地址&gt;</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="3-2-检查与远程代码仓库的连接"><a href="#3-2-检查与远程代码仓库的连接" class="headerlink" title="3.2 检查与远程代码仓库的连接"></a>3.2 检查与远程代码仓库的连接</h2><p>这里以 GitHub 为例：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure></div>
+
+<p>显示以下内容表示连接成功：<br><code>Hi loskyertt! You&#39;ve successfully authenticated, but GitHub does not provide shell access.</code></p>
+<h2 id="3-3-传输文件"><a href="#3-3-传输文件" class="headerlink" title="3.3 传输文件"></a>3.3 传输文件</h2><p>使用 <code>scp</code> 命令可以通过 SSH 传输文件，<code>scp</code> 是 Secure Copy Protocol 的缩写。</p>
+<p><strong>示例：</strong></p>
+<ol>
+<li><p><strong>从本地计算机复制文件到远程计算机</strong> ：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp localfile.txt username@remote_host:/path/to/remote/directory/</span><br></pre></td></tr></table></figure></div>
+<p>这里 <code>localfile.txt</code> 是要复制的本地文件，<code>username</code> 是远程计算机上的用户名，<code>remote_host</code> 是远程计算机的 IP 地址或主机名，<code>/path/to/remote/directory/</code> 是远程计算机上的目标目录。</p>
+</li>
+<li><p><strong>从远程计算机复制文件到本地计算机</strong> ：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp username@remote_host:/path/to/remote/file.txt /path/to/local/directory/</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p><strong>复制目录及其内容</strong> ：<br>使用 <code>-r</code> 选项可以递归地复制目录及其内容。</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp -r local_directory username@remote_host:/path/to/remote/directory/</span><br></pre></td></tr></table></figure></div></li>
+</ol>
+<h1 id="4-问题汇总"><a href="#4-问题汇总" class="headerlink" title="4.问题汇总"></a>4.问题汇总</h1><h2 id="4-1-远程主机密钥更改"><a href="#4-1-远程主机密钥更改" class="headerlink" title="4.1 远程主机密钥更改"></a>4.1 远程主机密钥更改</h2><h3 id="4-1-1-问题示例"><a href="#4-1-1-问题示例" class="headerlink" title="4.1.1 问题示例"></a>4.1.1 问题示例</h3><div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">24-08-14 16:10:00 [sky@~]</span><br><span class="line">╰─❯ssh root@124.15.31.104</span><br><span class="line">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</span><br><span class="line">@    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @</span><br><span class="line">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</span><br><span class="line">IT IS POSSIBLE THAT SOMEONE IS DOING SOMETHING NASTY!</span><br><span class="line">Someone could be eavesdropping on you right now (man-in-the-middle attack)!</span><br><span class="line">It is also possible that a host key has just been changed.</span><br><span class="line">The fingerprint for the ED25519 key sent by the remote host is</span><br><span class="line">SHA256:hQeGc/7954FRAh/w8RFXKUNFz6xxH9DnYRdygBIfWiw.</span><br><span class="line">Please contact your system administrator.</span><br><span class="line">Add correct host key in /home/sky/.ssh/known_hosts to get rid of this message.</span><br><span class="line">Offending ECDSA key in /home/sky/.ssh/known_hosts:6</span><br><span class="line">Host key for 124.15.31.104 has changed and you have requested strict checking.</span><br><span class="line">Host key verification failed.</span><br></pre></td></tr></table></figure></div>
+
+<p>出现这种警告表明你尝试连接的远程主机的 SSH 密钥已经发生了变化。这种情况可能有几种原因：</p>
+<ol>
+<li><p><strong>主机密钥确实更改了</strong>：远程服务器可能因为重新安装了操作系统、重新生成了密钥对或者更改了 SSH 配置而更换了主机密钥。</p>
+</li>
+<li><p><strong>可能的安全风险</strong>：如果你没有预期到主机密钥的变化，可能有人试图进行中间人攻击（Man-in-the-Middle Attack），这意味着有人可能在试图窃听你的连接。</p>
+</li>
+</ol>
+<h3 id="4-1-2-解决步骤"><a href="#4-1-2-解决步骤" class="headerlink" title="4.1.2 解决步骤"></a>4.1.2 解决步骤</h3><ol>
+<li>确认更改的原因</li>
+</ol>
+<p>如果你对主机密钥更改有充分的理由（例如，你知道服务器进行了重新安装或者密钥更新），你可以安全地更新你的本地 <code>known_hosts</code> 文件。</p>
+<ol start="2">
+<li>删除旧的密钥</li>
+</ol>
+<p>你可以手动编辑 <code>~/.ssh/known_hosts</code> 文件，删除对应的旧密钥。</p>
+<p>打开 <code>known_hosts</code> 文件：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nano ~/.ssh/known_hosts</span><br></pre></td></tr></table></figure></div>
+
+<p>查找并删除第6行（或者显示的“Offending ECDSA key”所在的行），这行对应于你连接的服务器的旧密钥。</p>
+<p>保存文件并退出编辑器。</p>
+<p>如果你更喜欢使用命令行工具，你可以使用以下命令删除该行：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed -i <span class="string">&#x27;6d&#x27;</span> ~/.ssh/known_hosts</span><br></pre></td></tr></table></figure></div>
+
+<p>注意：此命令会删除 <code>known_hosts</code> 文件中的第6行。</p>
+<ol start="3">
+<li>再次连接服务器</li>
+</ol>
+<p>删除旧密钥后，重新尝试连接服务器：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh root@124.15.31.104</span><br></pre></td></tr></table></figure></div>
+
+<p>你将会看到提示要求确认新的主机密钥。确保你确认这个新的密钥是合法的。如果确定是合法的，可以输入 <code>yes</code> 来接受新的密钥并将其添加到 <code>known_hosts</code> 文件中。</p>
+
+        </div>
+
+        
+            <div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> SSH 教程</li>
+        <li><strong>Author:</strong> loskyertt</li>
+        <li><strong>Created at
+                :</strong> 2024-08-16 17:04:17</li>
+        
+            <li>
+                <strong>Updated at
+                    :</strong> 2024-11-13 03:07:10
+            </li>
+        
+        <li>
+            <strong>Link:</strong> https://redefine.ohevan.com/2024/08/16/SSH 教程/
+        </li>
+        <li>
+            <strong>
+                License:
+            </strong>
+            
+
+            
+                This work is licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a>.
+            
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+            <ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+                
+                    <li class="tag-item mx-0.5">
+                        <a href="/tags/linux/">#linux</a>&nbsp;
+                    </li>
+                
+                    <li class="tag-item mx-0.5">
+                        <a href="/tags/ssh/">#ssh</a>&nbsp;
+                    </li>
+                
+            </ul>
+        
+
+        
+  <div class="recommended-article px-2 sm:px-6 md:px-8">
+   <div class="recommended-desktop">
+    <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>推荐阅读</span>
+    </div>
+    <div class="recommended-article-group"><a class="recommended-article-item" href="/2024/07/19/Git教程/" title="Git教程" rel="bookmark">
+  <img src="/images/wallhaven-wqery6-light.webp" alt="Git教程" class="!max-w-none">
+  <span class="title">Git教程</span>
+</a><a class="recommended-article-item" href="/2024/07/30/Openssh配置/" title="Win10 SSH 服务配置" rel="bookmark">
+  <img src="/images/wallhaven-wqery6-light.webp" alt="Win10 SSH 服务配置" class="!max-w-none">
+  <span class="title">Win10 SSH 服务配置</span>
+</a><a class="recommended-article-item" href="/2024/09/11/从源码安装SSH/" title="从源码安装 SSH" rel="bookmark">
+  <img src="/images/wallhaven-wqery6-light.webp" alt="从源码安装 SSH" class="!max-w-none">
+  <span class="title">从源码安装 SSH</span>
+</a></div>
+   </div>
+   <div class="recommended-mobile">
+   <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>推荐阅读</span>
+   </div>
+   <div class="recommended-article-group"><a class="recommended-article-item" href="/2024/07/19/Git教程/" title="Git教程" rel="bookmark">
+  <img src="/images/wallhaven-wqery6-light.webp" alt="Git教程" class="!max-w-none">
+  <span class="title">Git教程</span>
+</a><a class="recommended-article-item" href="/2024/07/30/Openssh配置/" title="Win10 SSH 服务配置" rel="bookmark">
+  <img src="/images/wallhaven-wqery6-light.webp" alt="Win10 SSH 服务配置" class="!max-w-none">
+  <span class="title">Win10 SSH 服务配置</span>
+</a></div>
+   </div>
+  </div>
+
+        
+            <div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+                
+                    <div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+                        <a class="prev"
+                        rel="prev"
+                        href="/2024/08/18/Zerotier%E6%95%99%E7%A8%8B/"
+                        >
+                            <span class="left arrow-icon flex justify-center items-center">
+                                <i class="fa-solid fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex justify-center items-center">
+                                <span class="post-nav-title-item">Zerotier 使用教程</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+                        <a class="next"
+                        rel="next"
+                        href="/2024/08/16/Dokcer%E5%AE%B9%E5%99%A8%E4%BB%A3%E7%90%86/"
+                        >
+                            <span class="title flex justify-center items-center">
+                                <span class="post-nav-title-item">在 Docker 容器中使用宿主机的代理</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex justify-center items-center">
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+
+        
+            <div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+                <div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        Comments
+    </div>
+    
+
+        
+            
+    <div id="waline"></div>
+    <script type="module" data-swup-reload-script>
+      import { init } from '/js/libs/waline.mjs';
+
+      function loadWaline() {
+        init({
+          el: '#waline',
+          serverURL: 'https://example.example.com',
+          lang: 'zh-CN',
+          dark: 'body[class~="dark-mode"]',
+          reaction: false,
+          requiredMeta: ['nick', 'mail'],
+          emoji: [],
+          recaptchaV3Key: "wasd",
+          
+        });
+      }
+
+      if (typeof swup !== 'undefined') {
+        loadWaline();
+      } else {
+        window.addEventListener('DOMContentLoaded', loadWaline);
+      }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+
+    
+        <div class="toc-content-container">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <div class="toc-title">On this page</div>
+        <div class="page-title">SSH 教程</div>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-Windows-%E5%AE%89%E8%A3%85-SSH-%E5%B7%A5%E5%85%B7"><span class="nav-text">1.Windows 安装 SSH 工具</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-%E6%96%B9%E5%BC%8F%E4%B8%80%E3%80%81%E4%BD%BF%E7%94%A8-OpenSSH"><span class="nav-text">1.1 方式一、使用 OpenSSH</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-%E6%96%B9%E5%BC%8F%E4%BA%8C%E3%80%81%E4%BD%BF%E7%94%A8-MobaXterm-%EF%BC%88%E6%8E%A8%E8%8D%90%EF%BC%89"><span class="nav-text">1.2 方式二、使用  MobaXterm （推荐）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-%E6%96%B9%E5%BC%8F%E4%B8%89%E3%80%81%E4%BD%BF%E7%94%A8-WindTerm-%EF%BC%88%E5%BC%80%E6%BA%90%EF%BC%89"><span class="nav-text">1.3 方式三、使用 WindTerm （开源）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-%E6%96%B9%E5%BC%8F%E4%B8%89%E3%80%81%E5%85%B6%E4%BB%96"><span class="nav-text">1.4 方式三、其他</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E8%BF%9C%E7%A8%8B%E4%B8%BB%E6%9C%BA%E7%9A%84%E9%85%8D%E7%BD%AE"><span class="nav-text">2.远程主机的配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-%E5%AE%89%E8%A3%85-OpenSSH"><span class="nav-text">2.1 安装 OpenSSH</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-%E5%BC%80%E5%90%AF-SSH-%E6%9C%8D%E5%8A%A1"><span class="nav-text">2.2 开启 SSH 服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-%E9%85%8D%E7%BD%AE%E9%98%B2%E7%81%AB%E5%A2%99%EF%BC%88%E4%B8%80%E5%AE%9A%E8%A6%81%E9%85%8D%E7%BD%AE%EF%BC%89"><span class="nav-text">2.3 配置防火墙（一定要配置）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-%E6%9F%A5%E7%9C%8B%E6%97%A5%E5%BF%97"><span class="nav-text">2.4 查看日志</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4"><span class="nav-text">3.常用指令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-%E4%B8%8E%E8%BF%9C%E7%A8%8B%E4%B8%BB%E6%9C%BA%E8%BF%9B%E8%A1%8C%E8%BF%9E%E6%8E%A5"><span class="nav-text">3.1 与远程主机进行连接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-%E6%A3%80%E6%9F%A5%E4%B8%8E%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E4%BB%93%E5%BA%93%E7%9A%84%E8%BF%9E%E6%8E%A5"><span class="nav-text">3.2 检查与远程代码仓库的连接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6"><span class="nav-text">3.3 传输文件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB"><span class="nav-text">4.问题汇总</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-%E8%BF%9C%E7%A8%8B%E4%B8%BB%E6%9C%BA%E5%AF%86%E9%92%A5%E6%9B%B4%E6%94%B9"><span class="nav-text">4.1 远程主机密钥更改</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-1-%E9%97%AE%E9%A2%98%E7%A4%BA%E4%BE%8B"><span class="nav-text">4.1.1 问题示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-2-%E8%A7%A3%E5%86%B3%E6%AD%A5%E9%AA%A4"><span class="nav-text">4.1.2 解决步骤</span></a></li></ol></li></ol></li></ol>
+
+    </div>
+</div>
+        </div>
+    
+</div>
+
+
+
+                
+
+            </div>
+
+            
+
+        </div>
+
+        <div class="main-content-footer">
+            <footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2024&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">loskyertt</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        40 posts in total
+                    </span>
+                    
+                        <span>
+                            39.1k words in total
+                        </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">VISITOR COUNT</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">TOTAL PAGE VIEWS</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">POWERED BY <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a></span>
+            <span class="text-sm lg:block">THEME&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.7.3</a></span>
+        </div>
+        
+        
+            <div>
+                Blog up for <span class="odometer" id="runtime_days" ></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="article-tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="right-bottom-tools page-aside-toggle">
+                <i class="fa-regular fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fa-regular fa-comments"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-side-tools-container">
+        <div class="side-tools-container">
+    <ul class="hidden-tools-list">
+        <li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+            <i class="fa-regular fa-magnifying-glass-plus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+            <i class="fa-regular fa-magnifying-glass-minus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+            <i class="fa-regular fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+
+        <li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+            <i class="fa-regular fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="visible-tools-list">
+        <li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+            <i class="fa-regular fa-cog fa-spin"></i>
+        </li>
+        
+            <li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
+        
+        
+    </ul>
+</div>
+
+    </div>
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fa-solid fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fa-solid fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+    
+<script src="/js/libs/Swup.min.js"></script>
+
+<script src="/js/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/js/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/js/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/js/libs/SwupScrollPlugin.min.js"></script>
+
+<script src="/js/libs/SwupPreloadPlugin.min.js"></script>
+
+<script>
+    const swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+</script>
+
+
+
+
+
+
+
+<script src="/js/tools/imageViewer.js" type="module"></script>
+
+<script src="/js/utils.js" type="module"></script>
+
+<script src="/js/main.js" type="module"></script>
+
+<script src="/js/layouts/navbarShrink.js" type="module"></script>
+
+<script src="/js/tools/scrollTopBottom.js" type="module"></script>
+
+<script src="/js/tools/lightDarkSwitch.js" type="module"></script>
+
+<script src="/js/layouts/categoryList.js" type="module"></script>
+
+
+
+    
+<script src="/js/tools/localSearch.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/tools/codeBlock.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/layouts/lazyload.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/tools/runtime.js"></script>
+
+    
+<script src="/js/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+  
+<script src="/js/libs/Typed.min.js"></script>
+
+  
+<script src="/js/plugins/typed.js" type="module"></script>
+
+
+
+
+
+
+
+
+
+
+
+    
+<script src="/js/tools/tocToggle.js" type="module" data-swup-reload-script=""></script>
+
+<script src="/js/layouts/toc.js" type="module" data-swup-reload-script=""></script>
+
+<script src="/js/plugins/tabs.js" type="module" data-swup-reload-script=""></script>
+
+
+
+
+<script src="/js/libs/moment-with-locales.min.js" data-swup-reload-script=""></script>
+
+
+<script src="/js/layouts/essays.js" type="module" data-swup-reload-script=""></script>
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Hexo Theme Redefine">
+    
+    <meta name="author" content="loskyertt">
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="http://example.com/2024/07/18/endeavouros/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+        <meta name="description" content="这篇文章主要记录自己使用EndeavourOS Linux（Arch系的发行版）的过程，有一些配置，以及遇到的一些问题和解决办法。理论上这些解决办法在其它Linux发行版下也适用。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="EndeavourOS 使用记录">
+<meta property="og:url" content="http://example.com/2024/07/18/EndeavourOS/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="这篇文章主要记录自己使用EndeavourOS Linux（Arch系的发行版）的过程，有一些配置，以及遇到的一些问题和解决办法。理论上这些解决办法在其它Linux发行版下也适用。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://s21.ax1x.com/2024/08/25/pAkSS6H.png">
+<meta property="og:image" content="https://s21.ax1x.com/2024/08/27/pAksXO1.md.png">
+<meta property="article:published_time" content="2024-07-18T16:21:15.000Z">
+<meta property="article:modified_time" content="2024-11-13T03:07:10.562Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="linux">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s21.ax1x.com/2024/08/25/pAkSS6H.png">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/redefine-favicon.svg" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/redefine-favicon.svg">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/images/redefine-favicon.svg">
+    <!--- Page Info-->
+    
+    <title>
+        
+            EndeavourOS 使用记录 | sky&#39;s blog
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+
+
+    <!--- Inject Part-->
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/assets/build/styles.css">
+
+    
+
+    
+<link rel="stylesheet" href="/fonts/GeistMono/geist-mono.css">
+
+    
+<link rel="stylesheet" href="/fonts/Geist/geist.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+        
+<script src="/js/libs/anime.min.js"></script>
+
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"example.com","root":"/","language":"en","path":"search.xml"};
+    window.theme = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":true,"link_icon":true,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.4rem","h3":"1.9rem","h4":"1.6rem","h5":"1.4rem","h6":"1.3rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":["Unknown"]},"code_block":{"copy":true,"style":"mac","highlight_theme":{"light":"github","dark":"vs2015"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"recommendation":{"enable":true,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null,"default_mode":"light"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":false,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":true,"open_graph":true,"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/wallhaven-wqery6-light.webp","dark":"/images/wallhaven-wqery6-dark.webp"},"title":"吾日三省吾身","subtitle":{"text":["Loading..."],"hitokoto":{"enable":true,"show_author":false,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":{"github":"https://github.com/loskyertt","instagram":null,"zhihu":null,"twitter":"https://x.com/loskyertt","email":"loskyertt@cug.edu.cn"},"qrs":{"weixin":null}}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null,"lrc":null}]},"mermaid":{"enable":false,"version":"9.3.0"}},"version":"2.7.3","navbar":{"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":35},"width":{"home":"1200px","pages":"1000px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Google":{"path":"https://ww.google.com/","icon":"fa-brands fa-google"},"Archives":{"path":"/archives","icon":"fa-regular fa-archive"}},"search":{"enable":true,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"show_on_mobile":true,"links":null},"article_date_format":"YYYY-MM-DD","excerpt_length":200,"categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footerStart":"2022/8/17 11:45:14"};
+    window.lang_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+<!--        <span class="swup-progress-icon">-->
+<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+<!--        </span>-->
+    
+</div>
+
+
+
+    <style>
+    :root {
+        --preloader-background-color: #fff;
+        --preloader-text-color: #000;
+    }
+
+    @media (prefers-color-scheme: dark) {
+        :root {
+            --preloader-background-color: #202124;
+            --preloader-text-color: #fff;
+        }
+    }
+
+    @media (prefers-color-scheme: light) {
+        :root {
+            --preloader-background-color: #fff;
+            --preloader-text-color: #000;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .ml13 {
+            font-size: 2.6rem !important; /* Adjust this value as needed */
+        }
+    }
+
+    .preloader {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem; /* Tailwind 'gap-4' is 1rem */
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        padding: 12px;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh; /* 'h-screen' is 100% of the viewport height */
+        background-color: var(--preloader-background-color);
+        z-index: 1100; /* 'z-[1100]' sets the z-index */
+        transition: opacity 0.2s ease-in-out;
+    }
+
+    .ml13 {
+        font-size: 3.2rem;
+        /* text-transform: uppercase; */
+        color: var(--preloader-text-color);
+        letter-spacing: -1px;
+        font-weight: 500;
+        font-family: 'Chillax-Variable', sans-serif;
+        text-align: center;
+    }
+
+    .ml13 .word {
+        display: inline-flex;
+        flex-wrap: wrap;
+        white-space: nowrap;
+    }
+
+    .ml13 .letter {
+        display: inline-block;
+        line-height: 1em;
+    }
+</style>
+
+<div class="preloader">
+    <h2 class="ml13">
+        sky&#39;s blog
+    </h2>
+    <script>
+        var textWrapper = document.querySelector('.ml13');
+        // Split text into words
+        var words = textWrapper.textContent.trim().split(' ');
+
+        // Clear the existing content
+        textWrapper.innerHTML = '';
+
+        // Wrap each word and its letters in spans
+        words.forEach(function(word) {
+            var wordSpan = document.createElement('span');
+            wordSpan.classList.add('word');
+            wordSpan.innerHTML = word.replace(/\S/g, "<span class='letter'>$&</span>");
+            textWrapper.appendChild(wordSpan);
+            textWrapper.appendChild(document.createTextNode(' ')); // Add space between words
+        });
+
+        var animation = anime.timeline({ loop: true })
+            .add({
+                targets: '.ml13 .letter',
+                translateY: [20, 0],
+                translateZ: 0,
+                opacity: [0, 1],
+                filter: ['blur(5px)', 'blur(0px)'],
+                easing: "easeOutExpo",
+                duration: 1200,
+                delay: (el, i) => 300 + 20 * i,
+            })
+            .add({
+                targets: '.ml13 .letter',
+                translateY: [0, -20],
+                opacity: [1, 0],
+                filter: ['blur(0px)', 'blur(5px)'],
+                easing: "easeInExpo",
+                duration: 1000,
+                delay: (el, i) => 15 * i,
+                complete: function() {
+                    hidePreloader();
+                }
+            }, '-=700');
+
+
+        let themeStatus = JSON.parse(localStorage.getItem('REDEFINE-THEME-STATUS'))?.isDark;
+
+        // If the theme status is not found in local storage, check the preferred color scheme
+        if (themeStatus === undefined || themeStatus === null) {
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                themeStatus = 'dark';
+            } else {
+                themeStatus = 'light';
+            }
+        }
+
+        // Now you can use the themeStatus variable in your code
+        if (themeStatus) {
+            document.documentElement.style.setProperty('--preloader-background-color', '#202124');
+            document.documentElement.style.setProperty('--preloader-text-color', '#fff');
+        } else {
+            document.documentElement.style.setProperty('--preloader-background-color', '#fff');
+            document.documentElement.style.setProperty('--preloader-text-color', '#000');
+        }
+
+        window.addEventListener('load', function () {
+            setTimeout(hidePreloader, 5000); // Call hidePreloader after 5000 milliseconds if not already called by animation
+        });
+
+        function hidePreloader() {
+            var preloader = document.querySelector('.preloader');
+            preloader.style.opacity = '0';
+            setTimeout(function () {
+                preloader.style.display = 'none';
+            }, 200);
+        }
+    </script>
+</div>
+
+<main class="page-container" id="swup">
+
+    
+
+    <div class="main-content-container flex flex-col justify-between min-h-dvh">
+
+
+        <div class="main-content-header">
+            <header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                sky&#39;s blog
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/"
+                                        >
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    HOME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   target="_blank" rel="noopener" href="https://ww.google.com/"
+                                        >
+                                    <i class="fa-brands fa-google fa-fw"></i>
+                                    GOOGLE
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/archives"
+                                        >
+                                    <i class="fa-regular fa-archive fa-fw"></i>
+                                    ARCHIVES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/"
+                        >
+                            <span>
+                                HOME
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           target="_blank" rel="noopener" href="https://ww.google.com/"
+                        >
+                            <span>
+                                GOOGLE
+                            </span>
+                            
+                                <i class="fa-brands fa-google fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/archives"
+                        >
+                            <span>
+                                ARCHIVES
+                            </span>
+                            
+                                <i class="fa-regular fa-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">14</div>
+        <div class="label text-third-text-color text-sm">Tags</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">4</div>
+        <div class="label text-third-text-color text-sm">Categories</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">40</div>
+        <div class="label text-third-text-color text-sm">Posts</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="main-content-body">
+
+            
+
+            <div class="main-content">
+
+                
+                    <div class="post-page-container flex relative justify-between box-border w-full h-full">
+    <div class="article-content-container">
+
+        <div class="article-title relative w-full">
+            
+                
+                
+                <img src="https://i0.wp.com/endeavouros.com/wp-content/uploads/2023/10/Endy_planet_ARM.png?resize=1536%2C864&amp;ssl=1" alt="EndeavourOS 使用记录" class="w-full h-60 sm:h-72 md:h-80 object-cover sm:rounded-t-large dark:brightness-75"/>
+                
+                <div class="w-full flex items-center absolute bottom-0 justify-start">
+                    <h1 class="article-title-cover text-center mx-6 my-6 text-second-text-color bg-background-color-transparent px-4 py-3 text-3xl sm:text-4xl md:text-5xl font-semibold backdrop-blur-lg rounded-xl border border-border-color ">EndeavourOS 使用记录</h1>
+                </div>
+            
+            </div>
+
+        
+            <div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+                <div class="avatar w-[46px] h-[46px] flex-shrink-0 rounded-medium border border-border-color p-[1px]">
+                    <img src="/images/me.jpg">
+                </div>
+                <div class="info flex flex-col justify-between">
+                    <div class="author flex items-center">
+                        <span class="name text-default-text-color text-lg font-semibold">loskyertt</span>
+                        
+                            <span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Unknown</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2024-07-18 16:21:15</span>
+        <span class="mobile">2024-07-18 16:21:15</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2024-11-13 03:07:10</span>
+            <span class="mobile">2024-11-13 03:07:10</span>
+            <span class="hover-info">Updated</span>
+        </span>
+    
+
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/linux/">linux</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>2k Words</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>8 Mins</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        
+
+
+        <div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+            <h1 id="一、N卡驱动"><a href="#一、N卡驱动" class="headerlink" title="一、N卡驱动"></a>一、N卡驱动</h1><p><code>EndeavourOS</code>对N卡用户的支持比较友好，在安装该系统时，选择有<code>Nvidia</code>那一行的进行安装即可，会自动安装最新的适应当前显卡的闭源驱动。如果是<code>Arch Linux</code>，建议看这篇文章，同时提到有双显卡如何进行切换 <a class="link"   target="_blank" rel="noopener" href="https://archlinuxstudio.github.io/ArchLinuxTutorial/#/" >Arch Linux 安装使用教程 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>，如果是<code>Arch</code>系其它发行版（像<code>Manjaro</code>），请自行找教程，这里提到的方式不一定适用你。</p>
+<p>CUDA 安装参考这篇教程：<a class="link"   target="_blank" rel="noopener" href="https://ivonblog.com/posts/archlinux-install-nvidia-drivers/" >教你在Arch Linux安裝Nvidia、CUDA、cuDNN、TensorRT专有驱动程序 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<h2 id="1-1-安装方式一"><a href="#1-1-安装方式一" class="headerlink" title="1.1 安装方式一"></a>1.1 安装方式一</h2><ul>
+<li><strong>全面更新系统以及安装依赖工具</strong></li>
+</ul>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -Syu base-devel dkms</span><br></pre></td></tr></table></figure></div>
+
+<p>对于新版本的显卡型号，直接运行下面这条指令即可：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 必须安装</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -S nvidia nvidia-settings lib32-nvidia-utils</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="1-2-安装方式二"><a href="#1-2-安装方式二" class="headerlink" title="1.2 安装方式二"></a>1.2 安装方式二</h2><p>如果安装有<code>mwhd</code>工具，可以使用以下方法：</p>
+<ul>
+<li><p><strong>自动安装推荐的开源驱动程序</strong></p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> mhwd -a pci free 0300</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p><strong>自动安装推荐的闭源驱动程序：</strong></p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> mhwd -a pci nonfree 0300</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<p>终端输入：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvidia-smi</span><br></pre></td></tr></table></figure></div>
+<p>如果有返回信息，表示安装成功。</p>
+<h2 id="1-3-查看显卡信息"><a href="#1-3-查看显卡信息" class="headerlink" title="1.3 查看显卡信息"></a>1.3 查看显卡信息</h2><p>简单的过滤，显示有关 VGA 设备的基本信息。</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lspci -vnn | grep VGA</span><br></pre></td></tr></table></figure></div>
+
+<p>提供更详细的信息，包括驱动程序信息。</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lspci -k | grep -EA3 <span class="string">&#x27;VGA|3D&#x27;</span></span><br></pre></td></tr></table></figure></div>
+
+<p>提供非常详细且易读的图形信息，适合快速了解系统图形设备和驱动状态。</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">inxi -G</span><br></pre></td></tr></table></figure></div>
+
+<p>手动安装的话，从官网下载对应型号的驱动，一定要把下载好的驱动文件放到主文件夹（<code>~</code>）下！在<code>BIOS</code>终端界面，中文会显示乱码。</p>
+<h2 id="1-4-补充"><a href="#1-4-补充" class="headerlink" title="1.4 补充"></a>1.4 补充</h2><ul>
+<li><strong><code>nvidia-hook</code>, <code>nvidia-inst</code>, <code>nvidia-utils</code> 的用途：</strong></li>
+</ul>
+<h3 id="1-4-1-nvidia-hook"><a href="#1-4-1-nvidia-hook" class="headerlink" title="1.4.1 nvidia-hook"></a>1.4.1 nvidia-hook</h3><p><code>nvidia-hook</code> 是一个 Pacman 钩子脚本，用于在内核更新时自动重新生成 NVIDIA 内核模块。这可以确保你的 NVIDIA 驱动程序在内核更新后继续正常工作，而无需手动干预。</p>
+<p><strong>功能：</strong></p>
+<ul>
+<li>自动在内核更新后重新生成 NVIDIA 内核模块。</li>
+<li>提高系统更新的便利性，减少因驱动兼容性问题导致的系统启动问题。</li>
+</ul>
+<h3 id="1-4-2-nvidia-inst"><a href="#1-4-2-nvidia-inst" class="headerlink" title="1.4.2 nvidia-inst"></a>1.4.2 nvidia-inst</h3><p><code>nvidia-inst</code> 是 EndeavourOS 提供的一个脚本，用于安装和配置 NVIDIA 驱动程序。它简化了在 EndeavourOS 系统上安装 NVIDIA 驱动的过程。</p>
+<p><strong>功能：</strong></p>
+<ul>
+<li>自动检测你的显卡型号。</li>
+<li>安装合适版本的 NVIDIA 驱动程序。</li>
+<li>配置系统以使用新的驱动程序。</li>
+</ul>
+<h3 id="1-4-3-nvidia-utils"><a href="#1-4-3-nvidia-utils" class="headerlink" title="1.4.3 nvidia-utils"></a>1.4.3 nvidia-utils</h3><p><code>nvidia-utils</code> 包含 NVIDIA 驱动程序的核心用户空间组件和实用工具。这个包提供了运行 NVIDIA 驱动程序所需的库和命令行工具。</p>
+<p><strong>功能：</strong></p>
+<ul>
+<li>提供核心的 NVIDIA 驱动库。</li>
+<li>包含用于查询和配置 NVIDIA 显卡的命令行工具，如 <code>nvidia-smi</code>。</li>
+<li>包含 OpenGL 库和 Vulkan 库，用于支持高性能图形渲染。</li>
+</ul>
+<p> <code>nvidia-hook</code>, <code>nvidia-inst</code>, <code>nvidia-utils</code> 不能完全替代 <code>nvidia-settings</code> 和 <code>lib32-nvidia-utils</code>。</p>
+<h3 id="1-4-4-nvidia-settings"><a href="#1-4-4-nvidia-settings" class="headerlink" title="1.4.4 nvidia-settings"></a>1.4.4 nvidia-settings</h3><p><code>nvidia-settings</code> 是一个独立的图形化配置工具，用于调整和配置 NVIDIA 显卡的各种设置。它提供了一个图形界面，允许用户进行以下操作：</p>
+<ul>
+<li>配置显示器布局（多显示器设置）。</li>
+<li>调整显卡性能参数（如风扇速度、功率模式）。</li>
+<li>配置 OpenGL 设置。</li>
+<li>管理显示器色彩和亮度设置。</li>
+</ul>
+<p><strong>替代情况：</strong></p>
+<ul>
+<li><code>nvidia-utils</code> 提供了一些命令行工具，但没有图形界面和用户友好的配置选项。</li>
+<li><code>nvidia-settings</code> 提供了更丰富和直观的配置选项，尤其适用于需要频繁调整显卡设置的用户。</li>
+</ul>
+<h3 id="1-4-5-lib32-nvidia-utils"><a href="#1-4-5-lib32-nvidia-utils" class="headerlink" title="1.4.5 lib32-nvidia-utils"></a>1.4.5 lib32-nvidia-utils</h3><p><code>lib32-nvidia-utils</code> 是 32 位 NVIDIA 驱动程序库的集合，用于在 64 位系统上运行 32 位应用程序（如一些旧版游戏和软件）。这些库对于兼容 32 位应用程序至关重要。</p>
+<p><strong>替代情况：</strong></p>
+<ul>
+<li><code>nvidia-utils</code> 包含 64 位库，不包括 32 位库。</li>
+<li>如果你需要运行 32 位应用程序，仍然需要安装 <code>lib32-nvidia-utils</code>。</li>
+</ul>
+<h1 id="二、中文输入法配置"><a href="#二、中文输入法配置" class="headerlink" title="二、中文输入法配置"></a>二、中文输入法配置</h1><h2 id="2-1-推荐方式"><a href="#2-1-推荐方式" class="headerlink" title="2.1 推荐方式"></a>2.1 推荐方式</h2><div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yay -Sy fcitx-im fcitx-configtool</span><br></pre></td></tr></table></figure></div>
+
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kate ~/.xprofile</span><br></pre></td></tr></table></figure></div>
+<p>输入以下内容：</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export GTK_IM_MODULE=fcitx</span><br><span class="line">export QT_IM_MODULE=fcitx</span><br><span class="line">export XMODIFIERS=&quot;@im=fcitx&quot;</span><br></pre></td></tr></table></figure></div>
+
+<p>如果在<code>~</code>目录创建的<code>.xprofile</code>配置文件没有生效，可以这样做：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kate /etc/environment</span><br></pre></td></tr></table></figure></div>
+
+<p>然后在里面加入：</p>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export GTK_IM_MODULE=fcitx</span><br><span class="line">export QT_IM_MODULE=fcitx</span><br><span class="line">export XMODIFIERS=&quot;@im=fcitx&quot;</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="2-2-其它（没试过）"><a href="#2-2-其它（没试过）" class="headerlink" title="2.2 其它（没试过）"></a>2.2 其它（没试过）</h2><p><strong>方式一：</strong></p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装fcitx5</span></span><br><span class="line"><span class="comment">#基础包组</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -S fcitx5-im</span><br><span class="line"><span class="comment">#官方中文输入引擎</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -S fcitx5-chinese-addons</span><br><span class="line"><span class="comment">#日文输入引擎</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -S fcitx5-anthy</span><br><span class="line"><span class="comment">#萌娘百科词库（挂梯子）</span></span><br><span class="line">yay -S fcitx5-pinyin-moegirl</span><br><span class="line"><span class="comment">#中文维基百科词库</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -S fcitx5-pinyin-zhwiki</span><br><span class="line"><span class="comment">#主题</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -S fcitx5-material-color</span><br></pre></td></tr></table></figure></div>
+
+<p>编辑配置文件：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kate /etc/environment</span><br></pre></td></tr></table></figure></div>
+
+<p>输入以下内容：</p>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">GTK_IM_MODULE=fcitx</span><br><span class="line">QT_IM_MODULE=fcitx</span><br><span class="line">XMODIFIERS=@im=fcitx</span><br><span class="line">SDL_IM_MODULE=fcitx</span><br></pre></td></tr></table></figure></div>
+
+<h1 id="三、问题汇总"><a href="#三、问题汇总" class="headerlink" title="三、问题汇总"></a>三、问题汇总</h1><h2 id="3-1-安装软件时的证书问题"><a href="#3-1-安装软件时的证书问题" class="headerlink" title="3.1 安装软件时的证书问题"></a>3.1 安装软件时的证书问题</h2><ol>
+<li>首先，更新你的系统证书:</li>
+</ol>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> update-ca-trust</span><br></pre></td></tr></table></figure></div>
+
+<ol start="2">
+<li>如果上面的方法不起作用，你可以尝试临时禁用SSL验证。这不是一个安全的长期解决方案，但可以帮助你确定问题是否确实与证书有关:</li>
+</ol>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">makepkg -si --skippgpcheck</span><br></pre></td></tr></table></figure></div>
+
+<ol start="3">
+<li>最后，确保你的系统时间是正确的，因为时间不正确也可能导致SSL证书验证失败:</li>
+</ol>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">timedatectl status</span><br></pre></td></tr></table></figure></div>
+
+<p>如果时间不正确，可以同步:</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> timedatectl set-ntp <span class="literal">true</span></span><br></pre></td></tr></table></figure></div>
+
+<h2 id="3-2-镜像源问题"><a href="#3-2-镜像源问题" class="headerlink" title="3.2 镜像源问题"></a>3.2 镜像源问题</h2><p>如果下载或者更新速度较慢，可以用 Arch 清华镜像源：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kate /etc/pacman.d/mirrorlist</span><br></pre></td></tr></table></figure></div>
+<p>然后在首行加上：</p>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># arch 清华镜像源</span><br><span class="line">Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/$repo/os/$arch</span><br><span class="line"># arch 稳定镜像源</span><br><span class="line">Server = https://mirror.archlinux.org/$repo/os/$arch</span><br><span class="line">Server = https://mirrors.kernel.org/archlinux/$repo/os/$arch</span><br></pre></td></tr></table></figure></div>
+
+<p><strong>如果是在线安装系统的话，建议在<code>live</code>版镜像中，先改下镜像源配置：</strong></p>
+<p>进入<code>root</code>用户：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> su</span><br></pre></td></tr></table></figure></div>
+
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nano /etc/pacman.d/mirrorlist</span><br></pre></td></tr></table></figure></div>
+<p>然后把镜像源加进去。</p>
+<h2 id="3-3-签名验证问题"><a href="#3-3-签名验证问题" class="headerlink" title="3.3 签名验证问题"></a>3.3 签名验证问题</h2><p><strong>建议先参考这篇官方文章：</strong> <a class="link"   target="_blank" rel="noopener" href="https://discovery.endeavouros.com/signature-and-keyring/pacman-keyring-issues/2021/03/" >Signature and keyring <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(735/735) 正在检查软件包完整性                        [------------------------------------] 100% **错误：**libinstpatch: 来自 &quot;Brett Cornwall &lt;brett@i--b.com&gt;&quot; 的签名是未知信任的- **:: 文件 /var/cache/pacman/pkg/libinstpatch-1.1.6-3-x86_64.pkg.tar.zst 已损坏 (无效或已损坏的软件包 (PGP 签名))**. **打算删除吗？ [Y/n] ** **错误：**fluidsynth: 来自 &quot;Brett Cornwall &lt;brett@i--b.com&gt;&quot; 的签名是未知信任的**坏** **:: 文件 /var/cache/pacman/pkg/fluidsynth-2.3.6-1-x86_64.pkg.tar.zst 已损坏 (无效或已损坏的软件包 (PGP 签名)).** **打算删除吗？ [Y/n]</span><br></pre></td></tr></table></figure></div>
+
+<p>如果遇到以上这种问题（比如在执行<code>sudo pacman -Syu</code>时），可以这样做：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kate /etc/pacman.conf</span><br></pre></td></tr></table></figure></div>
+
+<p>然后找到<code>SigLevel</code>那一行，暂时禁用签名检查（这是一个临时的、有风险的解决方案），修改为：</p>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SigLevel = Never</span><br></pre></td></tr></table></figure></div>
+<p>为了保证主机安全，在安装好后记得要修改回来！！！</p>
+<h2 id="3-4-文件未通过校验"><a href="#3-4-文件未通过校验" class="headerlink" title="3.4 文件未通过校验"></a>3.4 文件未通过校验</h2><p>比如在构建包时有类似的如下报错信息：</p>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">正在验证 source 文件，</span><br><span class="line">使用sha512sums... </span><br><span class="line"> nekoray ... 通过</span><br><span class="line"> nekobox.sh ... 通过</span><br><span class="line"> nekobox.desktop ... 通过</span><br><span class="line"> 1350.patch ... 失败. ==&gt; 错误： 一个或多个文件没有通过有效性检查！0</span><br></pre></td></tr></table></figure></div>
+
+<ol>
+<li><p><strong>清理之前的构建：</strong></p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">makepkg --clean</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p><strong>更新 PKGBUILD 文件中的校验和。进入构建文件的目录，然后使用以下命令：</strong></p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">updpkgsums</span><br></pre></td></tr></table></figure></div>
+<p>它会自动下载源文件（如果需要），计算新的校验和，并更新 PKGBUILD 文件。</p>
+</li>
+<li><p><strong>重新构建：</strong></p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">makepkg -si</span><br></pre></td></tr></table></figure></div></li>
+</ol>
+<h1 id="四、美化（KDE-Plasma6）"><a href="#四、美化（KDE-Plasma6）" class="headerlink" title="四、美化（KDE Plasma6）"></a>四、美化（KDE Plasma6）</h1><p>注意下的主题和组件需要是<code>plasma6</code>的，作者一般会说明。</p>
+<h2 id="4-1-全局主题"><a href="#4-1-全局主题" class="headerlink" title="4.1 全局主题"></a>4.1 全局主题</h2><p>建议去 KDE Store 下载主题，然后把下载的 <strong>全局主题</strong> 解压后，放到<code>~/.local/share/plasma/look-and-feel</code>目录下。</p>
+<p>壁纸和全局主题推荐<code>Utterly Nord</code>，图标推荐<code>Dracula Circle</code>。</p>
+<p>参考图：<br><a target="_blank" rel="noopener" href="https://imgse.com/i/pAkSS6H"><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s21.ax1x.com/2024/08/25/pAkSS6H.png"
+                      alt="Utterly Nord"
+                ><figcaption>Utterly Nord</figcaption></figure></a></p>
+<h2 id="4-2-组件"><a href="#4-2-组件" class="headerlink" title="4.2 组件"></a>4.2 组件</h2><p><a class="link"   target="_blank" rel="noopener" href="https://store.kde.org/p/2186442" >musicWaves <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a><br><a class="link"   target="_blank" rel="noopener" href="https://www.pling.com/p/2148472/" >thot CPU Plasma 6 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<p>解压后，把文件夹移动到<code>~/.local/share/plasma/plasmoids/</code>目录下。</p>
+<p>参考图：<br><a target="_blank" rel="noopener" href="https://imgse.com/i/pAksXO1"><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s21.ax1x.com/2024/08/27/pAksXO1.md.png"
+                      alt="Desktop Widgets"
+                ><figcaption>Desktop Widgets</figcaption></figure></a></p>
+<h2 id="4-3-Login-SDDM"><a href="#4-3-Login-SDDM" class="headerlink" title="4.3 Login SDDM"></a>4.3 Login SDDM</h2><p>建议先在<code>KDE Store</code>下载好，然后解压到存放登录界面的目录下。</p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://www.pling.com/p/2144235/" >Nordic sddm Plasma 6 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<p>把解压后的文件移到<code>/usr/share/sddm/themes/</code>目录下。</p>
+
+        </div>
+
+        
+            <div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> EndeavourOS 使用记录</li>
+        <li><strong>Author:</strong> loskyertt</li>
+        <li><strong>Created at
+                :</strong> 2024-07-18 16:21:15</li>
+        
+            <li>
+                <strong>Updated at
+                    :</strong> 2024-11-13 03:07:10
+            </li>
+        
+        <li>
+            <strong>Link:</strong> https://redefine.ohevan.com/2024/07/18/EndeavourOS/
+        </li>
+        <li>
+            <strong>
+                License:
+            </strong>
+            
+
+            
+                This work is licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a>.
+            
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+            <ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+                
+                    <li class="tag-item mx-0.5">
+                        <a href="/tags/linux/">#linux</a>&nbsp;
+                    </li>
+                
+            </ul>
+        
+
+        
+  <div class="recommended-article px-2 sm:px-6 md:px-8">
+   <div class="recommended-desktop">
+    <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>推荐阅读</span>
+    </div>
+    <div class="recommended-article-group"><a class="recommended-article-item" href="/2024/09/09/Docker搭建DL环境/" title="Docker 搭建深度学习环境" rel="bookmark">
+  <img src="/images/wallhaven-wqery6-light.webp" alt="Docker 搭建深度学习环境" class="!max-w-none">
+  <span class="title">Docker 搭建深度学习环境</span>
+</a><a class="recommended-article-item" href="/2024/07/24/Linux指令/" title="Linux 指令" rel="bookmark">
+  <img src="https://softwarelab.org/wp-content/uploads/Linux.jpg" alt="Linux 指令" class="!max-w-none">
+  <span class="title">Linux 指令</span>
+</a><a class="recommended-article-item" href="/2024/07/30/Docker-Openwrt/" title="Openwrt 在 Docker 下运行并作为旁路由" rel="bookmark">
+  <img src="/images/wallhaven-wqery6-light.webp" alt="Openwrt 在 Docker 下运行并作为旁路由" class="!max-w-none">
+  <span class="title">Openwrt 在 Docker 下运行并作为旁路由</span>
+</a></div>
+   </div>
+   <div class="recommended-mobile">
+   <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>推荐阅读</span>
+   </div>
+   <div class="recommended-article-group"><a class="recommended-article-item" href="/2024/09/09/Docker搭建DL环境/" title="Docker 搭建深度学习环境" rel="bookmark">
+  <img src="/images/wallhaven-wqery6-light.webp" alt="Docker 搭建深度学习环境" class="!max-w-none">
+  <span class="title">Docker 搭建深度学习环境</span>
+</a><a class="recommended-article-item" href="/2024/07/24/Linux指令/" title="Linux 指令" rel="bookmark">
+  <img src="https://softwarelab.org/wp-content/uploads/Linux.jpg" alt="Linux 指令" class="!max-w-none">
+  <span class="title">Linux 指令</span>
+</a></div>
+   </div>
+  </div>
+
+        
+            <div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+                
+                    <div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+                        <a class="prev"
+                        rel="prev"
+                        href="/2024/07/19/Git%E6%95%99%E7%A8%8B/"
+                        >
+                            <span class="left arrow-icon flex justify-center items-center">
+                                <i class="fa-solid fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex justify-center items-center">
+                                <span class="post-nav-title-item">Git教程</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+            </div>
+        
+
+
+        
+            <div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+                <div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        Comments
+    </div>
+    
+
+        
+            
+    <div id="waline"></div>
+    <script type="module" data-swup-reload-script>
+      import { init } from '/js/libs/waline.mjs';
+
+      function loadWaline() {
+        init({
+          el: '#waline',
+          serverURL: 'https://example.example.com',
+          lang: 'zh-CN',
+          dark: 'body[class~="dark-mode"]',
+          reaction: false,
+          requiredMeta: ['nick', 'mail'],
+          emoji: [],
+          recaptchaV3Key: "wasd",
+          
+        });
+      }
+
+      if (typeof swup !== 'undefined') {
+        loadWaline();
+      } else {
+        window.addEventListener('DOMContentLoaded', loadWaline);
+      }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+
+    
+        <div class="toc-content-container">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <div class="toc-title">On this page</div>
+        <div class="page-title">EndeavourOS 使用记录</div>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E3%80%81N%E5%8D%A1%E9%A9%B1%E5%8A%A8"><span class="nav-text">一、N卡驱动</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-%E5%AE%89%E8%A3%85%E6%96%B9%E5%BC%8F%E4%B8%80"><span class="nav-text">1.1 安装方式一</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-%E5%AE%89%E8%A3%85%E6%96%B9%E5%BC%8F%E4%BA%8C"><span class="nav-text">1.2 安装方式二</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-%E6%9F%A5%E7%9C%8B%E6%98%BE%E5%8D%A1%E4%BF%A1%E6%81%AF"><span class="nav-text">1.3 查看显卡信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-%E8%A1%A5%E5%85%85"><span class="nav-text">1.4 补充</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-1-nvidia-hook"><span class="nav-text">1.4.1 nvidia-hook</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-2-nvidia-inst"><span class="nav-text">1.4.2 nvidia-inst</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-3-nvidia-utils"><span class="nav-text">1.4.3 nvidia-utils</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-4-nvidia-settings"><span class="nav-text">1.4.4 nvidia-settings</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-5-lib32-nvidia-utils"><span class="nav-text">1.4.5 lib32-nvidia-utils</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E4%B8%AD%E6%96%87%E8%BE%93%E5%85%A5%E6%B3%95%E9%85%8D%E7%BD%AE"><span class="nav-text">二、中文输入法配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-%E6%8E%A8%E8%8D%90%E6%96%B9%E5%BC%8F"><span class="nav-text">2.1 推荐方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-%E5%85%B6%E5%AE%83%EF%BC%88%E6%B2%A1%E8%AF%95%E8%BF%87%EF%BC%89"><span class="nav-text">2.2 其它（没试过）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB"><span class="nav-text">三、问题汇总</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-%E5%AE%89%E8%A3%85%E8%BD%AF%E4%BB%B6%E6%97%B6%E7%9A%84%E8%AF%81%E4%B9%A6%E9%97%AE%E9%A2%98"><span class="nav-text">3.1 安装软件时的证书问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-%E9%95%9C%E5%83%8F%E6%BA%90%E9%97%AE%E9%A2%98"><span class="nav-text">3.2 镜像源问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-%E7%AD%BE%E5%90%8D%E9%AA%8C%E8%AF%81%E9%97%AE%E9%A2%98"><span class="nav-text">3.3 签名验证问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-%E6%96%87%E4%BB%B6%E6%9C%AA%E9%80%9A%E8%BF%87%E6%A0%A1%E9%AA%8C"><span class="nav-text">3.4 文件未通过校验</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E7%BE%8E%E5%8C%96%EF%BC%88KDE-Plasma6%EF%BC%89"><span class="nav-text">四、美化（KDE Plasma6）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-%E5%85%A8%E5%B1%80%E4%B8%BB%E9%A2%98"><span class="nav-text">4.1 全局主题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-%E7%BB%84%E4%BB%B6"><span class="nav-text">4.2 组件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-Login-SDDM"><span class="nav-text">4.3 Login SDDM</span></a></li></ol></li></ol>
+
+    </div>
+</div>
+        </div>
+    
+</div>
+
+
+
+                
+
+            </div>
+
+            
+
+        </div>
+
+        <div class="main-content-footer">
+            <footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2024&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">loskyertt</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        40 posts in total
+                    </span>
+                    
+                        <span>
+                            39.1k words in total
+                        </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">VISITOR COUNT</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">TOTAL PAGE VIEWS</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">POWERED BY <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a></span>
+            <span class="text-sm lg:block">THEME&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.7.3</a></span>
+        </div>
+        
+        
+            <div>
+                Blog up for <span class="odometer" id="runtime_days" ></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="article-tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="right-bottom-tools page-aside-toggle">
+                <i class="fa-regular fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fa-regular fa-comments"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-side-tools-container">
+        <div class="side-tools-container">
+    <ul class="hidden-tools-list">
+        <li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+            <i class="fa-regular fa-magnifying-glass-plus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+            <i class="fa-regular fa-magnifying-glass-minus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+            <i class="fa-regular fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+
+        <li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+            <i class="fa-regular fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="visible-tools-list">
+        <li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+            <i class="fa-regular fa-cog fa-spin"></i>
+        </li>
+        
+            <li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
+        
+        
+    </ul>
+</div>
+
+    </div>
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fa-solid fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fa-solid fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+    
+<script src="/js/libs/Swup.min.js"></script>
+
+<script src="/js/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/js/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/js/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/js/libs/SwupScrollPlugin.min.js"></script>
+
+<script src="/js/libs/SwupPreloadPlugin.min.js"></script>
+
+<script>
+    const swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+</script>
+
+
+
+
+
+
+
+<script src="/js/tools/imageViewer.js" type="module"></script>
+
+<script src="/js/utils.js" type="module"></script>
+
+<script src="/js/main.js" type="module"></script>
+
+<script src="/js/layouts/navbarShrink.js" type="module"></script>
+
+<script src="/js/tools/scrollTopBottom.js" type="module"></script>
+
+<script src="/js/tools/lightDarkSwitch.js" type="module"></script>
+
+<script src="/js/layouts/categoryList.js" type="module"></script>
+
+
+
+    
+<script src="/js/tools/localSearch.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/tools/codeBlock.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/layouts/lazyload.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/tools/runtime.js"></script>
+
+    
+<script src="/js/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+  
+<script src="/js/libs/Typed.min.js"></script>
+
+  
+<script src="/js/plugins/typed.js" type="module"></script>
+
+
+
+
+
+
+
+
+
+
+
+    
+<script src="/js/tools/tocToggle.js" type="module" data-swup-reload-script=""></script>
+
+<script src="/js/layouts/toc.js" type="module" data-swup-reload-script=""></script>
+
+<script src="/js/plugins/tabs.js" type="module" data-swup-reload-script=""></script>
+
+
+
+
+<script src="/js/libs/moment-with-locales.min.js" data-swup-reload-script=""></script>
+
+
+<script src="/js/layouts/essays.js" type="module" data-swup-reload-script=""></script>
+
+
+
+
+</body>
+</html>
