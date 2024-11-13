@@ -1156,6 +1156,21 @@
       </tags>
   </entry>
   <entry>
+    <title>Dockerfile 教程</title>
+    <url>/2024/09/03/Dockerfile%E6%95%99%E7%A8%8B/</url>
+    <content><![CDATA[<h1 id="1-代理配置"><a href="#1-代理配置" class="headerlink" title="1.代理配置"></a>1.代理配置</h1><p>有时侯在构建镜像时，需要执行一些下载操作，没有配置国内镜像源的话，下载速度可能会很慢甚至出错，所以需要在 Dockerfile 中配置代理。</p>
+<p>在 Dockerfile 中加上：</p>
+<div class="highlight-container" data-rel="Dockerfile"><figure class="iseeu highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="keyword">ENV</span> http_proxy=http://your-proxy-address:port/</span><br><span class="line"><span class="keyword">ENV</span> https_proxy=http://your-proxy-address:port/</span><br></pre></td></tr></table></figure></div>
+
+<p><code>http_proxy</code>和<code>https_proxy</code>：这两个环境变量分别用于<code>HTTP</code>和<code>HTTPS</code>的代理服务器地址。你需要将<code>your-proxy-address:port</code>替换为宿主机在当前网络下的 IP 地址和代理端口。注意这里是宿主机的实际<code>IP</code>地址，不是本地回环（<code>loop</code>）地址。同过<code>ifconfig</code>或者<code>ip a</code>查看。</p>
+<p>这属于是 docker 的环境变量设置，环境变量通常不会自动写入容器中的配置文件，如<code>.bashrc</code>或<code>/etc/environment</code>，但它们会在容器启动时自动加载。</p>
+]]></content>
+      <tags>
+        <tag>docker</tag>
+        <tag>proxy</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Docker 搭建深度学习环境</title>
     <url>/2024/09/09/Docker%E6%90%AD%E5%BB%BADL%E7%8E%AF%E5%A2%83/</url>
     <content><![CDATA[<h1 id="1-安裝NVIDIA-Container-Toolkit套件"><a href="#1-安裝NVIDIA-Container-Toolkit套件" class="headerlink" title="1.安裝NVIDIA Container Toolkit套件"></a>1.安裝NVIDIA Container Toolkit套件</h1><p>对于 Arch 系发行版，可以直接通过下面指令安装：</p>
@@ -1336,21 +1351,6 @@
 ]]></content>
       <tags>
         <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Dockerfile 教程</title>
-    <url>/2024/09/03/Dockerfile%E6%95%99%E7%A8%8B/</url>
-    <content><![CDATA[<h1 id="1-代理配置"><a href="#1-代理配置" class="headerlink" title="1.代理配置"></a>1.代理配置</h1><p>有时侯在构建镜像时，需要执行一些下载操作，没有配置国内镜像源的话，下载速度可能会很慢甚至出错，所以需要在 Dockerfile 中配置代理。</p>
-<p>在 Dockerfile 中加上：</p>
-<div class="highlight-container" data-rel="Dockerfile"><figure class="iseeu highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="keyword">ENV</span> http_proxy=http://your-proxy-address:port/</span><br><span class="line"><span class="keyword">ENV</span> https_proxy=http://your-proxy-address:port/</span><br></pre></td></tr></table></figure></div>
-
-<p><code>http_proxy</code>和<code>https_proxy</code>：这两个环境变量分别用于<code>HTTP</code>和<code>HTTPS</code>的代理服务器地址。你需要将<code>your-proxy-address:port</code>替换为宿主机在当前网络下的 IP 地址和代理端口。注意这里是宿主机的实际<code>IP</code>地址，不是本地回环（<code>loop</code>）地址。同过<code>ifconfig</code>或者<code>ip a</code>查看。</p>
-<p>这属于是 docker 的环境变量设置，环境变量通常不会自动写入容器中的配置文件，如<code>.bashrc</code>或<code>/etc/environment</code>，但它们会在容器启动时自动加载。</p>
-]]></content>
-      <tags>
-        <tag>docker</tag>
-        <tag>proxy</tag>
       </tags>
   </entry>
   <entry>
