@@ -653,34 +653,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Python 爬虫教程 09</title>
-    <url>/2024/10/21/09Python%E7%88%AC%E8%99%AB/</url>
-    <content><![CDATA[<h1 id="1-代码示例"><a href="#1-代码示例" class="headerlink" title="1.代码示例"></a>1.代码示例</h1><div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;https://www.spiderbuf.cn/playground/s08&quot;</span></span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line">html = requests.get(url=url, headers=headers).text</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/08course/08.html&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">f.write(html)</span><br><span class="line">f.close()</span><br><span class="line"></span><br><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/08course/data08.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    tds = tr.xpath(<span class="string">&#x27;./td&#x27;</span>)</span><br><span class="line">    s = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> td <span class="keyword">in</span> tds:</span><br><span class="line">        s = s + <span class="built_in">str</span>(td.xpath(<span class="string">&#x27;string(.)&#x27;</span>)) + <span class="string">&#x27;|&#x27;</span></span><br><span class="line">    <span class="built_in">print</span>(s)</span><br><span class="line">    <span class="keyword">if</span> s!= <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        f.write(s + <span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
-<p>直接运行这段代码是不会解析出任何数据的，同时可以看到抓取到的网页与我们想要的不一样。</p>
-<h1 id="2-网页分析"><a href="#2-网页分析" class="headerlink" title="2,网页分析"></a>2,网页分析</h1><p>打开浏览器控制台，选择<code>network</code>：<br><a href="https://imgse.com/i/pAa40dx"><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://s21.ax1x.com/2024/10/21/pAa40dx.png"
-                      alt="控制台.png"
-                ><figcaption>控制台.png</figcaption></figure></a><br>可以发现，请求方式是<code>post</code>。所以我们就得在代码中采用<code>post</code>请求方式：</p>
-<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;https://www.spiderbuf.cn/playground/s08&quot;</span></span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment"># 传入 post 请求中的数据</span></span><br><span class="line">payload = &#123;<span class="string">&#x27;level&#x27;</span>: <span class="string">&#x27;8&#x27;</span>&#125;</span><br><span class="line"><span class="comment"># post 请求</span></span><br><span class="line">html = requests.post(url=url, headers=headers, data=payload).text</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/08course/08.html&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">f.write(html)</span><br><span class="line">f.close()</span><br><span class="line"></span><br><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/08course/data08.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    tds = tr.xpath(<span class="string">&#x27;./td&#x27;</span>)</span><br><span class="line">    s = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> td <span class="keyword">in</span> tds:</span><br><span class="line">        s = s + <span class="built_in">str</span>(td.xpath(<span class="string">&#x27;string(.)&#x27;</span>)) + <span class="string">&#x27;|&#x27;</span></span><br><span class="line">    <span class="built_in">print</span>(s)</span><br><span class="line">    <span class="keyword">if</span> s!= <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        f.write(s + <span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
-
-<p><code>payload</code>是在这里：<br><a href="https://imgse.com/i/pAa4oY8"><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://s21.ax1x.com/2024/10/21/pAa4oY8.png"
-                      alt="payload.png"
-                ><figcaption>payload.png</figcaption></figure></a></p>
-<p>可以参考这里：<a class="link"   href="https://requests.readthedocs.io/projects/cn/zh-cn/latest/user/quickstart.html#post" >更加复杂的 POST 请求 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
-]]></content>
-      <categories>
-        <category>Python爬虫</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Conda教程</title>
     <url>/2024/07/19/Conda%E6%95%99%E7%A8%8B/</url>
     <content><![CDATA[<h1 id="一、conda-指令"><a href="#一、conda-指令" class="headerlink" title="一、conda 指令"></a>一、conda 指令</h1><h2 id="1-1-查看配置"><a href="#1-1-查看配置" class="headerlink" title="1.1 查看配置"></a>1.1 查看配置</h2><div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="code"><pre><span class="line">conda config --show channels    # 查看镜像源</span><br><span class="line">conda config --show-sources        # 查看配置文件内容</span><br></pre></td></tr></table></figure></div>
@@ -708,6 +680,34 @@
 ]]></content>
       <tags>
         <tag>conda</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python 爬虫教程 09</title>
+    <url>/2024/10/21/09Python%E7%88%AC%E8%99%AB/</url>
+    <content><![CDATA[<h1 id="1-代码示例"><a href="#1-代码示例" class="headerlink" title="1.代码示例"></a>1.代码示例</h1><div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;https://www.spiderbuf.cn/playground/s08&quot;</span></span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line">html = requests.get(url=url, headers=headers).text</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/08course/08.html&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">f.write(html)</span><br><span class="line">f.close()</span><br><span class="line"></span><br><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/08course/data08.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    tds = tr.xpath(<span class="string">&#x27;./td&#x27;</span>)</span><br><span class="line">    s = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> td <span class="keyword">in</span> tds:</span><br><span class="line">        s = s + <span class="built_in">str</span>(td.xpath(<span class="string">&#x27;string(.)&#x27;</span>)) + <span class="string">&#x27;|&#x27;</span></span><br><span class="line">    <span class="built_in">print</span>(s)</span><br><span class="line">    <span class="keyword">if</span> s!= <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        f.write(s + <span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
+<p>直接运行这段代码是不会解析出任何数据的，同时可以看到抓取到的网页与我们想要的不一样。</p>
+<h1 id="2-网页分析"><a href="#2-网页分析" class="headerlink" title="2,网页分析"></a>2,网页分析</h1><p>打开浏览器控制台，选择<code>network</code>：<br><a href="https://imgse.com/i/pAa40dx"><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s21.ax1x.com/2024/10/21/pAa40dx.png"
+                      alt="控制台.png"
+                ><figcaption>控制台.png</figcaption></figure></a><br>可以发现，请求方式是<code>post</code>。所以我们就得在代码中采用<code>post</code>请求方式：</p>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;https://www.spiderbuf.cn/playground/s08&quot;</span></span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment"># 传入 post 请求中的数据</span></span><br><span class="line">payload = &#123;<span class="string">&#x27;level&#x27;</span>: <span class="string">&#x27;8&#x27;</span>&#125;</span><br><span class="line"><span class="comment"># post 请求</span></span><br><span class="line">html = requests.post(url=url, headers=headers, data=payload).text</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/08course/08.html&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">f.write(html)</span><br><span class="line">f.close()</span><br><span class="line"></span><br><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/08course/data08.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    tds = tr.xpath(<span class="string">&#x27;./td&#x27;</span>)</span><br><span class="line">    s = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> td <span class="keyword">in</span> tds:</span><br><span class="line">        s = s + <span class="built_in">str</span>(td.xpath(<span class="string">&#x27;string(.)&#x27;</span>)) + <span class="string">&#x27;|&#x27;</span></span><br><span class="line">    <span class="built_in">print</span>(s)</span><br><span class="line">    <span class="keyword">if</span> s!= <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        f.write(s + <span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
+
+<p><code>payload</code>是在这里：<br><a href="https://imgse.com/i/pAa4oY8"><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s21.ax1x.com/2024/10/21/pAa4oY8.png"
+                      alt="payload.png"
+                ><figcaption>payload.png</figcaption></figure></a></p>
+<p>可以参考这里：<a class="link"   href="https://requests.readthedocs.io/projects/cn/zh-cn/latest/user/quickstart.html#post" >更加复杂的 POST 请求 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+]]></content>
+      <categories>
+        <category>Python爬虫</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
       </tags>
   </entry>
   <entry>
@@ -1171,59 +1171,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Docker 搭建深度学习环境</title>
-    <url>/2024/09/09/Docker%E6%90%AD%E5%BB%BADL%E7%8E%AF%E5%A2%83/</url>
-    <content><![CDATA[<h1 id="1-安裝NVIDIA-Container-Toolkit套件"><a href="#1-安裝NVIDIA-Container-Toolkit套件" class="headerlink" title="1.安裝NVIDIA Container Toolkit套件"></a>1.安裝NVIDIA Container Toolkit套件</h1><p>对于 Arch 系发行版，可以直接通过下面指令安装：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S nvidia-container-toolkit</span><br></pre></td></tr></table></figure></div>
-
-<p>然后新增设定：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">mkdir</span> /etc/docker</span><br><span class="line"><span class="built_in">sudo</span> nano /etc/docker/daemon.json</span><br></pre></td></tr></table></figure></div>
-
-<p>添加：</p>
-<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;runtimes&quot;: &#123;</span><br><span class="line">        &quot;nvidia&quot;: &#123;</span><br><span class="line">            &quot;path&quot;: &quot;nvidia-container-runtime&quot;,</span><br><span class="line">            &quot;runtimeArgs&quot;: []</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
-
-<p>重启 Docker ：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl restart docker</span><br></pre></td></tr></table></figure></div>
-
-<p>拉取CUDA 12.1版本的镜像测试：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> docker run --<span class="built_in">rm</span> --gpus all nvidia/cuda:12.1.0-base-ubuntu20.04 nvidia-smi</span><br></pre></td></tr></table></figure></div>
-<p>检查是否能在容器中运行<code>nvidia-smi</code>：<br><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://ivonblog.com/posts/archlinux-install-nvidia-drivers/images/Screenshot_20231226_160611.webp"
-                      alt="nvidia-smi"
-                ><figcaption>nvidia-smi</figcaption></figure></p>
-<h1 id="2-各个-CUDA-tag的区别"><a href="#2-各个-CUDA-tag的区别" class="headerlink" title="2.各个 CUDA tag的区别"></a>2.各个 CUDA <code>tag</code>的区别</h1><p>其它 CUDA 镜像可以通过在 DockerHub 找到：<a class="link"   href="https://hub.docker.com/r/nvidia/cuda" >nvidia&#x2F;cuda <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
-<ol>
-<li><strong>Base</strong> : Includes only the CUDA runtime (cudart), which is essential for running CUDA-based applications but doesn’t come with extra libraries or development tools.</li>
-<li><strong>Runtime</strong> : Builds on the <code>base</code> image and adds CUDA math libraries like cuBLAS, cuFFT, and cuRAND. This version is suitable for running applications that require these additional libraries without needing to compile CUDA code.</li>
-<li><strong>Devel</strong> : Builds on the <code>runtime</code> image and includes all the necessary headers and development tools like <code>nvcc</code> for compiling and building CUDA applications. This is useful for developers building or extending CUDA applications.</li>
-<li><strong>CUDNN&#x2F;Devel Runtime</strong> : Adds cuDNN libraries to the runtime or devel image for working with deep learning applications.</li>
-</ol>
-<p>Different versions also support various operating systems like Ubuntu 20.04, 22.04, or 24.04. The <code>devel</code> tags are especially useful when you need to compile custom CUDA code, whereas the <code>runtime</code> tags are lighter and designed for deployment【76†source】【77†source】.</p>
-<h1 id="3-搭建-PyTorch"><a href="#3-搭建-PyTorch" class="headerlink" title="3.搭建 PyTorch"></a>3.搭建 PyTorch</h1><p>根据需要拉取<code>PyTorch</code>镜像：<a class="link"   href="https://hub.docker.com/r/pytorch/pytorch" >pytorch&#x2F;pytorch <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
-<p>我这里以最新版为例：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker pull pytorch/pytorch</span><br></pre></td></tr></table></figure></div>
-
-<p>可以先查看下镜像内容（比如端口、挂载点）：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker inspect pytorch/pytorch:latest</span><br></pre></td></tr></table></figure></div>
-<p>这个镜像的默认挂载点是<code>/workspace</code>。</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -it --name=pytorch -v ~/workspace:/workspace -p 8888:8888 pytorch/pytorch:latest</span><br></pre></td></tr></table></figure></div>
-<p>这里映射的端口是<code>jupyter</code>的。需要在容器里手动安装<code>jupyter</code>。</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">conda install jupyter</span><br></pre></td></tr></table></figure></div>
-
-<p>运行<code>jupyter</code>：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">jupyter lab --ip=0.0.0.0 --no-browser --allow-root</span><br></pre></td></tr></table></figure></div>
-<p>启动<code>Jupyter Lab</code>时，默认情况下它只绑定到<code>localhost</code>，并不会对外开放。所以你需要明确绑定<code>0.0.0.0</code>，以便它能从容器外部访问。</p>
-]]></content>
-      <categories>
-        <category>深度学习</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Docker 教程</title>
     <url>/2024/07/24/Docker%E6%95%99%E7%A8%8B/</url>
     <content><![CDATA[<h1 id="一、基本指令"><a href="#一、基本指令" class="headerlink" title="一、基本指令"></a>一、基本指令</h1><h2 id="1-1-查看镜像版本"><a href="#1-1-查看镜像版本" class="headerlink" title="1.1 查看镜像版本"></a>1.1 查看镜像版本</h2><div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker inspect &lt;镜像ID&gt; | grep -i version</span><br></pre></td></tr></table></figure></div>
@@ -1349,6 +1296,59 @@
 <p>以后可以使用 <code>docker load</code> 命令从 tar 文件加载镜像。例如，从 <code>hexo_latest.tar</code> 加载镜像：</p>
 <div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker load -i hexo_latest.tar</span><br></pre></td></tr></table></figure></div>
 ]]></content>
+      <tags>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Docker 搭建深度学习环境</title>
+    <url>/2024/09/09/Docker%E6%90%AD%E5%BB%BADL%E7%8E%AF%E5%A2%83/</url>
+    <content><![CDATA[<h1 id="1-安裝NVIDIA-Container-Toolkit套件"><a href="#1-安裝NVIDIA-Container-Toolkit套件" class="headerlink" title="1.安裝NVIDIA Container Toolkit套件"></a>1.安裝NVIDIA Container Toolkit套件</h1><p>对于 Arch 系发行版，可以直接通过下面指令安装：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S nvidia-container-toolkit</span><br></pre></td></tr></table></figure></div>
+
+<p>然后新增设定：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">mkdir</span> /etc/docker</span><br><span class="line"><span class="built_in">sudo</span> nano /etc/docker/daemon.json</span><br></pre></td></tr></table></figure></div>
+
+<p>添加：</p>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;runtimes&quot;: &#123;</span><br><span class="line">        &quot;nvidia&quot;: &#123;</span><br><span class="line">            &quot;path&quot;: &quot;nvidia-container-runtime&quot;,</span><br><span class="line">            &quot;runtimeArgs&quot;: []</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<p>重启 Docker ：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl restart docker</span><br></pre></td></tr></table></figure></div>
+
+<p>拉取CUDA 12.1版本的镜像测试：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> docker run --<span class="built_in">rm</span> --gpus all nvidia/cuda:12.1.0-base-ubuntu20.04 nvidia-smi</span><br></pre></td></tr></table></figure></div>
+<p>检查是否能在容器中运行<code>nvidia-smi</code>：<br><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://ivonblog.com/posts/archlinux-install-nvidia-drivers/images/Screenshot_20231226_160611.webp"
+                      alt="nvidia-smi"
+                ><figcaption>nvidia-smi</figcaption></figure></p>
+<h1 id="2-各个-CUDA-tag的区别"><a href="#2-各个-CUDA-tag的区别" class="headerlink" title="2.各个 CUDA tag的区别"></a>2.各个 CUDA <code>tag</code>的区别</h1><p>其它 CUDA 镜像可以通过在 DockerHub 找到：<a class="link"   href="https://hub.docker.com/r/nvidia/cuda" >nvidia&#x2F;cuda <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<ol>
+<li><strong>Base</strong> : Includes only the CUDA runtime (cudart), which is essential for running CUDA-based applications but doesn’t come with extra libraries or development tools.</li>
+<li><strong>Runtime</strong> : Builds on the <code>base</code> image and adds CUDA math libraries like cuBLAS, cuFFT, and cuRAND. This version is suitable for running applications that require these additional libraries without needing to compile CUDA code.</li>
+<li><strong>Devel</strong> : Builds on the <code>runtime</code> image and includes all the necessary headers and development tools like <code>nvcc</code> for compiling and building CUDA applications. This is useful for developers building or extending CUDA applications.</li>
+<li><strong>CUDNN&#x2F;Devel Runtime</strong> : Adds cuDNN libraries to the runtime or devel image for working with deep learning applications.</li>
+</ol>
+<p>Different versions also support various operating systems like Ubuntu 20.04, 22.04, or 24.04. The <code>devel</code> tags are especially useful when you need to compile custom CUDA code, whereas the <code>runtime</code> tags are lighter and designed for deployment【76†source】【77†source】.</p>
+<h1 id="3-搭建-PyTorch"><a href="#3-搭建-PyTorch" class="headerlink" title="3.搭建 PyTorch"></a>3.搭建 PyTorch</h1><p>根据需要拉取<code>PyTorch</code>镜像：<a class="link"   href="https://hub.docker.com/r/pytorch/pytorch" >pytorch&#x2F;pytorch <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<p>我这里以最新版为例：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker pull pytorch/pytorch</span><br></pre></td></tr></table></figure></div>
+
+<p>可以先查看下镜像内容（比如端口、挂载点）：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker inspect pytorch/pytorch:latest</span><br></pre></td></tr></table></figure></div>
+<p>这个镜像的默认挂载点是<code>/workspace</code>。</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -it --name=pytorch -v ~/workspace:/workspace -p 8888:8888 pytorch/pytorch:latest</span><br></pre></td></tr></table></figure></div>
+<p>这里映射的端口是<code>jupyter</code>的。需要在容器里手动安装<code>jupyter</code>。</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">conda install jupyter</span><br></pre></td></tr></table></figure></div>
+
+<p>运行<code>jupyter</code>：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">jupyter lab --ip=0.0.0.0 --no-browser --allow-root</span><br></pre></td></tr></table></figure></div>
+<p>启动<code>Jupyter Lab</code>时，默认情况下它只绑定到<code>localhost</code>，并不会对外开放。所以你需要明确绑定<code>0.0.0.0</code>，以便它能从容器外部访问。</p>
+]]></content>
+      <categories>
+        <category>深度学习</category>
+      </categories>
       <tags>
         <tag>docker</tag>
       </tags>
@@ -1496,180 +1496,6 @@
       <tags>
         <tag>docker</tag>
         <tag>proxy</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>EndeavourOS 使用记录</title>
-    <url>/2024/07/18/EndeavourOS/</url>
-    <content><![CDATA[<h1 id="一、N卡驱动"><a href="#一、N卡驱动" class="headerlink" title="一、N卡驱动"></a>一、N卡驱动</h1><p><code>EndeavourOS</code>对N卡用户的支持比较友好，在安装该系统时，选择有<code>Nvidia</code>那一行的进行安装即可，会自动安装最新的适应当前显卡的闭源驱动。如果是<code>Arch Linux</code>，建议看这篇文章，同时提到有双显卡如何进行切换 <a class="link"   href="https://archlinuxstudio.github.io/ArchLinuxTutorial/#/" >Arch Linux 安装使用教程 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>，如果是<code>Arch</code>系其它发行版（像<code>Manjaro</code>），请自行找教程，这里提到的方式不一定适用你。</p>
-<p>CUDA 安装参考这篇教程：<a class="link"   href="https://ivonblog.com/posts/archlinux-install-nvidia-drivers/" >教你在Arch Linux安裝Nvidia、CUDA、cuDNN、TensorRT专有驱动程序 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
-<h2 id="1-1-安装方式一"><a href="#1-1-安装方式一" class="headerlink" title="1.1 安装方式一"></a>1.1 安装方式一</h2><ul>
-<li><strong>全面更新系统以及安装依赖工具</strong></li>
-</ul>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -Syu base-devel dkms</span><br></pre></td></tr></table></figure></div>
-
-<p>对于新版本的显卡型号，直接运行下面这条指令即可：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 必须安装</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -S nvidia nvidia-settings lib32-nvidia-utils</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="1-2-安装方式二"><a href="#1-2-安装方式二" class="headerlink" title="1.2 安装方式二"></a>1.2 安装方式二</h2><p>如果安装有<code>mwhd</code>工具，可以使用以下方法：</p>
-<ul>
-<li><p><strong>自动安装推荐的开源驱动程序</strong></p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> mhwd -a pci free 0300</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p><strong>自动安装推荐的闭源驱动程序：</strong></p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> mhwd -a pci nonfree 0300</span><br></pre></td></tr></table></figure></div></li>
-</ul>
-<p>终端输入：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">nvidia-smi</span><br></pre></td></tr></table></figure></div>
-<p>如果有返回信息，表示安装成功。</p>
-<h2 id="1-3-查看显卡信息"><a href="#1-3-查看显卡信息" class="headerlink" title="1.3 查看显卡信息"></a>1.3 查看显卡信息</h2><p>简单的过滤，显示有关 VGA 设备的基本信息。</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">lspci -vnn | grep VGA</span><br></pre></td></tr></table></figure></div>
-
-<p>提供更详细的信息，包括驱动程序信息。</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">lspci -k | grep -EA3 <span class="string">&#x27;VGA|3D&#x27;</span></span><br></pre></td></tr></table></figure></div>
-
-<p>提供非常详细且易读的图形信息，适合快速了解系统图形设备和驱动状态。</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">inxi -G</span><br></pre></td></tr></table></figure></div>
-
-<p>手动安装的话，从官网下载对应型号的驱动，一定要把下载好的驱动文件放到主文件夹（<code>~</code>）下！在<code>BIOS</code>终端界面，中文会显示乱码。</p>
-<h2 id="1-4-补充"><a href="#1-4-补充" class="headerlink" title="1.4 补充"></a>1.4 补充</h2><ul>
-<li><strong><code>nvidia-hook</code>, <code>nvidia-inst</code>, <code>nvidia-utils</code> 的用途：</strong></li>
-</ul>
-<h3 id="1-4-1-nvidia-hook"><a href="#1-4-1-nvidia-hook" class="headerlink" title="1.4.1 nvidia-hook"></a>1.4.1 nvidia-hook</h3><p><code>nvidia-hook</code> 是一个 Pacman 钩子脚本，用于在内核更新时自动重新生成 NVIDIA 内核模块。这可以确保你的 NVIDIA 驱动程序在内核更新后继续正常工作，而无需手动干预。</p>
-<p><strong>功能：</strong></p>
-<ul>
-<li>自动在内核更新后重新生成 NVIDIA 内核模块。</li>
-<li>提高系统更新的便利性，减少因驱动兼容性问题导致的系统启动问题。</li>
-</ul>
-<h3 id="1-4-2-nvidia-inst"><a href="#1-4-2-nvidia-inst" class="headerlink" title="1.4.2 nvidia-inst"></a>1.4.2 nvidia-inst</h3><p><code>nvidia-inst</code> 是 EndeavourOS 提供的一个脚本，用于安装和配置 NVIDIA 驱动程序。它简化了在 EndeavourOS 系统上安装 NVIDIA 驱动的过程。</p>
-<p><strong>功能：</strong></p>
-<ul>
-<li>自动检测你的显卡型号。</li>
-<li>安装合适版本的 NVIDIA 驱动程序。</li>
-<li>配置系统以使用新的驱动程序。</li>
-</ul>
-<h3 id="1-4-3-nvidia-utils"><a href="#1-4-3-nvidia-utils" class="headerlink" title="1.4.3 nvidia-utils"></a>1.4.3 nvidia-utils</h3><p><code>nvidia-utils</code> 包含 NVIDIA 驱动程序的核心用户空间组件和实用工具。这个包提供了运行 NVIDIA 驱动程序所需的库和命令行工具。</p>
-<p><strong>功能：</strong></p>
-<ul>
-<li>提供核心的 NVIDIA 驱动库。</li>
-<li>包含用于查询和配置 NVIDIA 显卡的命令行工具，如 <code>nvidia-smi</code>。</li>
-<li>包含 OpenGL 库和 Vulkan 库，用于支持高性能图形渲染。</li>
-</ul>
-<p> <code>nvidia-hook</code>, <code>nvidia-inst</code>, <code>nvidia-utils</code> 不能完全替代 <code>nvidia-settings</code> 和 <code>lib32-nvidia-utils</code>。</p>
-<h3 id="1-4-4-nvidia-settings"><a href="#1-4-4-nvidia-settings" class="headerlink" title="1.4.4 nvidia-settings"></a>1.4.4 nvidia-settings</h3><p><code>nvidia-settings</code> 是一个独立的图形化配置工具，用于调整和配置 NVIDIA 显卡的各种设置。它提供了一个图形界面，允许用户进行以下操作：</p>
-<ul>
-<li>配置显示器布局（多显示器设置）。</li>
-<li>调整显卡性能参数（如风扇速度、功率模式）。</li>
-<li>配置 OpenGL 设置。</li>
-<li>管理显示器色彩和亮度设置。</li>
-</ul>
-<p><strong>替代情况：</strong></p>
-<ul>
-<li><code>nvidia-utils</code> 提供了一些命令行工具，但没有图形界面和用户友好的配置选项。</li>
-<li><code>nvidia-settings</code> 提供了更丰富和直观的配置选项，尤其适用于需要频繁调整显卡设置的用户。</li>
-</ul>
-<h3 id="1-4-5-lib32-nvidia-utils"><a href="#1-4-5-lib32-nvidia-utils" class="headerlink" title="1.4.5 lib32-nvidia-utils"></a>1.4.5 lib32-nvidia-utils</h3><p><code>lib32-nvidia-utils</code> 是 32 位 NVIDIA 驱动程序库的集合，用于在 64 位系统上运行 32 位应用程序（如一些旧版游戏和软件）。这些库对于兼容 32 位应用程序至关重要。</p>
-<p><strong>替代情况：</strong></p>
-<ul>
-<li><code>nvidia-utils</code> 包含 64 位库，不包括 32 位库。</li>
-<li>如果你需要运行 32 位应用程序，仍然需要安装 <code>lib32-nvidia-utils</code>。</li>
-</ul>
-<h1 id="二、中文输入法配置"><a href="#二、中文输入法配置" class="headerlink" title="二、中文输入法配置"></a>二、中文输入法配置</h1><h2 id="2-1-推荐方式"><a href="#2-1-推荐方式" class="headerlink" title="2.1 推荐方式"></a>2.1 推荐方式</h2><div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">yay -Sy fcitx-im fcitx-configtool</span><br></pre></td></tr></table></figure></div>
-
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">kate ~/.xprofile</span><br></pre></td></tr></table></figure></div>
-<p>输入以下内容：</p>
-<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">export GTK_IM_MODULE=fcitx</span><br><span class="line">export QT_IM_MODULE=fcitx</span><br><span class="line">export XMODIFIERS=&quot;@im=fcitx&quot;</span><br></pre></td></tr></table></figure></div>
-
-<p>如果在<code>~</code>目录创建的<code>.xprofile</code>配置文件没有生效，可以这样做：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">kate /etc/environment</span><br></pre></td></tr></table></figure></div>
-
-<p>然后在里面加入：</p>
-<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">export GTK_IM_MODULE=fcitx</span><br><span class="line">export QT_IM_MODULE=fcitx</span><br><span class="line">export XMODIFIERS=&quot;@im=fcitx&quot;</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="2-2-其它（没试过）"><a href="#2-2-其它（没试过）" class="headerlink" title="2.2 其它（没试过）"></a>2.2 其它（没试过）</h2><p><strong>方式一：</strong></p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 安装fcitx5</span></span><br><span class="line"><span class="comment">#基础包组</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -S fcitx5-im</span><br><span class="line"><span class="comment">#官方中文输入引擎</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -S fcitx5-chinese-addons</span><br><span class="line"><span class="comment">#日文输入引擎</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -S fcitx5-anthy</span><br><span class="line"><span class="comment">#萌娘百科词库（挂梯子）</span></span><br><span class="line">yay -S fcitx5-pinyin-moegirl</span><br><span class="line"><span class="comment">#中文维基百科词库</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -S fcitx5-pinyin-zhwiki</span><br><span class="line"><span class="comment">#主题</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -S fcitx5-material-color</span><br></pre></td></tr></table></figure></div>
-
-<p>编辑配置文件：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">kate /etc/environment</span><br></pre></td></tr></table></figure></div>
-
-<p>输入以下内容：</p>
-<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">GTK_IM_MODULE=fcitx</span><br><span class="line">QT_IM_MODULE=fcitx</span><br><span class="line">XMODIFIERS=@im=fcitx</span><br><span class="line">SDL_IM_MODULE=fcitx</span><br></pre></td></tr></table></figure></div>
-
-<h1 id="三、问题汇总"><a href="#三、问题汇总" class="headerlink" title="三、问题汇总"></a>三、问题汇总</h1><h2 id="3-1-安装软件时的证书问题"><a href="#3-1-安装软件时的证书问题" class="headerlink" title="3.1 安装软件时的证书问题"></a>3.1 安装软件时的证书问题</h2><ol>
-<li>首先，更新你的系统证书:</li>
-</ol>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> update-ca-trust</span><br></pre></td></tr></table></figure></div>
-
-<ol start="2">
-<li>如果上面的方法不起作用，你可以尝试临时禁用SSL验证。这不是一个安全的长期解决方案，但可以帮助你确定问题是否确实与证书有关:</li>
-</ol>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">makepkg -si --skippgpcheck</span><br></pre></td></tr></table></figure></div>
-
-<ol start="3">
-<li>最后，确保你的系统时间是正确的，因为时间不正确也可能导致SSL证书验证失败:</li>
-</ol>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">timedatectl status</span><br></pre></td></tr></table></figure></div>
-
-<p>如果时间不正确，可以同步:</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> timedatectl set-ntp <span class="literal">true</span></span><br></pre></td></tr></table></figure></div>
-
-<h2 id="3-2-镜像源问题"><a href="#3-2-镜像源问题" class="headerlink" title="3.2 镜像源问题"></a>3.2 镜像源问题</h2><p>如果下载或者更新速度较慢，可以用 Arch 清华镜像源：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">kate /etc/pacman.d/mirrorlist</span><br></pre></td></tr></table></figure></div>
-<p>然后在首行加上：</p>
-<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line"># arch 清华镜像源</span><br><span class="line">Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/$repo/os/$arch</span><br><span class="line"># arch 稳定镜像源</span><br><span class="line">Server = https://mirror.archlinux.org/$repo/os/$arch</span><br><span class="line">Server = https://mirrors.kernel.org/archlinux/$repo/os/$arch</span><br></pre></td></tr></table></figure></div>
-
-<p><strong>如果是在线安装系统的话，建议在<code>live</code>版镜像中，先改下镜像源配置：</strong></p>
-<p>进入<code>root</code>用户：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> su</span><br></pre></td></tr></table></figure></div>
-
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">nano /etc/pacman.d/mirrorlist</span><br></pre></td></tr></table></figure></div>
-<p>然后把镜像源加进去。</p>
-<h2 id="3-3-签名验证问题"><a href="#3-3-签名验证问题" class="headerlink" title="3.3 签名验证问题"></a>3.3 签名验证问题</h2><p><strong>建议先参考这篇官方文章：</strong> <a class="link"   href="https://discovery.endeavouros.com/signature-and-keyring/pacman-keyring-issues/2021/03/" >Signature and keyring <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
-<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">(735/735) 正在检查软件包完整性                        [------------------------------------] 100% **错误：**libinstpatch: 来自 &quot;Brett Cornwall &lt;brett@i--b.com&gt;&quot; 的签名是未知信任的- **:: 文件 /var/cache/pacman/pkg/libinstpatch-1.1.6-3-x86_64.pkg.tar.zst 已损坏 (无效或已损坏的软件包 (PGP 签名))**. **打算删除吗？ [Y/n] ** **错误：**fluidsynth: 来自 &quot;Brett Cornwall &lt;brett@i--b.com&gt;&quot; 的签名是未知信任的**坏** **:: 文件 /var/cache/pacman/pkg/fluidsynth-2.3.6-1-x86_64.pkg.tar.zst 已损坏 (无效或已损坏的软件包 (PGP 签名)).** **打算删除吗？ [Y/n]</span><br></pre></td></tr></table></figure></div>
-
-<p>如果遇到以上这种问题（比如在执行<code>sudo pacman -Syu</code>时），可以这样做：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">kate /etc/pacman.conf</span><br></pre></td></tr></table></figure></div>
-
-<p>然后找到<code>SigLevel</code>那一行，暂时禁用签名检查（这是一个临时的、有风险的解决方案），修改为：</p>
-<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">SigLevel = Never</span><br></pre></td></tr></table></figure></div>
-<p>为了保证主机安全，在安装好后记得要修改回来！！！</p>
-<h2 id="3-4-文件未通过校验"><a href="#3-4-文件未通过校验" class="headerlink" title="3.4 文件未通过校验"></a>3.4 文件未通过校验</h2><p>比如在构建包时有类似的如下报错信息：</p>
-<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">正在验证 source 文件，</span><br><span class="line">使用sha512sums... </span><br><span class="line"> nekoray ... 通过</span><br><span class="line"> nekobox.sh ... 通过</span><br><span class="line"> nekobox.desktop ... 通过</span><br><span class="line"> 1350.patch ... 失败. ==&gt; 错误： 一个或多个文件没有通过有效性检查！0</span><br></pre></td></tr></table></figure></div>
-
-<ol>
-<li><p><strong>清理之前的构建：</strong></p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">makepkg --clean</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p><strong>更新 PKGBUILD 文件中的校验和。进入构建文件的目录，然后使用以下命令：</strong></p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">updpkgsums</span><br></pre></td></tr></table></figure></div>
-<p>它会自动下载源文件（如果需要），计算新的校验和，并更新 PKGBUILD 文件。</p>
-</li>
-<li><p><strong>重新构建：</strong></p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">makepkg -si</span><br></pre></td></tr></table></figure></div></li>
-</ol>
-<h1 id="四、美化（KDE-Plasma6）"><a href="#四、美化（KDE-Plasma6）" class="headerlink" title="四、美化（KDE Plasma6）"></a>四、美化（KDE Plasma6）</h1><p>注意下的主题和组件需要是<code>plasma6</code>的，作者一般会说明。</p>
-<h2 id="4-1-全局主题"><a href="#4-1-全局主题" class="headerlink" title="4.1 全局主题"></a>4.1 全局主题</h2><p>建议去 KDE Store 下载主题，然后把下载的 <strong>全局主题</strong> 解压后，放到<code>~/.local/share/plasma/look-and-feel</code>目录下。</p>
-<p>壁纸和全局主题推荐<code>Utterly Nord</code>，图标推荐<code>Dracula Circle</code>。</p>
-<p>参考图：<br><a href="https://imgse.com/i/pAkSS6H"><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://s21.ax1x.com/2024/08/25/pAkSS6H.png"
-                      alt="Utterly Nord"
-                ><figcaption>Utterly Nord</figcaption></figure></a></p>
-<h2 id="4-2-组件"><a href="#4-2-组件" class="headerlink" title="4.2 组件"></a>4.2 组件</h2><p><a class="link"   href="https://store.kde.org/p/2186442" >musicWaves <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a><br><a class="link"   href="https://www.pling.com/p/2148472/" >thot CPU Plasma 6 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
-<p>解压后，把文件夹移动到<code>~/.local/share/plasma/plasmoids/</code>目录下。</p>
-<p>参考图：<br><a href="https://imgse.com/i/pAksXO1"><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://s21.ax1x.com/2024/08/27/pAksXO1.md.png"
-                      alt="Desktop Widgets"
-                ><figcaption>Desktop Widgets</figcaption></figure></a></p>
-<h2 id="4-3-Login-SDDM"><a href="#4-3-Login-SDDM" class="headerlink" title="4.3 Login SDDM"></a>4.3 Login SDDM</h2><p>建议先在<code>KDE Store</code>下载好，然后解压到存放登录界面的目录下。</p>
-<p><a class="link"   href="https://www.pling.com/p/2144235/" >Nordic sddm Plasma 6 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
-<p>把解压后的文件移到<code>/usr/share/sddm/themes/</code>目录下。</p>
-]]></content>
-      <tags>
-        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -1907,6 +1733,180 @@
 <li><a class="link"   href="https://www.youtube.com/watch?v=1vLGebdIPZ8&list=PL7XUZPsvfw3DfZDpU3bqNYZWzKroAWaT5&index=6" >How to Change the Default Grub Bootlaoder Theme in Arch Linux! <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></li>
 <li><a class="link"   href="https://www.youtube.com/watch?v=KbcUmAlQCHs&list=PL7XUZPsvfw3DfZDpU3bqNYZWzKroAWaT5&index=5" >How to Switch Arch Linux Kernels - LTS, Zen, Hardened <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></li>
 </ul>
+]]></content>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>EndeavourOS 使用记录</title>
+    <url>/2024/07/18/EndeavourOS/</url>
+    <content><![CDATA[<h1 id="一、N卡驱动"><a href="#一、N卡驱动" class="headerlink" title="一、N卡驱动"></a>一、N卡驱动</h1><p><code>EndeavourOS</code>对N卡用户的支持比较友好，在安装该系统时，选择有<code>Nvidia</code>那一行的进行安装即可，会自动安装最新的适应当前显卡的闭源驱动。如果是<code>Arch Linux</code>，建议看这篇文章，同时提到有双显卡如何进行切换 <a class="link"   href="https://archlinuxstudio.github.io/ArchLinuxTutorial/#/" >Arch Linux 安装使用教程 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>，如果是<code>Arch</code>系其它发行版（像<code>Manjaro</code>），请自行找教程，这里提到的方式不一定适用你。</p>
+<p>CUDA 安装参考这篇教程：<a class="link"   href="https://ivonblog.com/posts/archlinux-install-nvidia-drivers/" >教你在Arch Linux安裝Nvidia、CUDA、cuDNN、TensorRT专有驱动程序 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<h2 id="1-1-安装方式一"><a href="#1-1-安装方式一" class="headerlink" title="1.1 安装方式一"></a>1.1 安装方式一</h2><ul>
+<li><strong>全面更新系统以及安装依赖工具</strong></li>
+</ul>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -Syu base-devel dkms</span><br></pre></td></tr></table></figure></div>
+
+<p>对于新版本的显卡型号，直接运行下面这条指令即可：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 必须安装</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -S nvidia nvidia-settings lib32-nvidia-utils</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="1-2-安装方式二"><a href="#1-2-安装方式二" class="headerlink" title="1.2 安装方式二"></a>1.2 安装方式二</h2><p>如果安装有<code>mwhd</code>工具，可以使用以下方法：</p>
+<ul>
+<li><p><strong>自动安装推荐的开源驱动程序</strong></p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> mhwd -a pci free 0300</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p><strong>自动安装推荐的闭源驱动程序：</strong></p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> mhwd -a pci nonfree 0300</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<p>终端输入：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">nvidia-smi</span><br></pre></td></tr></table></figure></div>
+<p>如果有返回信息，表示安装成功。</p>
+<h2 id="1-3-查看显卡信息"><a href="#1-3-查看显卡信息" class="headerlink" title="1.3 查看显卡信息"></a>1.3 查看显卡信息</h2><p>简单的过滤，显示有关 VGA 设备的基本信息。</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">lspci -vnn | grep VGA</span><br></pre></td></tr></table></figure></div>
+
+<p>提供更详细的信息，包括驱动程序信息。</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">lspci -k | grep -EA3 <span class="string">&#x27;VGA|3D&#x27;</span></span><br></pre></td></tr></table></figure></div>
+
+<p>提供非常详细且易读的图形信息，适合快速了解系统图形设备和驱动状态。</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">inxi -G</span><br></pre></td></tr></table></figure></div>
+
+<p>手动安装的话，从官网下载对应型号的驱动，一定要把下载好的驱动文件放到主文件夹（<code>~</code>）下！在<code>BIOS</code>终端界面，中文会显示乱码。</p>
+<h2 id="1-4-补充"><a href="#1-4-补充" class="headerlink" title="1.4 补充"></a>1.4 补充</h2><ul>
+<li><strong><code>nvidia-hook</code>, <code>nvidia-inst</code>, <code>nvidia-utils</code> 的用途：</strong></li>
+</ul>
+<h3 id="1-4-1-nvidia-hook"><a href="#1-4-1-nvidia-hook" class="headerlink" title="1.4.1 nvidia-hook"></a>1.4.1 nvidia-hook</h3><p><code>nvidia-hook</code> 是一个 Pacman 钩子脚本，用于在内核更新时自动重新生成 NVIDIA 内核模块。这可以确保你的 NVIDIA 驱动程序在内核更新后继续正常工作，而无需手动干预。</p>
+<p><strong>功能：</strong></p>
+<ul>
+<li>自动在内核更新后重新生成 NVIDIA 内核模块。</li>
+<li>提高系统更新的便利性，减少因驱动兼容性问题导致的系统启动问题。</li>
+</ul>
+<h3 id="1-4-2-nvidia-inst"><a href="#1-4-2-nvidia-inst" class="headerlink" title="1.4.2 nvidia-inst"></a>1.4.2 nvidia-inst</h3><p><code>nvidia-inst</code> 是 EndeavourOS 提供的一个脚本，用于安装和配置 NVIDIA 驱动程序。它简化了在 EndeavourOS 系统上安装 NVIDIA 驱动的过程。</p>
+<p><strong>功能：</strong></p>
+<ul>
+<li>自动检测你的显卡型号。</li>
+<li>安装合适版本的 NVIDIA 驱动程序。</li>
+<li>配置系统以使用新的驱动程序。</li>
+</ul>
+<h3 id="1-4-3-nvidia-utils"><a href="#1-4-3-nvidia-utils" class="headerlink" title="1.4.3 nvidia-utils"></a>1.4.3 nvidia-utils</h3><p><code>nvidia-utils</code> 包含 NVIDIA 驱动程序的核心用户空间组件和实用工具。这个包提供了运行 NVIDIA 驱动程序所需的库和命令行工具。</p>
+<p><strong>功能：</strong></p>
+<ul>
+<li>提供核心的 NVIDIA 驱动库。</li>
+<li>包含用于查询和配置 NVIDIA 显卡的命令行工具，如 <code>nvidia-smi</code>。</li>
+<li>包含 OpenGL 库和 Vulkan 库，用于支持高性能图形渲染。</li>
+</ul>
+<p> <code>nvidia-hook</code>, <code>nvidia-inst</code>, <code>nvidia-utils</code> 不能完全替代 <code>nvidia-settings</code> 和 <code>lib32-nvidia-utils</code>。</p>
+<h3 id="1-4-4-nvidia-settings"><a href="#1-4-4-nvidia-settings" class="headerlink" title="1.4.4 nvidia-settings"></a>1.4.4 nvidia-settings</h3><p><code>nvidia-settings</code> 是一个独立的图形化配置工具，用于调整和配置 NVIDIA 显卡的各种设置。它提供了一个图形界面，允许用户进行以下操作：</p>
+<ul>
+<li>配置显示器布局（多显示器设置）。</li>
+<li>调整显卡性能参数（如风扇速度、功率模式）。</li>
+<li>配置 OpenGL 设置。</li>
+<li>管理显示器色彩和亮度设置。</li>
+</ul>
+<p><strong>替代情况：</strong></p>
+<ul>
+<li><code>nvidia-utils</code> 提供了一些命令行工具，但没有图形界面和用户友好的配置选项。</li>
+<li><code>nvidia-settings</code> 提供了更丰富和直观的配置选项，尤其适用于需要频繁调整显卡设置的用户。</li>
+</ul>
+<h3 id="1-4-5-lib32-nvidia-utils"><a href="#1-4-5-lib32-nvidia-utils" class="headerlink" title="1.4.5 lib32-nvidia-utils"></a>1.4.5 lib32-nvidia-utils</h3><p><code>lib32-nvidia-utils</code> 是 32 位 NVIDIA 驱动程序库的集合，用于在 64 位系统上运行 32 位应用程序（如一些旧版游戏和软件）。这些库对于兼容 32 位应用程序至关重要。</p>
+<p><strong>替代情况：</strong></p>
+<ul>
+<li><code>nvidia-utils</code> 包含 64 位库，不包括 32 位库。</li>
+<li>如果你需要运行 32 位应用程序，仍然需要安装 <code>lib32-nvidia-utils</code>。</li>
+</ul>
+<h1 id="二、中文输入法配置"><a href="#二、中文输入法配置" class="headerlink" title="二、中文输入法配置"></a>二、中文输入法配置</h1><h2 id="2-1-推荐方式"><a href="#2-1-推荐方式" class="headerlink" title="2.1 推荐方式"></a>2.1 推荐方式</h2><div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">yay -Sy fcitx-im fcitx-configtool</span><br></pre></td></tr></table></figure></div>
+
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">kate ~/.xprofile</span><br></pre></td></tr></table></figure></div>
+<p>输入以下内容：</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">export GTK_IM_MODULE=fcitx</span><br><span class="line">export QT_IM_MODULE=fcitx</span><br><span class="line">export XMODIFIERS=&quot;@im=fcitx&quot;</span><br></pre></td></tr></table></figure></div>
+
+<p>如果在<code>~</code>目录创建的<code>.xprofile</code>配置文件没有生效，可以这样做：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">kate /etc/environment</span><br></pre></td></tr></table></figure></div>
+
+<p>然后在里面加入：</p>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">export GTK_IM_MODULE=fcitx</span><br><span class="line">export QT_IM_MODULE=fcitx</span><br><span class="line">export XMODIFIERS=&quot;@im=fcitx&quot;</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="2-2-其它（没试过）"><a href="#2-2-其它（没试过）" class="headerlink" title="2.2 其它（没试过）"></a>2.2 其它（没试过）</h2><p><strong>方式一：</strong></p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 安装fcitx5</span></span><br><span class="line"><span class="comment">#基础包组</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -S fcitx5-im</span><br><span class="line"><span class="comment">#官方中文输入引擎</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -S fcitx5-chinese-addons</span><br><span class="line"><span class="comment">#日文输入引擎</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -S fcitx5-anthy</span><br><span class="line"><span class="comment">#萌娘百科词库（挂梯子）</span></span><br><span class="line">yay -S fcitx5-pinyin-moegirl</span><br><span class="line"><span class="comment">#中文维基百科词库</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -S fcitx5-pinyin-zhwiki</span><br><span class="line"><span class="comment">#主题</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -S fcitx5-material-color</span><br></pre></td></tr></table></figure></div>
+
+<p>编辑配置文件：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">kate /etc/environment</span><br></pre></td></tr></table></figure></div>
+
+<p>输入以下内容：</p>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">GTK_IM_MODULE=fcitx</span><br><span class="line">QT_IM_MODULE=fcitx</span><br><span class="line">XMODIFIERS=@im=fcitx</span><br><span class="line">SDL_IM_MODULE=fcitx</span><br></pre></td></tr></table></figure></div>
+
+<h1 id="三、问题汇总"><a href="#三、问题汇总" class="headerlink" title="三、问题汇总"></a>三、问题汇总</h1><h2 id="3-1-安装软件时的证书问题"><a href="#3-1-安装软件时的证书问题" class="headerlink" title="3.1 安装软件时的证书问题"></a>3.1 安装软件时的证书问题</h2><ol>
+<li>首先，更新你的系统证书:</li>
+</ol>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> update-ca-trust</span><br></pre></td></tr></table></figure></div>
+
+<ol start="2">
+<li>如果上面的方法不起作用，你可以尝试临时禁用SSL验证。这不是一个安全的长期解决方案，但可以帮助你确定问题是否确实与证书有关:</li>
+</ol>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">makepkg -si --skippgpcheck</span><br></pre></td></tr></table></figure></div>
+
+<ol start="3">
+<li>最后，确保你的系统时间是正确的，因为时间不正确也可能导致SSL证书验证失败:</li>
+</ol>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">timedatectl status</span><br></pre></td></tr></table></figure></div>
+
+<p>如果时间不正确，可以同步:</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> timedatectl set-ntp <span class="literal">true</span></span><br></pre></td></tr></table></figure></div>
+
+<h2 id="3-2-镜像源问题"><a href="#3-2-镜像源问题" class="headerlink" title="3.2 镜像源问题"></a>3.2 镜像源问题</h2><p>如果下载或者更新速度较慢，可以用 Arch 清华镜像源：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">kate /etc/pacman.d/mirrorlist</span><br></pre></td></tr></table></figure></div>
+<p>然后在首行加上：</p>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line"># arch 清华镜像源</span><br><span class="line">Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/$repo/os/$arch</span><br><span class="line"># arch 稳定镜像源</span><br><span class="line">Server = https://mirror.archlinux.org/$repo/os/$arch</span><br><span class="line">Server = https://mirrors.kernel.org/archlinux/$repo/os/$arch</span><br></pre></td></tr></table></figure></div>
+
+<p><strong>如果是在线安装系统的话，建议在<code>live</code>版镜像中，先改下镜像源配置：</strong></p>
+<p>进入<code>root</code>用户：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> su</span><br></pre></td></tr></table></figure></div>
+
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">nano /etc/pacman.d/mirrorlist</span><br></pre></td></tr></table></figure></div>
+<p>然后把镜像源加进去。</p>
+<h2 id="3-3-签名验证问题"><a href="#3-3-签名验证问题" class="headerlink" title="3.3 签名验证问题"></a>3.3 签名验证问题</h2><p><strong>建议先参考这篇官方文章：</strong> <a class="link"   href="https://discovery.endeavouros.com/signature-and-keyring/pacman-keyring-issues/2021/03/" >Signature and keyring <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">(735/735) 正在检查软件包完整性                        [------------------------------------] 100% **错误：**libinstpatch: 来自 &quot;Brett Cornwall &lt;brett@i--b.com&gt;&quot; 的签名是未知信任的- **:: 文件 /var/cache/pacman/pkg/libinstpatch-1.1.6-3-x86_64.pkg.tar.zst 已损坏 (无效或已损坏的软件包 (PGP 签名))**. **打算删除吗？ [Y/n] ** **错误：**fluidsynth: 来自 &quot;Brett Cornwall &lt;brett@i--b.com&gt;&quot; 的签名是未知信任的**坏** **:: 文件 /var/cache/pacman/pkg/fluidsynth-2.3.6-1-x86_64.pkg.tar.zst 已损坏 (无效或已损坏的软件包 (PGP 签名)).** **打算删除吗？ [Y/n]</span><br></pre></td></tr></table></figure></div>
+
+<p>如果遇到以上这种问题（比如在执行<code>sudo pacman -Syu</code>时），可以这样做：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">kate /etc/pacman.conf</span><br></pre></td></tr></table></figure></div>
+
+<p>然后找到<code>SigLevel</code>那一行，暂时禁用签名检查（这是一个临时的、有风险的解决方案），修改为：</p>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">SigLevel = Never</span><br></pre></td></tr></table></figure></div>
+<p>为了保证主机安全，在安装好后记得要修改回来！！！</p>
+<h2 id="3-4-文件未通过校验"><a href="#3-4-文件未通过校验" class="headerlink" title="3.4 文件未通过校验"></a>3.4 文件未通过校验</h2><p>比如在构建包时有类似的如下报错信息：</p>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">正在验证 source 文件，</span><br><span class="line">使用sha512sums... </span><br><span class="line"> nekoray ... 通过</span><br><span class="line"> nekobox.sh ... 通过</span><br><span class="line"> nekobox.desktop ... 通过</span><br><span class="line"> 1350.patch ... 失败. ==&gt; 错误： 一个或多个文件没有通过有效性检查！0</span><br></pre></td></tr></table></figure></div>
+
+<ol>
+<li><p><strong>清理之前的构建：</strong></p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">makepkg --clean</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p><strong>更新 PKGBUILD 文件中的校验和。进入构建文件的目录，然后使用以下命令：</strong></p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">updpkgsums</span><br></pre></td></tr></table></figure></div>
+<p>它会自动下载源文件（如果需要），计算新的校验和，并更新 PKGBUILD 文件。</p>
+</li>
+<li><p><strong>重新构建：</strong></p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">makepkg -si</span><br></pre></td></tr></table></figure></div></li>
+</ol>
+<h1 id="四、美化（KDE-Plasma6）"><a href="#四、美化（KDE-Plasma6）" class="headerlink" title="四、美化（KDE Plasma6）"></a>四、美化（KDE Plasma6）</h1><p>注意下的主题和组件需要是<code>plasma6</code>的，作者一般会说明。</p>
+<h2 id="4-1-全局主题"><a href="#4-1-全局主题" class="headerlink" title="4.1 全局主题"></a>4.1 全局主题</h2><p>建议去 KDE Store 下载主题，然后把下载的 <strong>全局主题</strong> 解压后，放到<code>~/.local/share/plasma/look-and-feel</code>目录下。</p>
+<p>壁纸和全局主题推荐<code>Utterly Nord</code>，图标推荐<code>Dracula Circle</code>。</p>
+<p>参考图：<br><a href="https://imgse.com/i/pAkSS6H"><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s21.ax1x.com/2024/08/25/pAkSS6H.png"
+                      alt="Utterly Nord"
+                ><figcaption>Utterly Nord</figcaption></figure></a></p>
+<h2 id="4-2-组件"><a href="#4-2-组件" class="headerlink" title="4.2 组件"></a>4.2 组件</h2><p><a class="link"   href="https://store.kde.org/p/2186442" >musicWaves <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a><br><a class="link"   href="https://www.pling.com/p/2148472/" >thot CPU Plasma 6 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<p>解压后，把文件夹移动到<code>~/.local/share/plasma/plasmoids/</code>目录下。</p>
+<p>参考图：<br><a href="https://imgse.com/i/pAksXO1"><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s21.ax1x.com/2024/08/27/pAksXO1.md.png"
+                      alt="Desktop Widgets"
+                ><figcaption>Desktop Widgets</figcaption></figure></a></p>
+<h2 id="4-3-Login-SDDM"><a href="#4-3-Login-SDDM" class="headerlink" title="4.3 Login SDDM"></a>4.3 Login SDDM</h2><p>建议先在<code>KDE Store</code>下载好，然后解压到存放登录界面的目录下。</p>
+<p><a class="link"   href="https://www.pling.com/p/2144235/" >Nordic sddm Plasma 6 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<p>把解压后的文件移到<code>/usr/share/sddm/themes/</code>目录下。</p>
 ]]></content>
       <tags>
         <tag>linux</tag>
@@ -2463,164 +2463,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Python 下的多进程和多线程编程</title>
-    <url>/2024/09/16/Python-%E5%A4%9A%E8%BF%9B%E7%A8%8B%E5%92%8C%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B/</url>
-    <content><![CDATA[<h1 id="1-多进程"><a href="#1-多进程" class="headerlink" title="1.多进程"></a>1.多进程</h1><h2 id="1-1-使用多进程完成任务"><a href="#1-1-使用多进程完成任务" class="headerlink" title="1. 1 使用多进程完成任务"></a>1. 1 使用多进程完成任务</h2><p>用到的包：<code>multiprocessing</code>，以下面的代码为例：</p>
-<p>运行的函数示例：</p>
-<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> multiprocessing</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">sing</span>():</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">3</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;sing ...&#x27;</span>)</span><br><span class="line">        time.sleep(<span class="number">0.5</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">dance</span>():</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">3</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;dance ...&#x27;</span>)</span><br><span class="line">        time.sleep(<span class="number">0.5</span>)</span><br></pre></td></tr></table></figure></div>
-
-<ul>
-<li><p>采用常规方式：</p>
-<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line"></span><br><span class="line">    start = time.time()</span><br><span class="line">    <span class="comment"># 常规方式</span></span><br><span class="line">    sing()</span><br><span class="line">    dance()</span><br><span class="line">    end = time.time()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;花费的时间：<span class="subst">&#123;end - start&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure></div>
-<p>在运行时可以发现，是先运行<code>sing</code>函数，直到<code>sing</code>函数完全执行完后，再运行的<code>dance</code>函数，输出结果为：</p>
-<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">sing ...</span><br><span class="line">sing ...</span><br><span class="line">sing ...</span><br><span class="line">dance ...</span><br><span class="line">dance ...</span><br><span class="line">dance ...</span><br><span class="line">花费的时间：3.001246929168701</span><br></pre></td></tr></table></figure></div>
-<p>和预想的时间差不多。</p>
-</li>
-<li><p>采用多进程方式：</p>
-<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line"></span><br><span class="line">    start = time.time()</span><br><span class="line">    <span class="comment"># 多进程方式</span></span><br><span class="line">    process1 = multiprocessing.Process(target=sing)</span><br><span class="line">    process2 = multiprocessing.Process(target=dance)</span><br><span class="line">    process1.start()</span><br><span class="line">    process2.start()</span><br><span class="line">    process1.join()</span><br><span class="line">    process2.join()</span><br><span class="line">    end = time.time()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;花费的时间：<span class="subst">&#123;end - start&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure></div>
-<p>这里的<code>Process</code>类用于创建一个新的子进程。在运行时可以发现，<code>sing</code>和<code>dance</code>函数在同时进行，同时观察到输出结果为：</p>
-<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">sing ...</span><br><span class="line">dance ...</span><br><span class="line">sing ...</span><br><span class="line">dance ...</span><br><span class="line">sing ...</span><br><span class="line">dance ...</span><br><span class="line">花费的时间：1.5049564838409424</span><br></pre></td></tr></table></figure></div>
-<p>基本上是在 <code>1.5s</code>左右，差不多就是一个函数执行完所需要的时间，多进程执行让两个函数同时开始执行。</p>
-</li>
-</ul>
-<h2 id="1-2-join-方法"><a href="#1-2-join-方法" class="headerlink" title="1.2 join 方法"></a>1.2 join 方法</h2><p>注意：在多线程编程中也可以用这个方法！</p>
-<p>当我们启动多个进程时，主进程默认不会等待这些子进程结束，而是继续执行自己的代码。通过调用子进程的<code>join()</code>方法，主进程会暂停执行，直到该子进程运行结束后再继续。</p>
-<p><strong>主要作用如下：</strong></p>
-<p><strong>确保子进程结束后再继续执行：</strong> 主进程在调用<code>join()</code>时会等待相应的子进程执行完毕，再继续执行后续代码。<br><strong>同步进程：</strong> 如果不使用<code>join()</code>，主进程可能会在子进程执行完之前就结束，从而导致子进程也被强行终止。</p>
-<p>比如说这个例子：</p>
-<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line"></span><br><span class="line">    process1 = multiprocessing.Process(target=sing)</span><br><span class="line">    process2 = multiprocessing.Process(target=dance)</span><br><span class="line">    process1.start()</span><br><span class="line">    process2.start()</span><br><span class="line"></span><br><span class="line">    time.sleep(<span class="number">1</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;这是一个测试 ... ...&quot;</span>)</span><br></pre></td></tr></table></figure></div>
-
-<p>输出结果是：</p>
-<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">sing ...</span><br><span class="line">dance ...</span><br><span class="line">sing ...</span><br><span class="line">dance ...</span><br><span class="line">这是一个测试 ... ...</span><br><span class="line">sing ...</span><br><span class="line">dance ...</span><br></pre></td></tr></table></figure></div>
-<p>要输出主进程中的<code>print(&quot;这是一个测试 ... ...&quot;)</code>，需要等<code>1s</code>的时间，正好是在<code>sing</code>和<code>dance</code>函数中的循环体打印两次所需要的时间，可以发现，在到运行的时间时，主进程就直接开始执行了。</p>
-<p>现在换成用<code>join()</code>方法：</p>
-<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">if __name__ == &#x27;__main__&#x27;:</span><br><span class="line"></span><br><span class="line">    process1 = multiprocessing.Process(target=sing)</span><br><span class="line">    process2 = multiprocessing.Process(target=dance)</span><br><span class="line">    process1.start()</span><br><span class="line">    process2.start()</span><br><span class="line">    process1.join()</span><br><span class="line">    process2.join()</span><br><span class="line"></span><br><span class="line">    start = time.time()</span><br><span class="line">    time.sleep(1)</span><br><span class="line">    end = time.time()</span><br><span class="line">    print(f&quot;这是一个测试 ... ...，所花费的时间为：&#123;end - start&#125;&quot;)</span><br></pre></td></tr></table></figure></div>
-
-<p>输出结果：</p>
-<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">sing ...</span><br><span class="line">dance ...</span><br><span class="line">sing ...</span><br><span class="line">dance ...</span><br><span class="line">sing ...</span><br><span class="line">dance ...</span><br><span class="line">这是一个测试 ... ...，所花费的时间为：1.0003576278686523</span><br></pre></td></tr></table></figure></div>
-<p>可以看出，是在子进程中的函数执行完后，再执行主进程中的内容。</p>
-<h2 id="1-3-进程执行带有参数的任务"><a href="#1-3-进程执行带有参数的任务" class="headerlink" title="1.3 进程执行带有参数的任务"></a>1.3 进程执行带有参数的任务</h2><p>运行的函数示例：</p>
-<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> multiprocessing</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">sing</span>(<span class="params">num</span>):</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(num):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;sing ...&#x27;</span>)</span><br><span class="line">        time.sleep(<span class="number">0.5</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">dance</span>(<span class="params">num</span>):</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(num):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;dance ...&#x27;</span>)</span><br><span class="line">        time.sleep(<span class="number">0.5</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line"></span><br><span class="line">    process1 = multiprocessing.Process(target=sing, args=(<span class="number">3</span>, ))</span><br><span class="line">    process2 = multiprocessing.Process(target=dance, kwargs=&#123;<span class="string">&#x27;num&#x27;</span>: <span class="number">3</span>&#125;)</span><br><span class="line">    process1.start()</span><br><span class="line">    process2.start()</span><br></pre></td></tr></table></figure></div>
-
-<p>一共有两种传参方式：</p>
-<ul>
-<li><strong>args:</strong> 元组传参，需要注意只有一个参数时，要用逗号结尾，以及传如参数的顺序。</li>
-<li><strong>kwargs:</strong> 字典传参，注意<code>key</code>要对应。</li>
-</ul>
-<h2 id="1-4-获取子-父进程-PID"><a href="#1-4-获取子-父进程-PID" class="headerlink" title="1.4 获取子&#x2F;父进程 PID"></a>1.4 获取子&#x2F;父进程 PID</h2><div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> multiprocessing</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">sing</span>(<span class="params">num</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;sing 的父进程 pid：&#x27;</span>, os.getppid())</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;sing 的子进程 pid：&#x27;</span>, os.getpid())</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(num):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;sing ...&#x27;</span>)</span><br><span class="line">        time.sleep(<span class="number">0.5</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">dance</span>(<span class="params">num</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;dance 的父进程 pid：&#x27;</span>, os.getppid())</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;dance 的子进程 pid：&#x27;</span>, os.getpid())</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(num):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;dance ...&#x27;</span>)</span><br><span class="line">        time.sleep(<span class="number">0.5</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;程序的父进程 pid（终端/Shell）：&#x27;</span>, os.getppid())</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;当前 Python 解释器的 pid：&#x27;</span>, os.getpid())</span><br><span class="line"></span><br><span class="line">    process1 = multiprocessing.Process(target=sing, args=(<span class="number">3</span>, ))</span><br><span class="line">    process2 = multiprocessing.Process(target=dance, kwargs=&#123;<span class="string">&#x27;num&#x27;</span>: <span class="number">3</span>&#125;)</span><br><span class="line">    process1.start()</span><br><span class="line">    process2.start()</span><br></pre></td></tr></table></figure></div>
-<p>输出结果：</p>
-<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">程序的父进程 pid（终端/Shell）： 13583</span><br><span class="line">当前 Python 解释器的 pid： 23492</span><br><span class="line">sing 的父进程 pid： 23492</span><br><span class="line">sing 的子进程 pid： 23493</span><br><span class="line">sing ...</span><br><span class="line">dance 的父进程 pid： 23492</span><br><span class="line">dance 的子进程 pid： 23494</span><br><span class="line">dance ...</span><br><span class="line">sing ...</span><br><span class="line">dance ...</span><br><span class="line">sing ...</span><br><span class="line">dance ...</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="1-5-守护进程"><a href="#1-5-守护进程" class="headerlink" title="1.5 守护进程"></a>1.5 守护进程</h2><p>运行的函数示例：</p>
-<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> multiprocessing</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">work</span>():</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):</span><br><span class="line">        time.sleep(<span class="number">0.5</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;working ...&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
-
-<p>在默认情况下，主进程会等待子进程完全执行结束才会退出。<br>比如这样：</p>
-<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line"></span><br><span class="line">    sub_process = multiprocessing.Process(target=work)</span><br><span class="line">    sub_process.start()</span><br><span class="line"></span><br><span class="line">    time.sleep(<span class="number">2</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;任务执行结束！&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
-<p>输出结果：</p>
-<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">working ...</span><br><span class="line">working ...</span><br><span class="line">working ...</span><br><span class="line">任务执行结束！</span><br><span class="line">working ...</span><br><span class="line">working ...</span><br><span class="line">working ...</span><br></pre></td></tr></table></figure></div>
-<p>主进程执行到<code>print(&#39;任务执行结束！&#39;)</code>这里的时候，已经是执行完了的，但是主进程并没有退出，而是在执行完子进程后才退出的。</p>
-<p>现在是设置守护进程的效果：</p>
-<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line"></span><br><span class="line">    sub_process = multiprocessing.Process(target=work)</span><br><span class="line">    sub_process.daemon = <span class="literal">True</span></span><br><span class="line">    sub_process.start()</span><br><span class="line"></span><br><span class="line">    time.sleep(<span class="number">2</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;任务执行结束！&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
-<p>让<code>daemon = True</code>来设置守护进程，主进程退出后，子进程会被直接销毁，不再执行子进程中的代码。<br>除了用这种方式，还可以通过像<code>Process</code>传入参数来设置：</p>
-<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line"></span><br><span class="line">    sub_process = multiprocessing.Process(target=work, daemon=<span class="literal">True</span>)</span><br><span class="line">    sub_process.start()</span><br><span class="line"></span><br><span class="line">    time.sleep(<span class="number">2</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;任务执行结束！&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
-<p>两种方式的效果都是一样的。</p>
-<h1 id="2-多线程"><a href="#2-多线程" class="headerlink" title="2.多线程"></a>2.多线程</h1><h2 id="2-1-使用多线程完成任务"><a href="#2-1-使用多线程完成任务" class="headerlink" title="2.1 使用多线程完成任务"></a>2.1 使用多线程完成任务</h2><p>用到的包：<code>threading</code>，以下面的代码为例：</p>
-<p>运行的函数示例：</p>
-<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">sing</span>():</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i  <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">3</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;singing ...&#x27;</span>)</span><br><span class="line">        time.sleep(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">dance</span>():</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">3</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;dancing ...&#x27;</span>)</span><br><span class="line">        time.sleep(<span class="number">1</span>)</span><br></pre></td></tr></table></figure></div>
-
-<ul>
-<li>采用多线程方式：<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line"></span><br><span class="line">    start = time.time()</span><br><span class="line">    thread1 = threading.Thread(target=sing)</span><br><span class="line">    thread2 = threading.Thread(target=dance)</span><br><span class="line">    thread1.start()</span><br><span class="line">    thread2.start()</span><br><span class="line">    thread1.join()</span><br><span class="line">    thread2.join()</span><br><span class="line">    end = time.time()</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;花费的时间：<span class="subst">&#123;end - start&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure></div>
-输出结果：<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">singing ...</span><br><span class="line">dancing ...</span><br><span class="line">singing ...</span><br><span class="line">dancing ...</span><br><span class="line">singing ...</span><br><span class="line">dancing ...</span><br><span class="line">花费的时间：3.0005264282226562</span><br></pre></td></tr></table></figure></div>
-使用方式基本上和多进程的一样，只是把包名和函数名换了。</li>
-</ul>
-<h2 id="2-2-join-方法"><a href="#2-2-join-方法" class="headerlink" title="2.2 join 方法"></a>2.2 join 方法</h2><p>参考多进程的设置方式。</p>
-<h2 id="2-3-线程执行带有参数的任务"><a href="#2-3-线程执行带有参数的任务" class="headerlink" title="2.3 线程执行带有参数的任务"></a>2.3 线程执行带有参数的任务</h2><p>参考多进程的设置方式，一模一样。</p>
-<h2 id="2-4-守护线程"><a href="#2-4-守护线程" class="headerlink" title="2.4 守护线程"></a>2.4 守护线程</h2><p>参考多进程的设置方式，一模一样。</p>
-<h2 id="2-5-线程之间的执行顺序"><a href="#2-5-线程之间的执行顺序" class="headerlink" title="2.5  线程之间的执行顺序"></a>2.5  线程之间的执行顺序</h2><p>线程之间的执行是无序的，以下面这段代码为例：</p>
-<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">work</span>():</span><br><span class="line">    time.sleep(<span class="number">1</span>)</span><br><span class="line">    get_thread = threading.current_thread()</span><br><span class="line">    <span class="built_in">print</span>(get_thread)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">5</span>):</span><br><span class="line">        sub_thread = threading.Thread(target=work)</span><br><span class="line">        sub_thread.start()</span><br></pre></td></tr></table></figure></div>
-
-<p>执行结果是这样的：</p>
-<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">&lt;Thread(Thread-1 (work), started 140407841228480)&gt;</span><br><span class="line">&lt;Thread(Thread-2 (work), started 140407830742720)&gt;</span><br><span class="line">&lt;Thread(Thread-3 (work), started 140407820256960)&gt;</span><br><span class="line">&lt;Thread(Thread-4 (work), started 140407809771200)&gt;</span><br><span class="line">&lt;Thread(Thread-5 (work), started 140407799285440)&gt;</span><br></pre></td></tr></table></figure></div>
-<p>从这一个结果上看可能就会得出错误的结论：哪个线程先创建，哪个线程就先执行。但事实上如果我们多执行几次这段代码，就会发现，可能会出现这样的结果：</p>
-<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">&lt;Thread(Thread-2 (work), started 130684293220032)&gt;</span><br><span class="line">&lt;Thread(Thread-4 (work), started 130684272248512)&gt;</span><br><span class="line">&lt;Thread(Thread-3 (work), started 130684282734272)&gt;</span><br><span class="line">&lt;Thread(Thread-1 (work), started 130684303705792)&gt;</span><br><span class="line">&lt;Thread(Thread-5 (work), started 130684261762752)&gt;</span><br></pre></td></tr></table></figure></div>
-<p>可以看出，线程并非是按创建顺序来执行的。这是由于线程调度的随机性，打印顺序是不确定的。</p>
-<h1 id="3-总结-多线程和多进程的区别"><a href="#3-总结-多线程和多进程的区别" class="headerlink" title="3.总结-多线程和多进程的区别"></a>3.总结-多线程和多进程的区别</h1><h2 id="3-1-工作原理"><a href="#3-1-工作原理" class="headerlink" title="3.1 工作原理"></a>3.1 工作原理</h2><ul>
-<li><p><strong>多线程（Threading）：</strong></p>
-<ul>
-<li>多线程是在 <strong>同一个进程的不同线程</strong> 中执行代码。线程是轻量级的执行单元，多个线程共享同一进程的内存空间。</li>
-<li>在 Python 中，线程受制于全局解释器锁（GIL），这个锁保证同一时刻只有一个线程执行 Python 字节码。因此，尽管在多线程环境中可以并发执行 I&#x2F;O 密集型任务，但对于 CPU 密集型任务，多线程并不会真正实现并行执行。</li>
-</ul>
-</li>
-<li><p><strong>多进程（Multiprocessing）：</strong></p>
-<ul>
-<li>多进程则是在 <strong>多个独立的进程</strong> 中运行，每个进程都有自己独立的内存空间和全局解释器锁（GIL）。这意味着不同进程可以真正地在多个 CPU 核心上并行运行，互不干扰。</li>
-<li>由于进程间不共享内存，因此进程之间的通信需要通过诸如管道（pipes）、队列（queues）等方式进行。</li>
-</ul>
-</li>
-</ul>
-<h2 id="3-2-适用场景"><a href="#3-2-适用场景" class="headerlink" title="3.2 适用场景"></a>3.2 适用场景</h2><ul>
-<li><p><strong>多线程：</strong></p>
-<ul>
-<li>适合<strong>I&#x2F;O 密集型任务</strong>，比如文件读写、网络请求等。在这种情况下，线程在等待 I&#x2F;O 操作时可以释放 GIL，从而让其他线程运行。</li>
-<li><strong>不适合 CPU 密集型任务</strong>，如大量数学计算，因为 GIL 限制了同一时刻只能有一个线程在执行 Python 代码，无法充分利用多核 CPU。</li>
-</ul>
-</li>
-<li><p><strong>多进程：</strong></p>
-<ul>
-<li>适合<strong>CPU 密集型任务</strong>，例如图像处理、复杂的数学计算、机器学习模型训练等。每个进程都拥有独立的 GIL，因此可以在多核 CPU 上并行执行任务。</li>
-<li>对于 I&#x2F;O 密集型任务，也可以使用多进程，不过进程的启动和通信开销较大，性能未必优于多线程。</li>
-</ul>
-</li>
-</ul>
-<h2 id="3-3-性能与资源开销"><a href="#3-3-性能与资源开销" class="headerlink" title="3.3 性能与资源开销"></a>3.3 性能与资源开销</h2><ul>
-<li><p><strong>多线程：</strong></p>
-<ul>
-<li>线程共享同一进程的内存空间，因此线程之间的数据共享和通信非常快。</li>
-<li>线程是轻量级的，创建和管理的开销相对较小。</li>
-<li>由于 GIL 的限制，多线程无法充分利用多核 CPU 进行并行计算，在线程数量较多时，频繁的上下文切换也会影响性能。</li>
-</ul>
-</li>
-<li><p><strong>多进程：</strong></p>
-<ul>
-<li>进程之间独立运行，不共享内存，每个进程都有自己的内存空间。这使得进程间的通信开销较大，数据传输需要序列化（例如通过 <code>pickle</code>）。</li>
-<li>进程的启动和管理开销较大，因为操作系统需要为每个进程分配内存和资源。</li>
-<li>多进程可以充分利用多核 CPU，实现真正的并行计算。</li>
-</ul>
-</li>
-</ul>
-<h2 id="3-4-资源共享与数据传递"><a href="#3-4-资源共享与数据传递" class="headerlink" title="3.4 资源共享与数据传递"></a>3.4 资源共享与数据传递</h2><ul>
-<li><p><strong>多线程：</strong></p>
-<ul>
-<li>线程共享内存空间，因此线程间的变量和数据是共享的。这带来了方便，但也容易引发竞争条件（race conditions）和线程安全问题，必须通过锁（<code>Lock</code>）、信号量（<code>Semaphore</code>）等机制来保护共享资源。</li>
-</ul>
-</li>
-<li><p><strong>多进程：</strong></p>
-<ul>
-<li>进程不共享内存，因此每个进程有自己独立的数据空间。如果需要在进程间传递数据，必须使用进程间通信（IPC）机制，例如队列（<code>Queue</code>）、管道（<code>Pipe</code>）等。进程间通信的开销比线程间通信更大。</li>
-</ul>
-</li>
-</ul>
-<h2 id="3-5-故障隔离"><a href="#3-5-故障隔离" class="headerlink" title="3.5 故障隔离"></a>3.5 故障隔离</h2><ul>
-<li><p><strong>多线程：</strong></p>
-<ul>
-<li>由于线程共享内存空间，如果一个线程发生异常，可能会影响其他线程，甚至导致整个进程崩溃。</li>
-</ul>
-</li>
-<li><p><strong>多进程：</strong></p>
-<ul>
-<li>每个进程是相互独立的，如果一个进程崩溃了，其他进程仍然可以继续运行。因此多进程的故障隔离性更好。</li>
-</ul>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>Python技巧</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Python 获取当前代理 IP</title>
     <url>/2024/09/21/Python-%E8%8E%B7%E5%8F%96%E4%BB%A3%E7%90%86ip/</url>
     <content><![CDATA[<h1 id="1-Linux-下查看当前代理-IP"><a href="#1-Linux-下查看当前代理-IP" class="headerlink" title="1.Linux 下查看当前代理 IP"></a>1.Linux 下查看当前代理 IP</h1><h2 id="1-1-通过命令行查看当前的外部-IP"><a href="#1-1-通过命令行查看当前的外部-IP" class="headerlink" title="1.1 通过命令行查看当前的外部 IP"></a>1.1 通过命令行查看当前的外部 IP</h2><p>使用 <code>curl</code> 命令向外部网站请求，来查看当前代理访问的外部IP地址：</p>
@@ -2787,6 +2629,238 @@
 ]]></content>
       <tags>
         <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python 下的多进程和多线程编程</title>
+    <url>/2024/09/16/Python-%E5%A4%9A%E8%BF%9B%E7%A8%8B%E5%92%8C%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B/</url>
+    <content><![CDATA[<h1 id="1-多进程"><a href="#1-多进程" class="headerlink" title="1.多进程"></a>1.多进程</h1><h2 id="1-1-使用多进程完成任务"><a href="#1-1-使用多进程完成任务" class="headerlink" title="1. 1 使用多进程完成任务"></a>1. 1 使用多进程完成任务</h2><p>用到的包：<code>multiprocessing</code>，以下面的代码为例：</p>
+<p>运行的函数示例：</p>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> multiprocessing</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">sing</span>():</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">3</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;sing ...&#x27;</span>)</span><br><span class="line">        time.sleep(<span class="number">0.5</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">dance</span>():</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">3</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;dance ...&#x27;</span>)</span><br><span class="line">        time.sleep(<span class="number">0.5</span>)</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li><p>采用常规方式：</p>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line"></span><br><span class="line">    start = time.time()</span><br><span class="line">    <span class="comment"># 常规方式</span></span><br><span class="line">    sing()</span><br><span class="line">    dance()</span><br><span class="line">    end = time.time()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;花费的时间：<span class="subst">&#123;end - start&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure></div>
+<p>在运行时可以发现，是先运行<code>sing</code>函数，直到<code>sing</code>函数完全执行完后，再运行的<code>dance</code>函数，输出结果为：</p>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">sing ...</span><br><span class="line">sing ...</span><br><span class="line">sing ...</span><br><span class="line">dance ...</span><br><span class="line">dance ...</span><br><span class="line">dance ...</span><br><span class="line">花费的时间：3.001246929168701</span><br></pre></td></tr></table></figure></div>
+<p>和预想的时间差不多。</p>
+</li>
+<li><p>采用多进程方式：</p>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line"></span><br><span class="line">    start = time.time()</span><br><span class="line">    <span class="comment"># 多进程方式</span></span><br><span class="line">    process1 = multiprocessing.Process(target=sing)</span><br><span class="line">    process2 = multiprocessing.Process(target=dance)</span><br><span class="line">    process1.start()</span><br><span class="line">    process2.start()</span><br><span class="line">    process1.join()</span><br><span class="line">    process2.join()</span><br><span class="line">    end = time.time()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;花费的时间：<span class="subst">&#123;end - start&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure></div>
+<p>这里的<code>Process</code>类用于创建一个新的子进程。在运行时可以发现，<code>sing</code>和<code>dance</code>函数在同时进行，同时观察到输出结果为：</p>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">sing ...</span><br><span class="line">dance ...</span><br><span class="line">sing ...</span><br><span class="line">dance ...</span><br><span class="line">sing ...</span><br><span class="line">dance ...</span><br><span class="line">花费的时间：1.5049564838409424</span><br></pre></td></tr></table></figure></div>
+<p>基本上是在 <code>1.5s</code>左右，差不多就是一个函数执行完所需要的时间，多进程执行让两个函数同时开始执行。</p>
+</li>
+</ul>
+<h2 id="1-2-join-方法"><a href="#1-2-join-方法" class="headerlink" title="1.2 join 方法"></a>1.2 join 方法</h2><p>注意：在多线程编程中也可以用这个方法！</p>
+<p>当我们启动多个进程时，主进程默认不会等待这些子进程结束，而是继续执行自己的代码。通过调用子进程的<code>join()</code>方法，主进程会暂停执行，直到该子进程运行结束后再继续。</p>
+<p><strong>主要作用如下：</strong></p>
+<p><strong>确保子进程结束后再继续执行：</strong> 主进程在调用<code>join()</code>时会等待相应的子进程执行完毕，再继续执行后续代码。<br><strong>同步进程：</strong> 如果不使用<code>join()</code>，主进程可能会在子进程执行完之前就结束，从而导致子进程也被强行终止。</p>
+<p>比如说这个例子：</p>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line"></span><br><span class="line">    process1 = multiprocessing.Process(target=sing)</span><br><span class="line">    process2 = multiprocessing.Process(target=dance)</span><br><span class="line">    process1.start()</span><br><span class="line">    process2.start()</span><br><span class="line"></span><br><span class="line">    time.sleep(<span class="number">1</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;这是一个测试 ... ...&quot;</span>)</span><br></pre></td></tr></table></figure></div>
+
+<p>输出结果是：</p>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">sing ...</span><br><span class="line">dance ...</span><br><span class="line">sing ...</span><br><span class="line">dance ...</span><br><span class="line">这是一个测试 ... ...</span><br><span class="line">sing ...</span><br><span class="line">dance ...</span><br></pre></td></tr></table></figure></div>
+<p>要输出主进程中的<code>print(&quot;这是一个测试 ... ...&quot;)</code>，需要等<code>1s</code>的时间，正好是在<code>sing</code>和<code>dance</code>函数中的循环体打印两次所需要的时间，可以发现，在到运行的时间时，主进程就直接开始执行了。</p>
+<p>现在换成用<code>join()</code>方法：</p>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">if __name__ == &#x27;__main__&#x27;:</span><br><span class="line"></span><br><span class="line">    process1 = multiprocessing.Process(target=sing)</span><br><span class="line">    process2 = multiprocessing.Process(target=dance)</span><br><span class="line">    process1.start()</span><br><span class="line">    process2.start()</span><br><span class="line">    process1.join()</span><br><span class="line">    process2.join()</span><br><span class="line"></span><br><span class="line">    start = time.time()</span><br><span class="line">    time.sleep(1)</span><br><span class="line">    end = time.time()</span><br><span class="line">    print(f&quot;这是一个测试 ... ...，所花费的时间为：&#123;end - start&#125;&quot;)</span><br></pre></td></tr></table></figure></div>
+
+<p>输出结果：</p>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">sing ...</span><br><span class="line">dance ...</span><br><span class="line">sing ...</span><br><span class="line">dance ...</span><br><span class="line">sing ...</span><br><span class="line">dance ...</span><br><span class="line">这是一个测试 ... ...，所花费的时间为：1.0003576278686523</span><br></pre></td></tr></table></figure></div>
+<p>可以看出，是在子进程中的函数执行完后，再执行主进程中的内容。</p>
+<h2 id="1-3-进程执行带有参数的任务"><a href="#1-3-进程执行带有参数的任务" class="headerlink" title="1.3 进程执行带有参数的任务"></a>1.3 进程执行带有参数的任务</h2><p>运行的函数示例：</p>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> multiprocessing</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">sing</span>(<span class="params">num</span>):</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(num):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;sing ...&#x27;</span>)</span><br><span class="line">        time.sleep(<span class="number">0.5</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">dance</span>(<span class="params">num</span>):</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(num):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;dance ...&#x27;</span>)</span><br><span class="line">        time.sleep(<span class="number">0.5</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line"></span><br><span class="line">    process1 = multiprocessing.Process(target=sing, args=(<span class="number">3</span>, ))</span><br><span class="line">    process2 = multiprocessing.Process(target=dance, kwargs=&#123;<span class="string">&#x27;num&#x27;</span>: <span class="number">3</span>&#125;)</span><br><span class="line">    process1.start()</span><br><span class="line">    process2.start()</span><br></pre></td></tr></table></figure></div>
+
+<p>一共有两种传参方式：</p>
+<ul>
+<li><strong>args:</strong> 元组传参，需要注意只有一个参数时，要用逗号结尾，以及传如参数的顺序。</li>
+<li><strong>kwargs:</strong> 字典传参，注意<code>key</code>要对应。</li>
+</ul>
+<h2 id="1-4-获取子-父进程-PID"><a href="#1-4-获取子-父进程-PID" class="headerlink" title="1.4 获取子&#x2F;父进程 PID"></a>1.4 获取子&#x2F;父进程 PID</h2><div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> multiprocessing</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">sing</span>(<span class="params">num</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;sing 的父进程 pid：&#x27;</span>, os.getppid())</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;sing 的子进程 pid：&#x27;</span>, os.getpid())</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(num):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;sing ...&#x27;</span>)</span><br><span class="line">        time.sleep(<span class="number">0.5</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">dance</span>(<span class="params">num</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;dance 的父进程 pid：&#x27;</span>, os.getppid())</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;dance 的子进程 pid：&#x27;</span>, os.getpid())</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(num):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;dance ...&#x27;</span>)</span><br><span class="line">        time.sleep(<span class="number">0.5</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;程序的父进程 pid（终端/Shell）：&#x27;</span>, os.getppid())</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;当前 Python 解释器的 pid：&#x27;</span>, os.getpid())</span><br><span class="line"></span><br><span class="line">    process1 = multiprocessing.Process(target=sing, args=(<span class="number">3</span>, ))</span><br><span class="line">    process2 = multiprocessing.Process(target=dance, kwargs=&#123;<span class="string">&#x27;num&#x27;</span>: <span class="number">3</span>&#125;)</span><br><span class="line">    process1.start()</span><br><span class="line">    process2.start()</span><br></pre></td></tr></table></figure></div>
+<p>输出结果：</p>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">程序的父进程 pid（终端/Shell）： 13583</span><br><span class="line">当前 Python 解释器的 pid： 23492</span><br><span class="line">sing 的父进程 pid： 23492</span><br><span class="line">sing 的子进程 pid： 23493</span><br><span class="line">sing ...</span><br><span class="line">dance 的父进程 pid： 23492</span><br><span class="line">dance 的子进程 pid： 23494</span><br><span class="line">dance ...</span><br><span class="line">sing ...</span><br><span class="line">dance ...</span><br><span class="line">sing ...</span><br><span class="line">dance ...</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="1-5-守护进程"><a href="#1-5-守护进程" class="headerlink" title="1.5 守护进程"></a>1.5 守护进程</h2><p>运行的函数示例：</p>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> multiprocessing</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">work</span>():</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):</span><br><span class="line">        time.sleep(<span class="number">0.5</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;working ...&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
+
+<p>在默认情况下，主进程会等待子进程完全执行结束才会退出。<br>比如这样：</p>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line"></span><br><span class="line">    sub_process = multiprocessing.Process(target=work)</span><br><span class="line">    sub_process.start()</span><br><span class="line"></span><br><span class="line">    time.sleep(<span class="number">2</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;任务执行结束！&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
+<p>输出结果：</p>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">working ...</span><br><span class="line">working ...</span><br><span class="line">working ...</span><br><span class="line">任务执行结束！</span><br><span class="line">working ...</span><br><span class="line">working ...</span><br><span class="line">working ...</span><br></pre></td></tr></table></figure></div>
+<p>主进程执行到<code>print(&#39;任务执行结束！&#39;)</code>这里的时候，已经是执行完了的，但是主进程并没有退出，而是在执行完子进程后才退出的。</p>
+<p>现在是设置守护进程的效果：</p>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line"></span><br><span class="line">    sub_process = multiprocessing.Process(target=work)</span><br><span class="line">    sub_process.daemon = <span class="literal">True</span></span><br><span class="line">    sub_process.start()</span><br><span class="line"></span><br><span class="line">    time.sleep(<span class="number">2</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;任务执行结束！&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
+<p>让<code>daemon = True</code>来设置守护进程，主进程退出后，子进程会被直接销毁，不再执行子进程中的代码。<br>除了用这种方式，还可以通过像<code>Process</code>传入参数来设置：</p>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line"></span><br><span class="line">    sub_process = multiprocessing.Process(target=work, daemon=<span class="literal">True</span>)</span><br><span class="line">    sub_process.start()</span><br><span class="line"></span><br><span class="line">    time.sleep(<span class="number">2</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;任务执行结束！&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
+<p>两种方式的效果都是一样的。</p>
+<h1 id="2-多线程"><a href="#2-多线程" class="headerlink" title="2.多线程"></a>2.多线程</h1><h2 id="2-1-使用多线程完成任务"><a href="#2-1-使用多线程完成任务" class="headerlink" title="2.1 使用多线程完成任务"></a>2.1 使用多线程完成任务</h2><p>用到的包：<code>threading</code>，以下面的代码为例：</p>
+<p>运行的函数示例：</p>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">sing</span>():</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i  <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">3</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;singing ...&#x27;</span>)</span><br><span class="line">        time.sleep(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">dance</span>():</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">3</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;dancing ...&#x27;</span>)</span><br><span class="line">        time.sleep(<span class="number">1</span>)</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li>采用多线程方式：<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line"></span><br><span class="line">    start = time.time()</span><br><span class="line">    thread1 = threading.Thread(target=sing)</span><br><span class="line">    thread2 = threading.Thread(target=dance)</span><br><span class="line">    thread1.start()</span><br><span class="line">    thread2.start()</span><br><span class="line">    thread1.join()</span><br><span class="line">    thread2.join()</span><br><span class="line">    end = time.time()</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;花费的时间：<span class="subst">&#123;end - start&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure></div>
+输出结果：<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">singing ...</span><br><span class="line">dancing ...</span><br><span class="line">singing ...</span><br><span class="line">dancing ...</span><br><span class="line">singing ...</span><br><span class="line">dancing ...</span><br><span class="line">花费的时间：3.0005264282226562</span><br></pre></td></tr></table></figure></div>
+使用方式基本上和多进程的一样，只是把包名和函数名换了。</li>
+</ul>
+<h2 id="2-2-join-方法"><a href="#2-2-join-方法" class="headerlink" title="2.2 join 方法"></a>2.2 join 方法</h2><p>参考多进程的设置方式。</p>
+<h2 id="2-3-线程执行带有参数的任务"><a href="#2-3-线程执行带有参数的任务" class="headerlink" title="2.3 线程执行带有参数的任务"></a>2.3 线程执行带有参数的任务</h2><p>参考多进程的设置方式，一模一样。</p>
+<h2 id="2-4-守护线程"><a href="#2-4-守护线程" class="headerlink" title="2.4 守护线程"></a>2.4 守护线程</h2><p>参考多进程的设置方式，一模一样。</p>
+<h2 id="2-5-线程之间的执行顺序"><a href="#2-5-线程之间的执行顺序" class="headerlink" title="2.5  线程之间的执行顺序"></a>2.5  线程之间的执行顺序</h2><p>线程之间的执行是无序的，以下面这段代码为例：</p>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">work</span>():</span><br><span class="line">    time.sleep(<span class="number">1</span>)</span><br><span class="line">    get_thread = threading.current_thread()</span><br><span class="line">    <span class="built_in">print</span>(get_thread)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">5</span>):</span><br><span class="line">        sub_thread = threading.Thread(target=work)</span><br><span class="line">        sub_thread.start()</span><br></pre></td></tr></table></figure></div>
+
+<p>执行结果是这样的：</p>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">&lt;Thread(Thread-1 (work), started 140407841228480)&gt;</span><br><span class="line">&lt;Thread(Thread-2 (work), started 140407830742720)&gt;</span><br><span class="line">&lt;Thread(Thread-3 (work), started 140407820256960)&gt;</span><br><span class="line">&lt;Thread(Thread-4 (work), started 140407809771200)&gt;</span><br><span class="line">&lt;Thread(Thread-5 (work), started 140407799285440)&gt;</span><br></pre></td></tr></table></figure></div>
+<p>从这一个结果上看可能就会得出错误的结论：哪个线程先创建，哪个线程就先执行。但事实上如果我们多执行几次这段代码，就会发现，可能会出现这样的结果：</p>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">&lt;Thread(Thread-2 (work), started 130684293220032)&gt;</span><br><span class="line">&lt;Thread(Thread-4 (work), started 130684272248512)&gt;</span><br><span class="line">&lt;Thread(Thread-3 (work), started 130684282734272)&gt;</span><br><span class="line">&lt;Thread(Thread-1 (work), started 130684303705792)&gt;</span><br><span class="line">&lt;Thread(Thread-5 (work), started 130684261762752)&gt;</span><br></pre></td></tr></table></figure></div>
+<p>可以看出，线程并非是按创建顺序来执行的。这是由于线程调度的随机性，打印顺序是不确定的。</p>
+<h1 id="3-总结-多线程和多进程的区别"><a href="#3-总结-多线程和多进程的区别" class="headerlink" title="3.总结-多线程和多进程的区别"></a>3.总结-多线程和多进程的区别</h1><h2 id="3-1-工作原理"><a href="#3-1-工作原理" class="headerlink" title="3.1 工作原理"></a>3.1 工作原理</h2><ul>
+<li><p><strong>多线程（Threading）：</strong></p>
+<ul>
+<li>多线程是在 <strong>同一个进程的不同线程</strong> 中执行代码。线程是轻量级的执行单元，多个线程共享同一进程的内存空间。</li>
+<li>在 Python 中，线程受制于全局解释器锁（GIL），这个锁保证同一时刻只有一个线程执行 Python 字节码。因此，尽管在多线程环境中可以并发执行 I&#x2F;O 密集型任务，但对于 CPU 密集型任务，多线程并不会真正实现并行执行。</li>
+</ul>
+</li>
+<li><p><strong>多进程（Multiprocessing）：</strong></p>
+<ul>
+<li>多进程则是在 <strong>多个独立的进程</strong> 中运行，每个进程都有自己独立的内存空间和全局解释器锁（GIL）。这意味着不同进程可以真正地在多个 CPU 核心上并行运行，互不干扰。</li>
+<li>由于进程间不共享内存，因此进程之间的通信需要通过诸如管道（pipes）、队列（queues）等方式进行。</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-2-适用场景"><a href="#3-2-适用场景" class="headerlink" title="3.2 适用场景"></a>3.2 适用场景</h2><ul>
+<li><p><strong>多线程：</strong></p>
+<ul>
+<li>适合<strong>I&#x2F;O 密集型任务</strong>，比如文件读写、网络请求等。在这种情况下，线程在等待 I&#x2F;O 操作时可以释放 GIL，从而让其他线程运行。</li>
+<li><strong>不适合 CPU 密集型任务</strong>，如大量数学计算，因为 GIL 限制了同一时刻只能有一个线程在执行 Python 代码，无法充分利用多核 CPU。</li>
+</ul>
+</li>
+<li><p><strong>多进程：</strong></p>
+<ul>
+<li>适合<strong>CPU 密集型任务</strong>，例如图像处理、复杂的数学计算、机器学习模型训练等。每个进程都拥有独立的 GIL，因此可以在多核 CPU 上并行执行任务。</li>
+<li>对于 I&#x2F;O 密集型任务，也可以使用多进程，不过进程的启动和通信开销较大，性能未必优于多线程。</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-3-性能与资源开销"><a href="#3-3-性能与资源开销" class="headerlink" title="3.3 性能与资源开销"></a>3.3 性能与资源开销</h2><ul>
+<li><p><strong>多线程：</strong></p>
+<ul>
+<li>线程共享同一进程的内存空间，因此线程之间的数据共享和通信非常快。</li>
+<li>线程是轻量级的，创建和管理的开销相对较小。</li>
+<li>由于 GIL 的限制，多线程无法充分利用多核 CPU 进行并行计算，在线程数量较多时，频繁的上下文切换也会影响性能。</li>
+</ul>
+</li>
+<li><p><strong>多进程：</strong></p>
+<ul>
+<li>进程之间独立运行，不共享内存，每个进程都有自己的内存空间。这使得进程间的通信开销较大，数据传输需要序列化（例如通过 <code>pickle</code>）。</li>
+<li>进程的启动和管理开销较大，因为操作系统需要为每个进程分配内存和资源。</li>
+<li>多进程可以充分利用多核 CPU，实现真正的并行计算。</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-4-资源共享与数据传递"><a href="#3-4-资源共享与数据传递" class="headerlink" title="3.4 资源共享与数据传递"></a>3.4 资源共享与数据传递</h2><ul>
+<li><p><strong>多线程：</strong></p>
+<ul>
+<li>线程共享内存空间，因此线程间的变量和数据是共享的。这带来了方便，但也容易引发竞争条件（race conditions）和线程安全问题，必须通过锁（<code>Lock</code>）、信号量（<code>Semaphore</code>）等机制来保护共享资源。</li>
+</ul>
+</li>
+<li><p><strong>多进程：</strong></p>
+<ul>
+<li>进程不共享内存，因此每个进程有自己独立的数据空间。如果需要在进程间传递数据，必须使用进程间通信（IPC）机制，例如队列（<code>Queue</code>）、管道（<code>Pipe</code>）等。进程间通信的开销比线程间通信更大。</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-5-故障隔离"><a href="#3-5-故障隔离" class="headerlink" title="3.5 故障隔离"></a>3.5 故障隔离</h2><ul>
+<li><p><strong>多线程：</strong></p>
+<ul>
+<li>由于线程共享内存空间，如果一个线程发生异常，可能会影响其他线程，甚至导致整个进程崩溃。</li>
+</ul>
+</li>
+<li><p><strong>多进程：</strong></p>
+<ul>
+<li>每个进程是相互独立的，如果一个进程崩溃了，其他进程仍然可以继续运行。因此多进程的故障隔离性更好。</li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Python技巧</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>WSL2 和 Docker 容器中运行 GUI 程序</title>
+    <url>/2024/11/27/WSL-%E5%AE%B9%E5%99%A8GUI/</url>
+    <content><![CDATA[<h1 id="1-WSL2-执行-GUI-程序"><a href="#1-WSL2-执行-GUI-程序" class="headerlink" title="1.WSL2 执行 GUI 程序"></a>1.WSL2 执行 GUI 程序</h1><p>需要在 Windows 上安装<code>MobaXterm</code>，这里推荐安装中文版的（原版可以在官网下载）：[中文版<code>Mobaxterm](https://github.com/RipplePiam/MobaXterm-Chinese-Simplified?tab=readme-ov-file)。这个软件自带</code>x11-server&#96;。</p>
+<p>然后只需要在 WSL2 （Linux 子系统发行版）中安装<code>x11-apps</code>即可。</p>
+<p>对于<code>Ubuntu</code>：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt install x11-apps -y</span><br></pre></td></tr></table></figure></div>
+<p>执行这条命令就能安装好配套的<code>x11 apps</code>，比如<code>xclock</code>和<code>xeyes</code>。</p>
+<p>对于<code>Arch</code>：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S xorg</span><br></pre></td></tr></table></figure></div>
+<p>这条命令只是安装对于的<code>x11-server</code>，然后执行下面的命令：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S xclock xeyes</span><br></pre></td></tr></table></figure></div>
+
+<p>这样直接在终端、<code>VSCode WSL2</code>中的终端或者<code>MobaXterm</code>中运行<code>xclock</code>或者<code>xeyes</code>就能显示 GUI 程序了。</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">xclock</span><br></pre></td></tr></table></figure></div>
+
+<p>如下图所示：<br><a href="https://imgse.com/i/pA4NSkn"><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s21.ax1x.com/2024/11/27/pA4NSkn.png"
+                      alt="示例.png"
+                ><figcaption>示例.png</figcaption></figure></a></p>
+<p>这样也能在 WSL2 中进行可是开发，比如用<code>Python</code>的<code>matplotlib</code>绘图等。</p>
+<p>如果运行不成功的话，可以执行下面的命令试试：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">DISPALY=&lt;你的宿主机的IP&gt;:0 xclock</span><br></pre></td></tr></table></figure></div>
+<p>比如：<code>DISPALY=172.27.158.40:0 xclock</code>。</p>
+<h1 id="2-Docker-容器中执行-GUI-程序"><a href="#2-Docker-容器中执行-GUI-程序" class="headerlink" title="2.Docker 容器中执行 GUI 程序"></a>2.Docker 容器中执行 GUI 程序</h1><p>整体操作方式跟在 WSL2 中是一样的，这里以 Docker 的<code>ubuntu</code>镜像为例子。</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker pull ubuntu</span><br></pre></td></tr></table></figure></div>
+
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -it --name=test-gui --<span class="built_in">env</span> HTTP_PROXY=http:172.27.158.40:7890 --<span class="built_in">env</span> HTTPS_PROXY=http:172.27.158.40:7890 ubuntu:latest</span><br></pre></td></tr></table></figure></div>
+<p>这里的<code>--env HTTP_PROXY=http:172.27.158.40:7890 --env HTTPS_PROXY=http:172.27.158.40:7890</code>是我配置的代理服务，<code>172.27.158.40</code>是宿主机的<code>IP</code>地址。是为了方便执行容器中一系列<code>apt</code>的命令。当然，也可以配置镜像源。</p>
+<p>如果要配置镜像源，记得安装<code>CA</code>证书：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">apt-get install ca-certificates</span><br></pre></td></tr></table></figure></div>
+
+<p>进入容器后，先进行更新，执行：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">apt-get update</span><br></pre></td></tr></table></figure></div>
+
+<p>然后下载：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">apt-get install x11-apps</span><br></pre></td></tr></table></figure></div>
+
+<p>这里要运行 GUI 程序，只能在<code>MobaXterm</code>和<code>VSCode</code>中运行。</p>
+<h2 id="2-1-在MobaXterm中运行"><a href="#2-1-在MobaXterm中运行" class="headerlink" title="2.1 在MobaXterm中运行"></a>2.1 在<code>MobaXterm</code>中运行</h2><div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">DISPALY=&lt;你的宿主机的IP&gt;:0 xclock</span><br></pre></td></tr></table></figure></div>
+
+<p>如下图所示：<br><a href="https://imgse.com/i/pA4NEm4"><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s21.ax1x.com/2024/11/27/pA4NEm4.png"
+                      alt="MobaXterm中运行.png"
+                ><figcaption>MobaXterm中运行.png</figcaption></figure></a></p>
+<p>如果觉得麻烦，可以把<code>DISPALY=&lt;你的宿主机的IP&gt;</code>导入到环境变量中。</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">export</span> DISPALY=&lt;你的宿主机的IP&gt;</span><br></pre></td></tr></table></figure></div>
+
+<p>如下图所示：<br><a href="https://imgse.com/i/pA4NMp6"><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s21.ax1x.com/2024/11/27/pA4NMp6.png"
+                      alt="MobaXterm中运行.png"
+                ><figcaption>MobaXterm中运行.png</figcaption></figure></a></p>
+<h2 id="2-2-在-VSCode-中运行"><a href="#2-2-在-VSCode-中运行" class="headerlink" title="2.2 在 VSCode 中运行"></a>2.2 在 VSCode 中运行</h2><p>需要通过<code>Dev Containers</code>扩展，进入到容器内部，然后直接执行命令即可：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">xclock</span><br></pre></td></tr></table></figure></div>
+
+<p>如下图所示：<br><a href="https://imgse.com/i/pA4NtAA"><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s21.ax1x.com/2024/11/27/pA4NtAA.png"
+                      alt="VSCode中运行.png"
+                ><figcaption>VSCode中运行.png</figcaption></figure></a></p>
+]]></content>
+      <tags>
+        <tag>docker</tag>
+        <tag>linux</tag>
+        <tag>WSL</tag>
       </tags>
   </entry>
   <entry>
