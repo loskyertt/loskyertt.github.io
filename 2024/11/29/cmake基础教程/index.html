@@ -13,24 +13,29 @@
     
     <!--- Seo Part-->
     
-    <link rel="canonical" href="http://example.com/2024/07/19/git教程/"/>
+    <link rel="canonical" href="http://example.com/2024/11/29/cmake基础教程/"/>
     <meta name="robots" content="index,follow">
     <meta name="googlebot" content="index,follow">
     <meta name="revisit-after" content="1 days">
     
-        <meta name="description" content="记录自己的 git 使用过程。">
+        <meta name="description" content="本文讲述 CMake 的一些基础指令。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Git教程">
-<meta property="og:url" content="http://example.com/2024/07/19/Git%E6%95%99%E7%A8%8B/index.html">
+<meta property="og:title" content="CMake 基础教程">
+<meta property="og:url" content="http://example.com/2024/11/29/cmake%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="记录自己的 git 使用过程。">
+<meta property="og:description" content="本文讲述 CMake 的一些基础指令。">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2024-07-19T03:36:51.000Z">
-<meta property="article:modified_time" content="2024-11-13T03:07:10.562Z">
+<meta property="og:image" content="https://s2.loli.net/2024/11/29/tL9qsWvMekI3zcw.png">
+<meta property="og:image" content="https://s2.loli.net/2024/11/29/5veQ3nHVUhT7ipl.png">
+<meta property="og:image" content="https://s2.loli.net/2024/11/29/sha1dGMkHTNuQ8A.png">
+<meta property="og:image" content="https://s2.loli.net/2024/11/29/kfcOwtZbQV4UMA5.png">
+<meta property="article:published_time" content="2024-11-29T14:39:43.000Z">
+<meta property="article:modified_time" content="2024-11-29T08:58:14.765Z">
 <meta property="article:author" content="John Doe">
-<meta property="article:tag" content="linux">
-<meta property="article:tag" content="git">
+<meta property="article:tag" content="c++">
+<meta property="article:tag" content="cmake">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.loli.net/2024/11/29/tL9qsWvMekI3zcw.png">
     
     
     <!--- Icon Part-->
@@ -42,7 +47,7 @@
     
     <title>
         
-            Git教程 | sky&#39;s blog
+            CMake 基础教程 | sky&#39;s blog
         
     </title>
 
@@ -469,7 +474,7 @@
         <div class="article-title relative w-full">
             
                 <div class="w-full flex items-center pt-6 justify-start">
-                    <h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">Git教程</h1>
+                    <h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">CMake 基础教程</h1>
                 </div>
             
             </div>
@@ -490,19 +495,35 @@
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
         <i class="fa-regular fa-pen-fancy"></i>&nbsp;
-        <span class="desktop">2024-07-19 03:36:51</span>
-        <span class="mobile">2024-07-19 03:36:51</span>
+        <span class="desktop">2024-11-29 14:39:43</span>
+        <span class="mobile">2024-11-29 14:39:43</span>
         <span class="hover-info">Created</span>
     </span>
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2024-11-13 03:07:10</span>
-            <span class="mobile">2024-11-13 03:07:10</span>
+            <span class="desktop">2024-11-29 08:58:14</span>
+            <span class="mobile">2024-11-29 08:58:14</span>
             <span class="hover-info">Updated</span>
         </span>
     
 
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/C/">C++</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
     
     
         <span class="article-tags article-meta-item">
@@ -510,11 +531,11 @@
             <ul>
                 
                     <li>
-                        <a href="/tags/linux/">linux</a>&nbsp;
+                        <a href="/tags/c/">c++</a>&nbsp;
                     </li>
                 
                     <li>
-                        | <a href="/tags/git/">git</a>&nbsp;
+                        | <a href="/tags/cmake/">cmake</a>&nbsp;
                     </li>
                 
             </ul>
@@ -524,12 +545,12 @@
     
     
         <span class="article-wordcount article-meta-item">
-            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>866 Words</span>
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>661 Words</span>
         </span>
     
     
         <span class="article-min2read article-meta-item">
-            <i class="fa-regular fa-clock"></i>&nbsp;<span>3 Mins</span>
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>2 Mins</span>
         </span>
     
     
@@ -548,94 +569,74 @@
 
 
         <div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
-            <h1 id="一、-SSH-连接"><a href="#一、-SSH-连接" class="headerlink" title="一、 SSH 连接"></a>一、 SSH 连接</h1><p>需要提前安装好<code>OpenSSH</code>:</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S openssh</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="1-1-生成-SSH-密钥"><a href="#1-1-生成-SSH-密钥" class="headerlink" title="1.1 生成 SSH 密钥"></a>1.1 生成 SSH 密钥</h2><p>如果还没有 SSH 密钥，可以生成一个：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 推荐</span></span><br><span class="line">ssh-keygen -t ed25519 -C <span class="string">&quot;your_email@example.com&quot;</span></span><br></pre></td></tr></table></figure></div>
-<p>或者</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -b 4096 -C <span class="string">&quot;your_email@example.com&quot;</span></span><br></pre></td></tr></table></figure></div>
-
-<p>按照提示完成生成过程，默认会在 <code>~/.ssh/</code> 目录下生成 <code>id_ed25519</code>（不能告诉别人）和<code>id_ed25519.pub</code>（公有的） 文件。第二种生成密钥的方式对应的文件是<code>id_rsa</code> 和 <code>id_rsa.pub</code>。</p>
-<h2 id="1-2-添加-SSH-密钥到-GitHub"><a href="#1-2-添加-SSH-密钥到-GitHub" class="headerlink" title="1.2 添加 SSH 密钥到 GitHub"></a>1.2 添加 SSH 密钥到 GitHub</h2><ol>
-<li>将生成的公钥添加到 GitHub。在终端中运行：</li>
-</ol>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> ~/.ssh/id_ed25519.pub</span><br></pre></td></tr></table></figure></div>
-
-<p>输出示例：</p>
-<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-ed25519 AAAAC3NzANDAKlZDI1NTE5AAAaaaN/oaWb4GZetVkiI5/8d1gezLHWpT46mnaAnkJAbwXpp loskyertt0403@gmail.com</span><br></pre></td></tr></table></figure></div>
-
-<ol start="2">
-<li>复制输出的公钥内容（从 ssh-ed25519 开始，直到邮箱地址结束）。（或者打开<code>sh/id_rsa.pub</code> 文件，复制其中的内容。）</li>
-<li>登录到 GitHub，导航到“Settings”。</li>
-<li>在左侧菜单中选择“<a class="link"   target="_blank" rel="noopener" href="https://github.com/settings/keys" >SSH and GPG keys 设置页面 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>”。</li>
-<li>点击“New SSH key”，粘贴你的公钥并保存。</li>
-</ol>
-<h2 id="1-3-连接验证"><a href="#1-3-连接验证" class="headerlink" title="1.3 连接验证"></a>1.3 连接验证</h2><p>用于检查是否能与远程的 GitHub 仓库进行连接。</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure></div>
-<p>加上<code>-v</code>参数可以显示更详细的连接信息。</p>
-<h2 id="1-3-配置仓库使用-SSH-URL"><a href="#1-3-配置仓库使用-SSH-URL" class="headerlink" title="1.3 配置仓库使用 SSH URL"></a>1.3 配置仓库使用 SSH URL</h2><ol>
-<li>更新远程仓库的 URL 以使用 SSH：</li>
-</ol>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote set-url origin git@github.com:loskyertt/Recorder_Backup.git</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="1-4-无法连接"><a href="#1-4-无法连接" class="headerlink" title="1.4 无法连接"></a>1.4 无法连接</h2><p>当使用<code>ssh -T git@github.com</code>迟迟未返回连接的信息，这种情况可能是<code>~/.ssh/config</code>配置文件发生损坏或者没有该配置文件。</p>
-<p>修改或创建<code>config</code>配置文件：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nano ~/.ssh/config</span><br></pre></td></tr></table></figure></div>
-
-<p>添加下面内容：</p>
-<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Host github.com</span><br><span class="line">  Hostname ssh.github.com</span><br><span class="line">  Port 22</span><br><span class="line">  User git</span><br></pre></td></tr></table></figure></div>
-<p><code>22</code>端口如果不行，可以改成<code>443</code>端口。</p>
-<h1 id="二、个人访问令牌（Personal-Access-Token，PAT）"><a href="#二、个人访问令牌（Personal-Access-Token，PAT）" class="headerlink" title="二、个人访问令牌（Personal Access Token，PAT）"></a>二、个人访问令牌（Personal Access Token，PAT）</h1><p>这种方式主要用于临时快速修改仓库，或者当 SSH 连接不可使用时使用。</p>
-<ol>
-<li><p><strong>生成个人访问令牌：</strong></p>
-<ul>
-<li>登录到你的 GitHub 账户。</li>
-<li>进入 <a class="link"   target="_blank" rel="noopener" href="https://github.com/settings/tokens" >GitHub 个人访问令牌设置页面 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>。</li>
-<li>点击 <code>Generate new token</code> 按钮。</li>
-<li>选择 “Personal access tokens” 然后点击 “Generate new token”。</li>
-<li>给令牌一个描述性的名称，选择适当的权限范围（至少需要<code>repo</code>权限）。</li>
-<li>生成令牌并复制（注意： <strong>令牌只会显示一次，请务必保存</strong> ）。</li>
+            <h1 id="1-构建指令"><a href="#1-构建指令" class="headerlink" title="1.构建指令"></a>1.构建指令</h1><p>现代<code>CMake</code>提供了更方便的<code>-B</code>和<code>--build</code>指令，不同平台，统一命令！</p>
+<p>在源码目录用<code>-B</code>直接创建<code>build</code>目录并生成<code>build/Makefile</code>:</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cmake -B build</span><br></pre></td></tr></table></figure></div>
+<p>这种方式免去了先创建<code>build</code>目录再切换进去再指定源码目录的麻烦。</p>
+<p>示例如下：<br><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s2.loli.net/2024/11/29/tL9qsWvMekI3zcw.png"
+                      alt="示例1"
+                ><figcaption>示例1</figcaption></figure></p>
+<p>自动调用本地的构建系统在<code>build</code>里构建，相当于<code>make -C build -j4</code>：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cmake --build build -j4</span><br></pre></td></tr></table></figure></div>
+<p>这种方式统一了不同平台（Linux 上会调用<code>make</code>，Windows 上调用<code>devenv.exe</code>）</p>
+<p>调用本地的构建系统执行<code>install</code>这个目标，即安装：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> cmake --build build --target install</span><br></pre></td></tr></table></figure></div>
+<p>相当于 Linux 下的<code>sudo make install</code>。</p>
+<p>结论：从现在开始，如果在命令行操作<code>cmake</code>，请使用更方便的<code>-B</code>和<code>--build</code>命令。</p>
+<h1 id="2-生成器"><a href="#2-生成器" class="headerlink" title="2.生成器"></a>2.生成器</h1><ul>
+<li>Linux 系统上的<code>CMake</code>默认用是<code>Unix Makefiles</code>生成器；Windows 系统默认是<code>Visual Studio 2019</code>生成器；MacOS 系统默认是<code>Xcode</code>生成器。</li>
+<li>可以用<code>-G</code>参数改用别的生成器，例如<code>cmake -G Ninja</code>会生成<code>Ninja</code>这个构建系统的构建规则。<code>Ninja</code>是一个高性能，跨平台的构建系统，Linux、Windows、MacOS上都可以用。</li>
+<li><code>Ninja</code>可以从包管理器里安装，没有包管理器的 Windows 可以用 Python 的包管理器安装：<code>pip install ninja</code>（有趣的事实：<code>CMake</code>也可以通过<code>pip install cmake</code>安装）。</li>
+<li>事实上，<code>MSBuild</code>是单核心的构建系统，<code>Makefile</code>虽然多核心，但因历史兼容原因效率一般。而<code>Ninja</code>则是专为性能优化的构建系统，它和<code>CMake</code>结合都是行业标准了。</li>
 </ul>
-</li>
-<li><p><strong>使用个人访问令牌进行认证：</strong></p>
-<ul>
-<li>当 Git 提示输入密码时，使用您刚刚创建的个人访问令牌而不是密码。</li>
-</ul>
-</li>
-<li><p><strong>存储凭证（可选但推荐）：</strong><br>为了避免每次都输入令牌，您可以让 Git 记住你的凭证：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global credential.helper store</span><br></pre></td></tr></table></figure></div>
-<p>然后，下一次当您输入令牌时，Git 会记住它。</p>
-</li>
-<li><p><strong>更新远程 URL（如果需要）：</strong><br>如果SSH持续出现问题,您可以暂时使用 HTTPS 方式进行操作。可以通过以下命令将仓库的远程URL改为HTTPS:</p>
-<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote set-url origin &lt;https://remote-url&gt;</span><br></pre></td></tr></table></figure></div></li>
-</ol>
-<p>一定要记住，个人访问令牌与密码具有相同的权限，因此要像对待密码一样谨慎地保护它。如果你认为令牌可能已经泄露，可以随时在 GitHub 设置中撤销它并生成一个新的。</p>
-<h1 id="三、git基本配置"><a href="#三、git基本配置" class="headerlink" title="三、git基本配置"></a>三、git基本配置</h1><h2 id="3-1-设置用户信息"><a href="#3-1-设置用户信息" class="headerlink" title="3.1 设置用户信息"></a>3.1 设置用户信息</h2><div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name <span class="string">&quot;用户名&quot;</span></span><br><span class="line">git config --global user.email <span class="string">&quot;邮箱&quot;</span></span><br></pre></td></tr></table></figure></div>
-<h2 id="3-2-代理设置"><a href="#3-2-代理设置" class="headerlink" title="3.2 代理设置"></a>3.2 代理设置</h2><p><strong>注：<code>linux</code>只需要在终端配置代理即可。</strong></p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global http.proxy socks5://127.0.0.1:<span class="string">&quot;端口&quot;</span></span><br><span class="line">git config --global https.proxy socks5://127.0.0.1:<span class="string">&quot;端口&quot;</span></span><br></pre></td></tr></table></figure></div>
-
-<p>如果要取消代理：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global --<span class="built_in">unset</span> http.proxy</span><br><span class="line">git config --global --<span class="built_in">unset</span> https.proxy</span><br></pre></td></tr></table></figure></div>
-
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cmake -G Ninja -B build</span><br></pre></td></tr></table></figure></div>
+<p>注：<code>-G Ninja</code>还可以写成<code>-GNinja</code>和<code>-G &quot;Ninja&quot;</code>（推荐这种）。在 Linux 上没有指定的话，默认是<code>-G &quot;Unix Makefiles&quot;</code>。</p>
+<p>如图所示：<br><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s2.loli.net/2024/11/29/5veQ3nHVUhT7ipl.png"
+                      alt="示例2"
+                ><figcaption>示例2</figcaption></figure></p>
+<h2 id="2-1-Ninja和Makefile的简单对比："><a href="#2-1-Ninja和Makefile的简单对比：" class="headerlink" title="2.1 Ninja和Makefile的简单对比："></a>2.1 <code>Ninja</code>和<code>Makefile</code>的简单对比：</h2><p><code>ninja</code>花费的时间：<br><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s2.loli.net/2024/11/29/sha1dGMkHTNuQ8A.png"
+                      alt="ninja.png"
+                ><figcaption>ninja.png</figcaption></figure></p>
+<p><code>make</code>花费的时间：<br><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s2.loli.net/2024/11/29/kfcOwtZbQV4UMA5.png"
+                      alt="make.png"
+                ><figcaption>make.png</figcaption></figure></p>
+<p>从两幅图对比可以看出，<code>ninja</code>花费的时间更少，效率更高。</p>
+<p>事实上，在性能上：<code>Ninja &gt; Makefile &gt; MSBuild</code>。<code>Makefile</code>启动时会把每个文件都检测一遍，浪费很多时间。特别是有很多文件，但是实际需要构建的只有一小部分，从而是<code>I/O Bound</code>的时候，<code>Ninja</code>的速度提升就很明显。然而某些专利公司的<code>CUDA toolkit</code>在 Windows 上只允许用<code>MSBuild</code>构建，不能用<code>Ninja</code>（怕不是和<code>Bill Gates</code>有什么交易，哈哈）。</p>
+<h1 id="3-编译器设置"><a href="#3-编译器设置" class="headerlink" title="3.编译器设置"></a>3.编译器设置</h1><p>可以在<code>CMakeLists.txt</code>中添加：</p>
+<div class="highlight-container" data-rel="Cmake"><figure class="iseeu highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span>(CMAKE_C_COMPILER clang)</span><br><span class="line"><span class="keyword">set</span>(CMAKE_CXX_COMPILER clang++)</span><br></pre></td></tr></table></figure></div>
+<p>指定编译器为<code>clang</code>和<code>clang++</code>。不指定的话，默认是<code>gcc</code>和<code>g++</code>。</p>
+<p>也可以在命令行阶段指定：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cmake -B build -G Ninja -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++</span><br></pre></td></tr></table></figure></div>
         </div>
 
         
             <div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
                 <div class="article-copyright-info-container">
     <ul>
-        <li><strong>Title:</strong> Git教程</li>
+        <li><strong>Title:</strong> CMake 基础教程</li>
         <li><strong>Author:</strong> loskyertt</li>
         <li><strong>Created at
-                :</strong> 2024-07-19 03:36:51</li>
+                :</strong> 2024-11-29 14:39:43</li>
         
             <li>
                 <strong>Updated at
-                    :</strong> 2024-11-13 03:07:10
+                    :</strong> 2024-11-29 08:58:14
             </li>
         
         <li>
-            <strong>Link:</strong> https://redefine.ohevan.com/2024/07/19/Git教程/
+            <strong>Link:</strong> https://redefine.ohevan.com/2024/11/29/cmake基础教程/
         </li>
         <li>
             <strong>
@@ -657,11 +658,11 @@
             <ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
                 
                     <li class="tag-item mx-0.5">
-                        <a href="/tags/linux/">#linux</a>&nbsp;
+                        <a href="/tags/c/">#c++</a>&nbsp;
                     </li>
                 
                     <li class="tag-item mx-0.5">
-                        <a href="/tags/git/">#git</a>&nbsp;
+                        <a href="/tags/cmake/">#cmake</a>&nbsp;
                     </li>
                 
             </ul>
@@ -673,27 +674,27 @@
     <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
      <i aria-hidden="true"></i><span>推荐阅读</span>
     </div>
-    <div class="recommended-article-group"><a class="recommended-article-item" href="/2024/08/16/SSH 教程/" title="SSH 教程" rel="bookmark">
-  <img src="/images/wallhaven-wqery6-light.webp" alt="SSH 教程" class="!max-w-none">
-  <span class="title">SSH 教程</span>
-</a><a class="recommended-article-item" href="/2024/07/30/Openssh配置/" title="Win10 SSH 服务配置" rel="bookmark">
-  <img src="/images/wallhaven-wqery6-light.webp" alt="Win10 SSH 服务配置" class="!max-w-none">
-  <span class="title">Win10 SSH 服务配置</span>
+    <div class="recommended-article-group"><a class="recommended-article-item" href="/2024/11/13/gdb配置/" title="解决 VSCode 下使用 gdb 调试 C++ 出现的问题" rel="bookmark">
+  <img src="/images/wallhaven-wqery6-light.webp" alt="解决 VSCode 下使用 gdb 调试 C++ 出现的问题" class="!max-w-none">
+  <span class="title">解决 VSCode 下使用 gdb 调试 C++ 出现的问题</span>
 </a><a class="recommended-article-item" href="/2024/09/11/从源码安装SSH/" title="从源码安装 SSH" rel="bookmark">
   <img src="/images/wallhaven-wqery6-light.webp" alt="从源码安装 SSH" class="!max-w-none">
   <span class="title">从源码安装 SSH</span>
+</a><a class="recommended-article-item" href="/2024/07/24/Linux指令/" title="Linux 指令" rel="bookmark">
+  <img src="https://softwarelab.org/wp-content/uploads/Linux.jpg" alt="Linux 指令" class="!max-w-none">
+  <span class="title">Linux 指令</span>
 </a></div>
    </div>
    <div class="recommended-mobile">
    <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
      <i aria-hidden="true"></i><span>推荐阅读</span>
    </div>
-   <div class="recommended-article-group"><a class="recommended-article-item" href="/2024/08/16/SSH 教程/" title="SSH 教程" rel="bookmark">
-  <img src="/images/wallhaven-wqery6-light.webp" alt="SSH 教程" class="!max-w-none">
-  <span class="title">SSH 教程</span>
-</a><a class="recommended-article-item" href="/2024/07/30/Openssh配置/" title="Win10 SSH 服务配置" rel="bookmark">
-  <img src="/images/wallhaven-wqery6-light.webp" alt="Win10 SSH 服务配置" class="!max-w-none">
-  <span class="title">Win10 SSH 服务配置</span>
+   <div class="recommended-article-group"><a class="recommended-article-item" href="/2024/11/13/gdb配置/" title="解决 VSCode 下使用 gdb 调试 C++ 出现的问题" rel="bookmark">
+  <img src="/images/wallhaven-wqery6-light.webp" alt="解决 VSCode 下使用 gdb 调试 C++ 出现的问题" class="!max-w-none">
+  <span class="title">解决 VSCode 下使用 gdb 调试 C++ 出现的问题</span>
+</a><a class="recommended-article-item" href="/2024/09/11/从源码安装SSH/" title="从源码安装 SSH" rel="bookmark">
+  <img src="/images/wallhaven-wqery6-light.webp" alt="从源码安装 SSH" class="!max-w-none">
+  <span class="title">从源码安装 SSH</span>
 </a></div>
    </div>
   </div>
@@ -701,29 +702,14 @@
         
             <div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
                 
-                    <div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
-                        <a class="prev"
-                        rel="prev"
-                        href="/2024/07/19/Proxy-Settings/"
-                        >
-                            <span class="left arrow-icon flex justify-center items-center">
-                                <i class="fa-solid fa-chevron-left"></i>
-                            </span>
-                            <span class="title flex justify-center items-center">
-                                <span class="post-nav-title-item">Proxy Settings</span>
-                                <span class="post-nav-item">Prev posts</span>
-                            </span>
-                        </a>
-                    </div>
-                
                 
                     <div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
                         <a class="next"
                         rel="next"
-                        href="/2024/07/18/EndeavourOS/"
+                        href="/2024/11/27/WSL-%E5%AE%B9%E5%99%A8GUI/"
                         >
                             <span class="title flex justify-center items-center">
-                                <span class="post-nav-title-item">EndeavourOS 使用记录</span>
+                                <span class="post-nav-title-item">WSL2 和 Docker 容器中运行 GUI 程序</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex justify-center items-center">
@@ -787,8 +773,8 @@
             <div class="post-toc-wrap">
     <div class="post-toc">
         <div class="toc-title">On this page</div>
-        <div class="page-title">Git教程</div>
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E3%80%81-SSH-%E8%BF%9E%E6%8E%A5"><span class="nav-text">一、 SSH 连接</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-%E7%94%9F%E6%88%90-SSH-%E5%AF%86%E9%92%A5"><span class="nav-text">1.1 生成 SSH 密钥</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-%E6%B7%BB%E5%8A%A0-SSH-%E5%AF%86%E9%92%A5%E5%88%B0-GitHub"><span class="nav-text">1.2 添加 SSH 密钥到 GitHub</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-%E8%BF%9E%E6%8E%A5%E9%AA%8C%E8%AF%81"><span class="nav-text">1.3 连接验证</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-%E9%85%8D%E7%BD%AE%E4%BB%93%E5%BA%93%E4%BD%BF%E7%94%A8-SSH-URL"><span class="nav-text">1.3 配置仓库使用 SSH URL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-%E6%97%A0%E6%B3%95%E8%BF%9E%E6%8E%A5"><span class="nav-text">1.4 无法连接</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E4%B8%AA%E4%BA%BA%E8%AE%BF%E9%97%AE%E4%BB%A4%E7%89%8C%EF%BC%88Personal-Access-Token%EF%BC%8CPAT%EF%BC%89"><span class="nav-text">二、个人访问令牌（Personal Access Token，PAT）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%89%E3%80%81git%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE"><span class="nav-text">三、git基本配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-%E8%AE%BE%E7%BD%AE%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF"><span class="nav-text">3.1 设置用户信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-%E4%BB%A3%E7%90%86%E8%AE%BE%E7%BD%AE"><span class="nav-text">3.2 代理设置</span></a></li></ol></li></ol>
+        <div class="page-title">CMake 基础教程</div>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E6%9E%84%E5%BB%BA%E6%8C%87%E4%BB%A4"><span class="nav-text">1.构建指令</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E7%94%9F%E6%88%90%E5%99%A8"><span class="nav-text">2.生成器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-Ninja%E5%92%8CMakefile%E7%9A%84%E7%AE%80%E5%8D%95%E5%AF%B9%E6%AF%94%EF%BC%9A"><span class="nav-text">2.1 Ninja和Makefile的简单对比：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E7%BC%96%E8%AF%91%E5%99%A8%E8%AE%BE%E7%BD%AE"><span class="nav-text">3.编译器设置</span></a></li></ol>
 
     </div>
 </div>

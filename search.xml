@@ -507,55 +507,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Python 爬虫教程 07</title>
-    <url>/2024/10/19/07Python%E7%88%AC%E8%99%AB/</url>
-    <content><![CDATA[<h1 id="1-示例"><a href="#1-示例" class="headerlink" title="1.示例"></a>1.示例</h1><p>示例代码：</p>
-<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line"><span class="comment"># 注意这条链建</span></span><br><span class="line">url = <span class="string">&quot;https://www.spiderbuf.cn/playground/s06&quot;</span></span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">html = requests.get(url=url, headers=headers).text</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/06course/06.html&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">f.write(html)</span><br><span class="line">f.close()</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(html)</span><br><span class="line"></span><br><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/06course/data06.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    tds = tr.xpath(<span class="string">&#x27;./td&#x27;</span>)</span><br><span class="line">    s = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> td <span class="keyword">in</span> tds:</span><br><span class="line">        s = s + <span class="built_in">str</span>(td.xpath(<span class="string">&#x27;string(.)&#x27;</span>)) + <span class="string">&#x27;|&#x27;</span></span><br><span class="line">    <span class="built_in">print</span>(s)</span><br><span class="line">    <span class="keyword">if</span> s!= <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        f.write(s + <span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
-<p>运行这段代码，会发现是解析不出我们想要的内容的。虽然<code>url</code>、解析逻辑看起来填写的都是正确的，那么问题是出在哪儿呢？其实就是出在<code>url</code>，这个<code>url</code>只是看起来正确，但并不是真正的<code>url</code>（我们想要的，包含内容的）。</p>
-<h1 id="2-分析页面"><a href="#2-分析页面" class="headerlink" title="2.分析页面"></a>2.分析页面</h1><p>这时候我们来分析下网页源代码，发现在目标页面代开源码是没有我们想要的内容的，如下图所示：<br><a href="https://imgse.com/i/pAUHxVs"><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://s21.ax1x.com/2024/10/19/pAUHxVs.png"
-                      alt="网页源码.png"
-                ><figcaption>网页源码.png</figcaption></figure></a><br>那么这时候我们就得找到 <strong>真实链接</strong> 。</p>
-<p>按<code>F12</code>打开浏览器控制台，选择<code>network</code>：<br><a href="https://imgse.com/i/pAUbP2T"><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://s21.ax1x.com/2024/10/19/pAUbP2T.png"
-                      alt="控制台.png"
-                ><figcaption>控制台.png</figcaption></figure></a></p>
-<p>先看左边（红色框）部分，选中一个，看一下它的<code>preview</code>，如图所示：<br><a href="https://imgse.com/i/pAUbkMF"><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://s21.ax1x.com/2024/10/19/pAUbkMF.png"
-                      alt="preview.png"
-                ><figcaption>preview.png</figcaption></figure></a></p>
-<p>可以发现没有我们想要的大内容，说明原始的<code>url</code>不对，我们得通过这种方式查找出包含内容的<code>url</code>。可以把后缀是<code>.js</code>和<code>.css</code>的排除掉，这些都是指网页样式。</p>
-<p>如下图所示：<br><a href="https://imgse.com/i/pAUbQxO"><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://s21.ax1x.com/2024/10/19/pAUbQxO.png"
-                      alt="pAUbQxO.png"
-                ><figcaption>pAUbQxO.png</figcaption></figure></a><br>这个<code>inner</code>才是我们想要的，再看它的<code>headers</code>，我们就能找到它的正确的<code>url = https://www.spiderbuf.cn/playground/inner</code></p>
-<p>把这个<code>url</code>替换掉原始<code>url</code>就行了：</p>
-<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">url = <span class="string">&quot;https://www.spiderbuf.cn/playground/inner&quot;</span></span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">html = requests.get(url=url, headers=headers).text</span><br><span class="line"></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;剩余部分的代码不变......&#x27;&#x27;&#x27;</span></span><br></pre></td></tr></table></figure></div>
-
-<h1 id="3-总结"><a href="#3-总结" class="headerlink" title="3.总结"></a>3.总结</h1><p>如图所示：<br><a href="https://imgse.com/i/pAUb8qH"><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://s21.ax1x.com/2024/10/19/pAUb8qH.png"
-                      alt="控制台.png"
-                ><figcaption>控制台.png</figcaption></figure></a></p>
-<p>可以发现在<code>html</code>下还有一个<code>html</code>，称作<code>iframe</code>。就是网页里面嵌套了一个浏览器再打开另一个网页，只有在控制台看它后台的一个请求，才能找出真实的<code>url</code>。</p>
-]]></content>
-      <categories>
-        <category>Python爬虫</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Python 爬虫教程 06</title>
     <url>/2024/10/18/06Python%E7%88%AC%E8%99%AB/</url>
     <content><![CDATA[<h1 id="1-分析网站"><a href="#1-分析网站" class="headerlink" title="1.分析网站"></a>1.分析网站</h1><p>第一步还是要先向网站发送请求，然后获得请求的内容：</p>
@@ -620,25 +571,46 @@
       </tags>
   </entry>
   <entry>
-    <title>Python 爬虫教程 09</title>
-    <url>/2024/10/21/09Python%E7%88%AC%E8%99%AB/</url>
-    <content><![CDATA[<h1 id="1-代码示例"><a href="#1-代码示例" class="headerlink" title="1.代码示例"></a>1.代码示例</h1><div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;https://www.spiderbuf.cn/playground/s08&quot;</span></span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line">html = requests.get(url=url, headers=headers).text</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/08course/08.html&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">f.write(html)</span><br><span class="line">f.close()</span><br><span class="line"></span><br><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/08course/data08.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    tds = tr.xpath(<span class="string">&#x27;./td&#x27;</span>)</span><br><span class="line">    s = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> td <span class="keyword">in</span> tds:</span><br><span class="line">        s = s + <span class="built_in">str</span>(td.xpath(<span class="string">&#x27;string(.)&#x27;</span>)) + <span class="string">&#x27;|&#x27;</span></span><br><span class="line">    <span class="built_in">print</span>(s)</span><br><span class="line">    <span class="keyword">if</span> s!= <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        f.write(s + <span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
-<p>直接运行这段代码是不会解析出任何数据的，同时可以看到抓取到的网页与我们想要的不一样。</p>
-<h1 id="2-网页分析"><a href="#2-网页分析" class="headerlink" title="2,网页分析"></a>2,网页分析</h1><p>打开浏览器控制台，选择<code>network</code>：<br><a href="https://imgse.com/i/pAa40dx"><figure class="image-caption"><img  
+    <title>Python 爬虫教程 07</title>
+    <url>/2024/10/19/07Python%E7%88%AC%E8%99%AB/</url>
+    <content><![CDATA[<h1 id="1-示例"><a href="#1-示例" class="headerlink" title="1.示例"></a>1.示例</h1><p>示例代码：</p>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line"><span class="comment"># 注意这条链建</span></span><br><span class="line">url = <span class="string">&quot;https://www.spiderbuf.cn/playground/s06&quot;</span></span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">html = requests.get(url=url, headers=headers).text</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/06course/06.html&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">f.write(html)</span><br><span class="line">f.close()</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(html)</span><br><span class="line"></span><br><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/06course/data06.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    tds = tr.xpath(<span class="string">&#x27;./td&#x27;</span>)</span><br><span class="line">    s = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> td <span class="keyword">in</span> tds:</span><br><span class="line">        s = s + <span class="built_in">str</span>(td.xpath(<span class="string">&#x27;string(.)&#x27;</span>)) + <span class="string">&#x27;|&#x27;</span></span><br><span class="line">    <span class="built_in">print</span>(s)</span><br><span class="line">    <span class="keyword">if</span> s!= <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        f.write(s + <span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
+<p>运行这段代码，会发现是解析不出我们想要的内容的。虽然<code>url</code>、解析逻辑看起来填写的都是正确的，那么问题是出在哪儿呢？其实就是出在<code>url</code>，这个<code>url</code>只是看起来正确，但并不是真正的<code>url</code>（我们想要的，包含内容的）。</p>
+<h1 id="2-分析页面"><a href="#2-分析页面" class="headerlink" title="2.分析页面"></a>2.分析页面</h1><p>这时候我们来分析下网页源代码，发现在目标页面代开源码是没有我们想要的内容的，如下图所示：<br><a href="https://imgse.com/i/pAUHxVs"><figure class="image-caption"><img  
                      lazyload
                      src="/images/loading.svg"
-                     data-src="https://s21.ax1x.com/2024/10/21/pAa40dx.png"
+                     data-src="https://s21.ax1x.com/2024/10/19/pAUHxVs.png"
+                      alt="网页源码.png"
+                ><figcaption>网页源码.png</figcaption></figure></a><br>那么这时候我们就得找到 <strong>真实链接</strong> 。</p>
+<p>按<code>F12</code>打开浏览器控制台，选择<code>network</code>：<br><a href="https://imgse.com/i/pAUbP2T"><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s21.ax1x.com/2024/10/19/pAUbP2T.png"
                       alt="控制台.png"
-                ><figcaption>控制台.png</figcaption></figure></a><br>可以发现，请求方式是<code>post</code>。所以我们就得在代码中采用<code>post</code>请求方式：</p>
-<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;https://www.spiderbuf.cn/playground/s08&quot;</span></span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment"># 传入 post 请求中的数据</span></span><br><span class="line">payload = &#123;<span class="string">&#x27;level&#x27;</span>: <span class="string">&#x27;8&#x27;</span>&#125;</span><br><span class="line"><span class="comment"># post 请求</span></span><br><span class="line">html = requests.post(url=url, headers=headers, data=payload).text</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/08course/08.html&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">f.write(html)</span><br><span class="line">f.close()</span><br><span class="line"></span><br><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/08course/data08.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    tds = tr.xpath(<span class="string">&#x27;./td&#x27;</span>)</span><br><span class="line">    s = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> td <span class="keyword">in</span> tds:</span><br><span class="line">        s = s + <span class="built_in">str</span>(td.xpath(<span class="string">&#x27;string(.)&#x27;</span>)) + <span class="string">&#x27;|&#x27;</span></span><br><span class="line">    <span class="built_in">print</span>(s)</span><br><span class="line">    <span class="keyword">if</span> s!= <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        f.write(s + <span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
-
-<p><code>payload</code>是在这里：<br><a href="https://imgse.com/i/pAa4oY8"><figure class="image-caption"><img  
+                ><figcaption>控制台.png</figcaption></figure></a></p>
+<p>先看左边（红色框）部分，选中一个，看一下它的<code>preview</code>，如图所示：<br><a href="https://imgse.com/i/pAUbkMF"><figure class="image-caption"><img  
                      lazyload
                      src="/images/loading.svg"
-                     data-src="https://s21.ax1x.com/2024/10/21/pAa4oY8.png"
-                      alt="payload.png"
-                ><figcaption>payload.png</figcaption></figure></a></p>
-<p>可以参考这里：<a class="link"   href="https://requests.readthedocs.io/projects/cn/zh-cn/latest/user/quickstart.html#post" >更加复杂的 POST 请求 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+                     data-src="https://s21.ax1x.com/2024/10/19/pAUbkMF.png"
+                      alt="preview.png"
+                ><figcaption>preview.png</figcaption></figure></a></p>
+<p>可以发现没有我们想要的大内容，说明原始的<code>url</code>不对，我们得通过这种方式查找出包含内容的<code>url</code>。可以把后缀是<code>.js</code>和<code>.css</code>的排除掉，这些都是指网页样式。</p>
+<p>如下图所示：<br><a href="https://imgse.com/i/pAUbQxO"><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s21.ax1x.com/2024/10/19/pAUbQxO.png"
+                      alt="pAUbQxO.png"
+                ><figcaption>pAUbQxO.png</figcaption></figure></a><br>这个<code>inner</code>才是我们想要的，再看它的<code>headers</code>，我们就能找到它的正确的<code>url = https://www.spiderbuf.cn/playground/inner</code></p>
+<p>把这个<code>url</code>替换掉原始<code>url</code>就行了：</p>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">url = <span class="string">&quot;https://www.spiderbuf.cn/playground/inner&quot;</span></span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">html = requests.get(url=url, headers=headers).text</span><br><span class="line"></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;剩余部分的代码不变......&#x27;&#x27;&#x27;</span></span><br></pre></td></tr></table></figure></div>
+
+<h1 id="3-总结"><a href="#3-总结" class="headerlink" title="3.总结"></a>3.总结</h1><p>如图所示：<br><a href="https://imgse.com/i/pAUb8qH"><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s21.ax1x.com/2024/10/19/pAUb8qH.png"
+                      alt="控制台.png"
+                ><figcaption>控制台.png</figcaption></figure></a></p>
+<p>可以发现在<code>html</code>下还有一个<code>html</code>，称作<code>iframe</code>。就是网页里面嵌套了一个浏览器再打开另一个网页，只有在控制台看它后台的一个请求，才能找出真实的<code>url</code>。</p>
 ]]></content>
       <categories>
         <category>Python爬虫</category>
@@ -673,6 +645,34 @@
 </ol>
 <h2 id="2-3-示例"><a href="#2-3-示例" class="headerlink" title="2.3 示例"></a>2.3 示例</h2><p>假设一个网页有一个按钮，当用户点击按钮时，通过 AJAX 加载一段新的数据并显示在页面中。以下是一个简单的 AJAX 动态加载例子（使用 <code>fetch</code> API）：</p>
 <div class="highlight-container" data-rel="Html"><figure class="iseeu highlight html"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;viewport&quot;</span> <span class="attr">content</span>=<span class="string">&quot;width=device-width, initial-scale=1.0&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>AJAX 动态加载示例<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span>AJAX 动态加载示例<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;content&quot;</span>&gt;</span>这里是初始内容。<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&quot;loadDataBtn&quot;</span>&gt;</span>加载更多内容<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">        <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;loadDataBtn&#x27;</span>).<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>, <span class="keyword">function</span>(<span class="params"></span>) &#123;</span></span><br><span class="line"><span class="language-javascript">            <span class="title function_">fetch</span>(<span class="string">&#x27;https://api.example.com/get-more-data&#x27;</span>) <span class="comment">// 向服务器发送请求，这里的链接就是含有真实数据内容的 url</span></span></span><br><span class="line"><span class="language-javascript">                .<span class="title function_">then</span>(<span class="function"><span class="params">response</span> =&gt;</span> response.<span class="title function_">json</span>()) <span class="comment">// 解析返回的 JSON 数据</span></span></span><br><span class="line"><span class="language-javascript">                .<span class="title function_">then</span>(<span class="function"><span class="params">data</span> =&gt;</span> &#123;</span></span><br><span class="line"><span class="language-javascript">                    <span class="comment">// 将新数据动态插入页面中</span></span></span><br><span class="line"><span class="language-javascript">                    <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;content&#x27;</span>).<span class="property">innerHTML</span> += <span class="string">`&lt;p&gt;<span class="subst">$&#123;data.newContent&#125;</span>&lt;/p&gt;`</span>;</span></span><br><span class="line"><span class="language-javascript">                &#125;)</span></span><br><span class="line"><span class="language-javascript">                .<span class="title function_">catch</span>(<span class="function"><span class="params">error</span> =&gt;</span> <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">&#x27;加载失败:&#x27;</span>, error));</span></span><br><span class="line"><span class="language-javascript">        &#125;);</span></span><br><span class="line"><span class="language-javascript">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></div>]]></content>
+      <categories>
+        <category>Python爬虫</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python 爬虫教程 09</title>
+    <url>/2024/10/21/09Python%E7%88%AC%E8%99%AB/</url>
+    <content><![CDATA[<h1 id="1-代码示例"><a href="#1-代码示例" class="headerlink" title="1.代码示例"></a>1.代码示例</h1><div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;https://www.spiderbuf.cn/playground/s08&quot;</span></span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line">html = requests.get(url=url, headers=headers).text</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/08course/08.html&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">f.write(html)</span><br><span class="line">f.close()</span><br><span class="line"></span><br><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/08course/data08.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    tds = tr.xpath(<span class="string">&#x27;./td&#x27;</span>)</span><br><span class="line">    s = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> td <span class="keyword">in</span> tds:</span><br><span class="line">        s = s + <span class="built_in">str</span>(td.xpath(<span class="string">&#x27;string(.)&#x27;</span>)) + <span class="string">&#x27;|&#x27;</span></span><br><span class="line">    <span class="built_in">print</span>(s)</span><br><span class="line">    <span class="keyword">if</span> s!= <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        f.write(s + <span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
+<p>直接运行这段代码是不会解析出任何数据的，同时可以看到抓取到的网页与我们想要的不一样。</p>
+<h1 id="2-网页分析"><a href="#2-网页分析" class="headerlink" title="2,网页分析"></a>2,网页分析</h1><p>打开浏览器控制台，选择<code>network</code>：<br><a href="https://imgse.com/i/pAa40dx"><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s21.ax1x.com/2024/10/21/pAa40dx.png"
+                      alt="控制台.png"
+                ><figcaption>控制台.png</figcaption></figure></a><br>可以发现，请求方式是<code>post</code>。所以我们就得在代码中采用<code>post</code>请求方式：</p>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;https://www.spiderbuf.cn/playground/s08&quot;</span></span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment"># 传入 post 请求中的数据</span></span><br><span class="line">payload = &#123;<span class="string">&#x27;level&#x27;</span>: <span class="string">&#x27;8&#x27;</span>&#125;</span><br><span class="line"><span class="comment"># post 请求</span></span><br><span class="line">html = requests.post(url=url, headers=headers, data=payload).text</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/08course/08.html&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">f.write(html)</span><br><span class="line">f.close()</span><br><span class="line"></span><br><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/08course/data08.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    tds = tr.xpath(<span class="string">&#x27;./td&#x27;</span>)</span><br><span class="line">    s = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> td <span class="keyword">in</span> tds:</span><br><span class="line">        s = s + <span class="built_in">str</span>(td.xpath(<span class="string">&#x27;string(.)&#x27;</span>)) + <span class="string">&#x27;|&#x27;</span></span><br><span class="line">    <span class="built_in">print</span>(s)</span><br><span class="line">    <span class="keyword">if</span> s!= <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        f.write(s + <span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
+
+<p><code>payload</code>是在这里：<br><a href="https://imgse.com/i/pAa4oY8"><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s21.ax1x.com/2024/10/21/pAa4oY8.png"
+                      alt="payload.png"
+                ><figcaption>payload.png</figcaption></figure></a></p>
+<p>可以参考这里：<a class="link"   href="https://requests.readthedocs.io/projects/cn/zh-cn/latest/user/quickstart.html#post" >更加复杂的 POST 请求 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+]]></content>
       <categories>
         <category>Python爬虫</category>
       </categories>
@@ -1224,6 +1224,70 @@
       </tags>
   </entry>
   <entry>
+    <title>使用Docker时的问题汇总和解决方式</title>
+    <url>/2024/07/24/Docker%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/</url>
+    <content><![CDATA[<h1 id="1-启动-Docker-失败"><a href="#1-启动-Docker-失败" class="headerlink" title="1.启动 Docker 失败"></a>1.启动 Docker 失败</h1><p>如果发现<code>docker</code>启动失败，可以通过以下命令输出<code>docker</code>运行日志来定位问题所在：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> journalctl -u docker.service --no-pager | <span class="built_in">tail</span> -n 50</span><br></pre></td></tr></table></figure></div>
+
+<p>如果问题仍无法解决，可以尝试更彻底的方法：</p>
+<ol>
+<li>卸载 Docker：</li>
+</ol>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -R docker</span><br></pre></td></tr></table></figure></div>
+
+<ol start="2">
+<li>删除 Docker 相关的所有数据和配置：</li>
+</ol>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> -rf /var/lib/docker</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> -rf /etc/docker</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> -rf ~/.docker</span><br></pre></td></tr></table></figure></div>
+
+<ol start="3">
+<li>重新安装 Docker：</li>
+</ol>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S docker</span><br></pre></td></tr></table></figure></div>
+
+<ol start="4">
+<li>启动 Docker 服务：</li>
+</ol>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start docker</span><br></pre></td></tr></table></figure></div>
+
+<ol start="5">
+<li>检查 Docker 服务状态：</li>
+</ol>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status docker</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="1-1-网络冲突导致启动失败"><a href="#1-1-网络冲突导致启动失败" class="headerlink" title="1.1 网络冲突导致启动失败"></a>1.1 网络冲突导致启动失败</h2><p>日志内容如下：</p>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">failed to start daemon: Error initializing network controller: error creating default &quot;bridge&quot; network: cannot create network c13e4912d03075485921194eecec303af8f714e77ad529759990f5b7ca155c68 (docker0): conflicts with network 1b9dcc9575e5af33281149149481d0eca4a5d60de0fac2f9264f0b265ab955db (docker0): networks have same bridge name</span><br></pre></td></tr></table></figure></div>
+<p>这个错误表明 Docker 试图创建默认的 bridge 网络，但是遇到了冲突，因为已经存在一个同名的网络。</p>
+<p><strong>解决办法：</strong></p>
+<ol>
+<li>停止 Docker 服务：</li>
+</ol>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl stop docker</span><br></pre></td></tr></table></figure></div>
+
+<ol start="2">
+<li>删除现有的 Docker 网络配置：</li>
+</ol>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> -rf /var/lib/docker/network</span><br></pre></td></tr></table></figure></div>
+
+<ol start="3">
+<li>删除 docker0 网桥：</li>
+</ol>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> ip <span class="built_in">link</span> delete docker0</span><br></pre></td></tr></table></figure></div>
+
+<ol start="4">
+<li>重新启动 Docker 服务：</li>
+</ol>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start docker</span><br></pre></td></tr></table></figure></div>
+
+<ol start="5">
+<li>检查 Docker 服务状态：</li>
+</ol>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status docker</span><br></pre></td></tr></table></figure></div>]]></content>
+      <tags>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Docker 教程</title>
     <url>/2024/07/24/Docker%E6%95%99%E7%A8%8B/</url>
     <content><![CDATA[<h1 id="一、基本指令"><a href="#一、基本指令" class="headerlink" title="一、基本指令"></a>一、基本指令</h1><h2 id="1-1-查看镜像版本"><a href="#1-1-查看镜像版本" class="headerlink" title="1.1 查看镜像版本"></a>1.1 查看镜像版本</h2><div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker inspect &lt;镜像ID&gt; | grep -i version</span><br></pre></td></tr></table></figure></div>
@@ -1432,70 +1496,6 @@
       <tags>
         <tag>docker</tag>
         <tag>proxy</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>使用Docker时的问题汇总和解决方式</title>
-    <url>/2024/07/24/Docker%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/</url>
-    <content><![CDATA[<h1 id="1-启动-Docker-失败"><a href="#1-启动-Docker-失败" class="headerlink" title="1.启动 Docker 失败"></a>1.启动 Docker 失败</h1><p>如果发现<code>docker</code>启动失败，可以通过以下命令输出<code>docker</code>运行日志来定位问题所在：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> journalctl -u docker.service --no-pager | <span class="built_in">tail</span> -n 50</span><br></pre></td></tr></table></figure></div>
-
-<p>如果问题仍无法解决，可以尝试更彻底的方法：</p>
-<ol>
-<li>卸载 Docker：</li>
-</ol>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -R docker</span><br></pre></td></tr></table></figure></div>
-
-<ol start="2">
-<li>删除 Docker 相关的所有数据和配置：</li>
-</ol>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> -rf /var/lib/docker</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> -rf /etc/docker</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> -rf ~/.docker</span><br></pre></td></tr></table></figure></div>
-
-<ol start="3">
-<li>重新安装 Docker：</li>
-</ol>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S docker</span><br></pre></td></tr></table></figure></div>
-
-<ol start="4">
-<li>启动 Docker 服务：</li>
-</ol>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start docker</span><br></pre></td></tr></table></figure></div>
-
-<ol start="5">
-<li>检查 Docker 服务状态：</li>
-</ol>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status docker</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="1-1-网络冲突导致启动失败"><a href="#1-1-网络冲突导致启动失败" class="headerlink" title="1.1 网络冲突导致启动失败"></a>1.1 网络冲突导致启动失败</h2><p>日志内容如下：</p>
-<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">failed to start daemon: Error initializing network controller: error creating default &quot;bridge&quot; network: cannot create network c13e4912d03075485921194eecec303af8f714e77ad529759990f5b7ca155c68 (docker0): conflicts with network 1b9dcc9575e5af33281149149481d0eca4a5d60de0fac2f9264f0b265ab955db (docker0): networks have same bridge name</span><br></pre></td></tr></table></figure></div>
-<p>这个错误表明 Docker 试图创建默认的 bridge 网络，但是遇到了冲突，因为已经存在一个同名的网络。</p>
-<p><strong>解决办法：</strong></p>
-<ol>
-<li>停止 Docker 服务：</li>
-</ol>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl stop docker</span><br></pre></td></tr></table></figure></div>
-
-<ol start="2">
-<li>删除现有的 Docker 网络配置：</li>
-</ol>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> -rf /var/lib/docker/network</span><br></pre></td></tr></table></figure></div>
-
-<ol start="3">
-<li>删除 docker0 网桥：</li>
-</ol>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> ip <span class="built_in">link</span> delete docker0</span><br></pre></td></tr></table></figure></div>
-
-<ol start="4">
-<li>重新启动 Docker 服务：</li>
-</ol>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start docker</span><br></pre></td></tr></table></figure></div>
-
-<ol start="5">
-<li>检查 Docker 服务状态：</li>
-</ol>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status docker</span><br></pre></td></tr></table></figure></div>]]></content>
-      <tags>
-        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -1913,33 +1913,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Linux(EndeavourOS) 下给 Steam 设置代理</title>
-    <url>/2024/07/24/Linux-Steam/</url>
-    <content><![CDATA[<h1 id="1-解决"><a href="#1-解决" class="headerlink" title="1.解决"></a>1.解决</h1><ol>
-<li><p>打开 Steam 大屏模式（ <strong>一定是大屏模式！</strong> ）。<br><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://nyalog.oss-cn-hongkong.aliyuncs.com/NyaLog/articles/Steam%20Linux%20%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/Steam-BigScreen-min.png"
-                      alt="大屏模式"
-                ><figcaption>大屏模式</figcaption></figure></p>
-</li>
-<li><p>然后在设置里进入网络设置界面，然后点开填入自己的代理地址和端口。<br><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://nyalog.oss-cn-hongkong.aliyuncs.com/NyaLog/articles/Steam%20Linux%20%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/Steam-proxy-min.png"
-                      alt="设置界面"
-                ><figcaption>设置界面</figcaption></figure></p>
-</li>
-<li><p>设置成功后退出重启 Steam 即可。</p>
-</li>
-</ol>
-]]></content>
-      <tags>
-        <tag>linux</tag>
-        <tag>steam</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Linux 环境下配置 Docker</title>
     <url>/2024/07/20/Linux-Docker/</url>
     <content><![CDATA[<h1 id="1、Docker-配置"><a href="#1、Docker-配置" class="headerlink" title="1、Docker 配置"></a>1、Docker 配置</h1><h2 id="1-1-安装-Docker"><a href="#1-1-安装-Docker" class="headerlink" title="1.1 安装 Docker"></a>1.1 安装 Docker</h2><ul>
@@ -2023,6 +1996,33 @@
       <tags>
         <tag>docker</tag>
         <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux(EndeavourOS) 下给 Steam 设置代理</title>
+    <url>/2024/07/24/Linux-Steam/</url>
+    <content><![CDATA[<h1 id="1-解决"><a href="#1-解决" class="headerlink" title="1.解决"></a>1.解决</h1><ol>
+<li><p>打开 Steam 大屏模式（ <strong>一定是大屏模式！</strong> ）。<br><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://nyalog.oss-cn-hongkong.aliyuncs.com/NyaLog/articles/Steam%20Linux%20%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/Steam-BigScreen-min.png"
+                      alt="大屏模式"
+                ><figcaption>大屏模式</figcaption></figure></p>
+</li>
+<li><p>然后在设置里进入网络设置界面，然后点开填入自己的代理地址和端口。<br><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://nyalog.oss-cn-hongkong.aliyuncs.com/NyaLog/articles/Steam%20Linux%20%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/Steam-proxy-min.png"
+                      alt="设置界面"
+                ><figcaption>设置界面</figcaption></figure></p>
+</li>
+<li><p>设置成功后退出重启 Steam 即可。</p>
+</li>
+</ol>
+]]></content>
+      <tags>
+        <tag>linux</tag>
+        <tag>steam</tag>
       </tags>
   </entry>
   <entry>
@@ -2137,6 +2137,12 @@
 <li><code>pacman -Qtdq</code>：列出所有未使用的孤立包。</li>
 <li><code>-Rns</code>：递归地卸载未使用的包及其配置文件。</li>
 </ul>
+<h2 id="1-5-查看安装包的文件及其路径"><a href="#1-5-查看安装包的文件及其路径" class="headerlink" title="1.5 查看安装包的文件及其路径"></a>1.5 查看安装包的文件及其路径</h2><div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -Ql boost</span><br></pre></td></tr></table></figure></div>
+
+<p>输出示例：</p>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">boost /usr/share/boostbook/xsl/source-highlight.xsl</span><br><span class="line">boost /usr/share/boostbook/xsl/template.xsl</span><br><span class="line">boost /usr/share/boostbook/xsl/testing/</span><br><span class="line">boost /usr/share/boostbook/xsl/testing/Jamfile.xsl</span><br><span class="line">boost /usr/share/boostbook/xsl/testing/testsuite.xsl</span><br><span class="line">boost /usr/share/boostbook/xsl/type.xsl</span><br><span class="line">boost /usr/share/boostbook/xsl/utility.xsl</span><br><span class="line">boost /usr/share/boostbook/xsl/xhtml.xsl</span><br><span class="line">boost /usr/share/boostbook/xsl/xref.xsl</span><br></pre></td></tr></table></figure></div>
+
+
 <h1 id="二、常用指令"><a href="#二、常用指令" class="headerlink" title="二、常用指令"></a>二、常用指令</h1><h2 id="2-1-查看开机启动项的方法"><a href="#2-1-查看开机启动项的方法" class="headerlink" title="2.1 查看开机启动项的方法"></a>2.1 查看开机启动项的方法</h2><h3 id="2-1-1-使用-systemctl-查看-systemd-服务"><a href="#2-1-1-使用-systemctl-查看-systemd-服务" class="headerlink" title="2.1.1 使用 systemctl 查看 systemd 服务"></a>2.1.1 使用 systemctl 查看 systemd 服务</h3><p>使用 <code>systemctl</code> 命令来列出所有启用的（开机自启动的）systemd 服务：</p>
 <div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">systemctl list-unit-files --<span class="built_in">type</span>=service --state=enabled</span><br></pre></td></tr></table></figure></div>
 
@@ -3021,6 +3027,67 @@
       </tags>
   </entry>
   <entry>
+    <title>CMake 基础教程</title>
+    <url>/2024/11/29/cmake%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/</url>
+    <content><![CDATA[<h1 id="1-构建指令"><a href="#1-构建指令" class="headerlink" title="1.构建指令"></a>1.构建指令</h1><p>现代<code>CMake</code>提供了更方便的<code>-B</code>和<code>--build</code>指令，不同平台，统一命令！</p>
+<p>在源码目录用<code>-B</code>直接创建<code>build</code>目录并生成<code>build/Makefile</code>:</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">cmake -B build</span><br></pre></td></tr></table></figure></div>
+<p>这种方式免去了先创建<code>build</code>目录再切换进去再指定源码目录的麻烦。</p>
+<p>示例如下：<br><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s2.loli.net/2024/11/29/tL9qsWvMekI3zcw.png"
+                      alt="示例1"
+                ><figcaption>示例1</figcaption></figure></p>
+<p>自动调用本地的构建系统在<code>build</code>里构建，相当于<code>make -C build -j4</code>：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">cmake --build build -j4</span><br></pre></td></tr></table></figure></div>
+<p>这种方式统一了不同平台（Linux 上会调用<code>make</code>，Windows 上调用<code>devenv.exe</code>）</p>
+<p>调用本地的构建系统执行<code>install</code>这个目标，即安装：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> cmake --build build --target install</span><br></pre></td></tr></table></figure></div>
+<p>相当于 Linux 下的<code>sudo make install</code>。</p>
+<p>结论：从现在开始，如果在命令行操作<code>cmake</code>，请使用更方便的<code>-B</code>和<code>--build</code>命令。</p>
+<h1 id="2-生成器"><a href="#2-生成器" class="headerlink" title="2.生成器"></a>2.生成器</h1><ul>
+<li>Linux 系统上的<code>CMake</code>默认用是<code>Unix Makefiles</code>生成器；Windows 系统默认是<code>Visual Studio 2019</code>生成器；MacOS 系统默认是<code>Xcode</code>生成器。</li>
+<li>可以用<code>-G</code>参数改用别的生成器，例如<code>cmake -G Ninja</code>会生成<code>Ninja</code>这个构建系统的构建规则。<code>Ninja</code>是一个高性能，跨平台的构建系统，Linux、Windows、MacOS上都可以用。</li>
+<li><code>Ninja</code>可以从包管理器里安装，没有包管理器的 Windows 可以用 Python 的包管理器安装：<code>pip install ninja</code>（有趣的事实：<code>CMake</code>也可以通过<code>pip install cmake</code>安装）。</li>
+<li>事实上，<code>MSBuild</code>是单核心的构建系统，<code>Makefile</code>虽然多核心，但因历史兼容原因效率一般。而<code>Ninja</code>则是专为性能优化的构建系统，它和<code>CMake</code>结合都是行业标准了。</li>
+</ul>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">cmake -G Ninja -B build</span><br></pre></td></tr></table></figure></div>
+<p>注：<code>-G Ninja</code>还可以写成<code>-GNinja</code>和<code>-G &quot;Ninja&quot;</code>（推荐这种）。在 Linux 上没有指定的话，默认是<code>-G &quot;Unix Makefiles&quot;</code>。</p>
+<p>如图所示：<br><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s2.loli.net/2024/11/29/5veQ3nHVUhT7ipl.png"
+                      alt="示例2"
+                ><figcaption>示例2</figcaption></figure></p>
+<h2 id="2-1-Ninja和Makefile的简单对比："><a href="#2-1-Ninja和Makefile的简单对比：" class="headerlink" title="2.1 Ninja和Makefile的简单对比："></a>2.1 <code>Ninja</code>和<code>Makefile</code>的简单对比：</h2><p><code>ninja</code>花费的时间：<br><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s2.loli.net/2024/11/29/sha1dGMkHTNuQ8A.png"
+                      alt="ninja.png"
+                ><figcaption>ninja.png</figcaption></figure></p>
+<p><code>make</code>花费的时间：<br><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s2.loli.net/2024/11/29/kfcOwtZbQV4UMA5.png"
+                      alt="make.png"
+                ><figcaption>make.png</figcaption></figure></p>
+<p>从两幅图对比可以看出，<code>ninja</code>花费的时间更少，效率更高。</p>
+<p>事实上，在性能上：<code>Ninja &gt; Makefile &gt; MSBuild</code>。<code>Makefile</code>启动时会把每个文件都检测一遍，浪费很多时间。特别是有很多文件，但是实际需要构建的只有一小部分，从而是<code>I/O Bound</code>的时候，<code>Ninja</code>的速度提升就很明显。然而某些专利公司的<code>CUDA toolkit</code>在 Windows 上只允许用<code>MSBuild</code>构建，不能用<code>Ninja</code>（怕不是和<code>Bill Gates</code>有什么交易，哈哈）。</p>
+<h1 id="3-编译器设置"><a href="#3-编译器设置" class="headerlink" title="3.编译器设置"></a>3.编译器设置</h1><p>可以在<code>CMakeLists.txt</code>中添加：</p>
+<div class="highlight-container" data-rel="Cmake"><figure class="iseeu highlight cmake"><table><tr><td class="code"><pre><span class="line"><span class="keyword">set</span>(CMAKE_C_COMPILER clang)</span><br><span class="line"><span class="keyword">set</span>(CMAKE_CXX_COMPILER clang++)</span><br></pre></td></tr></table></figure></div>
+<p>指定编译器为<code>clang</code>和<code>clang++</code>。不指定的话，默认是<code>gcc</code>和<code>g++</code>。</p>
+<p>也可以在命令行阶段指定：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">cmake -B build -G Ninja -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++</span><br></pre></td></tr></table></figure></div>]]></content>
+      <categories>
+        <category>C++</category>
+      </categories>
+      <tags>
+        <tag>c++</tag>
+        <tag>cmake</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>firewall 的常用指令</title>
     <url>/2024/09/11/firewall%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/</url>
     <content><![CDATA[<h1 id="1-检查-firewall"><a href="#1-检查-firewall" class="headerlink" title="1.检查 firewall"></a>1.检查 firewall</h1><p>是否安装：</p>
@@ -3374,6 +3441,38 @@
       </tags>
   </entry>
   <entry>
+    <title>搭建代理池</title>
+    <url>/2024/10/17/%E6%90%AD%E5%BB%BA%E4%BB%A3%E7%90%86%E6%B1%A0/</url>
+    <content><![CDATA[<h1 id="1-开源项目地址"><a href="#1-开源项目地址" class="headerlink" title="1.开源项目地址"></a>1.开源项目地址</h1><p><a class="link"   href="https://github.com/jhao104/proxy_pool" >jhao104&#x2F;proxy_pool <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<h1 id="2-搭建教程"><a href="#2-搭建教程" class="headerlink" title="2.搭建教程"></a>2.搭建教程</h1><h2 id="2-1-通过-docker-搭建"><a href="#2-1-通过-docker-搭建" class="headerlink" title="2.1 通过 docker 搭建"></a>2.1 通过 docker 搭建</h2><p>默认情况下，Docker 容器彼此无法通过<code>localhost</code>访问，需要通过容器的网络名称（桥接网络：<code>bridge</code>）进行通信。因此可以将<code>proxy_pool</code>和<code>redis</code>放在同一个 Docker 网络中。</p>
+<p><strong>创建网络：</strong></p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker network create mynetwork</span><br></pre></td></tr></table></figure></div>
+
+<p><strong>运行 Redis 容器并加入网络：</strong></p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -d --name redis --network=mynetwork -p 6379:6379 redis:latest</span><br></pre></td></tr></table></figure></div>
+
+<p><strong>运行<code>proxy_pool</code>容器并连接 Redis：</strong></p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -d --name proxy_pool --network=mynetwork --<span class="built_in">env</span> DB_CONN=redis://redis:6379/0 -p 5010:5010 jhao104/proxy_pool:latest</span><br></pre></td></tr></table></figure></div>
+
+<p><strong>查看日志信息：</strong></p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker logs proxy_pool</span><br></pre></td></tr></table></figure></div>
+
+<p>这是很就能看到获得的代理地址和端口。如下面所示：</p>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 39.175.75.144:30001     ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 8.221.141.88:8443       ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 47.109.83.196:8080      ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 185.49.31.205:8080      ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 72.10.160.171:11319     ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 102.213.146.206:8080    ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 79.110.202.131:8081     ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 178.130.40.231:8080     ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 188.166.56.246:80       ok</span><br></pre></td></tr></table></figure></div>
+
+<h1 id="3-使用教程"><a href="#3-使用教程" class="headerlink" title="3.使用教程"></a>3.使用教程</h1><p>代码示例：</p>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_proxy</span>():</span><br><span class="line">    <span class="keyword">return</span> requests.get(<span class="string">&quot;http://127.0.0.1:5010/get/&quot;</span>).json()</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">delete_proxy</span>(<span class="params">proxy</span>):</span><br><span class="line">    requests.get(<span class="string">&quot;http://127.0.0.1:5010/delete/?proxy=&#123;&#125;&quot;</span>.<span class="built_in">format</span>(proxy))</span><br><span class="line"></span><br><span class="line"><span class="comment"># your spider code</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">getHtml</span>(<span class="params">url, headers</span>):</span><br><span class="line">    retry_count = <span class="number">15</span></span><br><span class="line">    <span class="keyword">while</span> retry_count &gt; <span class="number">0</span>:</span><br><span class="line">        proxy = get_proxy().get(<span class="string">&quot;proxy&quot;</span>)</span><br><span class="line">        proxies = &#123;</span><br><span class="line">            <span class="string">&quot;http&quot;</span>: <span class="string">&quot;http://&quot;</span> + proxy,</span><br><span class="line">            <span class="string">&quot;https&quot;</span>: <span class="string">&quot;http://&quot;</span> + proxy</span><br><span class="line">            &#125;</span><br><span class="line">        <span class="built_in">print</span>(get_proxy().get(<span class="string">&quot;proxy&quot;</span>))</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="comment"># 使用代理访问</span></span><br><span class="line">            html = requests.get(url=url, headers=headers, proxies=proxies, timeout=<span class="number">5</span>)</span><br><span class="line">            <span class="keyword">return</span> html.text</span><br><span class="line">        <span class="keyword">except</span> Exception:</span><br><span class="line">            retry_count -= <span class="number">1</span></span><br><span class="line">            <span class="comment"># 删除代理池中代理</span></span><br><span class="line">            delete_proxy(proxy)</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;https://wuhan.anjuke.com/sale/p1/?from=esf_list&quot;</span></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36&quot;</span>,</span><br><span class="line">    <span class="string">&quot;Cookie&quot;</span>:  <span class="string">&quot;your-cookie&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">html_data = getHtml(url, headers)</span><br><span class="line"><span class="built_in">print</span>(html_data)</span><br></pre></td></tr></table></figure></div>
+<p><code>getHtml</code>函数中，会通过<code>while</code>循环来切换代理<code>ip</code>和<code>port</code>，直到请求成功，然后返回出结果并退出循环。</p>
+]]></content>
+      <categories>
+        <category>Python技巧</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>从源码安装 SSH</title>
     <url>/2024/09/11/%E4%BB%8E%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85SSH/</url>
     <content><![CDATA[<h1 id="1-构建基础镜像"><a href="#1-构建基础镜像" class="headerlink" title="1.构建基础镜像"></a>1.构建基础镜像</h1><p>在当期目录下（与<code>Dockerfile</code>同目录），添加<code>sources.list</code>文件，并添加镜像源：</p>
@@ -3479,38 +3578,6 @@
       <tags>
         <tag>linux</tag>
         <tag>ssh</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>搭建代理池</title>
-    <url>/2024/10/17/%E6%90%AD%E5%BB%BA%E4%BB%A3%E7%90%86%E6%B1%A0/</url>
-    <content><![CDATA[<h1 id="1-开源项目地址"><a href="#1-开源项目地址" class="headerlink" title="1.开源项目地址"></a>1.开源项目地址</h1><p><a class="link"   href="https://github.com/jhao104/proxy_pool" >jhao104&#x2F;proxy_pool <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
-<h1 id="2-搭建教程"><a href="#2-搭建教程" class="headerlink" title="2.搭建教程"></a>2.搭建教程</h1><h2 id="2-1-通过-docker-搭建"><a href="#2-1-通过-docker-搭建" class="headerlink" title="2.1 通过 docker 搭建"></a>2.1 通过 docker 搭建</h2><p>默认情况下，Docker 容器彼此无法通过<code>localhost</code>访问，需要通过容器的网络名称（桥接网络：<code>bridge</code>）进行通信。因此可以将<code>proxy_pool</code>和<code>redis</code>放在同一个 Docker 网络中。</p>
-<p><strong>创建网络：</strong></p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker network create mynetwork</span><br></pre></td></tr></table></figure></div>
-
-<p><strong>运行 Redis 容器并加入网络：</strong></p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -d --name redis --network=mynetwork -p 6379:6379 redis:latest</span><br></pre></td></tr></table></figure></div>
-
-<p><strong>运行<code>proxy_pool</code>容器并连接 Redis：</strong></p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -d --name proxy_pool --network=mynetwork --<span class="built_in">env</span> DB_CONN=redis://redis:6379/0 -p 5010:5010 jhao104/proxy_pool:latest</span><br></pre></td></tr></table></figure></div>
-
-<p><strong>查看日志信息：</strong></p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker logs proxy_pool</span><br></pre></td></tr></table></figure></div>
-
-<p>这是很就能看到获得的代理地址和端口。如下面所示：</p>
-<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 39.175.75.144:30001     ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 8.221.141.88:8443       ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 47.109.83.196:8080      ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 185.49.31.205:8080      ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 72.10.160.171:11319     ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 102.213.146.206:8080    ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 79.110.202.131:8081     ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 178.130.40.231:8080     ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 188.166.56.246:80       ok</span><br></pre></td></tr></table></figure></div>
-
-<h1 id="3-使用教程"><a href="#3-使用教程" class="headerlink" title="3.使用教程"></a>3.使用教程</h1><p>代码示例：</p>
-<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_proxy</span>():</span><br><span class="line">    <span class="keyword">return</span> requests.get(<span class="string">&quot;http://127.0.0.1:5010/get/&quot;</span>).json()</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">delete_proxy</span>(<span class="params">proxy</span>):</span><br><span class="line">    requests.get(<span class="string">&quot;http://127.0.0.1:5010/delete/?proxy=&#123;&#125;&quot;</span>.<span class="built_in">format</span>(proxy))</span><br><span class="line"></span><br><span class="line"><span class="comment"># your spider code</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">getHtml</span>(<span class="params">url, headers</span>):</span><br><span class="line">    retry_count = <span class="number">15</span></span><br><span class="line">    <span class="keyword">while</span> retry_count &gt; <span class="number">0</span>:</span><br><span class="line">        proxy = get_proxy().get(<span class="string">&quot;proxy&quot;</span>)</span><br><span class="line">        proxies = &#123;</span><br><span class="line">            <span class="string">&quot;http&quot;</span>: <span class="string">&quot;http://&quot;</span> + proxy,</span><br><span class="line">            <span class="string">&quot;https&quot;</span>: <span class="string">&quot;http://&quot;</span> + proxy</span><br><span class="line">            &#125;</span><br><span class="line">        <span class="built_in">print</span>(get_proxy().get(<span class="string">&quot;proxy&quot;</span>))</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="comment"># 使用代理访问</span></span><br><span class="line">            html = requests.get(url=url, headers=headers, proxies=proxies, timeout=<span class="number">5</span>)</span><br><span class="line">            <span class="keyword">return</span> html.text</span><br><span class="line">        <span class="keyword">except</span> Exception:</span><br><span class="line">            retry_count -= <span class="number">1</span></span><br><span class="line">            <span class="comment"># 删除代理池中代理</span></span><br><span class="line">            delete_proxy(proxy)</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;https://wuhan.anjuke.com/sale/p1/?from=esf_list&quot;</span></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36&quot;</span>,</span><br><span class="line">    <span class="string">&quot;Cookie&quot;</span>:  <span class="string">&quot;your-cookie&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">html_data = getHtml(url, headers)</span><br><span class="line"><span class="built_in">print</span>(html_data)</span><br></pre></td></tr></table></figure></div>
-<p><code>getHtml</code>函数中，会通过<code>while</code>循环来切换代理<code>ip</code>和<code>port</code>，直到请求成功，然后返回出结果并退出循环。</p>
-]]></content>
-      <categories>
-        <category>Python技巧</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-        <tag>docker</tag>
       </tags>
   </entry>
 </search>
