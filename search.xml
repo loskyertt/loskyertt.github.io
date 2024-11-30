@@ -345,7 +345,7 @@
   <entry>
     <title>Python 爬虫教程 02</title>
     <url>/2024/10/17/02Python%E7%88%AC%E8%99%AB/</url>
-    <content><![CDATA[<h1 id="1-测试网址"><a href="#1-测试网址" class="headerlink" title="1.测试网址"></a>1.测试网址</h1><p><a class="link"   href="https://www.spiderbuf.cn/list" >测试网站 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+    <content><![CDATA[<h1 id="1-测试网址"><a href="#1-测试网址" class="headerlink" title="1.测试网址"></a>1.测试网址</h1><p><a class="link"   href="https://www.spiderbuf.cn/list" >测试网站<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
 <h1 id="2-编写代码"><a href="#2-编写代码" class="headerlink" title="2.编写代码"></a>2.编写代码</h1><h2 id="2-1-代码示例"><a href="#2-1-代码示例" class="headerlink" title="2.1 代码示例"></a>2.1 代码示例</h2><div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;https://spiderbuf.cn/playground/s01&quot;</span></span><br><span class="line"></span><br><span class="line">html = requests.get(url=url).text</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/01course/01.html&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">f.write(html)</span><br><span class="line">f.close()</span><br><span class="line"></span><br><span class="line"><span class="comment"># print(html)</span></span><br><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/01course/data01.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    tds = tr.xpath(<span class="string">&#x27;./td&#x27;</span>)</span><br><span class="line">    s = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> td <span class="keyword">in</span> tds:</span><br><span class="line">        <span class="comment"># 这里加 str 是为了防止 &lt;td&gt;&lt;/td&gt; 之间是空数据</span></span><br><span class="line">        s = s + <span class="built_in">str</span>(td.text) + <span class="string">&#x27; | &#x27;</span></span><br><span class="line">    <span class="built_in">print</span>(s)</span><br><span class="line">    <span class="comment"># 保存解析到的数据到本地</span></span><br><span class="line">    <span class="keyword">if</span> s!= <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        f.write(s + <span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
 
 <p>在很多时候，建议先把请求到的网页内容保存到本地（如上面代码所示），因为有时候解析数据无法一次性解析成功，那就会再向网页发送请求，这样不断的去访问服务器，就容易被服务器检测到是爬虫。</p>
@@ -671,7 +671,7 @@
                      data-src="https://s21.ax1x.com/2024/10/21/pAa4oY8.png"
                       alt="payload.png"
                 ><figcaption>payload.png</figcaption></figure></a></p>
-<p>可以参考这里：<a class="link"   href="https://requests.readthedocs.io/projects/cn/zh-cn/latest/user/quickstart.html#post" >更加复杂的 POST 请求 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<p>可以参考这里：<a class="link"   href="https://requests.readthedocs.io/projects/cn/zh-cn/latest/user/quickstart.html#post" >更加复杂的 POST 请求<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
 ]]></content>
       <categories>
         <category>Python爬虫</category>
@@ -880,13 +880,28 @@
       </tags>
   </entry>
   <entry>
+    <title>Dockerfile 教程</title>
+    <url>/2024/09/03/Dockerfile%E6%95%99%E7%A8%8B/</url>
+    <content><![CDATA[<h1 id="1-代理配置"><a href="#1-代理配置" class="headerlink" title="1.代理配置"></a>1.代理配置</h1><p>有时侯在构建镜像时，需要执行一些下载操作，没有配置国内镜像源的话，下载速度可能会很慢甚至出错，所以需要在 Dockerfile 中配置代理。</p>
+<p>在 Dockerfile 中加上：</p>
+<div class="highlight-container" data-rel="Dockerfile"><figure class="iseeu highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="keyword">ENV</span> http_proxy=http://your-proxy-address:port/</span><br><span class="line"><span class="keyword">ENV</span> https_proxy=http://your-proxy-address:port/</span><br></pre></td></tr></table></figure></div>
+
+<p><code>http_proxy</code>和<code>https_proxy</code>：这两个环境变量分别用于<code>HTTP</code>和<code>HTTPS</code>的代理服务器地址。你需要将<code>your-proxy-address:port</code>替换为宿主机在当前网络下的 IP 地址和代理端口。注意这里是宿主机的实际<code>IP</code>地址，不是本地回环（<code>loop</code>）地址。同过<code>ifconfig</code>或者<code>ip a</code>查看。</p>
+<p>这属于是 docker 的环境变量设置，环境变量通常不会自动写入容器中的配置文件，如<code>.bashrc</code>或<code>/etc/environment</code>，但它们会在容器启动时自动加载。</p>
+]]></content>
+      <tags>
+        <tag>docker</tag>
+        <tag>proxy</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Openwrt 在 Docker 下运行并作为旁路由</title>
     <url>/2024/07/30/Docker-Openwrt/</url>
     <content><![CDATA[<h1 id="1-前言"><a href="#1-前言" class="headerlink" title="1.前言"></a>1.前言</h1><p>这几天想试着玩一下<code>Openwrt</code>来作旁路由，但是又没有软路由固件，后来考虑到<code>Openwrt</code>也是基于 Linux 的，那么在 Docker Hub 上应该有其对应的镜像吧，然后查了下果真有。于是有了后续的操作 … …</p>
-<p><strong>推荐的镜像：</strong> <a class="link"   href="https://hub.docker.com/r/zzsrv/openwrt" >zzsrv&#x2F;openwrt <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<p><strong>推荐的镜像：</strong> <a class="link"   href="https://hub.docker.com/r/zzsrv/openwrt" >zzsrv&#x2F;openwrt<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
 <h1 id="2-准备工作"><a href="#2-准备工作" class="headerlink" title="2.准备工作"></a>2.准备工作</h1><p>建议是在虚拟机上安装一个 Linux 系统，我在实体机上（Linux 系统）试了下，是能成功，但是在该电脑上无法访问<code>Openwrt</code>的 <code>ip</code>地址，在其它设备（比如手机）能正常访问（需要多做一些配置）。</p>
-<h2 id="2-1-虚拟机安装"><a href="#2-1-虚拟机安装" class="headerlink" title="2.1 虚拟机安装"></a>2.1 虚拟机安装</h2><p>虚拟机在这里只推荐<code>VirtualBox</code>。<a class="link"   href="https://www.virtualbox.org/wiki/Downloads" >下载地址 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
-<p>还需要下载插件：<a class="link"   href="https://download.virtualbox.org/virtualbox/7.0.20/Oracle_VM_VirtualBox_Extension_Pack-7.0.20.vbox-extpack" >点这里 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a><br>或者点图片这里红色方框处的下载连接：<br><figure class="image-caption"><img  
+<h2 id="2-1-虚拟机安装"><a href="#2-1-虚拟机安装" class="headerlink" title="2.1 虚拟机安装"></a>2.1 虚拟机安装</h2><p>虚拟机在这里只推荐<code>VirtualBox</code>。<a class="link"   href="https://www.virtualbox.org/wiki/Downloads" >下载地址<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<p>还需要下载插件：<a class="link"   href="https://download.virtualbox.org/virtualbox/7.0.20/Oracle_VM_VirtualBox_Extension_Pack-7.0.20.vbox-extpack" >点这里<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a><br>或者点图片这里红色方框处的下载连接：<br><figure class="image-caption"><img  
                      lazyload
                      src="/images/loading.svg"
                      data-src="https://im.gurl.eu.org/file/15123858a31e537afcf88.png"
@@ -895,9 +910,9 @@
 <p>下载完后直接双击下载好后的扩展，就能自动安装到 VirtualBox 中。</p>
 <h2 id="2-2-Linux安装"><a href="#2-2-Linux安装" class="headerlink" title="2.2 Linux安装"></a>2.2 Linux安装</h2><p>推荐的 Linux 发行版：</p>
 <ul>
-<li><a class="link"   href="https://endeavouros.com/#Download" >EndeavourOS <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a> </li>
-<li><a class="link"   href="https://cachyos.org/download/" >CachyOS <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>，建议下载<code>Desktop Edition</code>版本</li>
-<li><a class="link"   href="https://www.linuxmint.com/download.php" >LinuxMint <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>，建议下载<code>Xfce Edition</code>版本</li>
+<li><a class="link"   href="https://endeavouros.com/#Download" >EndeavourOS<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> </li>
+<li><a class="link"   href="https://cachyos.org/download/" >CachyOS<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>，建议下载<code>Desktop Edition</code>版本</li>
+<li><a class="link"   href="https://www.linuxmint.com/download.php" >LinuxMint<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>，建议下载<code>Xfce Edition</code>版本</li>
 </ul>
 <p>前两个是<code>Arch</code>系的发行版，<code>LinuxMint</code>应该是<code>Debian</code>系的发行版。我这里用的是<code>CachyOS</code>，因为正好想尝试下这个发行版，好处是配置有国内的镜像源，下载东西嘎嘎快。<br>在安装时最好选择有桌面环境，并且桌面选择<code>xfce4</code>，毕竟轻量嘛，在虚拟机里用着也会更流畅。当然，也可以不需要桌面环境，那么在安装时就必须把语言设置为英语，因为终端界面的中文会是乱码，而且没有图形化界面也不好配置。</p>
 <h2 id="2-3-虚拟机的创建"><a href="#2-3-虚拟机的创建" class="headerlink" title="2.3 虚拟机的创建"></a>2.3 虚拟机的创建</h2><p><figure class="image-caption"><img  
@@ -1139,9 +1154,9 @@
 </li>
 </ol>
 <h1 id="7-参考教程"><a href="#7-参考教程" class="headerlink" title="7.参考教程"></a>7.参考教程</h1><ul>
-<li><a class="link"   href="https://www.youtube.com/watch?v=6OeGOK2-1zo&list=PL7XUZPsvfw3CKvDijuA5CO_oLbBwJCYTt&index=4" >docker + openwrt把windows变成最强软路由，游戏、翻墙两不误(Linux-Mint&#x2F;ubuntu、VirtualBox、docker、openwrt) <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></li>
-<li><a class="link"   href="https://www.youtube.com/watch?v=mlsTzDsBhLs&list=PL7XUZPsvfw3CKvDijuA5CO_oLbBwJCYTt&index=6" >Openwrt Docker 镜像 安装详细过程实现科学上网，没有设备也可以体验|软路由|旁路网关 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></li>
-<li><a class="link"   href="https://hub.docker.com/r/zzsrv/openwrt" >zzsrv&#x2F;openwrt <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></li>
+<li><a class="link"   href="https://www.youtube.com/watch?v=6OeGOK2-1zo&list=PL7XUZPsvfw3CKvDijuA5CO_oLbBwJCYTt&index=4" >docker + openwrt把windows变成最强软路由，游戏、翻墙两不误(Linux-Mint&#x2F;ubuntu、VirtualBox、docker、openwrt)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link"   href="https://www.youtube.com/watch?v=mlsTzDsBhLs&list=PL7XUZPsvfw3CKvDijuA5CO_oLbBwJCYTt&index=6" >Openwrt Docker 镜像 安装详细过程实现科学上网，没有设备也可以体验|软路由|旁路网关<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link"   href="https://hub.docker.com/r/zzsrv/openwrt" >zzsrv&#x2F;openwrt<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
 </ul>
 ]]></content>
       <categories>
@@ -1149,25 +1164,10 @@
       </categories>
       <tags>
         <tag>docker</tag>
-        <tag>linux</tag>
         <tag>proxy</tag>
+        <tag>linux</tag>
         <tag>openwrt</tag>
         <tag>虚拟机</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Dockerfile 教程</title>
-    <url>/2024/09/03/Dockerfile%E6%95%99%E7%A8%8B/</url>
-    <content><![CDATA[<h1 id="1-代理配置"><a href="#1-代理配置" class="headerlink" title="1.代理配置"></a>1.代理配置</h1><p>有时侯在构建镜像时，需要执行一些下载操作，没有配置国内镜像源的话，下载速度可能会很慢甚至出错，所以需要在 Dockerfile 中配置代理。</p>
-<p>在 Dockerfile 中加上：</p>
-<div class="highlight-container" data-rel="Dockerfile"><figure class="iseeu highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="keyword">ENV</span> http_proxy=http://your-proxy-address:port/</span><br><span class="line"><span class="keyword">ENV</span> https_proxy=http://your-proxy-address:port/</span><br></pre></td></tr></table></figure></div>
-
-<p><code>http_proxy</code>和<code>https_proxy</code>：这两个环境变量分别用于<code>HTTP</code>和<code>HTTPS</code>的代理服务器地址。你需要将<code>your-proxy-address:port</code>替换为宿主机在当前网络下的 IP 地址和代理端口。注意这里是宿主机的实际<code>IP</code>地址，不是本地回环（<code>loop</code>）地址。同过<code>ifconfig</code>或者<code>ip a</code>查看。</p>
-<p>这属于是 docker 的环境变量设置，环境变量通常不会自动写入容器中的配置文件，如<code>.bashrc</code>或<code>/etc/environment</code>，但它们会在容器启动时自动加载。</p>
-]]></content>
-      <tags>
-        <tag>docker</tag>
-        <tag>proxy</tag>
       </tags>
   </entry>
   <entry>
@@ -1193,7 +1193,7 @@
                      data-src="https://ivonblog.com/posts/archlinux-install-nvidia-drivers/images/Screenshot_20231226_160611.webp"
                       alt="nvidia-smi"
                 ><figcaption>nvidia-smi</figcaption></figure></p>
-<h1 id="2-各个-CUDA-tag的区别"><a href="#2-各个-CUDA-tag的区别" class="headerlink" title="2.各个 CUDA tag的区别"></a>2.各个 CUDA <code>tag</code>的区别</h1><p>其它 CUDA 镜像可以通过在 DockerHub 找到：<a class="link"   href="https://hub.docker.com/r/nvidia/cuda" >nvidia&#x2F;cuda <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<h1 id="2-各个-CUDA-tag的区别"><a href="#2-各个-CUDA-tag的区别" class="headerlink" title="2.各个 CUDA tag的区别"></a>2.各个 CUDA <code>tag</code>的区别</h1><p>其它 CUDA 镜像可以通过在 DockerHub 找到：<a class="link"   href="https://hub.docker.com/r/nvidia/cuda" >nvidia&#x2F;cuda<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
 <ol>
 <li><strong>Base</strong> : Includes only the CUDA runtime (cudart), which is essential for running CUDA-based applications but doesn’t come with extra libraries or development tools.</li>
 <li><strong>Runtime</strong> : Builds on the <code>base</code> image and adds CUDA math libraries like cuBLAS, cuFFT, and cuRAND. This version is suitable for running applications that require these additional libraries without needing to compile CUDA code.</li>
@@ -1201,7 +1201,7 @@
 <li><strong>CUDNN&#x2F;Devel Runtime</strong> : Adds cuDNN libraries to the runtime or devel image for working with deep learning applications.</li>
 </ol>
 <p>Different versions also support various operating systems like Ubuntu 20.04, 22.04, or 24.04. The <code>devel</code> tags are especially useful when you need to compile custom CUDA code, whereas the <code>runtime</code> tags are lighter and designed for deployment【76†source】【77†source】.</p>
-<h1 id="3-搭建-PyTorch"><a href="#3-搭建-PyTorch" class="headerlink" title="3.搭建 PyTorch"></a>3.搭建 PyTorch</h1><p>根据需要拉取<code>PyTorch</code>镜像：<a class="link"   href="https://hub.docker.com/r/pytorch/pytorch" >pytorch&#x2F;pytorch <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<h1 id="3-搭建-PyTorch"><a href="#3-搭建-PyTorch" class="headerlink" title="3.搭建 PyTorch"></a>3.搭建 PyTorch</h1><p>根据需要拉取<code>PyTorch</code>镜像：<a class="link"   href="https://hub.docker.com/r/pytorch/pytorch" >pytorch&#x2F;pytorch<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
 <p>我这里以最新版为例：</p>
 <div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker pull pytorch/pytorch</span><br></pre></td></tr></table></figure></div>
 
@@ -1219,70 +1219,6 @@
       <categories>
         <category>深度学习</category>
       </categories>
-      <tags>
-        <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>使用Docker时的问题汇总和解决方式</title>
-    <url>/2024/07/24/Docker%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/</url>
-    <content><![CDATA[<h1 id="1-启动-Docker-失败"><a href="#1-启动-Docker-失败" class="headerlink" title="1.启动 Docker 失败"></a>1.启动 Docker 失败</h1><p>如果发现<code>docker</code>启动失败，可以通过以下命令输出<code>docker</code>运行日志来定位问题所在：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> journalctl -u docker.service --no-pager | <span class="built_in">tail</span> -n 50</span><br></pre></td></tr></table></figure></div>
-
-<p>如果问题仍无法解决，可以尝试更彻底的方法：</p>
-<ol>
-<li>卸载 Docker：</li>
-</ol>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -R docker</span><br></pre></td></tr></table></figure></div>
-
-<ol start="2">
-<li>删除 Docker 相关的所有数据和配置：</li>
-</ol>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> -rf /var/lib/docker</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> -rf /etc/docker</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> -rf ~/.docker</span><br></pre></td></tr></table></figure></div>
-
-<ol start="3">
-<li>重新安装 Docker：</li>
-</ol>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S docker</span><br></pre></td></tr></table></figure></div>
-
-<ol start="4">
-<li>启动 Docker 服务：</li>
-</ol>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start docker</span><br></pre></td></tr></table></figure></div>
-
-<ol start="5">
-<li>检查 Docker 服务状态：</li>
-</ol>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status docker</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="1-1-网络冲突导致启动失败"><a href="#1-1-网络冲突导致启动失败" class="headerlink" title="1.1 网络冲突导致启动失败"></a>1.1 网络冲突导致启动失败</h2><p>日志内容如下：</p>
-<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">failed to start daemon: Error initializing network controller: error creating default &quot;bridge&quot; network: cannot create network c13e4912d03075485921194eecec303af8f714e77ad529759990f5b7ca155c68 (docker0): conflicts with network 1b9dcc9575e5af33281149149481d0eca4a5d60de0fac2f9264f0b265ab955db (docker0): networks have same bridge name</span><br></pre></td></tr></table></figure></div>
-<p>这个错误表明 Docker 试图创建默认的 bridge 网络，但是遇到了冲突，因为已经存在一个同名的网络。</p>
-<p><strong>解决办法：</strong></p>
-<ol>
-<li>停止 Docker 服务：</li>
-</ol>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl stop docker</span><br></pre></td></tr></table></figure></div>
-
-<ol start="2">
-<li>删除现有的 Docker 网络配置：</li>
-</ol>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> -rf /var/lib/docker/network</span><br></pre></td></tr></table></figure></div>
-
-<ol start="3">
-<li>删除 docker0 网桥：</li>
-</ol>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> ip <span class="built_in">link</span> delete docker0</span><br></pre></td></tr></table></figure></div>
-
-<ol start="4">
-<li>重新启动 Docker 服务：</li>
-</ol>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start docker</span><br></pre></td></tr></table></figure></div>
-
-<ol start="5">
-<li>检查 Docker 服务状态：</li>
-</ol>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status docker</span><br></pre></td></tr></table></figure></div>]]></content>
       <tags>
         <tag>docker</tag>
       </tags>
@@ -1418,6 +1354,70 @@
       </tags>
   </entry>
   <entry>
+    <title>使用Docker时的问题汇总和解决方式</title>
+    <url>/2024/07/24/Docker%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/</url>
+    <content><![CDATA[<h1 id="1-启动-Docker-失败"><a href="#1-启动-Docker-失败" class="headerlink" title="1.启动 Docker 失败"></a>1.启动 Docker 失败</h1><p>如果发现<code>docker</code>启动失败，可以通过以下命令输出<code>docker</code>运行日志来定位问题所在：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> journalctl -u docker.service --no-pager | <span class="built_in">tail</span> -n 50</span><br></pre></td></tr></table></figure></div>
+
+<p>如果问题仍无法解决，可以尝试更彻底的方法：</p>
+<ol>
+<li>卸载 Docker：</li>
+</ol>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -R docker</span><br></pre></td></tr></table></figure></div>
+
+<ol start="2">
+<li>删除 Docker 相关的所有数据和配置：</li>
+</ol>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> -rf /var/lib/docker</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> -rf /etc/docker</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> -rf ~/.docker</span><br></pre></td></tr></table></figure></div>
+
+<ol start="3">
+<li>重新安装 Docker：</li>
+</ol>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S docker</span><br></pre></td></tr></table></figure></div>
+
+<ol start="4">
+<li>启动 Docker 服务：</li>
+</ol>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start docker</span><br></pre></td></tr></table></figure></div>
+
+<ol start="5">
+<li>检查 Docker 服务状态：</li>
+</ol>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status docker</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="1-1-网络冲突导致启动失败"><a href="#1-1-网络冲突导致启动失败" class="headerlink" title="1.1 网络冲突导致启动失败"></a>1.1 网络冲突导致启动失败</h2><p>日志内容如下：</p>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">failed to start daemon: Error initializing network controller: error creating default &quot;bridge&quot; network: cannot create network c13e4912d03075485921194eecec303af8f714e77ad529759990f5b7ca155c68 (docker0): conflicts with network 1b9dcc9575e5af33281149149481d0eca4a5d60de0fac2f9264f0b265ab955db (docker0): networks have same bridge name</span><br></pre></td></tr></table></figure></div>
+<p>这个错误表明 Docker 试图创建默认的 bridge 网络，但是遇到了冲突，因为已经存在一个同名的网络。</p>
+<p><strong>解决办法：</strong></p>
+<ol>
+<li>停止 Docker 服务：</li>
+</ol>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl stop docker</span><br></pre></td></tr></table></figure></div>
+
+<ol start="2">
+<li>删除现有的 Docker 网络配置：</li>
+</ol>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> -rf /var/lib/docker/network</span><br></pre></td></tr></table></figure></div>
+
+<ol start="3">
+<li>删除 docker0 网桥：</li>
+</ol>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> ip <span class="built_in">link</span> delete docker0</span><br></pre></td></tr></table></figure></div>
+
+<ol start="4">
+<li>重新启动 Docker 服务：</li>
+</ol>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start docker</span><br></pre></td></tr></table></figure></div>
+
+<ol start="5">
+<li>检查 Docker 服务状态：</li>
+</ol>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status docker</span><br></pre></td></tr></table></figure></div>]]></content>
+      <tags>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>在 Docker 容器中使用宿主机的代理</title>
     <url>/2024/08/16/Dokcer%E5%AE%B9%E5%99%A8%E4%BB%A3%E7%90%86/</url>
     <content><![CDATA[<h1 id="1-拉取镜像"><a href="#1-拉取镜像" class="headerlink" title="1.拉取镜像"></a>1.拉取镜像</h1><p>这里以<code>ubuntu</code>镜像为例子：</p>
@@ -1501,8 +1501,8 @@
   <entry>
     <title>EndeavourOS 使用记录</title>
     <url>/2024/07/18/EndeavourOS/</url>
-    <content><![CDATA[<h1 id="一、N卡驱动"><a href="#一、N卡驱动" class="headerlink" title="一、N卡驱动"></a>一、N卡驱动</h1><p><code>EndeavourOS</code>对N卡用户的支持比较友好，在安装该系统时，选择有<code>Nvidia</code>那一行的进行安装即可，会自动安装最新的适应当前显卡的闭源驱动。如果是<code>Arch Linux</code>，建议看这篇文章，同时提到有双显卡如何进行切换 <a class="link"   href="https://archlinuxstudio.github.io/ArchLinuxTutorial/#/" >Arch Linux 安装使用教程 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>，如果是<code>Arch</code>系其它发行版（像<code>Manjaro</code>），请自行找教程，这里提到的方式不一定适用你。</p>
-<p>CUDA 安装参考这篇教程：<a class="link"   href="https://ivonblog.com/posts/archlinux-install-nvidia-drivers/" >教你在Arch Linux安裝Nvidia、CUDA、cuDNN、TensorRT专有驱动程序 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+    <content><![CDATA[<h1 id="一、N卡驱动"><a href="#一、N卡驱动" class="headerlink" title="一、N卡驱动"></a>一、N卡驱动</h1><p><code>EndeavourOS</code>对N卡用户的支持比较友好，在安装该系统时，选择有<code>Nvidia</code>那一行的进行安装即可，会自动安装最新的适应当前显卡的闭源驱动。如果是<code>Arch Linux</code>，建议看这篇文章，同时提到有双显卡如何进行切换 <a class="link"   href="https://archlinuxstudio.github.io/ArchLinuxTutorial/#/" >Arch Linux 安装使用教程<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>，如果是<code>Arch</code>系其它发行版（像<code>Manjaro</code>），请自行找教程，这里提到的方式不一定适用你。</p>
+<p>CUDA 安装参考这篇教程：<a class="link"   href="https://ivonblog.com/posts/archlinux-install-nvidia-drivers/" >教你在Arch Linux安裝Nvidia、CUDA、cuDNN、TensorRT专有驱动程序<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
 <h2 id="1-1-安装方式一"><a href="#1-1-安装方式一" class="headerlink" title="1.1 安装方式一"></a>1.1 安装方式一</h2><ul>
 <li><strong>全面更新系统以及安装依赖工具</strong></li>
 </ul>
@@ -1624,7 +1624,7 @@
 
 <div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">nano /etc/pacman.d/mirrorlist</span><br></pre></td></tr></table></figure></div>
 <p>然后把镜像源加进去。</p>
-<h2 id="3-3-签名验证问题"><a href="#3-3-签名验证问题" class="headerlink" title="3.3 签名验证问题"></a>3.3 签名验证问题</h2><p><strong>建议先参考这篇官方文章：</strong> <a class="link"   href="https://discovery.endeavouros.com/signature-and-keyring/pacman-keyring-issues/2021/03/" >Signature and keyring <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<h2 id="3-3-签名验证问题"><a href="#3-3-签名验证问题" class="headerlink" title="3.3 签名验证问题"></a>3.3 签名验证问题</h2><p><strong>建议先参考这篇官方文章：</strong> <a class="link"   href="https://discovery.endeavouros.com/signature-and-keyring/pacman-keyring-issues/2021/03/" >Signature and keyring<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
 <div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">(735/735) 正在检查软件包完整性                        [------------------------------------] 100% **错误：**libinstpatch: 来自 &quot;Brett Cornwall &lt;brett@i--b.com&gt;&quot; 的签名是未知信任的- **:: 文件 /var/cache/pacman/pkg/libinstpatch-1.1.6-3-x86_64.pkg.tar.zst 已损坏 (无效或已损坏的软件包 (PGP 签名))**. **打算删除吗？ [Y/n] ** **错误：**fluidsynth: 来自 &quot;Brett Cornwall &lt;brett@i--b.com&gt;&quot; 的签名是未知信任的**坏** **:: 文件 /var/cache/pacman/pkg/fluidsynth-2.3.6-1-x86_64.pkg.tar.zst 已损坏 (无效或已损坏的软件包 (PGP 签名)).** **打算删除吗？ [Y/n]</span><br></pre></td></tr></table></figure></div>
 
 <p>如果遇到以上这种问题（比如在执行<code>sudo pacman -Syu</code>时），可以这样做：</p>
@@ -1656,7 +1656,7 @@
                      data-src="https://s21.ax1x.com/2024/08/25/pAkSS6H.png"
                       alt="Utterly Nord"
                 ><figcaption>Utterly Nord</figcaption></figure></a></p>
-<h2 id="4-2-组件"><a href="#4-2-组件" class="headerlink" title="4.2 组件"></a>4.2 组件</h2><p><a class="link"   href="https://store.kde.org/p/2186442" >musicWaves <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a><br><a class="link"   href="https://www.pling.com/p/2148472/" >thot CPU Plasma 6 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<h2 id="4-2-组件"><a href="#4-2-组件" class="headerlink" title="4.2 组件"></a>4.2 组件</h2><p><a class="link"   href="https://store.kde.org/p/2186442" >musicWaves<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a><br><a class="link"   href="https://www.pling.com/p/2148472/" >thot CPU Plasma 6<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
 <p>解压后，把文件夹移动到<code>~/.local/share/plasma/plasmoids/</code>目录下。</p>
 <p>参考图：<br><a href="https://imgse.com/i/pAksXO1"><figure class="image-caption"><img  
                      lazyload
@@ -1665,7 +1665,7 @@
                       alt="Desktop Widgets"
                 ><figcaption>Desktop Widgets</figcaption></figure></a></p>
 <h2 id="4-3-Login-SDDM"><a href="#4-3-Login-SDDM" class="headerlink" title="4.3 Login SDDM"></a>4.3 Login SDDM</h2><p>建议先在<code>KDE Store</code>下载好，然后解压到存放登录界面的目录下。</p>
-<p><a class="link"   href="https://www.pling.com/p/2144235/" >Nordic sddm Plasma 6 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<p><a class="link"   href="https://www.pling.com/p/2144235/" >Nordic sddm Plasma 6<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
 <p>把解压后的文件移到<code>/usr/share/sddm/themes/</code>目录下。</p>
 ]]></content>
       <tags>
@@ -1695,7 +1695,7 @@
 <ol start="2">
 <li>复制输出的公钥内容（从 ssh-ed25519 开始，直到邮箱地址结束）。（或者打开<code>sh/id_rsa.pub</code> 文件，复制其中的内容。）</li>
 <li>登录到 GitHub，导航到“Settings”。</li>
-<li>在左侧菜单中选择“<a class="link"   href="https://github.com/settings/keys" >SSH and GPG keys 设置页面 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>”。</li>
+<li>在左侧菜单中选择“<a class="link"   href="https://github.com/settings/keys" >SSH and GPG keys 设置页面<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>”。</li>
 <li>点击“New SSH key”，粘贴你的公钥并保存。</li>
 </ol>
 <h2 id="1-3-连接验证"><a href="#1-3-连接验证" class="headerlink" title="1.3 连接验证"></a>1.3 连接验证</h2><p>用于检查是否能与远程的 GitHub 仓库进行连接。</p>
@@ -1718,7 +1718,7 @@
 <li><p><strong>生成个人访问令牌：</strong></p>
 <ul>
 <li>登录到你的 GitHub 账户。</li>
-<li>进入 <a class="link"   href="https://github.com/settings/tokens" >GitHub 个人访问令牌设置页面 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>。</li>
+<li>进入 <a class="link"   href="https://github.com/settings/tokens" >GitHub 个人访问令牌设置页面<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>。</li>
 <li>点击 <code>Generate new token</code> 按钮。</li>
 <li>选择 “Personal access tokens” 然后点击 “Generate new token”。</li>
 <li>给令牌一个描述性的名称，选择适当的权限范围（至少需要<code>repo</code>权限）。</li>
@@ -1748,6 +1748,146 @@
       <tags>
         <tag>linux</tag>
         <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux 环境下配置 Docker</title>
+    <url>/2024/07/20/Linux-Docker/</url>
+    <content><![CDATA[<h1 id="1、Docker-配置"><a href="#1、Docker-配置" class="headerlink" title="1、Docker 配置"></a>1、Docker 配置</h1><h2 id="1-1-安装-Docker"><a href="#1-1-安装-Docker" class="headerlink" title="1.1 安装 Docker"></a>1.1 安装 Docker</h2><ul>
+<li><strong>安装方式一（推荐）：</strong></li>
+</ul>
+<p>通过<code>yay</code>直接安装（全局安装）：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">yay -Sy docker docker-compose</span><br></pre></td></tr></table></figure></div>
+<p><code>docker-compose</code>可选安装，它可以通过配置文件<code>Dockerfile</code>来构建镜像。</p>
+<ul>
+<li><strong>安装方式二：</strong></li>
+</ul>
+<p>通过<code>conda</code>安装（局部安装，可全局使用）：</p>
+<p>首先需要创建虚拟环境用于存储安装的<code>docker</code>和<code>docker-compose</code>。</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">conda create --name docker python=3.12</span><br></pre></td></tr></table></figure></div>
+<p>Python版本可自己选择。</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">conda install docker docker-compose -c conda-forge</span><br></pre></td></tr></table></figure></div>
+
+<p>这里的<code>-c conda-forge</code>一定要加，默认的<code>conda.org</code>源没有<code>docker</code>。</p>
+<p>安装好的<code>docker</code>和<code>docker-compose</code>是在该路径下：<br><code>~/.conda/envs/docker/bin/docker</code><br><code>~/.conda/envs/docker/bin/docker-compose</code></p>
+<h2 id="1-2-docker-基本操作"><a href="#1-2-docker-基本操作" class="headerlink" title="1.2 docker 基本操作"></a>1.2 docker 基本操作</h2><h3 id="1-2-1-docker-服务"><a href="#1-2-1-docker-服务" class="headerlink" title="1.2.1 docker 服务"></a>1.2.1 docker 服务</h3><ul>
+<li><p>启动docker服务</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start docker</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>关闭docker服务</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl stop docker.service docker.socket</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>检查<code>docker</code>服务状态</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status docker</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>开机自启动设置</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> --now docker</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<h3 id="1-2-2-添加用户到-docker-组"><a href="#1-2-2-添加用户到-docker-组" class="headerlink" title="1.2.2 添加用户到 docker 组"></a>1.2.2 添加用户到 docker 组</h3><p>为了避免每次运行<code>docker</code>命令时都需要使用 <code>sudo</code>，可以将当前用户添加到 <code>docker</code> 组：</p>
+<div class="highlight-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> usermod -aG docker <span class="variable">$USER</span></span><br></pre></td></tr></table></figure></div>
+
+<p>然后，重新登录以使更改生效，或者重新加载用户组信息：</p>
+<p>登录：</p>
+<div class="highlight-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="code"><pre><span class="line">newgrp docker</span><br></pre></td></tr></table></figure></div>
+
+<p>退出：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure></div>
+
+<p>可能需要重启系统来让配置生效。</p>
+<h2 id="1-3-代理配置（一定要配置）"><a href="#1-3-代理配置（一定要配置）" class="headerlink" title="1.3 代理配置（一定要配置）"></a>1.3 代理配置（一定要配置）</h2><p>1.创建<code>docker</code>相关的<code>systemd</code>目录，这个目录下的配置将覆盖<code>docker</code>的默认配置：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">mkdir</span> -p /etc/systemd/system/docker.service.d</span><br></pre></td></tr></table></figure></div>
+
+<p>2.新建配置文件：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">kate /etc/systemd/system/docker.service.d/proxy.conf</span><br></pre></td></tr></table></figure></div>
+
+<p>将以下内容复制到<code>proxy.conf</code>中：</p>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">[Service]</span><br><span class="line">Environment=&quot;HTTP_PROXY=http://127.0.0.1:7890&quot;</span><br><span class="line">Environment=&quot;HTTPS_PROXY=http://127.0.0.1:7890&quot;</span><br></pre></td></tr></table></figure></div>
+
+<p>这里需要根据自己实际的代理端口填写。</p>
+<p>3.如果自己建了私有的镜像仓库，需要<code>docker</code>绕过代理服务器直连，那么配置<code>NO_PROXY</code>变量：</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">[Service]</span><br><span class="line">Environment=&quot;HTTP_PROXY=http://127.0.0.1:7890&quot;</span><br><span class="line">Environment=&quot;HTTPS_PROXY=http://127.0.0.1:7890&quot;</span><br><span class="line">Environment=&quot;NO_PROXY=your-registry.com,10.10.10.10,*.example.com&quot;</span><br></pre></td></tr></table></figure></div>
+
+<p>多个<code>NO_PROXY</code>变量的值用逗号分隔，而且可以使用通配符（*），极端情况下，如果<code>NO_PROXY=*</code>，那么所有请求都将不通过代理服务器。</p>
+<p>4.重新加载配置文件，重启<code>docker</code>：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl daemon-reload</span><br></pre></td></tr></table></figure></div>
+
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl restart docker</span><br></pre></td></tr></table></figure></div>
+
+<p>5.检查确认环境变量已经正确配置：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl show --property=Environment docker</span><br></pre></td></tr></table></figure></div>
+
+<p>像输出以下内容就成功了：</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">Environment=HTTP_PROXY=http://127.0.0.1:7890 HTTPS_PROXY=http://127.0.0.1:7890</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="1-4-命令简化配置"><a href="#1-4-命令简化配置" class="headerlink" title="1.4 命令简化配置"></a>1.4 命令简化配置</h2><p><strong>以下推荐加到.bashrc或者.zshrc中。</strong></p>
+<ol>
+<li>格式化查看容器：<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker ps --format <span class="string">&quot;table &#123;&#123;.ID&#125;&#125;\t&#123;&#123;.Image&#125;&#125;\t&#123;&#123;.Ports&#125;&#125;\t&#123;&#123;.Status&#125;&#125;\t&#123;&#123;.Names&#125;&#125;&quot;</span></span><br></pre></td></tr></table></figure></div></li>
+</ol>
+<p>命令简化：</p>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">alias dps=&#x27;docker ps --format &quot;table &#123;&#123;.ID&#125;&#125;\t&#123;&#123;.Image&#125;&#125;\t&#123;&#123;.Ports&#125;&#125;\t&#123;&#123;.Status&#125;&#125;\t&#123;&#123;.Names&#125;&#125;&quot;&#x27;</span><br></pre></td></tr></table></figure></div>
+
+<ol start="2">
+<li>查看网络配置：<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker inspect --format=<span class="string">&#x27;&#123;&#123;.HostConfig.NetworkMode&#125;&#125;&#x27;</span> &lt;容器名/容器ID&gt;</span><br></pre></td></tr></table></figure></div></li>
+</ol>
+<p>命令简化：</p>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">alias din=&#x27;docker inspect --format=&#x27;&#123;&#123;.HostConfig.NetworkMode&#125;&#125;&#x27;&#x27;</span><br></pre></td></tr></table></figure></div>]]></content>
+      <tags>
+        <tag>docker</tag>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux 下配置 conda 环境</title>
+    <url>/2024/08/19/Linux-conda/</url>
+    <content><![CDATA[<h1 id="一、miniconda3-配置"><a href="#一、miniconda3-配置" class="headerlink" title="一、miniconda3 配置"></a>一、miniconda3 配置</h1><p><strong>注：</strong> 如果用的是<code>miniforge</code>，操作方式与此类似。</p>
+<h2 id="1-1-把conda集成到zsh终端中"><a href="#1-1-把conda集成到zsh终端中" class="headerlink" title="1.1 把conda集成到zsh终端中"></a>1.1 把<code>conda</code>集成到<code>zsh</code>终端中</h2><h3 id="1-1-1-详细步骤"><a href="#1-1-1-详细步骤" class="headerlink" title="1.1.1 详细步骤"></a>1.1.1 详细步骤</h3><ol>
+<li><strong>添加<code>conda</code>环境变量：</strong></li>
+</ol>
+<p>把这行代码加入到<code>.zshrc</code>中：</p>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">export PATH=/opt/miniconda3/bin:$PATH</span><br></pre></td></tr></table></figure></div>
+
+<p>终端输入这行可以防止conda自动激活环境（建议加上）：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">conda config --<span class="built_in">set</span> auto_activate_base <span class="literal">false</span></span><br></pre></td></tr></table></figure></div>
+
+<ol start="2">
+<li><strong>重新加载 <code>~/.zshrc</code> 文件：</strong></li>
+</ol>
+<p>在终端中运行以下命令重新加载配置文件：</p>
+<div class="highlight-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">source</span> ~/.zshrc</span><br></pre></td></tr></table></figure></div>
+
+<ol start="3">
+<li><strong>运行 <code>conda init</code>：</strong></li>
+</ol>
+<p>初始化 conda 环境：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 这是conda默认安装的位置</span></span><br><span class="line">/opt/miniconda3/bin/conda init zsh</span><br></pre></td></tr></table></figure></div>
+
+<ol start="4">
+<li><strong>再次重新加载 <code>~/.zshrc</code> 文件：</strong></li>
+</ol>
+<p>再次运行以下命令重新加载配置文件：</p>
+<div class="highlight-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">source</span> ~/.zshrc</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="1-1-2-验证"><a href="#1-1-2-验证" class="headerlink" title="1.1.2 验证"></a>1.1.2 验证</h3><p>验证 conda 是否配置好：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">conda --version</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="1-1-3-一步到位操作"><a href="#1-1-3-一步到位操作" class="headerlink" title="1.1.3 一步到位操作"></a>1.1.3 一步到位操作</h3><p>可以不用管以上操作，直接把这段复制到<code>.zshrc</code>中，注意安装miniconda的路径：</p>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line"># &gt;&gt;&gt; conda initialize &gt;&gt;&gt;</span><br><span class="line"># !! Contents within this block are managed by &#x27;conda init&#x27; !!</span><br><span class="line">__conda_setup=&quot;$(&#x27;/opt/miniconda3/bin/conda&#x27; &#x27;shell.zsh&#x27; &#x27;hook&#x27; 2&gt; /dev/null)&quot;</span><br><span class="line">if [ $? -eq 0 ]; then</span><br><span class="line">    eval &quot;$__conda_setup&quot;</span><br><span class="line">else</span><br><span class="line">    if [ -f &quot;/opt/miniconda3/etc/profile.d/conda.sh&quot; ]; then</span><br><span class="line">        . &quot;/opt/miniconda3/etc/profile.d/conda.sh&quot;</span><br><span class="line">    else</span><br><span class="line">        export PATH=&quot;/opt/miniconda3/bin:$PATH&quot;</span><br><span class="line">    fi</span><br><span class="line">fi</span><br><span class="line">unset __conda_setup</span><br><span class="line"># &lt;&lt;&lt; conda initialize &lt;&lt;&lt;</span><br><span class="line">export CRYPTOGRAPHY_OPENSSL_NO_LEGACY=1</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="1-2-问题汇总"><a href="#1-2-问题汇总" class="headerlink" title="1.2 问题汇总"></a>1.2 问题汇总</h2><h3 id="1-2-1-OpenSSL-问题"><a href="#1-2-1-OpenSSL-问题" class="headerlink" title="1.2.1  OpenSSL 问题"></a>1.2.1  OpenSSL 问题</h3><p>当运行<code>conda activate base</code>时，可能出现下面问题：</p>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line"> $ conda activate base</span><br><span class="line">Error while loading conda entry point: conda-content-trust (OpenSSL 3.0&#x27;s legacy provider failed to load. This is a fatal error by default, but cryptography supports running without legacy algorithms by setting the environment variable CRYPTOGRAPHY_OPENSSL_NO_LEGACY. If you did not expect this error, you have likely made a mistake with your OpenSSL configuration.)</span><br><span class="line"></span><br><span class="line">CondaError: Run &#x27;conda init&#x27; before &#x27;conda activate&#x27;</span><br></pre></td></tr></table></figure></div>
+
+<p>根据该的错误信息，问题可能与 OpenSSL 版本有关。OpenSSL 3.0 引入了一些变化，可能导致与某些软件包的兼容性问题。在此情况下，设置环境变量<code>CRYPTOGRAPHY_OPENSSL_NO_LEGACY</code>可能会解决问题。</p>
+<ul>
+<li><strong>解决方法：</strong></li>
+</ul>
+<p>编辑 <code>~/.zshrc</code> 文件，添加以下行到 <code>~/.zshrc</code> 文件：</p>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">export CRYPTOGRAPHY_OPENSSL_NO_LEGACY=1</span><br></pre></td></tr></table></figure></div>
+
+<p>保存并退出编辑器，然后执行<code>source ~/.zshrc</code>。</p>
+]]></content>
+      <tags>
+        <tag>conda</tag>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -1855,7 +1995,7 @@
 </ol>
 <ul>
 <li>允许设置一个主题文件，用于美化 GRUB 菜单。取消注释并指定主题路径即可。</li>
-<li>推荐的主题：<a class="link"   href="https://www.pling.com/p/2025649/" >GradientGuy <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>，下载好后解压到<code>/boot/grub/themes/ </code>下，然后找到<code>GradientGuy</code>主题文件中的<code>theme.txt</code>，把完整路径<code>/boot/grub/themes/GradientGuy/theme.txt</code>填入到<code>GRUB_THEME</code>。</li>
+<li>推荐的主题：<a class="link"   href="https://www.pling.com/p/2025649/" >GradientGuy<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>，下载好后解压到<code>/boot/grub/themes/ </code>下，然后找到<code>GradientGuy</code>主题文件中的<code>theme.txt</code>，把完整路径<code>/boot/grub/themes/GradientGuy/theme.txt</code>填入到<code>GRUB_THEME</code>。</li>
 </ul>
 <h2 id="2-7-其他选项"><a href="#2-7-其他选项" class="headerlink" title="2.7 其他选项"></a>2.7 其他选项</h2><ol start="17">
 <li><strong><code>#GRUB_INIT_TUNE=&quot;480 440 1&quot;</code>（已注释）:</strong></li>
@@ -1904,97 +2044,11 @@
 <p>重启电脑就能看到生效了。</p>
 <h1 id="4-切换内核的注意点"><a href="#4-切换内核的注意点" class="headerlink" title="4.切换内核的注意点"></a>4.切换内核的注意点</h1><p>可能会遇到驱动程序（尤其是 N 卡驱动）不兼容的情况，如果卡在加载界面，只能进入<code>tty</code>进行排查问题，或者重启选择原来的内核（所以不要随便删原来默认的内核）。要卸载内核的话需要谨慎，因为有些依赖包可能只能依赖特定内核使用，所以卸载之前建议做好备份。</p>
 <h1 id="4-参考教程"><a href="#4-参考教程" class="headerlink" title="4.参考教程"></a>4.参考教程</h1><ul>
-<li><a class="link"   href="https://www.youtube.com/watch?v=1vLGebdIPZ8&list=PL7XUZPsvfw3DfZDpU3bqNYZWzKroAWaT5&index=6" >How to Change the Default Grub Bootlaoder Theme in Arch Linux! <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></li>
-<li><a class="link"   href="https://www.youtube.com/watch?v=KbcUmAlQCHs&list=PL7XUZPsvfw3DfZDpU3bqNYZWzKroAWaT5&index=5" >How to Switch Arch Linux Kernels - LTS, Zen, Hardened <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></li>
+<li><a class="link"   href="https://www.youtube.com/watch?v=1vLGebdIPZ8&list=PL7XUZPsvfw3DfZDpU3bqNYZWzKroAWaT5&index=6" >How to Change the Default Grub Bootlaoder Theme in Arch Linux!<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link"   href="https://www.youtube.com/watch?v=KbcUmAlQCHs&list=PL7XUZPsvfw3DfZDpU3bqNYZWzKroAWaT5&index=5" >How to Switch Arch Linux Kernels - LTS, Zen, Hardened<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
 </ul>
 ]]></content>
       <tags>
-        <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Linux 环境下配置 Docker</title>
-    <url>/2024/07/20/Linux-Docker/</url>
-    <content><![CDATA[<h1 id="1、Docker-配置"><a href="#1、Docker-配置" class="headerlink" title="1、Docker 配置"></a>1、Docker 配置</h1><h2 id="1-1-安装-Docker"><a href="#1-1-安装-Docker" class="headerlink" title="1.1 安装 Docker"></a>1.1 安装 Docker</h2><ul>
-<li><strong>安装方式一（推荐）：</strong></li>
-</ul>
-<p>通过<code>yay</code>直接安装（全局安装）：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">yay -Sy docker docker-compose</span><br></pre></td></tr></table></figure></div>
-<p><code>docker-compose</code>可选安装，它可以通过配置文件<code>Dockerfile</code>来构建镜像。</p>
-<ul>
-<li><strong>安装方式二：</strong></li>
-</ul>
-<p>通过<code>conda</code>安装（局部安装，可全局使用）：</p>
-<p>首先需要创建虚拟环境用于存储安装的<code>docker</code>和<code>docker-compose</code>。</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">conda create --name docker python=3.12</span><br></pre></td></tr></table></figure></div>
-<p>Python版本可自己选择。</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">conda install docker docker-compose -c conda-forge</span><br></pre></td></tr></table></figure></div>
-
-<p>这里的<code>-c conda-forge</code>一定要加，默认的<code>conda.org</code>源没有<code>docker</code>。</p>
-<p>安装好的<code>docker</code>和<code>docker-compose</code>是在该路径下：<br><code>~/.conda/envs/docker/bin/docker</code><br><code>~/.conda/envs/docker/bin/docker-compose</code></p>
-<h2 id="1-2-docker-基本操作"><a href="#1-2-docker-基本操作" class="headerlink" title="1.2 docker 基本操作"></a>1.2 docker 基本操作</h2><h3 id="1-2-1-docker-服务"><a href="#1-2-1-docker-服务" class="headerlink" title="1.2.1 docker 服务"></a>1.2.1 docker 服务</h3><ul>
-<li><p>启动docker服务</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start docker</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>关闭docker服务</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl stop docker.service docker.socket</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>检查<code>docker</code>服务状态</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status docker</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>开机自启动设置</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> --now docker</span><br></pre></td></tr></table></figure></div></li>
-</ul>
-<h3 id="1-2-2-添加用户到-docker-组"><a href="#1-2-2-添加用户到-docker-组" class="headerlink" title="1.2.2 添加用户到 docker 组"></a>1.2.2 添加用户到 docker 组</h3><p>为了避免每次运行<code>docker</code>命令时都需要使用 <code>sudo</code>，可以将当前用户添加到 <code>docker</code> 组：</p>
-<div class="highlight-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> usermod -aG docker <span class="variable">$USER</span></span><br></pre></td></tr></table></figure></div>
-
-<p>然后，重新登录以使更改生效，或者重新加载用户组信息：</p>
-<p>登录：</p>
-<div class="highlight-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="code"><pre><span class="line">newgrp docker</span><br></pre></td></tr></table></figure></div>
-
-<p>退出：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure></div>
-
-<p>可能需要重启系统来让配置生效。</p>
-<h2 id="1-3-代理配置（一定要配置）"><a href="#1-3-代理配置（一定要配置）" class="headerlink" title="1.3 代理配置（一定要配置）"></a>1.3 代理配置（一定要配置）</h2><p>1.创建<code>docker</code>相关的<code>systemd</code>目录，这个目录下的配置将覆盖<code>docker</code>的默认配置：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">mkdir</span> -p /etc/systemd/system/docker.service.d</span><br></pre></td></tr></table></figure></div>
-
-<p>2.新建配置文件：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">kate /etc/systemd/system/docker.service.d/proxy.conf</span><br></pre></td></tr></table></figure></div>
-
-<p>将以下内容复制到<code>proxy.conf</code>中：</p>
-<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">[Service]</span><br><span class="line">Environment=&quot;HTTP_PROXY=http://127.0.0.1:7890&quot;</span><br><span class="line">Environment=&quot;HTTPS_PROXY=http://127.0.0.1:7890&quot;</span><br></pre></td></tr></table></figure></div>
-
-<p>这里需要根据自己实际的代理端口填写。</p>
-<p>3.如果自己建了私有的镜像仓库，需要<code>docker</code>绕过代理服务器直连，那么配置<code>NO_PROXY</code>变量：</p>
-<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">[Service]</span><br><span class="line">Environment=&quot;HTTP_PROXY=http://127.0.0.1:7890&quot;</span><br><span class="line">Environment=&quot;HTTPS_PROXY=http://127.0.0.1:7890&quot;</span><br><span class="line">Environment=&quot;NO_PROXY=your-registry.com,10.10.10.10,*.example.com&quot;</span><br></pre></td></tr></table></figure></div>
-
-<p>多个<code>NO_PROXY</code>变量的值用逗号分隔，而且可以使用通配符（*），极端情况下，如果<code>NO_PROXY=*</code>，那么所有请求都将不通过代理服务器。</p>
-<p>4.重新加载配置文件，重启<code>docker</code>：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl daemon-reload</span><br></pre></td></tr></table></figure></div>
-
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl restart docker</span><br></pre></td></tr></table></figure></div>
-
-<p>5.检查确认环境变量已经正确配置：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl show --property=Environment docker</span><br></pre></td></tr></table></figure></div>
-
-<p>像输出以下内容就成功了：</p>
-<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">Environment=HTTP_PROXY=http://127.0.0.1:7890 HTTPS_PROXY=http://127.0.0.1:7890</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="1-4-命令简化配置"><a href="#1-4-命令简化配置" class="headerlink" title="1.4 命令简化配置"></a>1.4 命令简化配置</h2><p><strong>以下推荐加到.bashrc或者.zshrc中。</strong></p>
-<ol>
-<li>格式化查看容器：<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker ps --format <span class="string">&quot;table &#123;&#123;.ID&#125;&#125;\t&#123;&#123;.Image&#125;&#125;\t&#123;&#123;.Ports&#125;&#125;\t&#123;&#123;.Status&#125;&#125;\t&#123;&#123;.Names&#125;&#125;&quot;</span></span><br></pre></td></tr></table></figure></div></li>
-</ol>
-<p>命令简化：</p>
-<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">alias dps=&#x27;docker ps --format &quot;table &#123;&#123;.ID&#125;&#125;\t&#123;&#123;.Image&#125;&#125;\t&#123;&#123;.Ports&#125;&#125;\t&#123;&#123;.Status&#125;&#125;\t&#123;&#123;.Names&#125;&#125;&quot;&#x27;</span><br></pre></td></tr></table></figure></div>
-
-<ol start="2">
-<li>查看网络配置：<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker inspect --format=<span class="string">&#x27;&#123;&#123;.HostConfig.NetworkMode&#125;&#125;&#x27;</span> &lt;容器名/容器ID&gt;</span><br></pre></td></tr></table></figure></div></li>
-</ol>
-<p>命令简化：</p>
-<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">alias din=&#x27;docker inspect --format=&#x27;&#123;&#123;.HostConfig.NetworkMode&#125;&#125;&#x27;&#x27;</span><br></pre></td></tr></table></figure></div>]]></content>
-      <tags>
-        <tag>docker</tag>
         <tag>linux</tag>
       </tags>
   </entry>
@@ -2023,60 +2077,6 @@
       <tags>
         <tag>linux</tag>
         <tag>steam</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Linux 下配置 conda 环境</title>
-    <url>/2024/08/19/Linux-conda/</url>
-    <content><![CDATA[<h1 id="一、miniconda3-配置"><a href="#一、miniconda3-配置" class="headerlink" title="一、miniconda3 配置"></a>一、miniconda3 配置</h1><p><strong>注：</strong> 如果用的是<code>miniforge</code>，操作方式与此类似。</p>
-<h2 id="1-1-把conda集成到zsh终端中"><a href="#1-1-把conda集成到zsh终端中" class="headerlink" title="1.1 把conda集成到zsh终端中"></a>1.1 把<code>conda</code>集成到<code>zsh</code>终端中</h2><h3 id="1-1-1-详细步骤"><a href="#1-1-1-详细步骤" class="headerlink" title="1.1.1 详细步骤"></a>1.1.1 详细步骤</h3><ol>
-<li><strong>添加<code>conda</code>环境变量：</strong></li>
-</ol>
-<p>把这行代码加入到<code>.zshrc</code>中：</p>
-<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">export PATH=/opt/miniconda3/bin:$PATH</span><br></pre></td></tr></table></figure></div>
-
-<p>终端输入这行可以防止conda自动激活环境（建议加上）：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">conda config --<span class="built_in">set</span> auto_activate_base <span class="literal">false</span></span><br></pre></td></tr></table></figure></div>
-
-<ol start="2">
-<li><strong>重新加载 <code>~/.zshrc</code> 文件：</strong></li>
-</ol>
-<p>在终端中运行以下命令重新加载配置文件：</p>
-<div class="highlight-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">source</span> ~/.zshrc</span><br></pre></td></tr></table></figure></div>
-
-<ol start="3">
-<li><strong>运行 <code>conda init</code>：</strong></li>
-</ol>
-<p>初始化 conda 环境：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 这是conda默认安装的位置</span></span><br><span class="line">/opt/miniconda3/bin/conda init zsh</span><br></pre></td></tr></table></figure></div>
-
-<ol start="4">
-<li><strong>再次重新加载 <code>~/.zshrc</code> 文件：</strong></li>
-</ol>
-<p>再次运行以下命令重新加载配置文件：</p>
-<div class="highlight-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">source</span> ~/.zshrc</span><br></pre></td></tr></table></figure></div>
-
-<h3 id="1-1-2-验证"><a href="#1-1-2-验证" class="headerlink" title="1.1.2 验证"></a>1.1.2 验证</h3><p>验证 conda 是否配置好：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">conda --version</span><br></pre></td></tr></table></figure></div>
-
-<h3 id="1-1-3-一步到位操作"><a href="#1-1-3-一步到位操作" class="headerlink" title="1.1.3 一步到位操作"></a>1.1.3 一步到位操作</h3><p>可以不用管以上操作，直接把这段复制到<code>.zshrc</code>中，注意安装miniconda的路径：</p>
-<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line"># &gt;&gt;&gt; conda initialize &gt;&gt;&gt;</span><br><span class="line"># !! Contents within this block are managed by &#x27;conda init&#x27; !!</span><br><span class="line">__conda_setup=&quot;$(&#x27;/opt/miniconda3/bin/conda&#x27; &#x27;shell.zsh&#x27; &#x27;hook&#x27; 2&gt; /dev/null)&quot;</span><br><span class="line">if [ $? -eq 0 ]; then</span><br><span class="line">    eval &quot;$__conda_setup&quot;</span><br><span class="line">else</span><br><span class="line">    if [ -f &quot;/opt/miniconda3/etc/profile.d/conda.sh&quot; ]; then</span><br><span class="line">        . &quot;/opt/miniconda3/etc/profile.d/conda.sh&quot;</span><br><span class="line">    else</span><br><span class="line">        export PATH=&quot;/opt/miniconda3/bin:$PATH&quot;</span><br><span class="line">    fi</span><br><span class="line">fi</span><br><span class="line">unset __conda_setup</span><br><span class="line"># &lt;&lt;&lt; conda initialize &lt;&lt;&lt;</span><br><span class="line">export CRYPTOGRAPHY_OPENSSL_NO_LEGACY=1</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="1-2-问题汇总"><a href="#1-2-问题汇总" class="headerlink" title="1.2 问题汇总"></a>1.2 问题汇总</h2><h3 id="1-2-1-OpenSSL-问题"><a href="#1-2-1-OpenSSL-问题" class="headerlink" title="1.2.1  OpenSSL 问题"></a>1.2.1  OpenSSL 问题</h3><p>当运行<code>conda activate base</code>时，可能出现下面问题：</p>
-<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line"> $ conda activate base</span><br><span class="line">Error while loading conda entry point: conda-content-trust (OpenSSL 3.0&#x27;s legacy provider failed to load. This is a fatal error by default, but cryptography supports running without legacy algorithms by setting the environment variable CRYPTOGRAPHY_OPENSSL_NO_LEGACY. If you did not expect this error, you have likely made a mistake with your OpenSSL configuration.)</span><br><span class="line"></span><br><span class="line">CondaError: Run &#x27;conda init&#x27; before &#x27;conda activate&#x27;</span><br></pre></td></tr></table></figure></div>
-
-<p>根据该的错误信息，问题可能与 OpenSSL 版本有关。OpenSSL 3.0 引入了一些变化，可能导致与某些软件包的兼容性问题。在此情况下，设置环境变量<code>CRYPTOGRAPHY_OPENSSL_NO_LEGACY</code>可能会解决问题。</p>
-<ul>
-<li><strong>解决方法：</strong></li>
-</ul>
-<p>编辑 <code>~/.zshrc</code> 文件，添加以下行到 <code>~/.zshrc</code> 文件：</p>
-<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">export CRYPTOGRAPHY_OPENSSL_NO_LEGACY=1</span><br></pre></td></tr></table></figure></div>
-
-<p>保存并退出编辑器，然后执行<code>source ~/.zshrc</code>。</p>
-]]></content>
-      <tags>
-        <tag>conda</tag>
-        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -2334,19 +2334,19 @@
   <entry>
     <title>MiHomo(Clash Meta) 纯内核使用教程</title>
     <url>/2024/07/25/MiHomo%E6%95%99%E7%A8%8B/</url>
-    <content><![CDATA[<h1 id="1-前言（说明）"><a href="#1-前言（说明）" class="headerlink" title="1.前言（说明）"></a>1.前言（说明）</h1><p>在 <a class="link"   href="https://github.com/" >github <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a> 上其实有不少的客户端和服务端的软件，如果不喜欢折腾的话，这篇文章可能不怎么适合你，建议直接使用第三方客户端的代理软件。这篇文章主要是记录自己使用 mihomo 的一些心得，因为强迫症的原因，所以是通过 docker 来部署整个代理服务的。当然，用 docker 部署也是有好处的，配置好后可以连同镜像一起打包备份或者<code>push</code>到 <a class="link"   href="https://hub.docker.com/" >Docker Hub <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a> 上，后续电脑环境改变了仍然能使用。</p>
+    <content><![CDATA[<h1 id="1-前言（说明）"><a href="#1-前言（说明）" class="headerlink" title="1.前言（说明）"></a>1.前言（说明）</h1><p>在 <a class="link"   href="https://github.com/" >github<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> 上其实有不少的客户端和服务端的软件，如果不喜欢折腾的话，这篇文章可能不怎么适合你，建议直接使用第三方客户端的代理软件。这篇文章主要是记录自己使用 mihomo 的一些心得，因为强迫症的原因，所以是通过 docker 来部署整个代理服务的。当然，用 docker 部署也是有好处的，配置好后可以连同镜像一起打包备份或者<code>push</code>到 <a class="link"   href="https://hub.docker.com/" >Docker Hub<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> 上，后续电脑环境改变了仍然能使用。</p>
 <h1 id="2-下载必要的文件"><a href="#2-下载必要的文件" class="headerlink" title="2.下载必要的文件"></a>2.下载必要的文件</h1><p>先把存放下载文件的项目文件夹创建好：</p>
 <div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> ~/clashmeta &amp;&amp; <span class="built_in">cd</span> clashmeta</span><br></pre></td></tr></table></figure></div>
 <p>后续下载好的文件都放在<code>clashmeta</code>文件夹下。</p>
-<h2 id="2-1-内核"><a href="#2-1-内核" class="headerlink" title="2.1 内核"></a>2.1 内核</h2><p><a class="link"   href="https://github.com/MetaCubeX/mihomo/releases" >稳定版下载地址 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<h2 id="2-1-内核"><a href="#2-1-内核" class="headerlink" title="2.1 内核"></a>2.1 内核</h2><p><a class="link"   href="https://github.com/MetaCubeX/mihomo/releases" >稳定版下载地址<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
 <p>我这里用的是 debian 镜像，所以下载的是这个版本：<br><figure class="image-caption"><img  
                      lazyload
                      src="/images/loading.svg"
                      data-src="https://s2.loli.net/2024/07/25/n5DSvEiMquTJ7fC.png"
                       alt="image01.png"
                 ><figcaption>image01.png</figcaption></figure></p>
-<h2 id="2-2-GeoIP-GeoSite-库"><a href="#2-2-GeoIP-GeoSite-库" class="headerlink" title="2.2 GeoIP &amp; GeoSite 库"></a>2.2 GeoIP &amp; GeoSite 库</h2><p><a class="link"   href="https://gcore.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.dat" >GeoIP 库下载 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a><br><a class="link"   href="https://gcore.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geosite.dat" >GeoSite 库下载 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
-<h2 id="2-3-config-yaml-配置文件"><a href="#2-3-config-yaml-配置文件" class="headerlink" title="2.3 config.yaml 配置文件"></a>2.3 config.yaml 配置文件</h2><p><a class="link"   href="https://github.com/loskyertt/clash_meta/blob/master/config.yaml" >config.yaml 下载 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<h2 id="2-2-GeoIP-GeoSite-库"><a href="#2-2-GeoIP-GeoSite-库" class="headerlink" title="2.2 GeoIP &amp; GeoSite 库"></a>2.2 GeoIP &amp; GeoSite 库</h2><p><a class="link"   href="https://gcore.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.dat" >GeoIP 库下载<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a><br><a class="link"   href="https://gcore.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geosite.dat" >GeoSite 库下载<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h2 id="2-3-config-yaml-配置文件"><a href="#2-3-config-yaml-配置文件" class="headerlink" title="2.3 config.yaml 配置文件"></a>2.3 config.yaml 配置文件</h2><p><a class="link"   href="https://github.com/loskyertt/clash_meta/blob/master/config.yaml" >config.yaml 下载<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
 <p>需要把<code>config.yaml</code>这部分内容修改以下：<br><figure class="image-caption"><img  
                      lazyload
                      src="/images/loading.svg"
@@ -2354,7 +2354,7 @@
                       alt="image02.png"
                 ><figcaption>image02.png</figcaption></figure></p>
 <p>填上自己的机场链接即可。</p>
-<h2 id="2-4-UI-文件"><a href="#2-4-UI-文件" class="headerlink" title="2.4 UI 文件"></a>2.4 UI 文件</h2><p><a class="link"   href="https://github.com/MetaCubeX/metacubexd" >ui 下载 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<h2 id="2-4-UI-文件"><a href="#2-4-UI-文件" class="headerlink" title="2.4 UI 文件"></a>2.4 UI 文件</h2><p><a class="link"   href="https://github.com/MetaCubeX/metacubexd" >ui 下载<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
 <h1 id="3-拉取镜像"><a href="#3-拉取镜像" class="headerlink" title="3.拉取镜像"></a>3.拉取镜像</h1><p>mihomo 的作者在 Docker Hub 上是有镜像的，但是里面没有说明文档，我在后面进行补充。</p>
 <p>直接拉取最新的稳定版本的 debian 镜像即可：</p>
 <div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker pull debian</span><br></pre></td></tr></table></figure></div>
@@ -2403,7 +2403,7 @@
                 ><figcaption>image04.png</figcaption></figure></p>
 <h1 id="7-注意事项"><a href="#7-注意事项" class="headerlink" title="7.注意事项"></a>7.注意事项</h1><p>如果发现仍然不能科学上网，可以打开“设置”检查下“代理设置”，手动设置代理地址和端口<code>127.0.0.1:7890</code>（火狐浏览器可能需要在内置的浏览器设置中进行配置下）。对于 Windows 用户来说，其实操作逻辑都是一样的（当然也可以不用 docker ），配置完后注意设置防火墙就行。</p>
 <h1 id="8-参考教程"><a href="#8-参考教程" class="headerlink" title="8.参考教程"></a>8.参考教程</h1><ul>
-<li><a class="link"   href="https://www.youtube.com/watch?v=d-2vCYLjXHs&t=23s" >【进阶使用】Clash Meta 纯内核使用教程|多机场融合|规则自动更新|Tun虚拟网卡模式|避免DNS泄露|WebRTC泄露 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></li>
+<li><a class="link"   href="https://www.youtube.com/watch?v=d-2vCYLjXHs&t=23s" >【进阶使用】Clash Meta 纯内核使用教程|多机场融合|规则自动更新|Tun虚拟网卡模式|避免DNS泄露|WebRTC泄露<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
 </ul>
 ]]></content>
       <categories>
@@ -2411,8 +2411,8 @@
       </categories>
       <tags>
         <tag>docker</tag>
-        <tag>linux</tag>
         <tag>proxy</tag>
+        <tag>linux</tag>
         <tag>clash</tag>
       </tags>
   </entry>
@@ -2641,8 +2641,8 @@
 
 <h2 id="1-2-通过浏览器插件或在线服务"><a href="#1-2-通过浏览器插件或在线服务" class="headerlink" title="1.2 通过浏览器插件或在线服务"></a>1.2 通过浏览器插件或在线服务</h2><p>你可以使用浏览器访问以下在线服务来查看当前外部 IP：</p>
 <ul>
-<li><a class="link"   href="https://www.whatismyip.com/" >What Is My IP <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></li>
-<li><a class="link"   href="https://ipinfo.io/" >IPinfo.io <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></li>
+<li><a class="link"   href="https://www.whatismyip.com/" >What Is My IP<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link"   href="https://ipinfo.io/" >IPinfo.io<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
 </ul>
 <p>这些网站可以直接显示你当前使用的公网IP地址。如果你使用代理，显示的会是代理服务器的IP。</p>
 <h1 id="2-Python-获取当前代理-IP"><a href="#2-Python-获取当前代理-IP" class="headerlink" title="2. Python 获取当前代理 IP"></a>2. Python 获取当前代理 IP</h1><div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line"><span class="comment"># 代理地址，设置为你本地代理的地址和端口</span></span><br><span class="line">proxy = &#123;</span><br><span class="line">    <span class="comment"># 记得改成自己的端口号</span></span><br><span class="line">    <span class="string">&#x27;http&#x27;</span>: <span class="string">&#x27;http://localhost:7890&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;https&#x27;</span>: <span class="string">&#x27;http://localhost:7890&#x27;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 访问外部API，获取代理IP</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    response = requests.get(<span class="string">&#x27;http://api.ipify.org&#x27;</span>, proxies=proxy)</span><br><span class="line">    current_ip = response.text</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;Current proxy IP: <span class="subst">&#123;current_ip&#125;</span>&quot;</span>)</span><br><span class="line"><span class="keyword">except</span> requests.RequestException <span class="keyword">as</span> e:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;Error retrieving IP: <span class="subst">&#123;e&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 正则表达式提取代理IP和端口</span></span><br><span class="line">proxy_address = proxy[<span class="string">&#x27;http&#x27;</span>]</span><br><span class="line"><span class="keyword">match</span> = re.<span class="keyword">match</span>(<span class="string">r&#x27;http://([^\:]+):(\d+)&#x27;</span>, proxy_address)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">match</span>:</span><br><span class="line">    ip = <span class="keyword">match</span>.group(<span class="number">1</span>)  <span class="comment"># 提取IP地址</span></span><br><span class="line">    port = <span class="keyword">match</span>.group(<span class="number">2</span>)  <span class="comment"># 提取端口号</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;IP: <span class="subst">&#123;ip&#125;</span>, Port: <span class="subst">&#123;port&#125;</span>&quot;</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Invalid proxy format&quot;</span>)</span><br></pre></td></tr></table></figure></div>
@@ -2654,115 +2654,6 @@
       </categories>
       <tags>
         <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>SSH 教程</title>
-    <url>/2024/08/16/SSH%20%E6%95%99%E7%A8%8B/</url>
-    <content><![CDATA[<h1 id="1-Windows-安装-SSH-工具"><a href="#1-Windows-安装-SSH-工具" class="headerlink" title="1.Windows 安装 SSH 工具"></a>1.Windows 安装 SSH 工具</h1><h2 id="1-1-方式一、使用-OpenSSH"><a href="#1-1-方式一、使用-OpenSSH" class="headerlink" title="1.1 方式一、使用 OpenSSH"></a>1.1 方式一、使用 OpenSSH</h2><p>可以直接搭配 Windows 的 PowerShell 使用，很轻量，但是功能少。配置方式可以参考我写的这篇文章：<a class="link"   href="https://loskyertt.github.io/2024/07/30/Openssh%E9%85%8D%E7%BD%AE/" >Win10 SSH 服务配置 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
-<h2 id="1-2-方式二、使用-MobaXterm-（推荐）"><a href="#1-2-方式二、使用-MobaXterm-（推荐）" class="headerlink" title="1.2 方式二、使用  MobaXterm （推荐）"></a>1.2 方式二、使用  MobaXterm （推荐）</h2><p>本人用了下，效果还不错，就是没有中文。下载地址：<a class="link"   href="https://mobaxterm.mobatek.net/download.html" >MobaXterm <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
-<h2 id="1-3-方式三、使用-WindTerm-（开源）"><a href="#1-3-方式三、使用-WindTerm-（开源）" class="headerlink" title="1.3 方式三、使用 WindTerm （开源）"></a>1.3 方式三、使用 WindTerm （开源）</h2><p>支持中文，在 GitHub 开源。下载地址：<a class="link"   href="https://github.com/kingToolbox/WindTerm" >WindTerm <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
-<h2 id="1-4-方式三、其他"><a href="#1-4-方式三、其他" class="headerlink" title="1.4 方式三、其他"></a>1.4 方式三、其他</h2><p>Linux 下直接下载 OpenSSH 就行了，使用<code>zsh</code>或者<code>bash</code>终端。 </p>
-<p>其他 SSH 连接工具推荐：<a class="link"   href="https://www.bilibili.com/video/BV1xJ4m1s7zX/?share_source=copy_web&vd_source=9fce48d1dc82a922216accb794549993" >视频地址 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
-<h1 id="2-远程主机的配置"><a href="#2-远程主机的配置" class="headerlink" title="2.远程主机的配置"></a>2.远程主机的配置</h1><h2 id="2-1-安装-OpenSSH"><a href="#2-1-安装-OpenSSH" class="headerlink" title="2.1 安装 OpenSSH"></a>2.1 安装 OpenSSH</h2><p>Linux 一般默认安装上的，如果没有，可以手动安装，这里以 Arch 系 Linux 为例：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S openssh</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="2-2-开启-SSH-服务"><a href="#2-2-开启-SSH-服务" class="headerlink" title="2.2 开启 SSH 服务"></a>2.2 开启 SSH 服务</h2><ul>
-<li><p>让 sshd 开机自启动：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> sshd</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>开启 sshd 服务：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start sshd</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>查看是否启动成功：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status sshd</span><br></pre></td></tr></table></figure></div></li>
-</ul>
-<h2 id="2-3-配置防火墙（一定要配置）"><a href="#2-3-配置防火墙（一定要配置）" class="headerlink" title="2.3 配置防火墙（一定要配置）"></a>2.3 配置防火墙（一定要配置）</h2><ul>
-<li><p><code>ufw</code> 防火墙：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> ufw allow ssh</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p><code>iptables</code>防火墙：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> iptables -A INPUT -p tcp --dport 22 -j ACCEPT</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p><code>firewalld</code>防火墙：<br>显示<code>firewalld</code>的当前防火墙配置状态：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> firewall-cmd --list-all</span><br></pre></td></tr></table></figure></div></li>
-</ul>
-<p>通常会显示以下信息：</p>
-<ul>
-<li><strong><code>interfaces</code></strong> : 显示与当前区域关联的网络接口。</li>
-<li><strong><code>sources</code></strong> : 显示与当前区域关联的 IP 源地址或子网。</li>
-<li><strong><code>services</code></strong> : 显示允许的服务列表（例如 <code>ssh</code>, <code>http</code>, <code>https</code> 等）。</li>
-<li><strong><code>ports</code></strong> : 显示手动添加的开放端口及其协议（例如 <code>22/tcp</code>, <code>80/tcp</code> 等）。</li>
-<li><strong><code>protocols</code></strong> : 显示允许的协议（通常包括 <code>ipv4</code> 和 <code>ipv6</code>）。</li>
-<li><strong><code>zone</code></strong> : 当前配置的区域名称。</li>
-<li><strong><code>forward</code></strong> : 显示转发规则（如果有的话）。</li>
-<li><strong><code>masquerade</code></strong> : 显示是否启用网络地址转换（NAT）。</li>
-</ul>
-<p>确保<code>22</code>端口被开放：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> firewall-cmd --add-service=ssh --permanent</span><br><span class="line"><span class="built_in">sudo</span> firewall-cmd --reload</span><br></pre></td></tr></table></figure></div>
-
-<p>也可以检查 SSH 配置文件：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nano /etc/ssh/sshd_config</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="2-4-查看日志"><a href="#2-4-查看日志" class="headerlink" title="2.4 查看日志"></a>2.4 查看日志</h2><p>如果你遇到任何问题，可以查看 SSH 服务的日志以获取更多信息：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> journalctl -u sshd</span><br></pre></td></tr></table></figure></div>
-
-<h1 id="3-常用指令"><a href="#3-常用指令" class="headerlink" title="3.常用指令"></a>3.常用指令</h1><h2 id="3-1-与远程主机进行连接"><a href="#3-1-与远程主机进行连接" class="headerlink" title="3.1 与远程主机进行连接"></a>3.1 与远程主机进行连接</h2><div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">ssh &lt;用户名&gt;@&lt;远程主机 IP 地址&gt;</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="3-2-检查与远程代码仓库的连接"><a href="#3-2-检查与远程代码仓库的连接" class="headerlink" title="3.2 检查与远程代码仓库的连接"></a>3.2 检查与远程代码仓库的连接</h2><p>这里以 GitHub 为例：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure></div>
-
-<p>显示以下内容表示连接成功：<br><code>Hi loskyertt! You&#39;ve successfully authenticated, but GitHub does not provide shell access.</code></p>
-<h2 id="3-3-传输文件"><a href="#3-3-传输文件" class="headerlink" title="3.3 传输文件"></a>3.3 传输文件</h2><p>使用 <code>scp</code> 命令可以通过 SSH 传输文件，<code>scp</code> 是 Secure Copy Protocol 的缩写。</p>
-<p><strong>示例：</strong></p>
-<ol>
-<li><p><strong>从本地计算机复制文件到远程计算机</strong> ：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">scp localfile.txt username@remote_host:/path/to/remote/directory/</span><br></pre></td></tr></table></figure></div>
-<p>这里 <code>localfile.txt</code> 是要复制的本地文件，<code>username</code> 是远程计算机上的用户名，<code>remote_host</code> 是远程计算机的 IP 地址或主机名，<code>/path/to/remote/directory/</code> 是远程计算机上的目标目录。</p>
-</li>
-<li><p><strong>从远程计算机复制文件到本地计算机</strong> ：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">scp username@remote_host:/path/to/remote/file.txt /path/to/local/directory/</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p><strong>复制目录及其内容</strong> ：<br>使用 <code>-r</code> 选项可以递归地复制目录及其内容。</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">scp -r local_directory username@remote_host:/path/to/remote/directory/</span><br></pre></td></tr></table></figure></div></li>
-</ol>
-<h1 id="4-问题汇总"><a href="#4-问题汇总" class="headerlink" title="4.问题汇总"></a>4.问题汇总</h1><h2 id="4-1-远程主机密钥更改"><a href="#4-1-远程主机密钥更改" class="headerlink" title="4.1 远程主机密钥更改"></a>4.1 远程主机密钥更改</h2><h3 id="4-1-1-问题示例"><a href="#4-1-1-问题示例" class="headerlink" title="4.1.1 问题示例"></a>4.1.1 问题示例</h3><div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">24-08-14 16:10:00 [sky@~]</span><br><span class="line">╰─❯ssh root@124.15.31.104</span><br><span class="line">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</span><br><span class="line">@    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @</span><br><span class="line">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</span><br><span class="line">IT IS POSSIBLE THAT SOMEONE IS DOING SOMETHING NASTY!</span><br><span class="line">Someone could be eavesdropping on you right now (man-in-the-middle attack)!</span><br><span class="line">It is also possible that a host key has just been changed.</span><br><span class="line">The fingerprint for the ED25519 key sent by the remote host is</span><br><span class="line">SHA256:hQeGc/7954FRAh/w8RFXKUNFz6xxH9DnYRdygBIfWiw.</span><br><span class="line">Please contact your system administrator.</span><br><span class="line">Add correct host key in /home/sky/.ssh/known_hosts to get rid of this message.</span><br><span class="line">Offending ECDSA key in /home/sky/.ssh/known_hosts:6</span><br><span class="line">Host key for 124.15.31.104 has changed and you have requested strict checking.</span><br><span class="line">Host key verification failed.</span><br></pre></td></tr></table></figure></div>
-
-<p>出现这种警告表明你尝试连接的远程主机的 SSH 密钥已经发生了变化。这种情况可能有几种原因：</p>
-<ol>
-<li><p><strong>主机密钥确实更改了</strong>：远程服务器可能因为重新安装了操作系统、重新生成了密钥对或者更改了 SSH 配置而更换了主机密钥。</p>
-</li>
-<li><p><strong>可能的安全风险</strong>：如果你没有预期到主机密钥的变化，可能有人试图进行中间人攻击（Man-in-the-Middle Attack），这意味着有人可能在试图窃听你的连接。</p>
-</li>
-</ol>
-<h3 id="4-1-2-解决步骤"><a href="#4-1-2-解决步骤" class="headerlink" title="4.1.2 解决步骤"></a>4.1.2 解决步骤</h3><ol>
-<li>确认更改的原因</li>
-</ol>
-<p>如果你对主机密钥更改有充分的理由（例如，你知道服务器进行了重新安装或者密钥更新），你可以安全地更新你的本地 <code>known_hosts</code> 文件。</p>
-<ol start="2">
-<li>删除旧的密钥</li>
-</ol>
-<p>你可以手动编辑 <code>~/.ssh/known_hosts</code> 文件，删除对应的旧密钥。</p>
-<p>打开 <code>known_hosts</code> 文件：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">nano ~/.ssh/known_hosts</span><br></pre></td></tr></table></figure></div>
-
-<p>查找并删除第6行（或者显示的“Offending ECDSA key”所在的行），这行对应于你连接的服务器的旧密钥。</p>
-<p>保存文件并退出编辑器。</p>
-<p>如果你更喜欢使用命令行工具，你可以使用以下命令删除该行：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">sed -i <span class="string">&#x27;6d&#x27;</span> ~/.ssh/known_hosts</span><br></pre></td></tr></table></figure></div>
-
-<p>注意：此命令会删除 <code>known_hosts</code> 文件中的第6行。</p>
-<ol start="3">
-<li>再次连接服务器</li>
-</ol>
-<p>删除旧密钥后，重新尝试连接服务器：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">ssh root@124.15.31.104</span><br></pre></td></tr></table></figure></div>
-
-<p>你将会看到提示要求确认新的主机密钥。确保你确认这个新的密钥是合法的。如果确定是合法的，可以输入 <code>yes</code> 来接受新的密钥并将其添加到 <code>known_hosts</code> 文件中。</p>
-]]></content>
-      <tags>
-        <tag>linux</tag>
-        <tag>ssh</tag>
       </tags>
   </entry>
   <entry>
@@ -2877,15 +2768,124 @@
       </tags>
   </entry>
   <entry>
+    <title>SSH 教程</title>
+    <url>/2024/08/16/SSH%20%E6%95%99%E7%A8%8B/</url>
+    <content><![CDATA[<h1 id="1-Windows-安装-SSH-工具"><a href="#1-Windows-安装-SSH-工具" class="headerlink" title="1.Windows 安装 SSH 工具"></a>1.Windows 安装 SSH 工具</h1><h2 id="1-1-方式一、使用-OpenSSH"><a href="#1-1-方式一、使用-OpenSSH" class="headerlink" title="1.1 方式一、使用 OpenSSH"></a>1.1 方式一、使用 OpenSSH</h2><p>可以直接搭配 Windows 的 PowerShell 使用，很轻量，但是功能少。配置方式可以参考我写的这篇文章：<a class="link"   href="https://loskyertt.github.io/2024/07/30/Openssh%E9%85%8D%E7%BD%AE/" >Win10 SSH 服务配置<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h2 id="1-2-方式二、使用-MobaXterm-（推荐）"><a href="#1-2-方式二、使用-MobaXterm-（推荐）" class="headerlink" title="1.2 方式二、使用  MobaXterm （推荐）"></a>1.2 方式二、使用  MobaXterm （推荐）</h2><p>本人用了下，效果还不错，就是没有中文。下载地址：<a class="link"   href="https://mobaxterm.mobatek.net/download.html" >MobaXterm<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h2 id="1-3-方式三、使用-WindTerm-（开源）"><a href="#1-3-方式三、使用-WindTerm-（开源）" class="headerlink" title="1.3 方式三、使用 WindTerm （开源）"></a>1.3 方式三、使用 WindTerm （开源）</h2><p>支持中文，在 GitHub 开源。下载地址：<a class="link"   href="https://github.com/kingToolbox/WindTerm" >WindTerm<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h2 id="1-4-方式三、其他"><a href="#1-4-方式三、其他" class="headerlink" title="1.4 方式三、其他"></a>1.4 方式三、其他</h2><p>Linux 下直接下载 OpenSSH 就行了，使用<code>zsh</code>或者<code>bash</code>终端。 </p>
+<p>其他 SSH 连接工具推荐：<a class="link"   href="https://www.bilibili.com/video/BV1xJ4m1s7zX/?share_source=copy_web&vd_source=9fce48d1dc82a922216accb794549993" >视频地址<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h1 id="2-远程主机的配置"><a href="#2-远程主机的配置" class="headerlink" title="2.远程主机的配置"></a>2.远程主机的配置</h1><h2 id="2-1-安装-OpenSSH"><a href="#2-1-安装-OpenSSH" class="headerlink" title="2.1 安装 OpenSSH"></a>2.1 安装 OpenSSH</h2><p>Linux 一般默认安装上的，如果没有，可以手动安装，这里以 Arch 系 Linux 为例：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S openssh</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="2-2-开启-SSH-服务"><a href="#2-2-开启-SSH-服务" class="headerlink" title="2.2 开启 SSH 服务"></a>2.2 开启 SSH 服务</h2><ul>
+<li><p>让 sshd 开机自启动：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> sshd</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>开启 sshd 服务：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start sshd</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>查看是否启动成功：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status sshd</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<h2 id="2-3-配置防火墙（一定要配置）"><a href="#2-3-配置防火墙（一定要配置）" class="headerlink" title="2.3 配置防火墙（一定要配置）"></a>2.3 配置防火墙（一定要配置）</h2><ul>
+<li><p><code>ufw</code> 防火墙：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> ufw allow ssh</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p><code>iptables</code>防火墙：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> iptables -A INPUT -p tcp --dport 22 -j ACCEPT</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p><code>firewalld</code>防火墙：<br>显示<code>firewalld</code>的当前防火墙配置状态：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> firewall-cmd --list-all</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<p>通常会显示以下信息：</p>
+<ul>
+<li><strong><code>interfaces</code></strong> : 显示与当前区域关联的网络接口。</li>
+<li><strong><code>sources</code></strong> : 显示与当前区域关联的 IP 源地址或子网。</li>
+<li><strong><code>services</code></strong> : 显示允许的服务列表（例如 <code>ssh</code>, <code>http</code>, <code>https</code> 等）。</li>
+<li><strong><code>ports</code></strong> : 显示手动添加的开放端口及其协议（例如 <code>22/tcp</code>, <code>80/tcp</code> 等）。</li>
+<li><strong><code>protocols</code></strong> : 显示允许的协议（通常包括 <code>ipv4</code> 和 <code>ipv6</code>）。</li>
+<li><strong><code>zone</code></strong> : 当前配置的区域名称。</li>
+<li><strong><code>forward</code></strong> : 显示转发规则（如果有的话）。</li>
+<li><strong><code>masquerade</code></strong> : 显示是否启用网络地址转换（NAT）。</li>
+</ul>
+<p>确保<code>22</code>端口被开放：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> firewall-cmd --add-service=ssh --permanent</span><br><span class="line"><span class="built_in">sudo</span> firewall-cmd --reload</span><br></pre></td></tr></table></figure></div>
+
+<p>也可以检查 SSH 配置文件：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nano /etc/ssh/sshd_config</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="2-4-查看日志"><a href="#2-4-查看日志" class="headerlink" title="2.4 查看日志"></a>2.4 查看日志</h2><p>如果你遇到任何问题，可以查看 SSH 服务的日志以获取更多信息：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> journalctl -u sshd</span><br></pre></td></tr></table></figure></div>
+
+<h1 id="3-常用指令"><a href="#3-常用指令" class="headerlink" title="3.常用指令"></a>3.常用指令</h1><h2 id="3-1-与远程主机进行连接"><a href="#3-1-与远程主机进行连接" class="headerlink" title="3.1 与远程主机进行连接"></a>3.1 与远程主机进行连接</h2><div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">ssh &lt;用户名&gt;@&lt;远程主机 IP 地址&gt;</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="3-2-检查与远程代码仓库的连接"><a href="#3-2-检查与远程代码仓库的连接" class="headerlink" title="3.2 检查与远程代码仓库的连接"></a>3.2 检查与远程代码仓库的连接</h2><p>这里以 GitHub 为例：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure></div>
+
+<p>显示以下内容表示连接成功：<br><code>Hi loskyertt! You&#39;ve successfully authenticated, but GitHub does not provide shell access.</code></p>
+<h2 id="3-3-传输文件"><a href="#3-3-传输文件" class="headerlink" title="3.3 传输文件"></a>3.3 传输文件</h2><p>使用 <code>scp</code> 命令可以通过 SSH 传输文件，<code>scp</code> 是 Secure Copy Protocol 的缩写。</p>
+<p><strong>示例：</strong></p>
+<ol>
+<li><p><strong>从本地计算机复制文件到远程计算机</strong> ：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">scp localfile.txt username@remote_host:/path/to/remote/directory/</span><br></pre></td></tr></table></figure></div>
+<p>这里 <code>localfile.txt</code> 是要复制的本地文件，<code>username</code> 是远程计算机上的用户名，<code>remote_host</code> 是远程计算机的 IP 地址或主机名，<code>/path/to/remote/directory/</code> 是远程计算机上的目标目录。</p>
+</li>
+<li><p><strong>从远程计算机复制文件到本地计算机</strong> ：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">scp username@remote_host:/path/to/remote/file.txt /path/to/local/directory/</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p><strong>复制目录及其内容</strong> ：<br>使用 <code>-r</code> 选项可以递归地复制目录及其内容。</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">scp -r local_directory username@remote_host:/path/to/remote/directory/</span><br></pre></td></tr></table></figure></div></li>
+</ol>
+<h1 id="4-问题汇总"><a href="#4-问题汇总" class="headerlink" title="4.问题汇总"></a>4.问题汇总</h1><h2 id="4-1-远程主机密钥更改"><a href="#4-1-远程主机密钥更改" class="headerlink" title="4.1 远程主机密钥更改"></a>4.1 远程主机密钥更改</h2><h3 id="4-1-1-问题示例"><a href="#4-1-1-问题示例" class="headerlink" title="4.1.1 问题示例"></a>4.1.1 问题示例</h3><div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">24-08-14 16:10:00 [sky@~]</span><br><span class="line">╰─❯ssh root@124.15.31.104</span><br><span class="line">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</span><br><span class="line">@    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @</span><br><span class="line">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</span><br><span class="line">IT IS POSSIBLE THAT SOMEONE IS DOING SOMETHING NASTY!</span><br><span class="line">Someone could be eavesdropping on you right now (man-in-the-middle attack)!</span><br><span class="line">It is also possible that a host key has just been changed.</span><br><span class="line">The fingerprint for the ED25519 key sent by the remote host is</span><br><span class="line">SHA256:hQeGc/7954FRAh/w8RFXKUNFz6xxH9DnYRdygBIfWiw.</span><br><span class="line">Please contact your system administrator.</span><br><span class="line">Add correct host key in /home/sky/.ssh/known_hosts to get rid of this message.</span><br><span class="line">Offending ECDSA key in /home/sky/.ssh/known_hosts:6</span><br><span class="line">Host key for 124.15.31.104 has changed and you have requested strict checking.</span><br><span class="line">Host key verification failed.</span><br></pre></td></tr></table></figure></div>
+
+<p>出现这种警告表明你尝试连接的远程主机的 SSH 密钥已经发生了变化。这种情况可能有几种原因：</p>
+<ol>
+<li><p><strong>主机密钥确实更改了</strong>：远程服务器可能因为重新安装了操作系统、重新生成了密钥对或者更改了 SSH 配置而更换了主机密钥。</p>
+</li>
+<li><p><strong>可能的安全风险</strong>：如果你没有预期到主机密钥的变化，可能有人试图进行中间人攻击（Man-in-the-Middle Attack），这意味着有人可能在试图窃听你的连接。</p>
+</li>
+</ol>
+<h3 id="4-1-2-解决步骤"><a href="#4-1-2-解决步骤" class="headerlink" title="4.1.2 解决步骤"></a>4.1.2 解决步骤</h3><ol>
+<li>确认更改的原因</li>
+</ol>
+<p>如果你对主机密钥更改有充分的理由（例如，你知道服务器进行了重新安装或者密钥更新），你可以安全地更新你的本地 <code>known_hosts</code> 文件。</p>
+<ol start="2">
+<li>删除旧的密钥</li>
+</ol>
+<p>你可以手动编辑 <code>~/.ssh/known_hosts</code> 文件，删除对应的旧密钥。</p>
+<p>打开 <code>known_hosts</code> 文件：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">nano ~/.ssh/known_hosts</span><br></pre></td></tr></table></figure></div>
+
+<p>查找并删除第6行（或者显示的“Offending ECDSA key”所在的行），这行对应于你连接的服务器的旧密钥。</p>
+<p>保存文件并退出编辑器。</p>
+<p>如果你更喜欢使用命令行工具，你可以使用以下命令删除该行：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">sed -i <span class="string">&#x27;6d&#x27;</span> ~/.ssh/known_hosts</span><br></pre></td></tr></table></figure></div>
+
+<p>注意：此命令会删除 <code>known_hosts</code> 文件中的第6行。</p>
+<ol start="3">
+<li>再次连接服务器</li>
+</ol>
+<p>删除旧密钥后，重新尝试连接服务器：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">ssh root@124.15.31.104</span><br></pre></td></tr></table></figure></div>
+
+<p>你将会看到提示要求确认新的主机密钥。确保你确认这个新的密钥是合法的。如果确定是合法的，可以输入 <code>yes</code> 来接受新的密钥并将其添加到 <code>known_hosts</code> 文件中。</p>
+]]></content>
+      <tags>
+        <tag>linux</tag>
+        <tag>ssh</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>WSL2 的使用教程</title>
     <url>/2024/11/12/WSL2%E6%95%99%E7%A8%8B/</url>
-    <content><![CDATA[<h1 id="1-安装和升级-WSL2"><a href="#1-安装和升级-WSL2" class="headerlink" title="1.安装和升级 WSL2"></a>1.安装和升级 WSL2</h1><h2 id="1-1-安装前的准备"><a href="#1-1-安装前的准备" class="headerlink" title="1.1 安装前的准备"></a>1.1 安装前的准备</h2><p>首先需要在<code>控制面板 -&gt; 程序 -&gt; 启用或关闭Windows功能</code>处开启<code>Hyper-V</code>和<code>适用于Windows的Linux子系统</code>，然后重启电脑即可。默认有2个版本，1和2，1是使用和主机相同的 IP 地址；2是更加独立的 Linux 子系统，有单独的 IP 地址，通过 Windows 主机访问互联网，建议安装2，可以用<code>systemd</code>。如果安装2还需要安装一个软件：<a class="link"   href="https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi" >wsl_update_x64 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>,该软件来自于<a class="link"   href="https://learn.microsoft.com/zh-cn/windows/wsl/install-manual#step-4---download-the-linux-kernel-update-package" >Windows 官网 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>。</p>
+    <content><![CDATA[<h1 id="1-安装和升级-WSL2"><a href="#1-安装和升级-WSL2" class="headerlink" title="1.安装和升级 WSL2"></a>1.安装和升级 WSL2</h1><h2 id="1-1-安装前的准备"><a href="#1-1-安装前的准备" class="headerlink" title="1.1 安装前的准备"></a>1.1 安装前的准备</h2><p>首先需要在<code>控制面板 -&gt; 程序 -&gt; 启用或关闭Windows功能</code>处开启<code>Hyper-V</code>和<code>适用于Windows的Linux子系统</code>，然后重启电脑即可。默认有2个版本，1和2，1是使用和主机相同的 IP 地址；2是更加独立的 Linux 子系统，有单独的 IP 地址，通过 Windows 主机访问互联网，建议安装2，可以用<code>systemd</code>。如果安装2还需要安装一个软件：<a class="link"   href="https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi" >wsl_update_x64<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>,该软件来自于<a class="link"   href="https://learn.microsoft.com/zh-cn/windows/wsl/install-manual#step-4---download-the-linux-kernel-update-package" >Windows 官网<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>。</p>
 <h2 id="1-2-升级-WSL2"><a href="#1-2-升级-WSL2" class="headerlink" title="1.2 升级 WSL2"></a>1.2 升级 WSL2</h2><p>设置默认版本：</p>
 <div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl --set-default-version 2</span><br></pre></td></tr></table></figure></div>
 
 <p>更新版本：</p>
 <div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl --update</span><br></pre></td></tr></table></figure></div>
-<p>这种方式大概率会卡住，建议离线下载安装：<a class="link"   href="https://github.com/microsoft/WSL" >microsoft&#x2F;WSL <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>，下载好后直接双击安装即可。</p>
+<p>这种方式大概率会卡住，建议离线下载安装：<a class="link"   href="https://github.com/microsoft/WSL" >microsoft&#x2F;WSL<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>，下载好后直接双击安装即可。</p>
 <p>验证是否安装成功：</p>
 <div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl --version</span><br></pre></td></tr></table></figure></div>
 <p>输入这行指令有这样的输出，表示安装成功：</p>
@@ -2938,7 +2938,7 @@
 
 <h2 id="3-2-更换内核"><a href="#3-2-更换内核" class="headerlink" title="3.2 更换内核"></a>3.2 更换内核</h2><p>在 Windows 下的资源管理器中的地址栏输入<code>%UserProfile%</code>，然后按回车。在里面新建一个<code>.wslconfig</code>文件（如果没有的话）。在文件中天下下面的内容：</p>
 <div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">[wsl2]</span><br><span class="line">kernel=e:\\wsl2linuxkernel\\bzImage</span><br></pre></td></tr></table></figure></div>
-<p>这里的<code>e:\\wsl2linuxkernel\\bzImage</code>是内核路径，可以自己编译内核，手动编译内核参考官方仓库：<a class="link"   href="https://github.com/microsoft/WSL2-Linux-Kernel" >microsoft&#x2F;WSL2-Linux-Kernel <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>。也可以用仓库里线现成的：<a class="link"   href="https://github.com/Nevuly/WSL2-Linux-Kernel-Rolling" >Nevuly&#x2F;WSL2-Linux-Kernel-Rolling <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>。</p>
+<p>这里的<code>e:\\wsl2linuxkernel\\bzImage</code>是内核路径，可以自己编译内核，手动编译内核参考官方仓库：<a class="link"   href="https://github.com/microsoft/WSL2-Linux-Kernel" >microsoft&#x2F;WSL2-Linux-Kernel<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>。也可以用仓库里线现成的：<a class="link"   href="https://github.com/Nevuly/WSL2-Linux-Kernel-Rolling" >Nevuly&#x2F;WSL2-Linux-Kernel-Rolling<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>。</p>
 <h1 id="4-释放-WSL-占用的磁盘空间"><a href="#4-释放-WSL-占用的磁盘空间" class="headerlink" title="4.释放 WSL 占用的磁盘空间"></a>4.释放 WSL 占用的磁盘空间</h1><p>有时后会发现，你在 WSL 中删掉了一些文件，但是磁盘剩余空间并没有增加。这是因为 WSL 的磁盘是动态扩容的，但不会自动释放。</p>
 <ol>
 <li><p>关闭 WSL 中的 Linux 发行版：</p>
@@ -2965,11 +2965,11 @@
 </li>
 </ol>
 <h1 id="5-参考链接"><a href="#5-参考链接" class="headerlink" title="5.参考链接"></a>5.参考链接</h1><ul>
-<li><a class="link"   href="https://xujinzh.github.io/2023/08/04/windows-wsl-install/index.html" >Windows 安装 Linux 子系统 wsl <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></li>
-<li><a class="link"   href="https://www.cnblogs.com/Chary/p/18011740" >wsl2子系统的备份和还原 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></li>
-<li><a class="link"   href="https://blog.azurezeng.com/wsl2-arch-docker-configuration/" >WSL2 Arch+Docker个人配置过程和踩坑记录，以及一些建议 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></li>
-<li><a class="link"   href="https://nxdong.com/wsl-update-kernel/" >wsl2编译升级linux内核 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></li>
-<li><a class="link"   href="https://blog.csdn.net/qq_23865133/article/details/141642123" >在WSL2中删除文件后，磁盘空间未释放怎么办 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></li>
+<li><a class="link"   href="https://xujinzh.github.io/2023/08/04/windows-wsl-install/index.html" >Windows 安装 Linux 子系统 wsl<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link"   href="https://www.cnblogs.com/Chary/p/18011740" >wsl2子系统的备份和还原<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link"   href="https://blog.azurezeng.com/wsl2-arch-docker-configuration/" >WSL2 Arch+Docker个人配置过程和踩坑记录，以及一些建议<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link"   href="https://nxdong.com/wsl-update-kernel/" >wsl2编译升级linux内核<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link"   href="https://blog.csdn.net/qq_23865133/article/details/141642123" >在WSL2中删除文件后，磁盘空间未释放怎么办<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
 </ul>
 ]]></content>
       <tags>
@@ -2980,7 +2980,7 @@
   <entry>
     <title>Zerotier 使用教程</title>
     <url>/2024/08/18/Zerotier%E6%95%99%E7%A8%8B/</url>
-    <content><![CDATA[<h1 id="1-登录或注册-Zerotier-官网帐号"><a href="#1-登录或注册-Zerotier-官网帐号" class="headerlink" title="1.登录或注册 Zerotier 官网帐号"></a>1.登录或注册 Zerotier 官网帐号</h1><p><a class="link"   href="https://www.zerotier.com/" >官网地址 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+    <content><![CDATA[<h1 id="1-登录或注册-Zerotier-官网帐号"><a href="#1-登录或注册-Zerotier-官网帐号" class="headerlink" title="1.登录或注册 Zerotier 官网帐号"></a>1.登录或注册 Zerotier 官网帐号</h1><p><a class="link"   href="https://www.zerotier.com/" >官网地址<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
 <h2 id="1-1-创建组网"><a href="#1-1-创建组网" class="headerlink" title="1.1 创建组网"></a>1.1 创建组网</h2><p>点击<code>Create A NetWork</code></p>
 <p><a href="https://imgse.com/i/pACzRbV"><figure class="image-caption"><img  
                      lazyload
@@ -2989,7 +2989,7 @@
                       alt="创建网络"
                 ><figcaption>创建网络</figcaption></figure></a></p>
 <p>蓝色框里的是我已经创建好了的。创建好后可以点击进入并管理。</p>
-<h1 id="2-安装-Zerotier"><a href="#2-安装-Zerotier" class="headerlink" title="2.安装 Zerotier"></a>2.安装 Zerotier</h1><h2 id="2-1-常规安装"><a href="#2-1-常规安装" class="headerlink" title="2.1 常规安装"></a>2.1 常规安装</h2><p>请参考官网下载链接：<a class="link"   href="https://www.zerotier.com/download/" >Download <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<h1 id="2-安装-Zerotier"><a href="#2-安装-Zerotier" class="headerlink" title="2.安装 Zerotier"></a>2.安装 Zerotier</h1><h2 id="2-1-常规安装"><a href="#2-1-常规安装" class="headerlink" title="2.1 常规安装"></a>2.1 常规安装</h2><p>请参考官网下载链接：<a class="link"   href="https://www.zerotier.com/download/" >Download<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
 <h2 id="2-2-Arch-系-Linux-安装"><a href="#2-2-Arch-系-Linux-安装" class="headerlink" title="2.2 Arch 系 Linux 安装"></a>2.2 Arch 系 Linux 安装</h2><p>通过<code>pacman</code>安装：</p>
 <div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -Sy zerotier-one</span><br></pre></td></tr></table></figure></div>
 
@@ -3010,7 +3010,7 @@
 <li><p>验证加入状态:</p>
 <div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> zerotier-cli listnetworks</span><br></pre></td></tr></table></figure></div></li>
 </ul>
-<h2 id="3-2-在-ZeroTier-管理控制台上授权设备"><a href="#3-2-在-ZeroTier-管理控制台上授权设备" class="headerlink" title="3.2 在 ZeroTier 管理控制台上授权设备"></a>3.2 在 ZeroTier 管理控制台上授权设备</h2><p>登录到 ZeroTier 的管理控制台（<a class="link"   href="https://my.zerotier.com/" >ZeroTier Central <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>），找到你创建的网络。你会看到一个待授权的设备列表。你需要在控制台中授权你的设备：</p>
+<h2 id="3-2-在-ZeroTier-管理控制台上授权设备"><a href="#3-2-在-ZeroTier-管理控制台上授权设备" class="headerlink" title="3.2 在 ZeroTier 管理控制台上授权设备"></a>3.2 在 ZeroTier 管理控制台上授权设备</h2><p>登录到 ZeroTier 的管理控制台（<a class="link"   href="https://my.zerotier.com/" >ZeroTier Central<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>），找到你创建的网络。你会看到一个待授权的设备列表。你需要在控制台中授权你的设备：</p>
 <ol>
 <li>在控制台的网络管理页面中，找到你的网络。</li>
 <li>在“成员”部分，你会看到一个类似 <code>e3918db483f0c385</code> 的设备 ID（这是你的设备）。</li>
@@ -3234,7 +3234,7 @@
                      data-src="https://s21.ax1x.com/2024/09/14/pAuEYVI.png"
                       alt="乱码.png"
                 ><figcaption>乱码.png</figcaption></figure></a></p>
-<h1 id="2-解决方法"><a href="#2-解决方法" class="headerlink" title="2.解决方法"></a>2.解决方法</h1><h2 id="2-1-下载字体"><a href="#2-1-下载字体" class="headerlink" title="2.1 下载字体"></a>2.1 下载字体</h2><p>网上常用的中文字体是<code>SimHei</code>，<a class="link"   href="https://github.com/StellarCN/scp_zh/blob/master/fonts/SimHei.ttf" >下载地址 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<h1 id="2-解决方法"><a href="#2-解决方法" class="headerlink" title="2.解决方法"></a>2.解决方法</h1><h2 id="2-1-下载字体"><a href="#2-1-下载字体" class="headerlink" title="2.1 下载字体"></a>2.1 下载字体</h2><p>网上常用的中文字体是<code>SimHei</code>，<a class="link"   href="https://github.com/StellarCN/scp_zh/blob/master/fonts/SimHei.ttf" >下载地址<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
 <h2 id="2-2-查找存放字体的文件夹"><a href="#2-2-查找存放字体的文件夹" class="headerlink" title="2.2 查找存放字体的文件夹"></a>2.2 查找存放字体的文件夹</h2><div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib</span><br><span class="line"> </span><br><span class="line"><span class="built_in">print</span>(matplotlib.matplotlib_fname())   <span class="comment"># 查找字体路径</span></span><br></pre></td></tr></table></figure></div>
 <p>运行这段代码会打印出字体存放路径，如：</p>
 <div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">/home/sky/miniconda3/envs/test/lib/python3.12/site-packages/matplotlib/mpl-data/matplotlibrc</span><br></pre></td></tr></table></figure></div>
@@ -3269,8 +3269,8 @@
                       alt="正常输出.png"
                 ><figcaption>正常输出.png</figcaption></figure></a></p>
 <h2 id="3-1-参考教程"><a href="#3-1-参考教程" class="headerlink" title="3.1 参考教程"></a>3.1 参考教程</h2><ul>
-<li><a class="link"   href="https://developer.aliyun.com/article/1577567" >【Deepin20系统】Linux系统中永久解决matplotlib画图中文乱码问题和使用seaborn中文乱码问题 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></li>
-<li><a class="link"   href="https://cloud.tencent.com/developer/article/1877673" >解决Python使用matplotlib绘图时出现的中文乱码问题 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></li>
+<li><a class="link"   href="https://developer.aliyun.com/article/1577567" >【Deepin20系统】Linux系统中永久解决matplotlib画图中文乱码问题和使用seaborn中文乱码问题<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link"   href="https://cloud.tencent.com/developer/article/1877673" >解决Python使用matplotlib绘图时出现的中文乱码问题<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
 </ul>
 <h1 id="4-负号乱码解决"><a href="#4-负号乱码解决" class="headerlink" title="4.负号乱码解决"></a>4.负号乱码解决</h1><p>只要在前面加以段这个代码：</p>
 <div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 解决负号显示问题</span></span><br><span class="line">plt.rcParams[<span class="string">&#x27;axes.unicode_minus&#x27;</span>] = <span class="literal">False</span></span><br></pre></td></tr></table></figure></div>
@@ -3379,12 +3379,12 @@
 </tbody></table>
 <h3 id="2-2-1推荐配置"><a href="#2-2-1推荐配置" class="headerlink" title="2.2.1推荐配置"></a>2.2.1推荐配置</h3><p>关于自定义<code>git prompt</code>。参考这两篇文章：</p>
 <ul>
-<li><a class="link"   href="https://stackoverflow.com/questions/67587439/show-current-branch-on-prompt-on-zsh-shell" >Show current branch on prompt on zsh shell <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></li>
-<li><a class="link"   href="https://medium.com/pareture/simplest-zsh-prompt-configs-for-git-branch-name-3d01602a6f33" >Simplest ZSH Prompt Configs for Git Branch Name <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></li>
+<li><a class="link"   href="https://stackoverflow.com/questions/67587439/show-current-branch-on-prompt-on-zsh-shell" >Show current branch on prompt on zsh shell<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link"   href="https://medium.com/pareture/simplest-zsh-prompt-configs-for-git-branch-name-3d01602a6f33" >Simplest ZSH Prompt Configs for Git Branch Name<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
 </ul>
 <p>关于自定义<code>conda prompt</code>。参考这篇论坛：</p>
 <ul>
-<li><a class="link"   href="https://unix.stackexchange.com/questions/656045/how-to-modify-the-anaconda-environment-prompt-in-zsh" >how to modify the anaconda environment prompt in zsh? <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a><div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line"># ~/.zshrc</span><br><span class="line"># Find and set branch name var if in git repository.</span><br><span class="line">function git_branch_name()</span><br><span class="line">&#123;</span><br><span class="line">  branch=$(git symbolic-ref HEAD 2&gt; /dev/null | awk &#x27;BEGIN&#123;FS=&quot;/&quot;&#125; &#123;print $NF&#125;&#x27;)</span><br><span class="line">  if [[ $branch == &quot;&quot; ]];</span><br><span class="line">  then</span><br><span class="line">    :</span><br><span class="line">  else</span><br><span class="line">    echo &#x27;- (&#x27;$branch&#x27;)&#x27;</span><br><span class="line">  fi</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># Enable substitution in the prompt.</span><br><span class="line">setopt prompt_subst</span><br><span class="line"></span><br><span class="line">precmd_get_conda_env_name() &#123;</span><br><span class="line">if [[ -n $CONDA_PREFIX ]]; then</span><br><span class="line">    if [[ $(basename $CONDA_PREFIX) == &quot;miniconda3&quot; ]]; then</span><br><span class="line">        CONDA_ENV=&quot;base&quot;</span><br><span class="line">    else</span><br><span class="line">        CONDA_ENV=&quot;$(basename $CONDA_PREFIX)&quot;</span><br><span class="line">    fi</span><br><span class="line">else</span><br><span class="line">    CONDA_ENV=&quot;&quot;</span><br><span class="line">fi</span><br><span class="line">&#125;</span><br><span class="line">precmd_functions+=( precmd_get_conda_env_name )</span><br><span class="line">precmd_update_prompt() &#123;</span><br><span class="line">    PROMPT=$&#x27;\n&#x27;&quot;%B%F&#123;119&#125;[%F&#123;green&#125;%D&#123;%m/%d %H:%M&#125;%F&#123;119&#125;] %F&#123;red&#125;%n%F&#123;blue&#125;@%F&#123;yellow&#125;%m%F&#123;black&#125;:%F&#123;cyan&#125;%~%B%F&#123;70&#125;$(git_branch_name)&quot;$&#x27;\n&#x27;&quot;%F&#123;magenta&#125;$CONDA_ENV%F&#123;119&#125; ➜ %f%b&quot;</span><br><span class="line">&#125;</span><br><span class="line">precmd_functions+=( precmd_update_prompt )</span><br></pre></td></tr></table></figure></div></li>
+<li><a class="link"   href="https://unix.stackexchange.com/questions/656045/how-to-modify-the-anaconda-environment-prompt-in-zsh" >how to modify the anaconda environment prompt in zsh?<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a><div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line"># ~/.zshrc</span><br><span class="line"># Find and set branch name var if in git repository.</span><br><span class="line">function git_branch_name()</span><br><span class="line">&#123;</span><br><span class="line">  branch=$(git symbolic-ref HEAD 2&gt; /dev/null | awk &#x27;BEGIN&#123;FS=&quot;/&quot;&#125; &#123;print $NF&#125;&#x27;)</span><br><span class="line">  if [[ $branch == &quot;&quot; ]];</span><br><span class="line">  then</span><br><span class="line">    :</span><br><span class="line">  else</span><br><span class="line">    echo &#x27;- (&#x27;$branch&#x27;)&#x27;</span><br><span class="line">  fi</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># Enable substitution in the prompt.</span><br><span class="line">setopt prompt_subst</span><br><span class="line"></span><br><span class="line">precmd_get_conda_env_name() &#123;</span><br><span class="line">if [[ -n $CONDA_PREFIX ]]; then</span><br><span class="line">    if [[ $(basename $CONDA_PREFIX) == &quot;miniconda3&quot; ]]; then</span><br><span class="line">        CONDA_ENV=&quot;base&quot;</span><br><span class="line">    else</span><br><span class="line">        CONDA_ENV=&quot;$(basename $CONDA_PREFIX)&quot;</span><br><span class="line">    fi</span><br><span class="line">else</span><br><span class="line">    CONDA_ENV=&quot;&quot;</span><br><span class="line">fi</span><br><span class="line">&#125;</span><br><span class="line">precmd_functions+=( precmd_get_conda_env_name )</span><br><span class="line">precmd_update_prompt() &#123;</span><br><span class="line">    PROMPT=$&#x27;\n&#x27;&quot;%B%F&#123;119&#125;[%F&#123;green&#125;%D&#123;%m/%d %H:%M&#125;%F&#123;119&#125;] %F&#123;red&#125;%n%F&#123;blue&#125;@%F&#123;yellow&#125;%m%F&#123;black&#125;:%F&#123;cyan&#125;%~%B%F&#123;70&#125;$(git_branch_name)&quot;$&#x27;\n&#x27;&quot;%F&#123;magenta&#125;$CONDA_ENV%F&#123;119&#125; ➜ %f%b&quot;</span><br><span class="line">&#125;</span><br><span class="line">precmd_functions+=( precmd_update_prompt )</span><br></pre></td></tr></table></figure></div></li>
 </ul>
 <h2 id="2-3-插件配置"><a href="#2-3-插件配置" class="headerlink" title="2.3 插件配置"></a>2.3 插件配置</h2><ul>
 <li><p><strong>备份（避免配置失败，最好备份下）：</strong></p>
@@ -3441,38 +3441,6 @@
       </tags>
   </entry>
   <entry>
-    <title>搭建代理池</title>
-    <url>/2024/10/17/%E6%90%AD%E5%BB%BA%E4%BB%A3%E7%90%86%E6%B1%A0/</url>
-    <content><![CDATA[<h1 id="1-开源项目地址"><a href="#1-开源项目地址" class="headerlink" title="1.开源项目地址"></a>1.开源项目地址</h1><p><a class="link"   href="https://github.com/jhao104/proxy_pool" >jhao104&#x2F;proxy_pool <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
-<h1 id="2-搭建教程"><a href="#2-搭建教程" class="headerlink" title="2.搭建教程"></a>2.搭建教程</h1><h2 id="2-1-通过-docker-搭建"><a href="#2-1-通过-docker-搭建" class="headerlink" title="2.1 通过 docker 搭建"></a>2.1 通过 docker 搭建</h2><p>默认情况下，Docker 容器彼此无法通过<code>localhost</code>访问，需要通过容器的网络名称（桥接网络：<code>bridge</code>）进行通信。因此可以将<code>proxy_pool</code>和<code>redis</code>放在同一个 Docker 网络中。</p>
-<p><strong>创建网络：</strong></p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker network create mynetwork</span><br></pre></td></tr></table></figure></div>
-
-<p><strong>运行 Redis 容器并加入网络：</strong></p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -d --name redis --network=mynetwork -p 6379:6379 redis:latest</span><br></pre></td></tr></table></figure></div>
-
-<p><strong>运行<code>proxy_pool</code>容器并连接 Redis：</strong></p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -d --name proxy_pool --network=mynetwork --<span class="built_in">env</span> DB_CONN=redis://redis:6379/0 -p 5010:5010 jhao104/proxy_pool:latest</span><br></pre></td></tr></table></figure></div>
-
-<p><strong>查看日志信息：</strong></p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker logs proxy_pool</span><br></pre></td></tr></table></figure></div>
-
-<p>这是很就能看到获得的代理地址和端口。如下面所示：</p>
-<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 39.175.75.144:30001     ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 8.221.141.88:8443       ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 47.109.83.196:8080      ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 185.49.31.205:8080      ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 72.10.160.171:11319     ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 102.213.146.206:8080    ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 79.110.202.131:8081     ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 178.130.40.231:8080     ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 188.166.56.246:80       ok</span><br></pre></td></tr></table></figure></div>
-
-<h1 id="3-使用教程"><a href="#3-使用教程" class="headerlink" title="3.使用教程"></a>3.使用教程</h1><p>代码示例：</p>
-<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_proxy</span>():</span><br><span class="line">    <span class="keyword">return</span> requests.get(<span class="string">&quot;http://127.0.0.1:5010/get/&quot;</span>).json()</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">delete_proxy</span>(<span class="params">proxy</span>):</span><br><span class="line">    requests.get(<span class="string">&quot;http://127.0.0.1:5010/delete/?proxy=&#123;&#125;&quot;</span>.<span class="built_in">format</span>(proxy))</span><br><span class="line"></span><br><span class="line"><span class="comment"># your spider code</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">getHtml</span>(<span class="params">url, headers</span>):</span><br><span class="line">    retry_count = <span class="number">15</span></span><br><span class="line">    <span class="keyword">while</span> retry_count &gt; <span class="number">0</span>:</span><br><span class="line">        proxy = get_proxy().get(<span class="string">&quot;proxy&quot;</span>)</span><br><span class="line">        proxies = &#123;</span><br><span class="line">            <span class="string">&quot;http&quot;</span>: <span class="string">&quot;http://&quot;</span> + proxy,</span><br><span class="line">            <span class="string">&quot;https&quot;</span>: <span class="string">&quot;http://&quot;</span> + proxy</span><br><span class="line">            &#125;</span><br><span class="line">        <span class="built_in">print</span>(get_proxy().get(<span class="string">&quot;proxy&quot;</span>))</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="comment"># 使用代理访问</span></span><br><span class="line">            html = requests.get(url=url, headers=headers, proxies=proxies, timeout=<span class="number">5</span>)</span><br><span class="line">            <span class="keyword">return</span> html.text</span><br><span class="line">        <span class="keyword">except</span> Exception:</span><br><span class="line">            retry_count -= <span class="number">1</span></span><br><span class="line">            <span class="comment"># 删除代理池中代理</span></span><br><span class="line">            delete_proxy(proxy)</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;https://wuhan.anjuke.com/sale/p1/?from=esf_list&quot;</span></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36&quot;</span>,</span><br><span class="line">    <span class="string">&quot;Cookie&quot;</span>:  <span class="string">&quot;your-cookie&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">html_data = getHtml(url, headers)</span><br><span class="line"><span class="built_in">print</span>(html_data)</span><br></pre></td></tr></table></figure></div>
-<p><code>getHtml</code>函数中，会通过<code>while</code>循环来切换代理<code>ip</code>和<code>port</code>，直到请求成功，然后返回出结果并退出循环。</p>
-]]></content>
-      <categories>
-        <category>Python技巧</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-        <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>从源码安装 SSH</title>
     <url>/2024/09/11/%E4%BB%8E%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85SSH/</url>
     <content><![CDATA[<h1 id="1-构建基础镜像"><a href="#1-构建基础镜像" class="headerlink" title="1.构建基础镜像"></a>1.构建基础镜像</h1><p>在当期目录下（与<code>Dockerfile</code>同目录），添加<code>sources.list</code>文件，并添加镜像源：</p>
@@ -3494,7 +3462,7 @@
 <h2 id="3-2-下载-OpenSSH-源码"><a href="#3-2-下载-OpenSSH-源码" class="headerlink" title="3.2 下载 OpenSSH 源码"></a>3.2 下载 OpenSSH 源码</h2><p>从官方 OpenSSH 网站下载最新的源码压缩包：</p>
 <div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wget https://cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-X.XX.tar.gz</span><br></pre></td></tr></table></figure></div>
 
-<p>将 <code>X.XX</code> 替换为最新版本的版本号，可以在 <a class="link"   href="https://www.openssh.com/portable.html" >OpenSSH 官网 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a> 查询最新版本。</p>
+<p>将 <code>X.XX</code> 替换为最新版本的版本号，可以在 <a class="link"   href="https://www.openssh.com/portable.html" >OpenSSH 官网<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> 查询最新版本。</p>
 <p>解压缩下载的文件：</p>
 <div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">tar -xzf openssh-X.XX.tar.gz先设置下容器的`root`账户的</span><br><span class="line"><span class="built_in">cd</span> openssh-X.XX</span><br></pre></td></tr></table></figure></div>
 
@@ -3578,6 +3546,38 @@
       <tags>
         <tag>linux</tag>
         <tag>ssh</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>搭建代理池</title>
+    <url>/2024/10/17/%E6%90%AD%E5%BB%BA%E4%BB%A3%E7%90%86%E6%B1%A0/</url>
+    <content><![CDATA[<h1 id="1-开源项目地址"><a href="#1-开源项目地址" class="headerlink" title="1.开源项目地址"></a>1.开源项目地址</h1><p><a class="link"   href="https://github.com/jhao104/proxy_pool" >jhao104&#x2F;proxy_pool<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h1 id="2-搭建教程"><a href="#2-搭建教程" class="headerlink" title="2.搭建教程"></a>2.搭建教程</h1><h2 id="2-1-通过-docker-搭建"><a href="#2-1-通过-docker-搭建" class="headerlink" title="2.1 通过 docker 搭建"></a>2.1 通过 docker 搭建</h2><p>默认情况下，Docker 容器彼此无法通过<code>localhost</code>访问，需要通过容器的网络名称（桥接网络：<code>bridge</code>）进行通信。因此可以将<code>proxy_pool</code>和<code>redis</code>放在同一个 Docker 网络中。</p>
+<p><strong>创建网络：</strong></p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker network create mynetwork</span><br></pre></td></tr></table></figure></div>
+
+<p><strong>运行 Redis 容器并加入网络：</strong></p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -d --name redis --network=mynetwork -p 6379:6379 redis:latest</span><br></pre></td></tr></table></figure></div>
+
+<p><strong>运行<code>proxy_pool</code>容器并连接 Redis：</strong></p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -d --name proxy_pool --network=mynetwork --<span class="built_in">env</span> DB_CONN=redis://redis:6379/0 -p 5010:5010 jhao104/proxy_pool:latest</span><br></pre></td></tr></table></figure></div>
+
+<p><strong>查看日志信息：</strong></p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker logs proxy_pool</span><br></pre></td></tr></table></figure></div>
+
+<p>这是很就能看到获得的代理地址和端口。如下面所示：</p>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 39.175.75.144:30001     ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 8.221.141.88:8443       ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 47.109.83.196:8080      ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 185.49.31.205:8080      ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 72.10.160.171:11319     ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 102.213.146.206:8080    ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 79.110.202.131:8081     ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 178.130.40.231:8080     ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 188.166.56.246:80       ok</span><br></pre></td></tr></table></figure></div>
+
+<h1 id="3-使用教程"><a href="#3-使用教程" class="headerlink" title="3.使用教程"></a>3.使用教程</h1><p>代码示例：</p>
+<div class="highlight-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_proxy</span>():</span><br><span class="line">    <span class="keyword">return</span> requests.get(<span class="string">&quot;http://127.0.0.1:5010/get/&quot;</span>).json()</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">delete_proxy</span>(<span class="params">proxy</span>):</span><br><span class="line">    requests.get(<span class="string">&quot;http://127.0.0.1:5010/delete/?proxy=&#123;&#125;&quot;</span>.<span class="built_in">format</span>(proxy))</span><br><span class="line"></span><br><span class="line"><span class="comment"># your spider code</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">getHtml</span>(<span class="params">url, headers</span>):</span><br><span class="line">    retry_count = <span class="number">15</span></span><br><span class="line">    <span class="keyword">while</span> retry_count &gt; <span class="number">0</span>:</span><br><span class="line">        proxy = get_proxy().get(<span class="string">&quot;proxy&quot;</span>)</span><br><span class="line">        proxies = &#123;</span><br><span class="line">            <span class="string">&quot;http&quot;</span>: <span class="string">&quot;http://&quot;</span> + proxy,</span><br><span class="line">            <span class="string">&quot;https&quot;</span>: <span class="string">&quot;http://&quot;</span> + proxy</span><br><span class="line">            &#125;</span><br><span class="line">        <span class="built_in">print</span>(get_proxy().get(<span class="string">&quot;proxy&quot;</span>))</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="comment"># 使用代理访问</span></span><br><span class="line">            html = requests.get(url=url, headers=headers, proxies=proxies, timeout=<span class="number">5</span>)</span><br><span class="line">            <span class="keyword">return</span> html.text</span><br><span class="line">        <span class="keyword">except</span> Exception:</span><br><span class="line">            retry_count -= <span class="number">1</span></span><br><span class="line">            <span class="comment"># 删除代理池中代理</span></span><br><span class="line">            delete_proxy(proxy)</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;https://wuhan.anjuke.com/sale/p1/?from=esf_list&quot;</span></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36&quot;</span>,</span><br><span class="line">    <span class="string">&quot;Cookie&quot;</span>:  <span class="string">&quot;your-cookie&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">html_data = getHtml(url, headers)</span><br><span class="line"><span class="built_in">print</span>(html_data)</span><br></pre></td></tr></table></figure></div>
+<p><code>getHtml</code>函数中，会通过<code>while</code>循环来切换代理<code>ip</code>和<code>port</code>，直到请求成功，然后返回出结果并退出循环。</p>
+]]></content>
+      <categories>
+        <category>Python技巧</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+        <tag>docker</tag>
       </tags>
   </entry>
 </search>
