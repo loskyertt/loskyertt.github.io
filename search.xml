@@ -1230,7 +1230,7 @@
 <h2 id="1-1-运行容器"><a href="#1-1-运行容器" class="headerlink" title="1.1 运行容器"></a>1.1 运行容器</h2><div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -it --name=pcl ubuntu:latest</span><br></pre></td></tr></table></figure></div>
 
 <h2 id="1-2-容器内部配置"><a href="#1-2-容器内部配置" class="headerlink" title="1.2 容器内部配置"></a>1.2 容器内部配置</h2><p>在宿主机中创建一个<code>sources.list</code>文件，里面添加下面内容：</p>
-<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line"># 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble main restricted universe multiverse</span><br><span class="line"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble main restricted universe multiverse</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble-updates main restricted universe multiverse</span><br><span class="line"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble-updates main restricted universe multiverse</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble-backports main restricted universe multiverse</span><br><span class="line"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble-backports main restricted universe multiverse</span><br><span class="line"></span><br><span class="line"># 以下安全更新软件源包含了官方源与镜像站配置，如有需要可自行修改注释切换</span><br><span class="line">deb http://security.ubuntu.com/ubuntu/ noble-security main restricted universe multiverse</span><br><span class="line"># deb-src http://security.ubuntu.com/ubuntu/ noble-security main restricted universe multiverse</span><br><span class="line"></span><br><span class="line"># 预发布软件源，不建议启用</span><br><span class="line"># deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble-proposed main restricted universe multiverse</span><br><span class="line"># # deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble-proposed main restricted universe multiverse</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line"># 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble main restricted universe multiverse</span><br><span class="line"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble main restricted universe multiverse</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble-updates main restricted universe multiverse</span><br><span class="line"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble-updates main restricted universe multiverse</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble-backports main restricted universe multiverse</span><br><span class="line"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble-backports main restricted universe multiverse</span><br><span class="line"></span><br><span class="line"># 以下安全更新软件源包含了官方源与镜像站配置，如有需要可自行修改注释切换</span><br><span class="line"># deb http://security.ubuntu.com/ubuntu/ noble-security main restricted universe multiverse</span><br><span class="line"># deb-src http://security.ubuntu.com/ubuntu/ noble-security main restricted universe multiverse</span><br><span class="line"></span><br><span class="line"># 预发布软件源，不建议启用</span><br><span class="line"># deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble-proposed main restricted universe multiverse</span><br><span class="line"># # deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble-proposed main restricted universe multiverse</span><br></pre></td></tr></table></figure></div>
 <p>详细配置可以见：<a class="link"   href="https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/" >Ubuntu 清华镜像源<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
 <p>然后把该文件复制<code>pcl</code>到容器中：</p>
 <div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker <span class="built_in">cp</span> sources.list pcl:/etc/apt</span><br></pre></td></tr></table></figure></div>
@@ -2729,6 +2729,36 @@
       </tags>
   </entry>
   <entry>
+    <title>VirtualBox 实现主机与虚拟机（CachyOS）传文件</title>
+    <url>/2024/08/01/VirtualBox%E4%B8%BB%E6%9C%BA%E4%B8%8E%E8%99%9A%E6%8B%9F%E6%9C%BA%E9%97%B4%E4%BC%A0%E6%96%87%E4%BB%B6/</url>
+    <content><![CDATA[<h1 id="1-VirtualBox-中实现主机与虚拟机之间传输文件"><a href="#1-VirtualBox-中实现主机与虚拟机之间传输文件" class="headerlink" title="1.VirtualBox 中实现主机与虚拟机之间传输文件"></a>1.VirtualBox 中实现主机与虚拟机之间传输文件</h1><h2 id="1-1-VirtualBox-中的设置"><a href="#1-1-VirtualBox-中的设置" class="headerlink" title="1.1 VirtualBox 中的设置"></a>1.1 VirtualBox 中的设置</h2><p>如图所示：</p>
+<ul>
+<li><p>进入虚拟机的设置：<br><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://im.gurl.eu.org/file/b852b7e357c0db8eb549d.png"
+                      alt="图一"
+                ><figcaption>图一</figcaption></figure></p>
+</li>
+<li><p>创建主机挂载目录：<br><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://im.gurl.eu.org/file/a6030bd1051ef5e2c8ced.png"
+                      alt="图二"
+                ><figcaption>图二</figcaption></figure></p>
+</li>
+</ul>
+<h2 id="1-2-虚拟机中的设置"><a href="#1-2-虚拟机中的设置" class="headerlink" title="1.2 虚拟机中的设置"></a>1.2 虚拟机中的设置</h2><p>在虚拟机中创建共享目录：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> ~/share -p</span><br></pre></td></tr></table></figure></div>
+
+<p>将主机的那个共享目录挂载到<code>~/share</code>文件夹下：</p>
+<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> mount -t vboxsf CachyOS_share ~/share/</span><br></pre></td></tr></table></figure></div>
+]]></content>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>SSH 教程</title>
     <url>/2024/08/16/SSH%20%E6%95%99%E7%A8%8B/</url>
     <content><![CDATA[<h1 id="1-Windows-安装-SSH-工具"><a href="#1-Windows-安装-SSH-工具" class="headerlink" title="1.Windows 安装 SSH 工具"></a>1.Windows 安装 SSH 工具</h1><h2 id="1-1-方式一、使用-OpenSSH"><a href="#1-1-方式一、使用-OpenSSH" class="headerlink" title="1.1 方式一、使用 OpenSSH"></a>1.1 方式一、使用 OpenSSH</h2><p>可以直接搭配 Windows 的 PowerShell 使用，很轻量，但是功能少。配置方式可以参考我写的这篇文章：<a class="link"   href="https://loskyertt.github.io/2024/07/30/Openssh%E9%85%8D%E7%BD%AE/" >Win10 SSH 服务配置<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
@@ -2835,36 +2865,6 @@
       <tags>
         <tag>linux</tag>
         <tag>ssh</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>VirtualBox 实现主机与虚拟机（CachyOS）传文件</title>
-    <url>/2024/08/01/VirtualBox%E4%B8%BB%E6%9C%BA%E4%B8%8E%E8%99%9A%E6%8B%9F%E6%9C%BA%E9%97%B4%E4%BC%A0%E6%96%87%E4%BB%B6/</url>
-    <content><![CDATA[<h1 id="1-VirtualBox-中实现主机与虚拟机之间传输文件"><a href="#1-VirtualBox-中实现主机与虚拟机之间传输文件" class="headerlink" title="1.VirtualBox 中实现主机与虚拟机之间传输文件"></a>1.VirtualBox 中实现主机与虚拟机之间传输文件</h1><h2 id="1-1-VirtualBox-中的设置"><a href="#1-1-VirtualBox-中的设置" class="headerlink" title="1.1 VirtualBox 中的设置"></a>1.1 VirtualBox 中的设置</h2><p>如图所示：</p>
-<ul>
-<li><p>进入虚拟机的设置：<br><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://im.gurl.eu.org/file/b852b7e357c0db8eb549d.png"
-                      alt="图一"
-                ><figcaption>图一</figcaption></figure></p>
-</li>
-<li><p>创建主机挂载目录：<br><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://im.gurl.eu.org/file/a6030bd1051ef5e2c8ced.png"
-                      alt="图二"
-                ><figcaption>图二</figcaption></figure></p>
-</li>
-</ul>
-<h2 id="1-2-虚拟机中的设置"><a href="#1-2-虚拟机中的设置" class="headerlink" title="1.2 虚拟机中的设置"></a>1.2 虚拟机中的设置</h2><p>在虚拟机中创建共享目录：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> ~/share -p</span><br></pre></td></tr></table></figure></div>
-
-<p>将主机的那个共享目录挂载到<code>~/share</code>文件夹下：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> mount -t vboxsf CachyOS_share ~/share/</span><br></pre></td></tr></table></figure></div>
-]]></content>
-      <tags>
-        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
