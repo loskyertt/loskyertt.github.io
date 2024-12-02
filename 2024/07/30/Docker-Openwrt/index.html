@@ -18,6 +18,9 @@
     <meta name="googlebot" content="index,follow">
     <meta name="revisit-after" content="1 days">
     
+    
+    
+        
         <meta name="description" content="这是一篇如何在 Linux 环境下，用 Docker 搭建 Openwrt 作旁路由的教程。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Openwrt 在 Docker 下运行并作为旁路由">
@@ -73,7 +76,7 @@
 
     
         
-<link rel="stylesheet" href="/build/css/tailwind.css">
+<link rel="stylesheet" href="/css/build/tailwind.css">
 
     
 
@@ -91,13 +94,13 @@
     
     
         
-<script src="/build/js/libs/anime.min.js"></script>
+<script src="/js/build/libs/anime.min.js"></script>
 
     
 
     <script id="hexo-configurations">
     window.config = {"hostname":"example.com","root":"/","language":"en","path":"search.xml"};
-    window.theme = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":true,"link_icon":true,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.4rem","h3":"1.9rem","h4":"1.6rem","h5":"1.4rem","h6":"1.3rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":["Unknown"]},"code_block":{"copy":true,"style":"mac","highlight_theme":{"light":"github","dark":"vs2015"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":true,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null,"default_mode":"light"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":false,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":true,"open_graph":true,"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/wallhaven-wqery6-light.webp","dark":"/images/wallhaven-wqery6-dark.webp"},"title":"吾日三省吾身","subtitle":{"text":["Loading..."],"hitokoto":{"enable":true,"show_author":false,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":{"github":"https://github.com/loskyertt","instagram":null,"zhihu":null,"twitter":"https://x.com/loskyertt","email":"loskyertt@cug.edu.cn"},"qrs":{"weixin":null}}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null,"lrc":null}]},"mermaid":{"enable":false,"version":"9.3.0"}},"version":"2.8.1","navbar":{"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":35},"width":{"home":"1200px","pages":"1000px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Google":{"path":"https://ww.google.com/","icon":"fa-brands fa-google"},"Archives":{"path":"/archives","icon":"fa-regular fa-archive"}},"search":{"enable":true,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"show_on_mobile":true,"links":null},"article_date_format":"YYYY-MM-DD","excerpt_length":200,"categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footerStart":"2022/8/17 11:45:14"};
+    window.theme = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":true,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.4rem","h3":"1.9rem","h4":"1.6rem","h5":"1.4rem","h6":"1.3rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":["Unknown"]},"code_block":{"copy":true,"style":"mac","highlight_theme":{"light":"github","dark":"vs2015"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":true,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null,"default_mode":"light"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":false,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":true,"open_graph":true,"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/wallhaven-wqery6-light.webp","dark":"/images/wallhaven-wqery6-dark.webp"},"title":"吾日三省吾身","subtitle":{"text":["Loading..."],"hitokoto":{"enable":true,"show_author":false,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":{"github":"https://github.com/loskyertt","instagram":null,"zhihu":null,"twitter":"https://x.com/loskyertt","email":"loskyertt@cug.edu.cn"},"qrs":{"weixin":null}}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null,"lrc":null}]},"mermaid":{"enable":false,"version":"9.3.0"}},"version":"2.8.2","navbar":{"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":35},"width":{"home":"1200px","pages":"1000px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Google":{"path":"https://ww.google.com/","icon":"fa-brands fa-google"},"Archives":{"path":"/archives","icon":"fa-regular fa-archive"}},"search":{"enable":true,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"show_on_mobile":true,"links":null},"article_date_format":"YYYY-MM-DD","excerpt_length":200,"categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footerStart":"2022/8/17 11:45:14"};
     window.lang_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
     window.data = {"masonry":false};
   </script>
@@ -651,27 +654,27 @@
 </li>
 </ul>
 <h2 id="2-5-安装系统"><a href="#2-5-安装系统" class="headerlink" title="2.5 安装系统"></a>2.5 安装系统</h2><p>然后就是安装 Linux 系统，网上有很多教程，就不在这里讲了。</p>
-<h1 id="3-Docker-配置"><a href="#3-Docker-配置" class="headerlink" title="3.Docker 配置"></a>3.Docker 配置</h1><h2 id="3-1-安装-Docker"><a href="#3-1-安装-Docker" class="headerlink" title="3.1 安装 Docker"></a>3.1 安装 Docker</h2><div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pamcn -S docker</span><br></pre></td></tr></table></figure></div>
+<h1 id="3-Docker-配置"><a href="#3-Docker-配置" class="headerlink" title="3.Docker 配置"></a>3.Docker 配置</h1><h2 id="3-1-安装-Docker"><a href="#3-1-安装-Docker" class="headerlink" title="3.1 安装 Docker"></a>3.1 安装 Docker</h2><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pamcn -S docker</span><br></pre></td></tr></table></figure></div>
 
 <p>可以通过下面指令查看是否安装成功：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> docker version</span><br></pre></td></tr></table></figure></div>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> docker version</span><br></pre></td></tr></table></figure></div>
 <p>如果输出类似下面内容就代表安装成功：</p>
-<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">Client:</span><br><span class="line"> Version:           27.1.1</span><br><span class="line"> API version:       1.46</span><br><span class="line"> Go version:        go1.22.5</span><br><span class="line"> Git commit:        63125853e3</span><br><span class="line"> Built:             Thu Jul 25 17:06:22 2024</span><br><span class="line"> OS/Arch:           linux/amd64</span><br><span class="line"> Context:           default</span><br><span class="line"></span><br><span class="line">Server:</span><br><span class="line"> Engine:</span><br><span class="line">  Version:          27.1.1</span><br><span class="line">  API version:      1.46 (minimum version 1.24)</span><br><span class="line">  Go version:       go1.22.5</span><br><span class="line">  Git commit:       cc13f95251</span><br><span class="line">  Built:            Thu Jul 25 17:06:22 2024</span><br><span class="line">  OS/Arch:          linux/amd64</span><br><span class="line">  Experimental:     false</span><br><span class="line"> containerd:</span><br><span class="line">  Version:          v1.7.20</span><br><span class="line">  GitCommit:        8fc6bcff51318944179630522a095cc9dbf9f353.m</span><br><span class="line"> runc:</span><br><span class="line">  Version:          1.1.13</span><br><span class="line">  GitCommit:        </span><br><span class="line"> docker-init:</span><br><span class="line">  Version:          0.19.0</span><br><span class="line">  GitCommit:        de40ad0</span><br></pre></td></tr></table></figure></div>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">Client:</span><br><span class="line"> Version:           27.1.1</span><br><span class="line"> API version:       1.46</span><br><span class="line"> Go version:        go1.22.5</span><br><span class="line"> Git commit:        63125853e3</span><br><span class="line"> Built:             Thu Jul 25 17:06:22 2024</span><br><span class="line"> OS/Arch:           linux/amd64</span><br><span class="line"> Context:           default</span><br><span class="line"></span><br><span class="line">Server:</span><br><span class="line"> Engine:</span><br><span class="line">  Version:          27.1.1</span><br><span class="line">  API version:      1.46 (minimum version 1.24)</span><br><span class="line">  Go version:       go1.22.5</span><br><span class="line">  Git commit:       cc13f95251</span><br><span class="line">  Built:            Thu Jul 25 17:06:22 2024</span><br><span class="line">  OS/Arch:          linux/amd64</span><br><span class="line">  Experimental:     false</span><br><span class="line"> containerd:</span><br><span class="line">  Version:          v1.7.20</span><br><span class="line">  GitCommit:        8fc6bcff51318944179630522a095cc9dbf9f353.m</span><br><span class="line"> runc:</span><br><span class="line">  Version:          1.1.13</span><br><span class="line">  GitCommit:        </span><br><span class="line"> docker-init:</span><br><span class="line">  Version:          0.19.0</span><br><span class="line">  GitCommit:        de40ad0</span><br></pre></td></tr></table></figure></div>
 
 <p>这里就不把当前用户组添加到<code>docker</code>了，总之记住，后续 <code>docker</code>的所有操作，都得用<code>sudo docker</code>。</p>
 <h2 id="3-2-Docker-服务配置"><a href="#3-2-Docker-服务配置" class="headerlink" title="3.2 Docker 服务配置"></a>3.2 Docker 服务配置</h2><ul>
 <li><p>开机自启动：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> docker</span><br></pre></td></tr></table></figure></div>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> docker</span><br></pre></td></tr></table></figure></div>
 </li>
 <li><p>运行<code>docker</code>：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start docker</span><br></pre></td></tr></table></figure></div></li>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start docker</span><br></pre></td></tr></table></figure></div></li>
 </ul>
 <h1 id="4-虚拟机内的网络配置"><a href="#4-虚拟机内的网络配置" class="headerlink" title="4.虚拟机内的网络配置"></a>4.虚拟机内的网络配置</h1><h2 id="4-1-查看网络接口信息"><a href="#4-1-查看网络接口信息" class="headerlink" title="4.1 查看网络接口信息"></a>4.1 查看网络接口信息</h2><ul>
 <li><p>查看网络接口：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ip addr</span><br><span class="line"></span><br><span class="line"><span class="comment"># 或者（不一定能用，可能没有预装 net-tools）</span></span><br><span class="line">ifconfig</span><br></pre></td></tr></table></figure></div>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ip addr</span><br><span class="line"></span><br><span class="line"><span class="comment"># 或者（不一定能用，可能没有预装 net-tools）</span></span><br><span class="line">ifconfig</span><br></pre></td></tr></table></figure></div>
 </li>
 <li><p>输出结果：</p>
-<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">~</span><br><span class="line">❯ ip addr</span><br><span class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000</span><br><span class="line">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span><br><span class="line">    inet 127.0.0.1/8 scope host lo</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">    inet6 ::1/128 scope host noprefixroute </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">2: enp0s3: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc fq_codel state UP group default qlen 1000</span><br><span class="line">    link/ether 08:00:27:ff:93:f7 brd ff:ff:ff:ff:ff:ff</span><br><span class="line">    inet 192.168.2.23/24 brd 192.168.2.255 scope global dynamic noprefixroute enp0s3</span><br><span class="line">       valid_lft 85878sec preferred_lft 85878sec</span><br><span class="line">    inet6 fe80::d521:edc1:580f:1e00/64 scope link noprefixroute </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">3: docker0: &lt;NO-CARRIER,BROADCAST,MULTICAST,UP&gt; mtu 1500 qdisc noqueue state DOWN group default </span><br><span class="line">    link/ether 02:42:8a:53:e6:cf brd ff:ff:ff:ff:ff:ff</span><br><span class="line">    inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line"></span><br></pre></td></tr></table></figure></div></li>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">~</span><br><span class="line">❯ ip addr</span><br><span class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000</span><br><span class="line">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span><br><span class="line">    inet 127.0.0.1/8 scope host lo</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">    inet6 ::1/128 scope host noprefixroute </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">2: enp0s3: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc fq_codel state UP group default qlen 1000</span><br><span class="line">    link/ether 08:00:27:ff:93:f7 brd ff:ff:ff:ff:ff:ff</span><br><span class="line">    inet 192.168.2.23/24 brd 192.168.2.255 scope global dynamic noprefixroute enp0s3</span><br><span class="line">       valid_lft 85878sec preferred_lft 85878sec</span><br><span class="line">    inet6 fe80::d521:edc1:580f:1e00/64 scope link noprefixroute </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">3: docker0: &lt;NO-CARRIER,BROADCAST,MULTICAST,UP&gt; mtu 1500 qdisc noqueue state DOWN group default </span><br><span class="line">    link/ether 02:42:8a:53:e6:cf brd ff:ff:ff:ff:ff:ff</span><br><span class="line">    inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line"></span><br></pre></td></tr></table></figure></div></li>
 </ul>
 <p>这里需要着重记下第二个<code>enp0s3</code>接口，第一个和第三个不用管。从<code>inet 192.168.2.23/24</code>可以知道虚拟机的<code>ipaddr</code>是<code>192.168.2.23</code>。</p>
 <p><strong>下面是三个网络接口的详细解释：</strong></p>
@@ -715,10 +718,10 @@
 </li>
 </ul>
 <h2 id="4-2-开启混杂模式-promisc"><a href="#4-2-开启混杂模式-promisc" class="headerlink" title="4.2 开启混杂模式(promisc)"></a>4.2 开启混杂模式(promisc)</h2><p>开启网卡混杂模式，且虚拟机和docker里都要开启网卡混杂模式，这里网卡标记根据自己的填写：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> ip <span class="built_in">link</span> <span class="built_in">set</span> enp0s3 promisc on</span><br></pre></td></tr></table></figure></div>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> ip <span class="built_in">link</span> <span class="built_in">set</span> enp0s3 promisc on</span><br></pre></td></tr></table></figure></div>
 <p>注意：在我这里是对<code>enp0s3</code>，但是每台电脑情况可能不一样，反正肯定是有<code>ipaddr</code>的这个网络接口名。</p>
 <h2 id="4-3-建立-docker-子网"><a href="#4-3-建立-docker-子网" class="headerlink" title="4.3 建立 docker 子网"></a>4.3 建立 docker 子网</h2><p>专门建立一个子网，且该网络与家里的局域网在一个网段，网段和网关填自己的：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> docker network create -d macvlan --subnet=192.168.2.0/24 --gateway=192.168.2.1 -o parent=enp0s3 macnet</span><br></pre></td></tr></table></figure></div>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> docker network create -d macvlan --subnet=192.168.2.0/24 --gateway=192.168.2.1 -o parent=enp0s3 macnet</span><br></pre></td></tr></table></figure></div>
 <p>参数说明：</p>
 <ul>
 <li><code>subnet</code>是要写你自己路由器所在的那个 <strong>网段</strong> 。</li>
@@ -727,10 +730,10 @@
 <li><code>macnet</code>是子网名。</li>
 </ul>
 <p>可以查看网卡是否创建成功：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> docker network <span class="built_in">ls</span></span><br></pre></td></tr></table></figure></div>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> docker network <span class="built_in">ls</span></span><br></pre></td></tr></table></figure></div>
 
 <p>输出结果如下：</p>
-<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">NETWORK ID     NAME      DRIVER    SCOPE</span><br><span class="line">2731fcf199c8   bridge    bridge    local</span><br><span class="line">556f62e40e30   host      host      local</span><br><span class="line">877d2632a9d1   macnet    macvlan   local</span><br><span class="line">5864881e2dd0   none      null      local</span><br></pre></td></tr></table></figure></div>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">NETWORK ID     NAME      DRIVER    SCOPE</span><br><span class="line">2731fcf199c8   bridge    bridge    local</span><br><span class="line">556f62e40e30   host      host      local</span><br><span class="line">877d2632a9d1   macnet    macvlan   local</span><br><span class="line">5864881e2dd0   none      null      local</span><br></pre></td></tr></table></figure></div>
 
 <p>解释：<br>这四个网络接口是在Docker中使用的不同类型的网络驱动程序。每个网络驱动程序具有不同的用途和功能：</p>
 <ol>
@@ -766,12 +769,12 @@
 <li><strong>使用场景：</strong> 当你希望容器完全隔离于网络之外，不与任何网络通信时，使用<code>none</code>网络。这适用于需要完全网络隔离的容器场景，如某些安全或测试需求。</li>
 </ul>
 <p>删除网卡(前提是要停止正在使用该网卡的容器)：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> docker network <span class="built_in">rm</span> &lt;网卡名&gt;</span><br></pre></td></tr></table></figure></div>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> docker network <span class="built_in">rm</span> &lt;网卡名&gt;</span><br></pre></td></tr></table></figure></div>
 
 <h1 id="5-搭建-Openwrt"><a href="#5-搭建-Openwrt" class="headerlink" title="5.搭建 Openwrt"></a>5.搭建 Openwrt</h1><h2 id="5-1-拉取镜像"><a href="#5-1-拉取镜像" class="headerlink" title="5.1 拉取镜像"></a>5.1 拉取镜像</h2><p>可以通过阿里云镜像提升镜像拉取速度：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> docker pull registry.cn-hangzhou.aliyuncs.com/zzsrv/openwrt:latest</span><br></pre></td></tr></table></figure></div>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> docker pull registry.cn-hangzhou.aliyuncs.com/zzsrv/openwrt:latest</span><br></pre></td></tr></table></figure></div>
 
-<h2 id="5-2-创建容器"><a href="#5-2-创建容器" class="headerlink" title="5.2 创建容器"></a>5.2 创建容器</h2><div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> docker run --restart always --name opt3 -d --network macnet --ip 192.168.2.3 --privileged registry.cn-hangzhou.aliyuncs.com/zzsrv/openwrt:latest /sbin/init</span><br></pre></td></tr></table></figure></div>
+<h2 id="5-2-创建容器"><a href="#5-2-创建容器" class="headerlink" title="5.2 创建容器"></a>5.2 创建容器</h2><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> docker run --restart always --name opt3 -d --network macnet --ip 192.168.2.3 --privileged registry.cn-hangzhou.aliyuncs.com/zzsrv/openwrt:latest /sbin/init</span><br></pre></td></tr></table></figure></div>
 <p>参数说明：</p>
 <ul>
 <li><code>run --restart</code>：设置容器的重启策略为“总是重启”。如果容器停止或<code>Docker</code>守护进程重启，<code>Docker</code>将自动重启这个容器。</li>
@@ -780,10 +783,10 @@
 <li><code>/sbin/init</code>：容器启动时要执行的命令或程序。容器将运行<code>/sbin/init</code>，这是 Openwrt系统中的初始化进程，通常是启动系统的第一步。</li>
 </ul>
 <h2 id="5-3-容器配置"><a href="#5-3-容器配置" class="headerlink" title="5.3 容器配置"></a>5.3 容器配置</h2><p>进入容器内部：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> docker <span class="built_in">exec</span> -it opt3 /bin/sh</span><br></pre></td></tr></table></figure></div>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> docker <span class="built_in">exec</span> -it opt3 /bin/sh</span><br></pre></td></tr></table></figure></div>
 
 <p>配置网络：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/config/network</span><br></pre></td></tr></table></figure></div>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/config/network</span><br></pre></td></tr></table></figure></div>
 <p>按<code>i</code>键进入编辑，<code>esc</code>键退出编辑，<code>:wq</code>保存并退出。<br>需要把<code>ipaddr</code>设置为在创建容器时设置的<code>IP</code>，即<code>192.168.2.3</code>；<code>gateway</code>和<code>dns</code>都设置为网关地址（路由器地址），我的是<code>192.168.2.1</code>。<br><figure class="image-caption"><img  
                      lazyload
                      src="/images/loading.svg"
@@ -791,7 +794,7 @@
                       alt="如图所示"
                 ><figcaption>如图所示</figcaption></figure></p>
 <p>重置网络使网络配置生效：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d/network restart</span><br></pre></td></tr></table></figure></div>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d/network restart</span><br></pre></td></tr></table></figure></div>
 
 <p>到这一步，整个流程就彻底结束了，回到主机，在浏览器输入地址<code>192.168.2.3</code>（你自己的容器设置的<code>IP</code>地址），应该就能进入<code>Openwrt</code>的登录界面了，默认是没有密码可以直接点击登录的。<br><figure class="image-caption"><img  
                      lazyload
@@ -808,20 +811,20 @@
 <li>因为<code>macvlan</code>网络的特性，宿主机的网络接口不会自动知道<code>macvlan</code>网络中的设备。</li>
 </ul>
 <h2 id="6-2-解决办法"><a href="#6-2-解决办法" class="headerlink" title="6.2 解决办法"></a>6.2 解决办法</h2><h3 id="6-2-1-创建-maclan-接口"><a href="#6-2-1-创建-maclan-接口" class="headerlink" title="6.2.1 创建 maclan 接口"></a>6.2.1 创建 maclan 接口</h3><p>创建一个名为<code>macvlan0</code>的新虚拟网络接口，它基于物理接口<code>enp0s3</code>：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> ip <span class="built_in">link</span> add macvlan0 <span class="built_in">link</span> enp0s3 <span class="built_in">type</span> macvlan mode bridge</span><br></pre></td></tr></table></figure></div>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> ip <span class="built_in">link</span> add macvlan0 <span class="built_in">link</span> enp0s3 <span class="built_in">type</span> macvlan mode bridge</span><br></pre></td></tr></table></figure></div>
 <p><code>macvlan</code>允许在一个物理网络接口上创建多个虚拟网络接口，每个都有自己的 MAC 地址。桥接模式允许 macvlan 接口相互通信。</p>
 <p>为这个新接口分配了 IP 地址<code>192.168.2.250</code>，使其成为<code>192.168.2.0/24</code>网络的一部分：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> ip addr add 192.168.2.250/24 dev macvlan0</span><br></pre></td></tr></table></figure></div>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> ip addr add 192.168.2.250/24 dev macvlan0</span><br></pre></td></tr></table></figure></div>
 <p>激活这个新接口，使其能够开始网络通信：</p>
-<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> ip <span class="built_in">link</span> <span class="built_in">set</span> macvlan0 up</span><br></pre></td></tr></table></figure></div>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> ip <span class="built_in">link</span> <span class="built_in">set</span> macvlan0 up</span><br></pre></td></tr></table></figure></div>
 
 <p>注意需要把<code>enp0s3</code>替换为自己实际的网络驱动接口。这个时候在浏览器输入<code>192.168.2.3</code>就拿正常访问了。</p>
 <p>这种配置的主要用途是允许主机直接参与到<code>macvlan</code>网络中，这对于与 Docker macvlan 网络中的容器通信特别有用。它创建了一个”桥梁”，让主机能够与 macvlan 网络中的设备（如 Docker 容器）进行直接通信，而不需要通过 Docker 的网络栈。</p>
 <h3 id="6-2-2-撤销创建的-macvlan-配置"><a href="#6-2-2-撤销创建的-macvlan-配置" class="headerlink" title="6.2.2 撤销创建的 macvlan 配置"></a>6.2.2 撤销创建的 macvlan 配置</h3><p>如果要删除创建的<code>macvlan</code>接口，可以进行以下操作：</p>
 <ol>
-<li>删除 IP 地址:<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> ip addr del 192.168.2.250/24 dev macvlan0</span><br></pre></td></tr></table></figure></div></li>
-<li>关闭 macvlan 接口:<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> ip <span class="built_in">link</span> <span class="built_in">set</span> macvlan0 down</span><br></pre></td></tr></table></figure></div></li>
-<li>删除 macvlan 接口:<div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> ip <span class="built_in">link</span> del macvlan0</span><br></pre></td></tr></table></figure></div></li>
+<li>删除 IP 地址:<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> ip addr del 192.168.2.250/24 dev macvlan0</span><br></pre></td></tr></table></figure></div></li>
+<li>关闭 macvlan 接口:<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> ip <span class="built_in">link</span> <span class="built_in">set</span> macvlan0 down</span><br></pre></td></tr></table></figure></div></li>
+<li>删除 macvlan 接口:<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> ip <span class="built_in">link</span> del macvlan0</span><br></pre></td></tr></table></figure></div></li>
 </ol>
 <p>解释：</p>
 <ul>
@@ -831,7 +834,7 @@
 </ul>
 <p>执行这些命令后，你创建的<code>macvlan</code>接口及其配置就会被完全移除。</p>
 <p>额外提示：</p>
-<h3 id="6-2-3-查看当前配置"><a href="#6-2-3-查看当前配置" class="headerlink" title="6.2.3  查看当前配置:"></a>6.2.3  查看当前配置:</h3><p>   在执行这些步骤之前和之后，你可以使用以下命令查看网络配置，以确保更改已经生效：<br>   <div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ip addr show</span><br><span class="line">ip <span class="built_in">link</span> show</span><br></pre></td></tr></table></figure></div></p>
+<h3 id="6-2-3-查看当前配置"><a href="#6-2-3-查看当前配置" class="headerlink" title="6.2.3  查看当前配置:"></a>6.2.3  查看当前配置:</h3><p>   在执行这些步骤之前和之后，你可以使用以下命令查看网络配置，以确保更改已经生效：<br>   <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ip addr show</span><br><span class="line">ip <span class="built_in">link</span> show</span><br></pre></td></tr></table></figure></div></p>
 <ol start="2">
 <li><p>保存配置:<br>如果你经常需要切换这些配置，可以考虑创建脚本来自动化这个过程。例如，创建一个脚本来添加配置，另一个脚本来删除配置。</p>
 </li>
@@ -1053,7 +1056,7 @@
                     </span>
                     
                         <span>
-                            42.4k words in total
+                            42.5k words in total
                         </span>
                     
                 </p>
@@ -1078,7 +1081,7 @@
         
         <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
             <span class="lg:block text-sm">POWERED BY <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a></span>
-            <span class="text-sm lg:block">THEME&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.8.1</a></span>
+            <span class="text-sm lg:block">THEME&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.8.2</a></span>
         </div>
         
         
@@ -1203,17 +1206,17 @@
 
 
 
-<script src="/build/js/libs/Swup.min.js"></script>
+<script src="/js/build/libs/Swup.min.js"></script>
 
-<script src="/build/js/libs/SwupSlideTheme.min.js"></script>
+<script src="/js/build/libs/SwupSlideTheme.min.js"></script>
 
-<script src="/build/js/libs/SwupScriptsPlugin.min.js"></script>
+<script src="/js/build/libs/SwupScriptsPlugin.min.js"></script>
 
-<script src="/build/js/libs/SwupProgressPlugin.min.js"></script>
+<script src="/js/build/libs/SwupProgressPlugin.min.js"></script>
 
-<script src="/build/js/libs/SwupScrollPlugin.min.js"></script>
+<script src="/js/build/libs/SwupScrollPlugin.min.js"></script>
 
-<script src="/build/js/libs/SwupPreloadPlugin.min.js"></script>
+<script src="/js/build/libs/SwupPreloadPlugin.min.js"></script>
 
 <script>
     const swup = new Swup({
@@ -1238,45 +1241,45 @@
 
 
 	
-<script src="/build/js/tools/imageViewer.js" type="module"></script>
+<script src="/js/build/tools/imageViewer.js" type="module"></script>
 
-<script src="/build/js/utils.js" type="module"></script>
+<script src="/js/build/utils.js" type="module"></script>
 
-<script src="/build/js/main.js" type="module"></script>
+<script src="/js/build/main.js" type="module"></script>
 
-<script src="/build/js/layouts/navbarShrink.js" type="module"></script>
+<script src="/js/build/layouts/navbarShrink.js" type="module"></script>
 
-<script src="/build/js/tools/scrollTopBottom.js" type="module"></script>
+<script src="/js/build/tools/scrollTopBottom.js" type="module"></script>
 
-<script src="/build/js/tools/lightDarkSwitch.js" type="module"></script>
+<script src="/js/build/tools/lightDarkSwitch.js" type="module"></script>
 
-<script src="/build/js/layouts/categoryList.js" type="module"></script>
-
-
-
-    
-<script src="/build/js/tools/localSearch.js" type="module"></script>
-
+<script src="/js/build/layouts/categoryList.js" type="module"></script>
 
 
 
     
-<script src="/build/js/tools/codeBlock.js" type="module"></script>
+<script src="/js/build/tools/localSearch.js" type="module"></script>
 
 
 
 
     
-<script src="/build/js/layouts/lazyload.js" type="module"></script>
+<script src="/js/build/tools/codeBlock.js" type="module"></script>
 
 
 
 
     
-<script src="/build/js/tools/runtime.js"></script>
+<script src="/js/build/layouts/lazyload.js" type="module"></script>
+
+
+
 
     
-<script src="/build/js/libs/odometer.min.js"></script>
+<script src="/js/build/tools/runtime.js"></script>
+
+    
+<script src="/js/build/libs/odometer.min.js"></script>
 
     
 <link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
@@ -1285,10 +1288,10 @@
 
 
   
-<script src="/build/js/libs/Typed.min.js"></script>
+<script src="/js/build/libs/Typed.min.js"></script>
 
   
-<script src="/build/js/plugins/typed.js" type="module"></script>
+<script src="/js/build/plugins/typed.js" type="module"></script>
 
 
 
@@ -1301,19 +1304,19 @@
 
 
     
-<script src="/build/js/tools/tocToggle.js" type="module" data-swup-reload-script=""></script>
+<script src="/js/build/tools/tocToggle.js" type="module" data-swup-reload-script=""></script>
 
-<script src="/build/js/layouts/toc.js" type="module" data-swup-reload-script=""></script>
+<script src="/js/build/layouts/toc.js" type="module" data-swup-reload-script=""></script>
 
-<script src="/build/js/plugins/tabs.js" type="module" data-swup-reload-script=""></script>
-
-
+<script src="/js/build/plugins/tabs.js" type="module" data-swup-reload-script=""></script>
 
 
-<script src="/build/js/libs/moment-with-locales.min.js" data-swup-reload-script=""></script>
 
 
-<script src="/build/js/layouts/essays.js" type="module" data-swup-reload-script=""></script>
+<script src="/js/build/libs/moment-with-locales.min.js" data-swup-reload-script=""></script>
+
+
+<script src="/js/build/layouts/essays.js" type="module" data-swup-reload-script=""></script>
 
 
 
