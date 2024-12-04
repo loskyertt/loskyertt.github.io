@@ -1,6 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Python 爬虫教程 02</title>
+    <url>/2024/10/17/02Python%E7%88%AC%E8%99%AB/</url>
+    <content><![CDATA[<h1 id="1-测试网址"><a href="#1-测试网址" class="headerlink" title="1.测试网址"></a>1.测试网址</h1><p><a class="link"   href="https://www.spiderbuf.cn/list" >测试网站<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h1 id="2-编写代码"><a href="#2-编写代码" class="headerlink" title="2.编写代码"></a>2.编写代码</h1><h2 id="2-1-代码示例"><a href="#2-1-代码示例" class="headerlink" title="2.1 代码示例"></a>2.1 代码示例</h2><div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;https://spiderbuf.cn/playground/s01&quot;</span></span><br><span class="line"></span><br><span class="line">html = requests.get(url=url).text</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/01course/01.html&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">f.write(html)</span><br><span class="line">f.close()</span><br><span class="line"></span><br><span class="line"><span class="comment"># print(html)</span></span><br><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/01course/data01.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    tds = tr.xpath(<span class="string">&#x27;./td&#x27;</span>)</span><br><span class="line">    s = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> td <span class="keyword">in</span> tds:</span><br><span class="line">        <span class="comment"># 这里加 str 是为了防止 &lt;td&gt;&lt;/td&gt; 之间是空数据</span></span><br><span class="line">        s = s + <span class="built_in">str</span>(td.text) + <span class="string">&#x27; | &#x27;</span></span><br><span class="line">    <span class="built_in">print</span>(s)</span><br><span class="line">    <span class="comment"># 保存解析到的数据到本地</span></span><br><span class="line">    <span class="keyword">if</span> s!= <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        f.write(s + <span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
+
+<p>在很多时候，建议先把请求到的网页内容保存到本地（如上面代码所示），因为有时候解析数据无法一次性解析成功，那就会再向网页发送请求，这样不断的去访问服务器，就容易被服务器检测到是爬虫。</p>
+<h1 id="3-lxml-基础使用"><a href="#3-lxml-基础使用" class="headerlink" title="3.lxml 基础使用"></a>3.lxml 基础使用</h1><h2 id="3-1-XPath-基本语法"><a href="#3-1-XPath-基本语法" class="headerlink" title="3.1 XPath 基本语法"></a>3.1 XPath 基本语法</h2><ul>
+<li><code>/</code>：从根节点选择。根节点是一个 XML 或 HTML 文档的最顶层节点，所有其他元素都是它的子节点。</li>
+<li><code>//</code>：选择文档中的所有符合条件的节点，不论它们在文档的什么位置。</li>
+<li><code>.</code>：当前节点。</li>
+<li><code>..</code>：父节点。</li>
+<li><code>@</code>：选择属性。</li>
+<li><code>[ ]</code>：筛选器，添加条件。</li>
+<li><code>text()</code>：选择文本节点。</li>
+</ul>
+<h2 id="3-2-示例说明"><a href="#3-2-示例说明" class="headerlink" title="3.2 示例说明"></a>3.2 示例说明</h2><p>假设有如下 HTML 结构，<code>&lt;html&gt;</code>是根节点：</p>
+<div class="code-container" data-rel="Html"><figure class="iseeu highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">table</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">&quot;status&quot;</span>&gt;</span>在线<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span>&gt;</span>123<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">&quot;status&quot;</span>&gt;</span>离线<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span>&gt;</span>456<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">&quot;status&quot;</span>&gt;</span>在线<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span>&gt;</span>789<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></div>
+
+<h2 id="3-3-使用-XPath-提取数据"><a href="#3-3-使用-XPath-提取数据" class="headerlink" title="3.3 使用 XPath 提取数据"></a>3.3 使用 XPath 提取数据</h2><ol>
+<li><strong>提取所有行的 <code>&lt;td&gt;</code> 内容：</strong></li>
+</ol>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
+
+<p><code>//tr</code> 表示选择文档中所有的 <code>&lt;tr&gt;</code> 节点，不论它们在文档的哪个层级。</p>
+<ol start="2">
+<li><strong>提取某个特定列的数据：</strong></li>
+</ol>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">status_list = root.xpath(<span class="string">&#x27;//td[@class=&quot;status&quot;]/text()&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(status_list)</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li><code>//td[@class=&quot;status&quot;]</code>：选择所有 class 为 “status” 的 <code>&lt;td&gt;</code> 节点。</li>
+<li><code>/text()</code>：选择这些节点的文本内容。</li>
+</ul>
+<p><strong>结果：</strong></p>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">[<span class="string">&#x27;在线&#x27;</span>, <span class="string">&#x27;离线&#x27;</span>, <span class="string">&#x27;在线&#x27;</span>]</span><br></pre></td></tr></table></figure></div>
+
+<ol start="3">
+<li><strong>结合 <code>for</code> 循环逐行提取多个列的内容：</strong></li>
+</ol>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    status = tr.xpath(<span class="string">&#x27;./td[@class=&quot;status&quot;]/text()&#x27;</span>)[<span class="number">0</span>]  <span class="comment"># 获取状态</span></span><br><span class="line">    number = tr.xpath(<span class="string">&#x27;./td[2]/text()&#x27;</span>)[<span class="number">0</span>]  <span class="comment"># 获取数字</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;状态: <span class="subst">&#123;status&#125;</span>, 数字: <span class="subst">&#123;number&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li><code>./td[@class=&quot;status&quot;]/text()</code>：从当前行的 <code>&lt;td&gt;</code> 中选择 class 为 “status” 的列。</li>
+<li><code>./td[2]/text()</code>：选择当前行的第二个 <code>&lt;td&gt;</code> 节点的文本内容。</li>
+</ul>
+<p><strong>输出：</strong></p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">状态: 在线, 数字: 123</span><br><span class="line">状态: 离线, 数字: 456</span><br><span class="line">状态: 在线, 数字: 789</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="3-4-XPath-实用技巧"><a href="#3-4-XPath-实用技巧" class="headerlink" title="3.4 XPath 实用技巧"></a>3.4 XPath 实用技巧</h2><ol>
+<li><p><strong>使用属性选择节点：</strong></p>
+<ul>
+<li><code>//td[@class=&quot;status&quot;]</code> 选择所有 class 为 “status” 的 <code>&lt;td&gt;</code>。</li>
+<li><code>//a[@href]</code> 选择带有 <code>href</code> 属性的所有 <code>&lt;a&gt;</code> 标签。</li>
+</ul>
+</li>
+<li><p><strong>使用索引选择特定节点：</strong></p>
+<ul>
+<li><code>//tr[1]</code> 选择第一个 <code>&lt;tr&gt;</code> 节点。</li>
+<li><code>//td[2]</code> 选择当前 <code>&lt;tr&gt;</code> 中的第二个 <code>&lt;td&gt;</code> 节点。</li>
+</ul>
+</li>
+<li><p><strong>选择文本和属性：</strong></p>
+<ul>
+<li><code>//td/text()</code> 选择 <code>&lt;td&gt;</code> 内的文本。</li>
+<li><code>//a/@href</code> 选择所有 <code>&lt;a&gt;</code> 标签的 <code>href</code> 属性。</li>
+</ul>
+</li>
+<li><p><strong>条件筛选：</strong></p>
+<ul>
+<li><code>//tr[td[1]=&quot;在线&quot;]</code> 选择第一列文本为“在线”的行。</li>
+</ul>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>Python爬虫</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python 爬虫教程 03</title>
+    <url>/2024/10/17/03Python%E7%88%AC%E8%99%AB/</url>
+    <content><![CDATA[<h1 id="1-无请求头访问"><a href="#1-无请求头访问" class="headerlink" title="1.无请求头访问"></a>1.无请求头访问</h1><p>如果不构建请求头，直接向目标网站发送请求：</p>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;https://spiderbuf.cn/playground/s02&quot;</span></span><br><span class="line"></span><br><span class="line">html = requests.get(url=url).text</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/02course/02.html&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">f.write(html)</span><br><span class="line">f.close()</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(html)</span><br><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/02course/data02.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    tds = tr.xpath(<span class="string">&#x27;./td&#x27;</span>)</span><br><span class="line">    s = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> td <span class="keyword">in</span> tds:</span><br><span class="line">        <span class="comment"># print(td.text)</span></span><br><span class="line">        s = s + <span class="built_in">str</span>(td.text) + <span class="string">&#x27; | &#x27;</span></span><br><span class="line">    <span class="built_in">print</span>(s)</span><br><span class="line">    <span class="keyword">if</span> s!= <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        f.write(s + <span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
+
+<p>输出结果：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">&lt;!DOCTYPE HTML PUBLIC &quot;-//IETF//DTD HTML 2.0//EN&quot;&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;&lt;title&gt;403 Forbidden&lt;/title&gt;&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;center&gt;&lt;h1&gt;403 Forbidden&lt;/h1&gt;&lt;/center&gt;</span><br><span class="line">&lt;hr&gt;&lt;center&gt;tengine&lt;/center&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></div>
+<p>很容易被网站检测到是爬虫。</p>
+<h1 id="2-添加请求头"><a href="#2-添加请求头" class="headerlink" title="2.添加请求头"></a>2.添加请求头</h1><p>所以基本上在发送请求之前都会封装一个<code>http</code>请求的头部信息：</p>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">html = requests.get(url=url, headers=headers).text</span><br></pre></td></tr></table></figure></div>
+
+<p>有时候还需要往里面填入<code>Cookie</code>。甚至为了防止被检测到是爬虫，需要更换<code>User-Agent</code>，比如用火狐浏览器的等，或者浏览器不同版本的，这在网上可以查询到。</p>
+]]></content>
+      <categories>
+        <category>Python爬虫</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Python 爬虫教程 01</title>
     <url>/2024/09/17/01Python%E7%88%AC%E8%99%AB/</url>
     <content><![CDATA[<h1 id="1-浏览器"><a href="#1-浏览器" class="headerlink" title="1.浏览器"></a>1.浏览器</h1><h2 id="1-1-获取页面信息"><a href="#1-1-获取页面信息" class="headerlink" title="1.1 获取页面信息"></a>1.1 获取页面信息</h2><p>进入要爬取的页面，按<code>F12</code>进入开发者模式：<br><figure class="image-caption"><img  
@@ -343,109 +446,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Python 爬虫教程 02</title>
-    <url>/2024/10/17/02Python%E7%88%AC%E8%99%AB/</url>
-    <content><![CDATA[<h1 id="1-测试网址"><a href="#1-测试网址" class="headerlink" title="1.测试网址"></a>1.测试网址</h1><p><a class="link"   href="https://www.spiderbuf.cn/list" >测试网站<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
-<h1 id="2-编写代码"><a href="#2-编写代码" class="headerlink" title="2.编写代码"></a>2.编写代码</h1><h2 id="2-1-代码示例"><a href="#2-1-代码示例" class="headerlink" title="2.1 代码示例"></a>2.1 代码示例</h2><div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;https://spiderbuf.cn/playground/s01&quot;</span></span><br><span class="line"></span><br><span class="line">html = requests.get(url=url).text</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/01course/01.html&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">f.write(html)</span><br><span class="line">f.close()</span><br><span class="line"></span><br><span class="line"><span class="comment"># print(html)</span></span><br><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/01course/data01.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    tds = tr.xpath(<span class="string">&#x27;./td&#x27;</span>)</span><br><span class="line">    s = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> td <span class="keyword">in</span> tds:</span><br><span class="line">        <span class="comment"># 这里加 str 是为了防止 &lt;td&gt;&lt;/td&gt; 之间是空数据</span></span><br><span class="line">        s = s + <span class="built_in">str</span>(td.text) + <span class="string">&#x27; | &#x27;</span></span><br><span class="line">    <span class="built_in">print</span>(s)</span><br><span class="line">    <span class="comment"># 保存解析到的数据到本地</span></span><br><span class="line">    <span class="keyword">if</span> s!= <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        f.write(s + <span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
-
-<p>在很多时候，建议先把请求到的网页内容保存到本地（如上面代码所示），因为有时候解析数据无法一次性解析成功，那就会再向网页发送请求，这样不断的去访问服务器，就容易被服务器检测到是爬虫。</p>
-<h1 id="3-lxml-基础使用"><a href="#3-lxml-基础使用" class="headerlink" title="3.lxml 基础使用"></a>3.lxml 基础使用</h1><h2 id="3-1-XPath-基本语法"><a href="#3-1-XPath-基本语法" class="headerlink" title="3.1 XPath 基本语法"></a>3.1 XPath 基本语法</h2><ul>
-<li><code>/</code>：从根节点选择。根节点是一个 XML 或 HTML 文档的最顶层节点，所有其他元素都是它的子节点。</li>
-<li><code>//</code>：选择文档中的所有符合条件的节点，不论它们在文档的什么位置。</li>
-<li><code>.</code>：当前节点。</li>
-<li><code>..</code>：父节点。</li>
-<li><code>@</code>：选择属性。</li>
-<li><code>[ ]</code>：筛选器，添加条件。</li>
-<li><code>text()</code>：选择文本节点。</li>
-</ul>
-<h2 id="3-2-示例说明"><a href="#3-2-示例说明" class="headerlink" title="3.2 示例说明"></a>3.2 示例说明</h2><p>假设有如下 HTML 结构，<code>&lt;html&gt;</code>是根节点：</p>
-<div class="code-container" data-rel="Html"><figure class="iseeu highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">table</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">&quot;status&quot;</span>&gt;</span>在线<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span>&gt;</span>123<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">&quot;status&quot;</span>&gt;</span>离线<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span>&gt;</span>456<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">&quot;status&quot;</span>&gt;</span>在线<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span>&gt;</span>789<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></div>
-
-<h2 id="3-3-使用-XPath-提取数据"><a href="#3-3-使用-XPath-提取数据" class="headerlink" title="3.3 使用 XPath 提取数据"></a>3.3 使用 XPath 提取数据</h2><ol>
-<li><strong>提取所有行的 <code>&lt;td&gt;</code> 内容：</strong></li>
-</ol>
-<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
-
-<p><code>//tr</code> 表示选择文档中所有的 <code>&lt;tr&gt;</code> 节点，不论它们在文档的哪个层级。</p>
-<ol start="2">
-<li><strong>提取某个特定列的数据：</strong></li>
-</ol>
-<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">status_list = root.xpath(<span class="string">&#x27;//td[@class=&quot;status&quot;]/text()&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(status_list)</span><br></pre></td></tr></table></figure></div>
-
-<ul>
-<li><code>//td[@class=&quot;status&quot;]</code>：选择所有 class 为 “status” 的 <code>&lt;td&gt;</code> 节点。</li>
-<li><code>/text()</code>：选择这些节点的文本内容。</li>
-</ul>
-<p><strong>结果：</strong></p>
-<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">[<span class="string">&#x27;在线&#x27;</span>, <span class="string">&#x27;离线&#x27;</span>, <span class="string">&#x27;在线&#x27;</span>]</span><br></pre></td></tr></table></figure></div>
-
-<ol start="3">
-<li><strong>结合 <code>for</code> 循环逐行提取多个列的内容：</strong></li>
-</ol>
-<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    status = tr.xpath(<span class="string">&#x27;./td[@class=&quot;status&quot;]/text()&#x27;</span>)[<span class="number">0</span>]  <span class="comment"># 获取状态</span></span><br><span class="line">    number = tr.xpath(<span class="string">&#x27;./td[2]/text()&#x27;</span>)[<span class="number">0</span>]  <span class="comment"># 获取数字</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;状态: <span class="subst">&#123;status&#125;</span>, 数字: <span class="subst">&#123;number&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure></div>
-
-<ul>
-<li><code>./td[@class=&quot;status&quot;]/text()</code>：从当前行的 <code>&lt;td&gt;</code> 中选择 class 为 “status” 的列。</li>
-<li><code>./td[2]/text()</code>：选择当前行的第二个 <code>&lt;td&gt;</code> 节点的文本内容。</li>
-</ul>
-<p><strong>输出：</strong></p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">状态: 在线, 数字: 123</span><br><span class="line">状态: 离线, 数字: 456</span><br><span class="line">状态: 在线, 数字: 789</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="3-4-XPath-实用技巧"><a href="#3-4-XPath-实用技巧" class="headerlink" title="3.4 XPath 实用技巧"></a>3.4 XPath 实用技巧</h2><ol>
-<li><p><strong>使用属性选择节点：</strong></p>
-<ul>
-<li><code>//td[@class=&quot;status&quot;]</code> 选择所有 class 为 “status” 的 <code>&lt;td&gt;</code>。</li>
-<li><code>//a[@href]</code> 选择带有 <code>href</code> 属性的所有 <code>&lt;a&gt;</code> 标签。</li>
-</ul>
-</li>
-<li><p><strong>使用索引选择特定节点：</strong></p>
-<ul>
-<li><code>//tr[1]</code> 选择第一个 <code>&lt;tr&gt;</code> 节点。</li>
-<li><code>//td[2]</code> 选择当前 <code>&lt;tr&gt;</code> 中的第二个 <code>&lt;td&gt;</code> 节点。</li>
-</ul>
-</li>
-<li><p><strong>选择文本和属性：</strong></p>
-<ul>
-<li><code>//td/text()</code> 选择 <code>&lt;td&gt;</code> 内的文本。</li>
-<li><code>//a/@href</code> 选择所有 <code>&lt;a&gt;</code> 标签的 <code>href</code> 属性。</li>
-</ul>
-</li>
-<li><p><strong>条件筛选：</strong></p>
-<ul>
-<li><code>//tr[td[1]=&quot;在线&quot;]</code> 选择第一列文本为“在线”的行。</li>
-</ul>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>Python爬虫</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Python 爬虫教程 03</title>
-    <url>/2024/10/17/03Python%E7%88%AC%E8%99%AB/</url>
-    <content><![CDATA[<h1 id="1-无请求头访问"><a href="#1-无请求头访问" class="headerlink" title="1.无请求头访问"></a>1.无请求头访问</h1><p>如果不构建请求头，直接向目标网站发送请求：</p>
-<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;https://spiderbuf.cn/playground/s02&quot;</span></span><br><span class="line"></span><br><span class="line">html = requests.get(url=url).text</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/02course/02.html&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">f.write(html)</span><br><span class="line">f.close()</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(html)</span><br><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/02course/data02.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    tds = tr.xpath(<span class="string">&#x27;./td&#x27;</span>)</span><br><span class="line">    s = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> td <span class="keyword">in</span> tds:</span><br><span class="line">        <span class="comment"># print(td.text)</span></span><br><span class="line">        s = s + <span class="built_in">str</span>(td.text) + <span class="string">&#x27; | &#x27;</span></span><br><span class="line">    <span class="built_in">print</span>(s)</span><br><span class="line">    <span class="keyword">if</span> s!= <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        f.write(s + <span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
-
-<p>输出结果：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">&lt;!DOCTYPE HTML PUBLIC &quot;-//IETF//DTD HTML 2.0//EN&quot;&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;&lt;title&gt;403 Forbidden&lt;/title&gt;&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;center&gt;&lt;h1&gt;403 Forbidden&lt;/h1&gt;&lt;/center&gt;</span><br><span class="line">&lt;hr&gt;&lt;center&gt;tengine&lt;/center&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></div>
-<p>很容易被网站检测到是爬虫。</p>
-<h1 id="2-添加请求头"><a href="#2-添加请求头" class="headerlink" title="2.添加请求头"></a>2.添加请求头</h1><p>所以基本上在发送请求之前都会封装一个<code>http</code>请求的头部信息：</p>
-<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">html = requests.get(url=url, headers=headers).text</span><br></pre></td></tr></table></figure></div>
-
-<p>有时候还需要往里面填入<code>Cookie</code>。甚至为了防止被检测到是爬虫，需要更换<code>User-Agent</code>，比如用火狐浏览器的等，或者浏览器不同版本的，这在网上可以查询到。</p>
-]]></content>
-      <categories>
-        <category>Python爬虫</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Python 爬虫教程 04</title>
     <url>/2024/10/17/04Python%E7%88%AC%E8%99%AB/</url>
     <content><![CDATA[<h1 id="1-测试案例"><a href="#1-测试案例" class="headerlink" title="1.测试案例"></a>1.测试案例</h1><div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;https://spiderbuf.cn/playground/s03&quot;</span></span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">html = requests.get(url=url, headers=headers).text</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/03course/03.html&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">f.write(html)</span><br><span class="line">f.close()</span><br><span class="line"></span><br><span class="line"><span class="comment"># print(html)</span></span><br><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/03course/data03.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    tds = tr.xpath(<span class="string">&#x27;./td&#x27;</span>)</span><br><span class="line">    s = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> td <span class="keyword">in</span> tds:</span><br><span class="line">        s = s + <span class="built_in">str</span>(td.text) + <span class="string">&#x27; | &#x27;</span></span><br><span class="line">    <span class="built_in">print</span>(s)</span><br><span class="line">    <span class="keyword">if</span> s!= <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        f.write(s + <span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
@@ -708,6 +708,40 @@
 ]]></content>
       <tags>
         <tag>conda</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>解决 Debian 系统下，软件包更新和软件下载速度慢的问题</title>
+    <url>/2024/12/03/Debian%E9%95%9C%E5%83%8F%E6%BA%90/</url>
+    <content><![CDATA[<h1 id="1-问题复现"><a href="#1-问题复现" class="headerlink" title="1.问题复现"></a>1.问题复现</h1><p>在安装后 Debian 系统后，一般第一步都是执行<code>sudo apt update</code>，此时用的是自带的官方镜像源，速度很慢，所以我们会选择切换为国内的镜像源，这里以清华镜像源为例，默认已经配置好了清华镜像源。</p>
+<p>在执行更新时：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">sky@DESKTOP-IU948AR:~$ <span class="built_in">sudo</span> apt update</span><br><span class="line">[<span class="built_in">sudo</span>] password <span class="keyword">for</span> sky: </span><br><span class="line">Err:1 https://security.debian.org/debian-security bookworm-security InRelease</span><br><span class="line">  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 151.101.2.132 443]</span><br><span class="line">Err:2 https://mirrors.tuna.tsinghua.edu.cn/debian bookworm InRelease</span><br><span class="line">  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">Err:3 https://mirrors.tuna.tsinghua.edu.cn/debian bookworm-updates InRelease</span><br><span class="line">  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">Err:4 https://mirrors.tuna.tsinghua.edu.cn/debian bookworm-backports InRelease</span><br><span class="line">  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">Reading package lists... Done</span><br><span class="line">Building dependency tree... Done</span><br><span class="line">Reading state information... Done</span><br><span class="line">All packages are up to <span class="built_in">date</span>.</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/debian/dists/bookworm/InRelease: No system certificates available. Try installing ca-certificates.    </span><br><span class="line">W: https://security.debian.org/debian-security/dists/bookworm-security/InRelease: No system certificates available. Try installing ca-certificates.</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/debian/dists/bookworm-updates/InRelease: No system certificates available. Try installing ca-certificates.</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/debian/dists/bookworm-backports/InRelease: No system certificates available. Try installing ca-certificates.</span><br><span class="line">W: Failed to fetch https://mirrors.tuna.tsinghua.edu.cn/debian/dists/bookworm/InRelease  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">W: Failed to fetch https://mirrors.tuna.tsinghua.edu.cn/debian/dists/bookworm-updates/InRelease  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]    </span><br><span class="line">W: Failed to fetch https://mirrors.tuna.tsinghua.edu.cn/debian/dists/bookworm-backports/InRelease  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]  </span><br><span class="line">W: Failed to fetch https://security.debian.org/debian-security/dists/bookworm-security/InRelease  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 151.101.2.132 443]  </span><br><span class="line">W: Some index files failed to download. They have been ignored, or old ones used instead.</span><br><span class="line"></span><br><span class="line">sky@DESKTOP-IU948AR:~$ <span class="built_in">sudo</span> apt install ca-certificates</span><br><span class="line">Reading package lists... Done</span><br><span class="line">Building dependency tree... Done</span><br><span class="line">Reading state information... Done</span><br><span class="line">Package ca-certificates is not available, but is referred to by another package.</span><br><span class="line">This may mean that the package is missing, has been obsoleted, or</span><br><span class="line">is only available from another <span class="built_in">source</span></span><br><span class="line"></span><br><span class="line">E: Package <span class="string">&#x27;ca-certificates&#x27;</span> has no installation candidate</span><br></pre></td></tr></table></figure></div>
+
+<p>可以看出更新失败，需要我们安装<code>ca-certificates</code>，但是又无法成功安装<code>ca-certificates</code>。</p>
+<h1 id="2-解决办法"><a href="#2-解决办法" class="headerlink" title="2.解决办法"></a>2.解决办法</h1><p>这个问题的核心是系统无法验证 HTTPS 源的证书，导致无法更新包管理器的索引或安装新软件包。这可能是因为系统缺少必要的 CA 证书或某些配置问题。</p>
+<h2 id="2-1-方式一：手动安装ca-certificates包"><a href="#2-1-方式一：手动安装ca-certificates包" class="headerlink" title="2.1 方式一：手动安装ca-certificates包"></a>2.1 方式一：手动安装<code>ca-certificates</code>包</h2><h3 id="2-1-1-下载-DEB-包"><a href="#2-1-1-下载-DEB-包" class="headerlink" title="2.1.1 下载 DEB 包"></a>2.1.1 下载 DEB 包</h3><ol>
+<li>在另一台可以正常联网的机器上，访问 <a class="link"   href="https://packages.debian.org/" >Debian Packages<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>。</li>
+<li>下载与系统版本匹配的 <code>ca-certificates</code> 包。例如，适用于 Bookworm 的链接可能是：<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://packages.debian.org/bookworm/all/ca-certificates/download</span><br></pre></td></tr></table></figure></div></li>
+<li>使用 USB 或其他方法将下载的 <code>.deb</code> 文件复制到你的系统。</li>
+</ol>
+<h3 id="2-1-2-手动安装包"><a href="#2-1-2-手动安装包" class="headerlink" title="2.1.2 手动安装包"></a>2.1.2 手动安装包</h3><p>在目标机器上运行以下命令：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> dpkg -i /path/to/ca-certificates*.deb</span><br><span class="line"><span class="built_in">sudo</span> apt update</span><br></pre></td></tr></table></figure></div>
+
+<hr>
+<h3 id="2-2-方式二：临时禁用-HTTPS-验证（推荐）"><a href="#2-2-方式二：临时禁用-HTTPS-验证（推荐）" class="headerlink" title="2.2 方式二：临时禁用 HTTPS 验证（推荐）"></a>2.2 方式二：临时禁用 HTTPS 验证（推荐）</h3><p>可以尝试临时禁用 HTTPS 验证以更新软件源和安装 <code>ca-certificates</code>：</p>
+<p>编辑 <code>/etc/apt/apt.conf.d/99disable-https-check</code> 文件：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nano /etc/apt/apt.conf.d/99disable-https-check</span><br></pre></td></tr></table></figure></div>
+
+<p>添加以下内容：</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">Acquire::https::Verify-Peer &quot;false&quot;;</span><br><span class="line">Acquire::https::Verify-Host &quot;false&quot;;</span><br></pre></td></tr></table></figure></div>
+
+<p>保存后运行以下命令：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt update</span><br><span class="line"><span class="built_in">sudo</span> apt install ca-certificates</span><br></pre></td></tr></table></figure></div>
+
+<p>安装完 <code>ca-certificates</code> 后，删除或注释掉该配置以恢复安全性。</p>
+]]></content>
+      <tags>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -1148,8 +1182,8 @@
         <category>科学上网</category>
       </categories>
       <tags>
-        <tag>docker</tag>
         <tag>linux</tag>
+        <tag>docker</tag>
         <tag>proxy</tag>
         <tag>openwrt</tag>
         <tag>虚拟机</tag>
@@ -1296,70 +1330,6 @@
       </tags>
   </entry>
   <entry>
-    <title>使用Docker时的问题汇总和解决方式</title>
-    <url>/2024/07/24/Docker%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/</url>
-    <content><![CDATA[<h1 id="1-启动-Docker-失败"><a href="#1-启动-Docker-失败" class="headerlink" title="1.启动 Docker 失败"></a>1.启动 Docker 失败</h1><p>如果发现<code>docker</code>启动失败，可以通过以下命令输出<code>docker</code>运行日志来定位问题所在：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> journalctl -u docker.service --no-pager | <span class="built_in">tail</span> -n 50</span><br></pre></td></tr></table></figure></div>
-
-<p>如果问题仍无法解决，可以尝试更彻底的方法：</p>
-<ol>
-<li>卸载 Docker：</li>
-</ol>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -R docker</span><br></pre></td></tr></table></figure></div>
-
-<ol start="2">
-<li>删除 Docker 相关的所有数据和配置：</li>
-</ol>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> -rf /var/lib/docker</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> -rf /etc/docker</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> -rf ~/.docker</span><br></pre></td></tr></table></figure></div>
-
-<ol start="3">
-<li>重新安装 Docker：</li>
-</ol>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S docker</span><br></pre></td></tr></table></figure></div>
-
-<ol start="4">
-<li>启动 Docker 服务：</li>
-</ol>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start docker</span><br></pre></td></tr></table></figure></div>
-
-<ol start="5">
-<li>检查 Docker 服务状态：</li>
-</ol>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status docker</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="1-1-网络冲突导致启动失败"><a href="#1-1-网络冲突导致启动失败" class="headerlink" title="1.1 网络冲突导致启动失败"></a>1.1 网络冲突导致启动失败</h2><p>日志内容如下：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">failed to start daemon: Error initializing network controller: error creating default &quot;bridge&quot; network: cannot create network c13e4912d03075485921194eecec303af8f714e77ad529759990f5b7ca155c68 (docker0): conflicts with network 1b9dcc9575e5af33281149149481d0eca4a5d60de0fac2f9264f0b265ab955db (docker0): networks have same bridge name</span><br></pre></td></tr></table></figure></div>
-<p>这个错误表明 Docker 试图创建默认的 bridge 网络，但是遇到了冲突，因为已经存在一个同名的网络。</p>
-<p><strong>解决办法：</strong></p>
-<ol>
-<li>停止 Docker 服务：</li>
-</ol>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl stop docker</span><br></pre></td></tr></table></figure></div>
-
-<ol start="2">
-<li>删除现有的 Docker 网络配置：</li>
-</ol>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> -rf /var/lib/docker/network</span><br></pre></td></tr></table></figure></div>
-
-<ol start="3">
-<li>删除 docker0 网桥：</li>
-</ol>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> ip <span class="built_in">link</span> delete docker0</span><br></pre></td></tr></table></figure></div>
-
-<ol start="4">
-<li>重新启动 Docker 服务：</li>
-</ol>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start docker</span><br></pre></td></tr></table></figure></div>
-
-<ol start="5">
-<li>检查 Docker 服务状态：</li>
-</ol>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status docker</span><br></pre></td></tr></table></figure></div>]]></content>
-      <tags>
-        <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Docker 教程</title>
     <url>/2024/07/24/Docker%E6%95%99%E7%A8%8B/</url>
     <content><![CDATA[<h1 id="一、基本指令"><a href="#一、基本指令" class="headerlink" title="一、基本指令"></a>一、基本指令</h1><h2 id="1-1-查看镜像版本"><a href="#1-1-查看镜像版本" class="headerlink" title="1.1 查看镜像版本"></a>1.1 查看镜像版本</h2><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker inspect &lt;镜像ID&gt; | grep -i version</span><br></pre></td></tr></table></figure></div>
@@ -1485,6 +1455,70 @@
 <p>以后可以使用 <code>docker load</code> 命令从 tar 文件加载镜像。例如，从 <code>hexo_latest.tar</code> 加载镜像：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker load -i hexo_latest.tar</span><br></pre></td></tr></table></figure></div>
 ]]></content>
+      <tags>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>使用Docker时的问题汇总和解决方式</title>
+    <url>/2024/07/24/Docker%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/</url>
+    <content><![CDATA[<h1 id="1-启动-Docker-失败"><a href="#1-启动-Docker-失败" class="headerlink" title="1.启动 Docker 失败"></a>1.启动 Docker 失败</h1><p>如果发现<code>docker</code>启动失败，可以通过以下命令输出<code>docker</code>运行日志来定位问题所在：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> journalctl -u docker.service --no-pager | <span class="built_in">tail</span> -n 50</span><br></pre></td></tr></table></figure></div>
+
+<p>如果问题仍无法解决，可以尝试更彻底的方法：</p>
+<ol>
+<li>卸载 Docker：</li>
+</ol>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -R docker</span><br></pre></td></tr></table></figure></div>
+
+<ol start="2">
+<li>删除 Docker 相关的所有数据和配置：</li>
+</ol>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> -rf /var/lib/docker</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> -rf /etc/docker</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> -rf ~/.docker</span><br></pre></td></tr></table></figure></div>
+
+<ol start="3">
+<li>重新安装 Docker：</li>
+</ol>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S docker</span><br></pre></td></tr></table></figure></div>
+
+<ol start="4">
+<li>启动 Docker 服务：</li>
+</ol>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start docker</span><br></pre></td></tr></table></figure></div>
+
+<ol start="5">
+<li>检查 Docker 服务状态：</li>
+</ol>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status docker</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="1-1-网络冲突导致启动失败"><a href="#1-1-网络冲突导致启动失败" class="headerlink" title="1.1 网络冲突导致启动失败"></a>1.1 网络冲突导致启动失败</h2><p>日志内容如下：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">failed to start daemon: Error initializing network controller: error creating default &quot;bridge&quot; network: cannot create network c13e4912d03075485921194eecec303af8f714e77ad529759990f5b7ca155c68 (docker0): conflicts with network 1b9dcc9575e5af33281149149481d0eca4a5d60de0fac2f9264f0b265ab955db (docker0): networks have same bridge name</span><br></pre></td></tr></table></figure></div>
+<p>这个错误表明 Docker 试图创建默认的 bridge 网络，但是遇到了冲突，因为已经存在一个同名的网络。</p>
+<p><strong>解决办法：</strong></p>
+<ol>
+<li>停止 Docker 服务：</li>
+</ol>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl stop docker</span><br></pre></td></tr></table></figure></div>
+
+<ol start="2">
+<li>删除现有的 Docker 网络配置：</li>
+</ol>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> -rf /var/lib/docker/network</span><br></pre></td></tr></table></figure></div>
+
+<ol start="3">
+<li>删除 docker0 网桥：</li>
+</ol>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> ip <span class="built_in">link</span> delete docker0</span><br></pre></td></tr></table></figure></div>
+
+<ol start="4">
+<li>重新启动 Docker 服务：</li>
+</ol>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start docker</span><br></pre></td></tr></table></figure></div>
+
+<ol start="5">
+<li>检查 Docker 服务状态：</li>
+</ol>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status docker</span><br></pre></td></tr></table></figure></div>]]></content>
       <tags>
         <tag>docker</tag>
       </tags>
@@ -2066,8 +2100,8 @@
 <p>命令简化：</p>
 <div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">alias din=&#x27;docker inspect --format=&#x27;&#123;&#123;.HostConfig.NetworkMode&#125;&#125;&#x27;&#x27;</span><br></pre></td></tr></table></figure></div>]]></content>
       <tags>
-        <tag>docker</tag>
         <tag>linux</tag>
+        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -2482,10 +2516,92 @@
         <category>科学上网</category>
       </categories>
       <tags>
-        <tag>docker</tag>
         <tag>linux</tag>
+        <tag>docker</tag>
         <tag>proxy</tag>
         <tag>clash</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Nix 使用教程</title>
+    <url>/2024/12/03/Nix%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/</url>
+    <content><![CDATA[<h1 id="1-Nix-简述"><a href="#1-Nix-简述" class="headerlink" title="1.Nix 简述"></a>1.Nix 简述</h1><h2 id="1-1-安装方法"><a href="#1-1-安装方法" class="headerlink" title="1.1 安装方法"></a>1.1 安装方法</h2><ol>
+<li><p>官方推荐的安装方式：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">sh &lt;(curl -L https://nixos.org/nix/install)</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>多用户安装（推荐）：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">sh &lt;(curl -L https://nixos.org/nix/install) --daemon</span><br></pre></td></tr></table></figure></div></li>
+</ol>
+<p>安装好后，记得执行下<code>source ~/.bashrc</code>或者<code>source ~/.zshrc</code>进行初始化，取决于你用的是<code>bash</code>还是<code>zsh</code>。</p>
+<p>还可以手动初始化：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">. ~/.nix-profile/etc/profile.d/nix.sh</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="1-2-Nix-的优缺点"><a href="#1-2-Nix-的优缺点" class="headerlink" title="1.2 Nix 的优缺点"></a>1.2 Nix 的优缺点</h2><p>优点：</p>
+<ol>
+<li>跨平台兼容性</li>
+</ol>
+<ul>
+<li>可以在 Ubuntu、Fedora、macOS 等多种系统上使用</li>
+<li>保持了包管理的一致性</li>
+</ul>
+<ol start="2">
+<li>依赖管理优势</li>
+</ol>
+<ul>
+<li>完全可重现的包管理</li>
+<li>可以精确控制软件包版本</li>
+<li>不同版本软件可以并存</li>
+<li>回滚和切换软件版本非常容易</li>
+</ul>
+<ol start="3">
+<li>隔离性</li>
+</ol>
+<ul>
+<li>每个包都在独立的目录中</li>
+<li>避免包之间的冲突</li>
+<li>不会污染系统环境</li>
+</ul>
+<ol start="4">
+<li>原子性更新</li>
+</ol>
+<ul>
+<li>要么完全成功，要么完全回滚</li>
+<li>降低系统损坏风险</li>
+</ul>
+<p>缺点：</p>
+<ol>
+<li>学习成本高</li>
+</ol>
+<ul>
+<li>Nix 语言和概念相对复杂</li>
+<li>与传统包管理器差异较大</li>
+</ul>
+<ol start="2">
+<li>性能开销</li>
+</ol>
+<ul>
+<li>首次安装和下载可能较慢</li>
+<li>额外的存储空间消耗</li>
+</ul>
+<ol start="3">
+<li>社区支持</li>
+</ol>
+<ul>
+<li>相比<code>apt</code>、<code>yum</code>，生态较小</li>
+<li>部分软件包可能不够及时</li>
+</ul>
+<h2 id="1-3-使用示例"><a href="#1-3-使用示例" class="headerlink" title="1.3 使用示例"></a>1.3 使用示例</h2><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 安装软件</span></span><br><span class="line">nix-env -iA nixpkgs.firefox</span><br><span class="line"></span><br><span class="line"><span class="comment"># 列出已安装软件</span></span><br><span class="line">nix-env -q</span><br><span class="line"></span><br><span class="line"><span class="comment"># 卸载软件</span></span><br><span class="line">nix-env -e firefox</span><br><span class="line"></span><br><span class="line"><span class="comment"># 更新所有软件</span></span><br><span class="line">nix-channel --update</span><br><span class="line">nix-env -u</span><br></pre></td></tr></table></figure></div>
+
+<p>建议：</p>
+<ul>
+<li>对于日常使用，可以并存使用系统原生包管理器</li>
+<li>适合开发者和追求系统可控性的用户</li>
+<li>不建议完全替代系统默认包管理器</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>linux</tag>
+        <tag>nix</tag>
       </tags>
   </entry>
   <entry>
@@ -2838,36 +2954,6 @@
       </tags>
   </entry>
   <entry>
-    <title>VirtualBox 实现主机与虚拟机（CachyOS）传文件</title>
-    <url>/2024/08/01/VirtualBox%E4%B8%BB%E6%9C%BA%E4%B8%8E%E8%99%9A%E6%8B%9F%E6%9C%BA%E9%97%B4%E4%BC%A0%E6%96%87%E4%BB%B6/</url>
-    <content><![CDATA[<h1 id="1-VirtualBox-中实现主机与虚拟机之间传输文件"><a href="#1-VirtualBox-中实现主机与虚拟机之间传输文件" class="headerlink" title="1.VirtualBox 中实现主机与虚拟机之间传输文件"></a>1.VirtualBox 中实现主机与虚拟机之间传输文件</h1><h2 id="1-1-VirtualBox-中的设置"><a href="#1-1-VirtualBox-中的设置" class="headerlink" title="1.1 VirtualBox 中的设置"></a>1.1 VirtualBox 中的设置</h2><p>如图所示：</p>
-<ul>
-<li><p>进入虚拟机的设置：<br><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://im.gurl.eu.org/file/b852b7e357c0db8eb549d.png"
-                      alt="图一"
-                ><figcaption>图一</figcaption></figure></p>
-</li>
-<li><p>创建主机挂载目录：<br><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://im.gurl.eu.org/file/a6030bd1051ef5e2c8ced.png"
-                      alt="图二"
-                ><figcaption>图二</figcaption></figure></p>
-</li>
-</ul>
-<h2 id="1-2-虚拟机中的设置"><a href="#1-2-虚拟机中的设置" class="headerlink" title="1.2 虚拟机中的设置"></a>1.2 虚拟机中的设置</h2><p>在虚拟机中创建共享目录：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> ~/share -p</span><br></pre></td></tr></table></figure></div>
-
-<p>将主机的那个共享目录挂载到<code>~/share</code>文件夹下：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> mount -t vboxsf CachyOS_share ~/share/</span><br></pre></td></tr></table></figure></div>
-]]></content>
-      <tags>
-        <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>WSL2 和 Docker 容器中运行 GUI 程序</title>
     <url>/2024/11/27/WSL-%E5%AE%B9%E5%99%A8GUI/</url>
     <content><![CDATA[<h1 id="1-WSL2-执行-GUI-程序"><a href="#1-WSL2-执行-GUI-程序" class="headerlink" title="1.WSL2 执行 GUI 程序"></a>1.WSL2 执行 GUI 程序</h1><p>需要在 Windows 上安装<code>MobaXterm</code>，这里推荐安装中文版的（原版可以在官网下载）：[中文版<code>Mobaxterm](https://github.com/RipplePiam/MobaXterm-Chinese-Simplified?tab=readme-ov-file)。这个软件自带</code>x11-server&#96;。</p>
@@ -2943,8 +3029,8 @@
 <p>如果希望更安全，只允许特定用户访问，可以指定用户（比如这里指定<code>root</code>用户）：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">xhost +SI:localuser:root</span><br></pre></td></tr></table></figure></div>]]></content>
       <tags>
-        <tag>docker</tag>
         <tag>linux</tag>
+        <tag>docker</tag>
         <tag>WSL</tag>
       </tags>
   </entry>
@@ -3050,6 +3136,85 @@
       </tags>
   </entry>
   <entry>
+    <title>VirtualBox 实现主机与虚拟机（CachyOS）传文件</title>
+    <url>/2024/08/01/VirtualBox%E4%B8%BB%E6%9C%BA%E4%B8%8E%E8%99%9A%E6%8B%9F%E6%9C%BA%E9%97%B4%E4%BC%A0%E6%96%87%E4%BB%B6/</url>
+    <content><![CDATA[<h1 id="1-VirtualBox-中实现主机与虚拟机之间传输文件"><a href="#1-VirtualBox-中实现主机与虚拟机之间传输文件" class="headerlink" title="1.VirtualBox 中实现主机与虚拟机之间传输文件"></a>1.VirtualBox 中实现主机与虚拟机之间传输文件</h1><h2 id="1-1-VirtualBox-中的设置"><a href="#1-1-VirtualBox-中的设置" class="headerlink" title="1.1 VirtualBox 中的设置"></a>1.1 VirtualBox 中的设置</h2><p>如图所示：</p>
+<ul>
+<li><p>进入虚拟机的设置：<br><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://im.gurl.eu.org/file/b852b7e357c0db8eb549d.png"
+                      alt="图一"
+                ><figcaption>图一</figcaption></figure></p>
+</li>
+<li><p>创建主机挂载目录：<br><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://im.gurl.eu.org/file/a6030bd1051ef5e2c8ced.png"
+                      alt="图二"
+                ><figcaption>图二</figcaption></figure></p>
+</li>
+</ul>
+<h2 id="1-2-虚拟机中的设置"><a href="#1-2-虚拟机中的设置" class="headerlink" title="1.2 虚拟机中的设置"></a>1.2 虚拟机中的设置</h2><p>在虚拟机中创建共享目录：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> ~/share -p</span><br></pre></td></tr></table></figure></div>
+
+<p>将主机的那个共享目录挂载到<code>~/share</code>文件夹下：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> mount -t vboxsf CachyOS_share ~/share/</span><br></pre></td></tr></table></figure></div>
+]]></content>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Zerotier 使用教程</title>
+    <url>/2024/08/18/Zerotier%E6%95%99%E7%A8%8B/</url>
+    <content><![CDATA[<h1 id="1-登录或注册-Zerotier-官网帐号"><a href="#1-登录或注册-Zerotier-官网帐号" class="headerlink" title="1.登录或注册 Zerotier 官网帐号"></a>1.登录或注册 Zerotier 官网帐号</h1><p><a class="link"   href="https://www.zerotier.com/" >官网地址<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h2 id="1-1-创建组网"><a href="#1-1-创建组网" class="headerlink" title="1.1 创建组网"></a>1.1 创建组网</h2><p>点击<code>Create A NetWork</code></p>
+<p><a href="https://imgse.com/i/pACzRbV"><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s21.ax1x.com/2024/08/18/pACzRbV.md.png"
+                      alt="创建网络"
+                ><figcaption>创建网络</figcaption></figure></a></p>
+<p>蓝色框里的是我已经创建好了的。创建好后可以点击进入并管理。</p>
+<h1 id="2-安装-Zerotier"><a href="#2-安装-Zerotier" class="headerlink" title="2.安装 Zerotier"></a>2.安装 Zerotier</h1><h2 id="2-1-常规安装"><a href="#2-1-常规安装" class="headerlink" title="2.1 常规安装"></a>2.1 常规安装</h2><p>请参考官网下载链接：<a class="link"   href="https://www.zerotier.com/download/" >Download<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h2 id="2-2-Arch-系-Linux-安装"><a href="#2-2-Arch-系-Linux-安装" class="headerlink" title="2.2 Arch 系 Linux 安装"></a>2.2 Arch 系 Linux 安装</h2><p>通过<code>pacman</code>安装：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -Sy zerotier-one</span><br></pre></td></tr></table></figure></div>
+
+<p>设置开机自启动，并启动<code>zerotier-one</code>服务：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> --now zerotier-one</span><br></pre></td></tr></table></figure></div>
+
+<h1 id="3-加入创建的组网"><a href="#3-加入创建的组网" class="headerlink" title="3.加入创建的组网"></a>3.加入创建的组网</h1><p>红色框：ID （是一个 16 字节的十六进制字符串）要复制下来<br>紫色框处：要勾选上<br>黑色框：用户可以自定义命名加入的设备<br>绿色框：分配的 IP 地址，用于连接使用<br><a href="https://imgse.com/i/pACzhUU"><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s21.ax1x.com/2024/08/18/pACzhUU.png"
+                      alt="管理"
+                ><figcaption>管理</figcaption></figure></a></p>
+<h2 id="3-1-加入组网"><a href="#3-1-加入组网" class="headerlink" title="3.1 加入组网"></a>3.1 加入组网</h2><p>其它设备直接在软件里输入组网 ID 就能直接加入了，但是要确定防火墙不能组织 Zerotier 流量。对于 Linux 设备按如下方式：</p>
+<ul>
+<li><p>加入组网：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> zerotier-cli <span class="built_in">join</span> &lt;network-id&gt;</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>验证加入状态:</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> zerotier-cli listnetworks</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<h2 id="3-2-在-ZeroTier-管理控制台上授权设备"><a href="#3-2-在-ZeroTier-管理控制台上授权设备" class="headerlink" title="3.2 在 ZeroTier 管理控制台上授权设备"></a>3.2 在 ZeroTier 管理控制台上授权设备</h2><p>登录到 ZeroTier 的管理控制台（<a class="link"   href="https://my.zerotier.com/" >ZeroTier Central<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>），找到你创建的网络。你会看到一个待授权的设备列表。你需要在控制台中授权你的设备：</p>
+<ol>
+<li>在控制台的网络管理页面中，找到你的网络。</li>
+<li>在“成员”部分，你会看到一个类似 <code>e3918db483f0c385</code> 的设备 ID（这是你的设备）。</li>
+<li>勾选该设备，然后点击“授权”或“允许”按钮以授权设备加入网络。</li>
+</ol>
+<h3 id="3-3-验证网络连接"><a href="#3-3-验证网络连接" class="headerlink" title="3.3 验证网络连接"></a>3.3 验证网络连接</h3><p>可以使用 <code>ping</code> 命令来测试与网络中其他设备的连接：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">ping &lt;zerotier-ip-address&gt;</span><br></pre></td></tr></table></figure></div>
+<p>替换 <code>&lt;zerotier-ip-address&gt;</code> 为网络中其他设备的 ZeroTier IP 地址。</p>
+]]></content>
+      <tags>
+        <tag>linux</tag>
+        <tag>ssh</tag>
+        <tag>内网穿透</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>CMake 基础教程</title>
     <url>/2024/11/29/cmake%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/</url>
     <content><![CDATA[<h1 id="1-构建指令"><a href="#1-构建指令" class="headerlink" title="1.构建指令"></a>1.构建指令</h1><p>现代<code>CMake</code>提供了更方便的<code>-B</code>和<code>--build</code>指令，不同平台，统一命令！</p>
@@ -3108,55 +3273,6 @@
       <tags>
         <tag>c++</tag>
         <tag>cmake</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Zerotier 使用教程</title>
-    <url>/2024/08/18/Zerotier%E6%95%99%E7%A8%8B/</url>
-    <content><![CDATA[<h1 id="1-登录或注册-Zerotier-官网帐号"><a href="#1-登录或注册-Zerotier-官网帐号" class="headerlink" title="1.登录或注册 Zerotier 官网帐号"></a>1.登录或注册 Zerotier 官网帐号</h1><p><a class="link"   href="https://www.zerotier.com/" >官网地址<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
-<h2 id="1-1-创建组网"><a href="#1-1-创建组网" class="headerlink" title="1.1 创建组网"></a>1.1 创建组网</h2><p>点击<code>Create A NetWork</code></p>
-<p><a href="https://imgse.com/i/pACzRbV"><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://s21.ax1x.com/2024/08/18/pACzRbV.md.png"
-                      alt="创建网络"
-                ><figcaption>创建网络</figcaption></figure></a></p>
-<p>蓝色框里的是我已经创建好了的。创建好后可以点击进入并管理。</p>
-<h1 id="2-安装-Zerotier"><a href="#2-安装-Zerotier" class="headerlink" title="2.安装 Zerotier"></a>2.安装 Zerotier</h1><h2 id="2-1-常规安装"><a href="#2-1-常规安装" class="headerlink" title="2.1 常规安装"></a>2.1 常规安装</h2><p>请参考官网下载链接：<a class="link"   href="https://www.zerotier.com/download/" >Download<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
-<h2 id="2-2-Arch-系-Linux-安装"><a href="#2-2-Arch-系-Linux-安装" class="headerlink" title="2.2 Arch 系 Linux 安装"></a>2.2 Arch 系 Linux 安装</h2><p>通过<code>pacman</code>安装：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -Sy zerotier-one</span><br></pre></td></tr></table></figure></div>
-
-<p>设置开机自启动，并启动<code>zerotier-one</code>服务：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> --now zerotier-one</span><br></pre></td></tr></table></figure></div>
-
-<h1 id="3-加入创建的组网"><a href="#3-加入创建的组网" class="headerlink" title="3.加入创建的组网"></a>3.加入创建的组网</h1><p>红色框：ID （是一个 16 字节的十六进制字符串）要复制下来<br>紫色框处：要勾选上<br>黑色框：用户可以自定义命名加入的设备<br>绿色框：分配的 IP 地址，用于连接使用<br><a href="https://imgse.com/i/pACzhUU"><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://s21.ax1x.com/2024/08/18/pACzhUU.png"
-                      alt="管理"
-                ><figcaption>管理</figcaption></figure></a></p>
-<h2 id="3-1-加入组网"><a href="#3-1-加入组网" class="headerlink" title="3.1 加入组网"></a>3.1 加入组网</h2><p>其它设备直接在软件里输入组网 ID 就能直接加入了，但是要确定防火墙不能组织 Zerotier 流量。对于 Linux 设备按如下方式：</p>
-<ul>
-<li><p>加入组网：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> zerotier-cli <span class="built_in">join</span> &lt;network-id&gt;</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>验证加入状态:</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> zerotier-cli listnetworks</span><br></pre></td></tr></table></figure></div></li>
-</ul>
-<h2 id="3-2-在-ZeroTier-管理控制台上授权设备"><a href="#3-2-在-ZeroTier-管理控制台上授权设备" class="headerlink" title="3.2 在 ZeroTier 管理控制台上授权设备"></a>3.2 在 ZeroTier 管理控制台上授权设备</h2><p>登录到 ZeroTier 的管理控制台（<a class="link"   href="https://my.zerotier.com/" >ZeroTier Central<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>），找到你创建的网络。你会看到一个待授权的设备列表。你需要在控制台中授权你的设备：</p>
-<ol>
-<li>在控制台的网络管理页面中，找到你的网络。</li>
-<li>在“成员”部分，你会看到一个类似 <code>e3918db483f0c385</code> 的设备 ID（这是你的设备）。</li>
-<li>勾选该设备，然后点击“授权”或“允许”按钮以授权设备加入网络。</li>
-</ol>
-<h3 id="3-3-验证网络连接"><a href="#3-3-验证网络连接" class="headerlink" title="3.3 验证网络连接"></a>3.3 验证网络连接</h3><p>可以使用 <code>ping</code> 命令来测试与网络中其他设备的连接：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">ping &lt;zerotier-ip-address&gt;</span><br></pre></td></tr></table></figure></div>
-<p>替换 <code>&lt;zerotier-ip-address&gt;</code> 为网络中其他设备的 ZeroTier IP 地址。</p>
-]]></content>
-      <tags>
-        <tag>linux</tag>
-        <tag>ssh</tag>
-        <tag>内网穿透</tag>
       </tags>
   </entry>
   <entry>
@@ -3400,8 +3516,8 @@
 <p>然后重启系统即可。</p>
 <h1 id="3-中文空格乱码解决"><a href="#3-中文空格乱码解决" class="headerlink" title="3.中文空格乱码解决"></a>3.中文空格乱码解决</h1><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt-get install fonts-droid-fallback ttf-wqy-zenhei ttf-wqy-microhei fonts-arphic-ukai fonts-arphic-uming</span><br></pre></td></tr></table></figure></div>]]></content>
       <tags>
-        <tag>docker</tag>
         <tag>linux</tag>
+        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -3560,6 +3676,88 @@
       </tags>
   </entry>
   <entry>
+    <title>搭建代理池</title>
+    <url>/2024/10/17/%E6%90%AD%E5%BB%BA%E4%BB%A3%E7%90%86%E6%B1%A0/</url>
+    <content><![CDATA[<h1 id="1-开源项目地址"><a href="#1-开源项目地址" class="headerlink" title="1.开源项目地址"></a>1.开源项目地址</h1><p><a class="link"   href="https://github.com/jhao104/proxy_pool" >jhao104&#x2F;proxy_pool<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h1 id="2-搭建教程"><a href="#2-搭建教程" class="headerlink" title="2.搭建教程"></a>2.搭建教程</h1><h2 id="2-1-通过-docker-搭建"><a href="#2-1-通过-docker-搭建" class="headerlink" title="2.1 通过 docker 搭建"></a>2.1 通过 docker 搭建</h2><p>默认情况下，Docker 容器彼此无法通过<code>localhost</code>访问，需要通过容器的网络名称（桥接网络：<code>bridge</code>）进行通信。因此可以将<code>proxy_pool</code>和<code>redis</code>放在同一个 Docker 网络中。</p>
+<p><strong>创建网络：</strong></p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker network create mynetwork</span><br></pre></td></tr></table></figure></div>
+
+<p><strong>运行 Redis 容器并加入网络：</strong></p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -d --name redis --network=mynetwork -p 6379:6379 redis:latest</span><br></pre></td></tr></table></figure></div>
+
+<p><strong>运行<code>proxy_pool</code>容器并连接 Redis：</strong></p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -d --name proxy_pool --network=mynetwork --<span class="built_in">env</span> DB_CONN=redis://redis:6379/0 -p 5010:5010 jhao104/proxy_pool:latest</span><br></pre></td></tr></table></figure></div>
+
+<p><strong>查看日志信息：</strong></p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker logs proxy_pool</span><br></pre></td></tr></table></figure></div>
+
+<p>这是很就能看到获得的代理地址和端口。如下面所示：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 39.175.75.144:30001     ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 8.221.141.88:8443       ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 47.109.83.196:8080      ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 185.49.31.205:8080      ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 72.10.160.171:11319     ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 102.213.146.206:8080    ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 79.110.202.131:8081     ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 178.130.40.231:8080     ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 188.166.56.246:80       ok</span><br></pre></td></tr></table></figure></div>
+
+<h1 id="3-使用教程"><a href="#3-使用教程" class="headerlink" title="3.使用教程"></a>3.使用教程</h1><p>代码示例：</p>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_proxy</span>():</span><br><span class="line">    <span class="keyword">return</span> requests.get(<span class="string">&quot;http://127.0.0.1:5010/get/&quot;</span>).json()</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">delete_proxy</span>(<span class="params">proxy</span>):</span><br><span class="line">    requests.get(<span class="string">&quot;http://127.0.0.1:5010/delete/?proxy=&#123;&#125;&quot;</span>.<span class="built_in">format</span>(proxy))</span><br><span class="line"></span><br><span class="line"><span class="comment"># your spider code</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">getHtml</span>(<span class="params">url, headers</span>):</span><br><span class="line">    retry_count = <span class="number">15</span></span><br><span class="line">    <span class="keyword">while</span> retry_count &gt; <span class="number">0</span>:</span><br><span class="line">        proxy = get_proxy().get(<span class="string">&quot;proxy&quot;</span>)</span><br><span class="line">        proxies = &#123;</span><br><span class="line">            <span class="string">&quot;http&quot;</span>: <span class="string">&quot;http://&quot;</span> + proxy,</span><br><span class="line">            <span class="string">&quot;https&quot;</span>: <span class="string">&quot;http://&quot;</span> + proxy</span><br><span class="line">            &#125;</span><br><span class="line">        <span class="built_in">print</span>(get_proxy().get(<span class="string">&quot;proxy&quot;</span>))</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="comment"># 使用代理访问</span></span><br><span class="line">            html = requests.get(url=url, headers=headers, proxies=proxies, timeout=<span class="number">5</span>)</span><br><span class="line">            <span class="keyword">return</span> html.text</span><br><span class="line">        <span class="keyword">except</span> Exception:</span><br><span class="line">            retry_count -= <span class="number">1</span></span><br><span class="line">            <span class="comment"># 删除代理池中代理</span></span><br><span class="line">            delete_proxy(proxy)</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;https://wuhan.anjuke.com/sale/p1/?from=esf_list&quot;</span></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36&quot;</span>,</span><br><span class="line">    <span class="string">&quot;Cookie&quot;</span>:  <span class="string">&quot;your-cookie&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">html_data = getHtml(url, headers)</span><br><span class="line"><span class="built_in">print</span>(html_data)</span><br></pre></td></tr></table></figure></div>
+<p><code>getHtml</code>函数中，会通过<code>while</code>循环来切换代理<code>ip</code>和<code>port</code>，直到请求成功，然后返回出结果并退出循环。</p>
+]]></content>
+      <categories>
+        <category>Python技巧</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>如何手动编译 PCL 库</title>
+    <url>/2024/12/04/%E7%BC%96%E8%AF%91pcl/</url>
+    <content><![CDATA[<h1 id="1-环境说明"><a href="#1-环境说明" class="headerlink" title="1.环境说明"></a>1.环境说明</h1><p>编译环境是 Docker 的 Ubuntu 镜像所运行的容器实例，版本是<code>&quot;DockerVersion&quot;: &quot;24.0.7&quot;</code>。运行好容器后，第一部还是要配置好镜像源（或网络代理），然后更新软件仓库。</p>
+<h1 id="2-安装编译工具和依赖"><a href="#2-安装编译工具和依赖" class="headerlink" title="2.安装编译工具和依赖"></a>2.安装编译工具和依赖</h1><p>创建安装脚本：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">touch</span> install_build_pcl.sh</span><br></pre></td></tr></table></figure></div>
+
+<p>把下面内容添加到脚本中：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 更新包列表并升级系统</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;更新系统并安装依赖项...&quot;</span></span><br><span class="line">apt update</span><br><span class="line">apt upgrade -y</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装基础工具和开发环境</span></span><br><span class="line">apt install -y build-essential cmake git pkg-config clang clangd wget unzip</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装系统库和硬件相关支持</span></span><br><span class="line">apt install -y \</span><br><span class="line">  libusb-1.0-0-dev \</span><br><span class="line">  libusb-dev \</span><br><span class="line">  libudev-dev \</span><br><span class="line">  freeglut3-dev \</span><br><span class="line">  libxmu-dev \</span><br><span class="line">  libxi-dev \</span><br><span class="line">  libomp-dev</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装数学和算法库</span></span><br><span class="line">apt install -y \</span><br><span class="line">  libboost-all-dev \</span><br><span class="line">  libeigen3-dev \</span><br><span class="line">  libflann-dev \</span><br><span class="line">  libqhull-dev</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装 VTK（可视化工具包）</span></span><br><span class="line">apt install -y libvtk9-dev</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装图形和 GUI 相关支持</span></span><br><span class="line">apt install -y \</span><br><span class="line">  libglew-dev \</span><br><span class="line">  libglfw3-dev \</span><br><span class="line">  libpng-dev \</span><br><span class="line">  libjpeg-dev</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装 Qt5 和 OpenGL 支持</span></span><br><span class="line">apt install -y \</span><br><span class="line">  qtbase5-dev \</span><br><span class="line">  qttools5-dev-tools \</span><br><span class="line">  libqt5opengl5-dev</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装点云处理相关库</span></span><br><span class="line">apt install -y \</span><br><span class="line">  libopenni-dev \</span><br><span class="line">  libopenni2-dev \</span><br><span class="line">  libpcap-dev</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装额外的开发工具（可选）</span></span><br><span class="line"><span class="comment"># apt install -y \</span></span><br><span class="line"><span class="comment">#   mono-complete \</span></span><br><span class="line"><span class="comment">#   openjdk-8-jdk \</span></span><br><span class="line"><span class="comment">#   openjdk-8-jre \</span></span><br><span class="line">  </span><br><span class="line"><span class="comment"># 安装中文包</span></span><br><span class="line">apt install -y language-pack-zh-hans</span><br><span class="line"></span><br><span class="line"><span class="comment"># 清理无用的包缓存</span></span><br><span class="line">apt autoremove -y</span><br><span class="line">apt clean</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;所有依赖项已安装！准备编译 PCL。&quot;</span></span><br></pre></td></tr></table></figure></div>
+
+<p>将脚本更改为可执行权限：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">chmod</span> +x install_build_pcl.sh</span><br></pre></td></tr></table></figure></div>
+
+<p>最好配置下<code>.bashrc</code>，增加代理和中文字体配置。在<code>.bashrc</code>中添加如下内容：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 中文字体设置</span></span><br><span class="line"><span class="built_in">export</span> LANG=zh_CN.UTF-8</span><br><span class="line"><span class="built_in">export</span> LANGUAGE=zh_CN:zh</span><br><span class="line"><span class="built_in">export</span> LC_ALL=zh_CN.UTF-8</span><br><span class="line"></span><br><span class="line"><span class="comment"># where proxy</span></span><br><span class="line"><span class="function"><span class="title">proxy</span></span>()&#123;</span><br><span class="line">  <span class="built_in">export</span> http_proxy=<span class="string">&quot;http://127.0.0.1:7890&quot;</span></span><br><span class="line">  <span class="built_in">export</span> https_proxy=<span class="string">&quot;http://127.0.0.1:7890&quot;</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">&quot;HTTP Proxy on&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># where noproxy</span></span><br><span class="line"><span class="function"><span class="title">noproxy</span></span>()&#123;</span><br><span class="line">  <span class="built_in">unset</span> http_proxy</span><br><span class="line">  <span class="built_in">unset</span> https_proxy</span><br><span class="line">  <span class="built_in">echo</span> <span class="string">&quot;HTTP Proxy off&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<h1 id="3-编译"><a href="#3-编译" class="headerlink" title="3.编译"></a>3.编译</h1><h2 id="3-1-拉取源码"><a href="#3-1-拉取源码" class="headerlink" title="3.1 拉取源码"></a>3.1 拉取源码</h2><p>可以通过<code>git</code>拉取最新源码：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/PointCloudLibrary/pcl.git</span><br></pre></td></tr></table></figure></div>
+
+<p>也可以直接下载指定版本源码并进行解压，比如<code>1.14</code>版的：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 下载</span></span><br><span class="line">wget https://github.com/PointCloudLibrary/pcl/releases/download/pcl-1.14.1/source.zip</span><br><span class="line"></span><br><span class="line"><span class="comment"># 解压到当前目录</span></span><br><span class="line">unzip source.zip -d .</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="3-2-开始编译"><a href="#3-2-开始编译" class="headerlink" title="3.2 开始编译"></a>3.2 开始编译</h2><ol>
+<li><strong>方式一：安装到默认目录</strong></li>
+</ol>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> pcl</span><br><span class="line"></span><br><span class="line"><span class="built_in">mkdir</span> build</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> build</span><br><span class="line"></span><br><span class="line">cmake ..</span><br><span class="line"></span><br><span class="line">make -j8</span><br><span class="line"></span><br><span class="line">make install</span><br></pre></td></tr></table></figure></div>
+
+<ol start="2">
+<li><strong>方式二：安装到指定目录</strong></li>
+</ol>
+<p>比如要安装到<code>/root/pcl_1.14/</code>目录下：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> /root/pcl_1.14</span><br></pre></td></tr></table></figure></div>
+
+<p>开始编译：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> pcl</span><br><span class="line"></span><br><span class="line"><span class="built_in">mkdir</span> build</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> build</span><br><span class="line"></span><br><span class="line">cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/root/pcl_1.14</span><br><span class="line"></span><br><span class="line">make -j8</span><br><span class="line"></span><br><span class="line">make install</span><br></pre></td></tr></table></figure></div>
+
+<p>这种方式会把<code>pcl</code>安装到<code>/root/pcl_1.14</code>下，<code>pcl_1.14</code>下的文件结构是这样的：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">.</span><br><span class="line">├── bin</span><br><span class="line">├── include</span><br><span class="line">├── lib</span><br><span class="line">└── share</span><br><span class="line"></span><br><span class="line">5 directories, 0 files</span><br></pre></td></tr></table></figure></div>
+
+<p>如果是安装到指定的目录，在配置<code>CMakeLists.txt</code>时，略有不同：</p>
+<div class="code-container" data-rel="Cmake"><figure class="iseeu highlight cmake"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 设置 PCL 的安装目录（这个路径包含 PCL 的 CMake 配置文件）</span></span><br><span class="line"><span class="keyword">set</span>(PCL_DIR <span class="string">&quot;/root/pcl_1.14/share/pcl-1.14&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查找 PCL 包</span></span><br><span class="line"><span class="keyword">find_package</span>(PCL REQUIRED)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置编译选项</span></span><br><span class="line"><span class="keyword">include_directories</span>(<span class="variable">$&#123;PCL_INCLUDE_DIRS&#125;</span>)</span><br><span class="line"><span class="keyword">link_directories</span>(<span class="variable">$&#123;PCL_LIBRARY_DIRS&#125;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加可执行文件</span></span><br><span class="line"><span class="keyword">add_executable</span>(your_project main.cpp)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 链接 PCL 库</span></span><br><span class="line"><span class="keyword">target_link_libraries</span>(your_project <span class="variable">$&#123;PCL_LIBRARIES&#125;</span>)</span><br></pre></td></tr></table></figure></div>
+]]></content>
+      <categories>
+        <category>C++</category>
+      </categories>
+      <tags>
+        <tag>c++</tag>
+        <tag>cmake</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>从源码安装 SSH</title>
     <url>/2024/09/11/%E4%BB%8E%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85SSH/</url>
     <content><![CDATA[<h1 id="1-构建基础镜像"><a href="#1-构建基础镜像" class="headerlink" title="1.构建基础镜像"></a>1.构建基础镜像</h1><p>在当期目录下（与<code>Dockerfile</code>同目录），添加<code>sources.list</code>文件，并添加镜像源：</p>
@@ -3665,38 +3863,6 @@
       <tags>
         <tag>linux</tag>
         <tag>ssh</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>搭建代理池</title>
-    <url>/2024/10/17/%E6%90%AD%E5%BB%BA%E4%BB%A3%E7%90%86%E6%B1%A0/</url>
-    <content><![CDATA[<h1 id="1-开源项目地址"><a href="#1-开源项目地址" class="headerlink" title="1.开源项目地址"></a>1.开源项目地址</h1><p><a class="link"   href="https://github.com/jhao104/proxy_pool" >jhao104&#x2F;proxy_pool<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
-<h1 id="2-搭建教程"><a href="#2-搭建教程" class="headerlink" title="2.搭建教程"></a>2.搭建教程</h1><h2 id="2-1-通过-docker-搭建"><a href="#2-1-通过-docker-搭建" class="headerlink" title="2.1 通过 docker 搭建"></a>2.1 通过 docker 搭建</h2><p>默认情况下，Docker 容器彼此无法通过<code>localhost</code>访问，需要通过容器的网络名称（桥接网络：<code>bridge</code>）进行通信。因此可以将<code>proxy_pool</code>和<code>redis</code>放在同一个 Docker 网络中。</p>
-<p><strong>创建网络：</strong></p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker network create mynetwork</span><br></pre></td></tr></table></figure></div>
-
-<p><strong>运行 Redis 容器并加入网络：</strong></p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -d --name redis --network=mynetwork -p 6379:6379 redis:latest</span><br></pre></td></tr></table></figure></div>
-
-<p><strong>运行<code>proxy_pool</code>容器并连接 Redis：</strong></p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -d --name proxy_pool --network=mynetwork --<span class="built_in">env</span> DB_CONN=redis://redis:6379/0 -p 5010:5010 jhao104/proxy_pool:latest</span><br></pre></td></tr></table></figure></div>
-
-<p><strong>查看日志信息：</strong></p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker logs proxy_pool</span><br></pre></td></tr></table></figure></div>
-
-<p>这是很就能看到获得的代理地址和端口。如下面所示：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 39.175.75.144:30001     ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 8.221.141.88:8443       ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 47.109.83.196:8080      ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 185.49.31.205:8080      ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 72.10.160.171:11319     ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 102.213.146.206:8080    ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 79.110.202.131:8081     ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 178.130.40.231:8080     ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 188.166.56.246:80       ok</span><br></pre></td></tr></table></figure></div>
-
-<h1 id="3-使用教程"><a href="#3-使用教程" class="headerlink" title="3.使用教程"></a>3.使用教程</h1><p>代码示例：</p>
-<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_proxy</span>():</span><br><span class="line">    <span class="keyword">return</span> requests.get(<span class="string">&quot;http://127.0.0.1:5010/get/&quot;</span>).json()</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">delete_proxy</span>(<span class="params">proxy</span>):</span><br><span class="line">    requests.get(<span class="string">&quot;http://127.0.0.1:5010/delete/?proxy=&#123;&#125;&quot;</span>.<span class="built_in">format</span>(proxy))</span><br><span class="line"></span><br><span class="line"><span class="comment"># your spider code</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">getHtml</span>(<span class="params">url, headers</span>):</span><br><span class="line">    retry_count = <span class="number">15</span></span><br><span class="line">    <span class="keyword">while</span> retry_count &gt; <span class="number">0</span>:</span><br><span class="line">        proxy = get_proxy().get(<span class="string">&quot;proxy&quot;</span>)</span><br><span class="line">        proxies = &#123;</span><br><span class="line">            <span class="string">&quot;http&quot;</span>: <span class="string">&quot;http://&quot;</span> + proxy,</span><br><span class="line">            <span class="string">&quot;https&quot;</span>: <span class="string">&quot;http://&quot;</span> + proxy</span><br><span class="line">            &#125;</span><br><span class="line">        <span class="built_in">print</span>(get_proxy().get(<span class="string">&quot;proxy&quot;</span>))</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="comment"># 使用代理访问</span></span><br><span class="line">            html = requests.get(url=url, headers=headers, proxies=proxies, timeout=<span class="number">5</span>)</span><br><span class="line">            <span class="keyword">return</span> html.text</span><br><span class="line">        <span class="keyword">except</span> Exception:</span><br><span class="line">            retry_count -= <span class="number">1</span></span><br><span class="line">            <span class="comment"># 删除代理池中代理</span></span><br><span class="line">            delete_proxy(proxy)</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;https://wuhan.anjuke.com/sale/p1/?from=esf_list&quot;</span></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36&quot;</span>,</span><br><span class="line">    <span class="string">&quot;Cookie&quot;</span>:  <span class="string">&quot;your-cookie&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">html_data = getHtml(url, headers)</span><br><span class="line"><span class="built_in">print</span>(html_data)</span><br></pre></td></tr></table></figure></div>
-<p><code>getHtml</code>函数中，会通过<code>while</code>循环来切换代理<code>ip</code>和<code>port</code>，直到请求成功，然后返回出结果并退出循环。</p>
-]]></content>
-      <categories>
-        <category>Python技巧</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-        <tag>docker</tag>
       </tags>
   </entry>
 </search>
