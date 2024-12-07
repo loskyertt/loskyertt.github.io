@@ -30,7 +30,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://example.com/2024/12/03/Debian%E9%95%9C%E5%83%8F%E6%BA%90/your_image_path">
 <meta property="article:published_time" content="2024-12-03T14:53:04.000Z">
-<meta property="article:modified_time" content="2024-12-04T03:11:13.375Z">
+<meta property="article:modified_time" content="2024-12-07T13:37:22.701Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="linux">
 <meta name="twitter:card" content="summary">
@@ -444,7 +444,7 @@
         <div class="label text-third-text-color text-sm">Categories</div>
     </a>
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
-        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">49</div>
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">50</div>
         <div class="label text-third-text-color text-sm">Posts</div>
     </a>
 </div>
@@ -495,8 +495,8 @@
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2024-12-04 03:11:13</span>
-            <span class="mobile">2024-12-04 03:11:13</span>
+            <span class="desktop">2024-12-07 13:37:22</span>
+            <span class="mobile">2024-12-07 13:37:22</span>
             <span class="hover-info">Updated</span>
         </span>
     
@@ -518,7 +518,7 @@
     
     
         <span class="article-wordcount article-meta-item">
-            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>912 Words</span>
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>939 Words</span>
         </span>
     
     
@@ -568,7 +568,8 @@
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt update</span><br><span class="line"><span class="built_in">sudo</span> apt install ca-certificates</span><br></pre></td></tr></table></figure></div>
 
 <p>安装完 <code>ca-certificates</code> 后，删除或注释掉该配置以恢复安全性。</p>
-
+<p>也可以直接在命令行临时禁用：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt -o Acquire::https::Verify-Peer=<span class="literal">false</span> -o Acquire::https::Verify-Host=<span class="literal">false</span> update</span><br></pre></td></tr></table></figure></div>
 		</div>
 
 		
@@ -582,7 +583,7 @@
         
             <li>
                 <strong>Updated at
-                    :</strong> 2024-12-04 03:11:13
+                    :</strong> 2024-12-07 13:37:22
             </li>
         
         <li>
@@ -620,27 +621,27 @@
     <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
      <i aria-hidden="true"></i><span>推荐阅读</span>
     </div>
-    <div class="recommended-article-group"><a class="recommended-article-item" href="/2024/11/30/Docker搭建PCL环境/" title="通过 Docker 搭建 PCL 环境" rel="bookmark">
+    <div class="recommended-article-group"><a class="recommended-article-item" href="/2024/12/07/Ubuntu镜像源/" title="解决 Ubuntu 系统下，软件包更新和软件下载速度慢的问题" rel="bookmark">
+  <img src="/images/wallhaven-wqery6-light.webp" alt="解决 Ubuntu 系统下，软件包更新和软件下载速度慢的问题" class="!max-w-none">
+  <span class="title">解决 Ubuntu 系统下，软件包更新和软件下载速度慢的问题</span>
+</a><a class="recommended-article-item" href="/2024/11/30/Docker搭建PCL环境/" title="通过 Docker 搭建 PCL 环境" rel="bookmark">
   <img src="/images/wallhaven-wqery6-light.webp" alt="通过 Docker 搭建 PCL 环境" class="!max-w-none">
   <span class="title">通过 Docker 搭建 PCL 环境</span>
-</a><a class="recommended-article-item" href="/2024/09/09/Docker搭建DL环境/" title="Docker 搭建深度学习环境" rel="bookmark">
-  <img src="/images/wallhaven-wqery6-light.webp" alt="Docker 搭建深度学习环境" class="!max-w-none">
-  <span class="title">Docker 搭建深度学习环境</span>
-</a><a class="recommended-article-item" href="/2024/08/16/SSH 教程/" title="SSH 教程" rel="bookmark">
-  <img src="/images/wallhaven-wqery6-light.webp" alt="SSH 教程" class="!max-w-none">
-  <span class="title">SSH 教程</span>
+</a><a class="recommended-article-item" href="/2024/09/11/从源码安装SSH/" title="从源码安装 SSH" rel="bookmark">
+  <img src="/images/wallhaven-wqery6-light.webp" alt="从源码安装 SSH" class="!max-w-none">
+  <span class="title">从源码安装 SSH</span>
 </a></div>
    </div>
    <div class="recommended-mobile">
    <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
      <i aria-hidden="true"></i><span>推荐阅读</span>
    </div>
-   <div class="recommended-article-group"><a class="recommended-article-item" href="/2024/11/30/Docker搭建PCL环境/" title="通过 Docker 搭建 PCL 环境" rel="bookmark">
+   <div class="recommended-article-group"><a class="recommended-article-item" href="/2024/12/07/Ubuntu镜像源/" title="解决 Ubuntu 系统下，软件包更新和软件下载速度慢的问题" rel="bookmark">
+  <img src="/images/wallhaven-wqery6-light.webp" alt="解决 Ubuntu 系统下，软件包更新和软件下载速度慢的问题" class="!max-w-none">
+  <span class="title">解决 Ubuntu 系统下，软件包更新和软件下载速度慢的问题</span>
+</a><a class="recommended-article-item" href="/2024/11/30/Docker搭建PCL环境/" title="通过 Docker 搭建 PCL 环境" rel="bookmark">
   <img src="/images/wallhaven-wqery6-light.webp" alt="通过 Docker 搭建 PCL 环境" class="!max-w-none">
   <span class="title">通过 Docker 搭建 PCL 环境</span>
-</a><a class="recommended-article-item" href="/2024/09/09/Docker搭建DL环境/" title="Docker 搭建深度学习环境" rel="bookmark">
-  <img src="/images/wallhaven-wqery6-light.webp" alt="Docker 搭建深度学习环境" class="!max-w-none">
-  <span class="title">Docker 搭建深度学习环境</span>
 </a></div>
    </div>
   </div>
@@ -756,11 +757,11 @@
                 
                 <p class="post-count space-x-0.5">
                     <span>
-                        49 posts in total
+                        50 posts in total
                     </span>
                     
                         <span>
-                            45k words in total
+                            46.3k words in total
                         </span>
                     
                 </p>

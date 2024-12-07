@@ -739,7 +739,8 @@
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt update</span><br><span class="line"><span class="built_in">sudo</span> apt install ca-certificates</span><br></pre></td></tr></table></figure></div>
 
 <p>安装完 <code>ca-certificates</code> 后，删除或注释掉该配置以恢复安全性。</p>
-]]></content>
+<p>也可以直接在命令行临时禁用：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">apt -o Acquire::https::Verify-Peer=<span class="literal">false</span> -o Acquire::https::Verify-Host=<span class="literal">false</span> update</span><br></pre></td></tr></table></figure></div>]]></content>
       <tags>
         <tag>linux</tag>
       </tags>
@@ -911,21 +912,6 @@
 <div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker inspect &lt;容器名/容器ID/镜像名/镜像ID&gt;</span><br></pre></td></tr></table></figure></div>]]></content>
       <tags>
         <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Dockerfile 教程</title>
-    <url>/2024/09/03/Dockerfile%E6%95%99%E7%A8%8B/</url>
-    <content><![CDATA[<h1 id="1-代理配置"><a href="#1-代理配置" class="headerlink" title="1.代理配置"></a>1.代理配置</h1><p>有时侯在构建镜像时，需要执行一些下载操作，没有配置国内镜像源的话，下载速度可能会很慢甚至出错，所以需要在 Dockerfile 中配置代理。</p>
-<p>在 Dockerfile 中加上：</p>
-<div class="code-container" data-rel="Dockerfile"><figure class="iseeu highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="keyword">ENV</span> http_proxy=http://your-proxy-address:port/</span><br><span class="line"><span class="keyword">ENV</span> https_proxy=http://your-proxy-address:port/</span><br></pre></td></tr></table></figure></div>
-
-<p><code>http_proxy</code>和<code>https_proxy</code>：这两个环境变量分别用于<code>HTTP</code>和<code>HTTPS</code>的代理服务器地址。你需要将<code>your-proxy-address:port</code>替换为宿主机在当前网络下的 IP 地址和代理端口。注意这里是宿主机的实际<code>IP</code>地址，不是本地回环（<code>loop</code>）地址。同过<code>ifconfig</code>或者<code>ip a</code>查看。</p>
-<p>这属于是 docker 的环境变量设置，环境变量通常不会自动写入容器中的配置文件，如<code>.bashrc</code>或<code>/etc/environment</code>，但它们会在容器启动时自动加载。</p>
-]]></content>
-      <tags>
-        <tag>docker</tag>
-        <tag>proxy</tag>
       </tags>
   </entry>
   <entry>
@@ -1202,6 +1188,21 @@
         <tag>proxy</tag>
         <tag>openwrt</tag>
         <tag>虚拟机</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Dockerfile 教程</title>
+    <url>/2024/09/03/Dockerfile%E6%95%99%E7%A8%8B/</url>
+    <content><![CDATA[<h1 id="1-代理配置"><a href="#1-代理配置" class="headerlink" title="1.代理配置"></a>1.代理配置</h1><p>有时侯在构建镜像时，需要执行一些下载操作，没有配置国内镜像源的话，下载速度可能会很慢甚至出错，所以需要在 Dockerfile 中配置代理。</p>
+<p>在 Dockerfile 中加上：</p>
+<div class="code-container" data-rel="Dockerfile"><figure class="iseeu highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="keyword">ENV</span> http_proxy=http://your-proxy-address:port/</span><br><span class="line"><span class="keyword">ENV</span> https_proxy=http://your-proxy-address:port/</span><br></pre></td></tr></table></figure></div>
+
+<p><code>http_proxy</code>和<code>https_proxy</code>：这两个环境变量分别用于<code>HTTP</code>和<code>HTTPS</code>的代理服务器地址。你需要将<code>your-proxy-address:port</code>替换为宿主机在当前网络下的 IP 地址和代理端口。注意这里是宿主机的实际<code>IP</code>地址，不是本地回环（<code>loop</code>）地址。同过<code>ifconfig</code>或者<code>ip a</code>查看。</p>
+<p>这属于是 docker 的环境变量设置，环境变量通常不会自动写入容器中的配置文件，如<code>.bashrc</code>或<code>/etc/environment</code>，但它们会在容器启动时自动加载。</p>
+]]></content>
+      <tags>
+        <tag>docker</tag>
+        <tag>proxy</tag>
       </tags>
   </entry>
   <entry>
@@ -1856,6 +1857,41 @@
       <tags>
         <tag>linux</tag>
         <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux 和 Windows 双系统下的 grub 引导修复</title>
+    <url>/2024/10/28/Grub%E5%BC%95%E5%AF%BC%E4%BF%AE%E5%A4%8D/</url>
+    <content><![CDATA[<h1 id="1-出现的问题"><a href="#1-出现的问题" class="headerlink" title="1.出现的问题"></a>1.出现的问题</h1><p>如下图所示：<br><a href="https://imgse.com/i/pA05Jit"><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s21.ax1x.com/2024/10/28/pA05Jit.jpg"
+                      alt="引导出错.jpg"
+                ><figcaption>引导出错.jpg</figcaption></figure></a><br>提示找不到<code>/efi/Microsoft/Boot/bootmgfw.efi</code>，<code>no such device: 4458-2764</code>。后面这一串数据其实是<code>Windows</code>引导分区的<code>UUID</code>。一般情况下是因为重装系统，导致<code>UUID</code>改变了，但是 Linux 下的 Grub 引导并没有进行修改，这时候是需要手动修改的。</p>
+<h1 id="2-解决方案"><a href="#2-解决方案" class="headerlink" title="2.解决方案"></a>2.解决方案</h1><p>首先需要知道 Windows 的引导分区是否存在：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">lsblk</span><br></pre></td></tr></table></figure></div>
+<p>或者使用：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> fdisk -l</span><br></pre></td></tr></table></figure></div>
+<p>显示的信息更详细。</p>
+<p>输出：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">NAME        MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS</span><br><span class="line">nvme1n1     259:0    0 476.9G  0 disk </span><br><span class="line">├─nvme1n1p1 259:1    0   300M  0 part </span><br><span class="line">├─nvme1n1p2 259:2    0    16M  0 part </span><br><span class="line">├─nvme1n1p3 259:3    0   100G  0 part </span><br><span class="line">└─nvme1n1p4 259:4    0 376.6G  0 part </span><br><span class="line">nvme0n1     259:5    0 238.5G  0 disk </span><br><span class="line">├─nvme0n1p1 259:6    0   301M  0 part /boot/efi</span><br><span class="line">└─nvme0n1p2 259:7    0 238.2G  0 part /</span><br></pre></td></tr></table></figure></div>
+<p>根据自己电脑磁盘情况查找，我的是<code>nvme1n1p1</code>（一般都是<code>300M</code>的那个分区）。然后记住这个分区名。</p>
+<p>查看分区<code>UUID</code>：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> blkid /dev/nvme1n1p1</span><br></pre></td></tr></table></figure></div>
+
+<p>输出：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">/dev/nvme1n1p1: UUID=&quot;9252-7D2A&quot; BLOCK_SIZE=&quot;512&quot; TYPE=&quot;vfat&quot; PARTLABEL=&quot;EFI system partition&quot; PARTUUID=&quot;c9ce23fc-7bde-40a9-8cce-8da0df9079cb&quot;</span><br></pre></td></tr></table></figure></div>
+
+<p>把这个<code>UUID</code>记下，我的这里是<code>9252-7D2A</code>。</p>
+<p>打开并编辑<code>/boot/grub/grub.cfg</code>文件：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nano /boot/grub/grub.cfg</span><br></pre></td></tr></table></figure></div>
+
+<p>找到这样的一个内容：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">menuentry &#x27;Windows Boot Manager (on /dev/nvme0n1p1)&#x27; --class windows --class os $menuentry_id_option &#x27;osprober-efi-4458-2764&gt;</span><br><span class="line">        insmod part_gpt</span><br><span class="line">        insmod fat</span><br><span class="line">        search --no-floppy --fs-uuid --set=root 9252-7D2A</span><br><span class="line">        chainloader /efi/Microsoft/Boot/bootmgfw.efi</span><br></pre></td></tr></table></figure></div>
+<p>把<code>--set=root</code>后面的<code>UUID</code>改为你自己电脑的，然后重启电脑就行了。</p>
+]]></content>
+      <tags>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -2607,34 +2643,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Win10 SSH 服务配置</title>
-    <url>/2024/07/30/Openssh%E9%85%8D%E7%BD%AE/</url>
-    <content><![CDATA[<h1 id="1-Windows-10-下安装-SSH-服务（Openssh）"><a href="#1-Windows-10-下安装-SSH-服务（Openssh）" class="headerlink" title="1.Windows 10 下安装 SSH 服务（Openssh）"></a>1.Windows 10 下安装 SSH 服务（Openssh）</h1><h2 id="1-1-下载"><a href="#1-1-下载" class="headerlink" title="1.1 下载"></a>1.1 下载</h2><p><a href="https://github.com/PowerShell/Win32-OpenSSH"> <strong>Openssh 下载地址</strong> </a></p>
-<h2 id="1-2-解压"><a href="#1-2-解压" class="headerlink" title="1.2 解压"></a>1.2 解压</h2><p>解压到如下目录（建议加压到<code>C:\Program Files</code>下，不然会出现未知错误）：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">C:\Program Files\OpenSSH_Win64\</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="1-3-安装"><a href="#1-3-安装" class="headerlink" title="1.3 安装"></a>1.3 安装</h2><p><strong>注意：</strong> 一定要使用<code>powershell</code>并且要以管理员的身份打开。</p>
-<ul>
-<li><p>Windows 下开启运行执行<code>*.sp1</code>文件类型：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">set-executionpolicy remotesigned</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>安装<code>sshd</code></p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> C:\Program Files\OpenSSH_Win64\</span><br><span class="line"></span><br><span class="line">./install-sshd.ps1</span><br></pre></td></tr></table></figure></div></li>
-</ul>
-<h2 id="1-4-测试连接"><a href="#1-4-测试连接" class="headerlink" title="1.4 测试连接"></a>1.4 测试连接</h2><ul>
-<li><p>验证是否安装成功：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">ssh -V</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>测试是否能与远程主机进行连接：<br>在与远程主机连接之前确保能<code>ping</code>通，然后通过<code>ssh &lt;username&gt;@&lt;PCIPAddr&gt;</code>与远程主机进行连接。</p>
-</li>
-</ul>
-]]></content>
-      <tags>
-        <tag>linux</tag>
-        <tag>ssh</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Proxy Settings</title>
     <url>/2024/07/19/Proxy-Settings/</url>
     <content><![CDATA[<h1 id="一、代理软件配置"><a href="#一、代理软件配置" class="headerlink" title="一、代理软件配置"></a>一、代理软件配置</h1><h2 id="1-1-speedTest"><a href="#1-1-speedTest" class="headerlink" title="1.1 speedTest"></a>1.1 speedTest</h2><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 日本</span></span><br><span class="line">https://185-140-53-2.lg.looking.house/1000.mb</span><br><span class="line"><span class="comment"># 新加坡</span></span><br><span class="line">https://23-27-101-2.lg.looking.house/100.mb</span><br><span class="line"></span><br><span class="line">https://speed.cloudflare.com/__down?bytes=10000000</span><br><span class="line">https://speed.cloudflare.com/__down?bytes=50000000</span><br><span class="line">https://speed.cloudflare.com/__down?bytes=100000000</span><br><span class="line">https://speed.cloudflare.com/__down?bytes=200000000</span><br><span class="line"></span><br><span class="line"><span class="comment"># 老版测速</span></span><br><span class="line">http://cachefly.cachefly.net/10mb.<span class="built_in">test</span></span><br><span class="line">http://cachefly.cachefly.net/50mb.<span class="built_in">test</span></span><br><span class="line">http://cachefly.cachefly.net/100mb.<span class="built_in">test</span></span><br></pre></td></tr></table></figure></div>
@@ -2956,6 +2964,53 @@
       </tags>
   </entry>
   <entry>
+    <title>解决 Ubuntu 下中文乱码问题</title>
+    <url>/2024/11/30/Ubuntu%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/</url>
+    <content><![CDATA[<h1 id="1-安装中文字体包"><a href="#1-安装中文字体包" class="headerlink" title="1.安装中文字体包"></a>1.安装中文字体包</h1><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt-get install language-pack-zh-hans</span><br></pre></td></tr></table></figure></div>
+
+<h1 id="2-修改配置文件"><a href="#2-修改配置文件" class="headerlink" title="2.修改配置文件"></a>2.修改配置文件</h1><p>注：下列操作在<code>docker</code>的<code>ubuntu</code>容器中不需要加<code>sudo</code>，默认就是<code>root</code>权限。</p>
+<h2 id="2-1-方式一：修改-bashrc文件（推荐）"><a href="#2-1-方式一：修改-bashrc文件（推荐）" class="headerlink" title="2.1 方式一：修改~/.bashrc文件（推荐）"></a>2.1 方式一：修改<code>~/.bashrc</code>文件（推荐）</h2><p>修改<code>~/.bashrc</code>文件：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">nano ~/.bashrc</span><br></pre></td></tr></table></figure></div>
+
+<p>添加：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">export LANG=zh_CN.UTF-8</span><br><span class="line">export LANGUAGE=zh_CN:zh</span><br><span class="line">export LC_ALL=zh_CN.UTF-8</span><br></pre></td></tr></table></figure></div>
+
+<p>然后执行：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">source</span> /etc/profile</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="2-2-方式二：修改-etc-profile文件"><a href="#2-2-方式二：修改-etc-profile文件" class="headerlink" title="2.2 方式二：修改/etc/profile文件"></a>2.2 方式二：修改<code>/etc/profile</code>文件</h2><p>修改<code>/etc/profile</code>配置文件：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nano /etc/profile</span><br></pre></td></tr></table></figure></div>
+
+<p>添加：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">export LANG=zh_CN.UTF-8</span><br><span class="line">export LANGUAGE=zh_CN:zh</span><br><span class="line">export LC_ALL=zh_CN.UTF-8</span><br></pre></td></tr></table></figure></div>
+
+<p>然后执行：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">source</span> /etc/profile</span><br></pre></td></tr></table></figure></div>
+<p>可能每次重启系统后，都得执行这条命令。</p>
+<h2 id="2-3-方式三：修改-etc-environment文件"><a href="#2-3-方式三：修改-etc-environment文件" class="headerlink" title="2.3 方式三：修改/etc/environment文件"></a>2.3 方式三：修改<code>/etc/environment</code>文件</h2><p>注：该方式不一定成功。</p>
+<p>修改<code>/etc/environment</code>配置文件：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nano /etc/environment</span><br></pre></td></tr></table></figure></div>
+
+<p>加入下面的内容：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">LANG=&quot;zh_CN.UTF-8&quot;</span><br><span class="line">LANGUAGE=&quot;zh_CN:zh&quot;</span><br><span class="line">LC_ALL=&quot;zh_CN.UTF-8&quot;</span><br></pre></td></tr></table></figure></div>
+
+<h1 id="3-添加中文配置内容（选做）"><a href="#3-添加中文配置内容（选做）" class="headerlink" title="3.添加中文配置内容（选做）"></a>3.添加中文配置内容（选做）</h1><p>再修改<code>/var/lib/locales/supported.d/local</code>文件（如果没有，就手动创建）</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nano /var/lib/locales/supported.d/local</span><br></pre></td></tr></table></figure></div>
+
+<p>加入下面内容：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">en_US.UTF-8 UTF-8</span><br><span class="line">zh_CN.UTF-8 UTF-8</span><br><span class="line">zh_CN.GBK GBK</span><br><span class="line">zh_CN GB2312</span><br></pre></td></tr></table></figure></div>
+
+<p>最后执行：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> locale-gen</span><br></pre></td></tr></table></figure></div>
+
+<p>然后重启系统即可。</p>
+<h1 id="3-中文空格乱码解决"><a href="#3-中文空格乱码解决" class="headerlink" title="3.中文空格乱码解决"></a>3.中文空格乱码解决</h1><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt-get install fonts-droid-fallback ttf-wqy-zenhei ttf-wqy-microhei fonts-arphic-ukai fonts-arphic-uming</span><br></pre></td></tr></table></figure></div>]]></content>
+      <tags>
+        <tag>linux</tag>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>VirtualBox 实现主机与虚拟机（CachyOS）传文件</title>
     <url>/2024/08/01/VirtualBox%E4%B8%BB%E6%9C%BA%E4%B8%8E%E8%99%9A%E6%8B%9F%E6%9C%BA%E9%97%B4%E4%BC%A0%E6%96%87%E4%BB%B6/</url>
     <content><![CDATA[<h1 id="1-VirtualBox-中实现主机与虚拟机之间传输文件"><a href="#1-VirtualBox-中实现主机与虚拟机之间传输文件" class="headerlink" title="1.VirtualBox 中实现主机与虚拟机之间传输文件"></a>1.VirtualBox 中实现主机与虚拟机之间传输文件</h1><h2 id="1-1-VirtualBox-中的设置"><a href="#1-1-VirtualBox-中的设置" class="headerlink" title="1.1 VirtualBox 中的设置"></a>1.1 VirtualBox 中的设置</h2><p>如图所示：</p>
@@ -2983,6 +3038,56 @@
 ]]></content>
       <tags>
         <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>解决 Ubuntu 系统下，软件包更新和软件下载速度慢的问题</title>
+    <url>/2024/12/07/Ubuntu%E9%95%9C%E5%83%8F%E6%BA%90/</url>
+    <content><![CDATA[<h1 id="1-问题复现"><a href="#1-问题复现" class="headerlink" title="1.问题复现"></a>1.问题复现</h1><p>在安装后 Debian 系统后，一般第一步都是执行<code>sudo apt update</code>，此时用的是自带的官方镜像源，速度很慢，所以我们会选择切换为国内的镜像源，这里以清华镜像源为例，默认已经配置好了清华镜像源。</p>
+<p>在执行更新时：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">root@5395055d0589:/# apt update</span><br><span class="line">Ign:1 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble InRelease</span><br><span class="line">Ign:2 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-updates InRelease                                </span><br><span class="line">Ign:3 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-backports InRelease                              </span><br><span class="line">Get:4 http://security.ubuntu.com/ubuntu noble-security InRelease [126 kB]                                </span><br><span class="line">Get:5 http://archive.ubuntu.com/ubuntu noble InRelease [256 kB]                                          </span><br><span class="line">Ign:1 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble InRelease </span><br><span class="line">Ign:2 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-updates InRelease</span><br><span class="line">Ign:3 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-backports InRelease</span><br><span class="line">Get:6 http://security.ubuntu.com/ubuntu noble-security/multiverse amd64 Packages [15.3 kB]</span><br><span class="line">Get:7 http://security.ubuntu.com/ubuntu noble-security/universe amd64 Packages [726 kB]</span><br><span class="line">Get:8 http://security.ubuntu.com/ubuntu noble-security/main amd64 Packages [627 kB]</span><br><span class="line">Get:9 http://security.ubuntu.com/ubuntu noble-security/restricted amd64 Packages [607 kB]</span><br><span class="line">Ign:1 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble InRelease                       </span><br><span class="line">Ign:2 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-updates InRelease</span><br><span class="line">Ign:3 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-backports InRelease</span><br><span class="line">Get:10 http://archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]                                                                                                                          </span><br><span class="line">Err:1 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble InRelease                                                                                                                                 </span><br><span class="line">  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">Err:2 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-updates InRelease                                                                                                                         </span><br><span class="line">  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">Err:3 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-backports InRelease                                                                                                                       </span><br><span class="line">  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">Get:11 http://archive.ubuntu.com/ubuntu noble-backports InRelease [126 kB]                                                                                                                        </span><br><span class="line">Get:12 http://archive.ubuntu.com/ubuntu noble/main amd64 Packages [1808 kB]                                                                                                                       </span><br><span class="line">Get:13 http://archive.ubuntu.com/ubuntu noble/restricted amd64 Packages [117 kB]                                                                                                                  </span><br><span class="line">Get:14 http://archive.ubuntu.com/ubuntu noble/universe amd64 Packages [19.3 MB]                                                                                                                   </span><br><span class="line">38% [14 Packages 3024 kB/19.3 MB 16%]                                                                                                                                           75.6 kB/s 4min 12s^C</span><br></pre></td></tr></table></figure></div>
+
+<h1 id="2-解决办法"><a href="#2-解决办法" class="headerlink" title="2.解决办法"></a>2.解决办法</h1><p>可以看到，当清华镜像源证书验证失败时，会尝试从<code>/etc/apt/sources.list.d/ubuntu.sources</code>这里的官方镜像源下载更新，但是下载速度特别慢，所以我通常会禁用这个。</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mv</span> /etc/apt/sources.list.d/ubuntu.sources /etc/apt/sources.list.d/ubuntu.sources.bak</span><br></pre></td></tr></table></figure></div>
+
+<p>然后更新的时候临时禁用证书验证：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">apt-get -o Acquire::https::Verify-Peer=<span class="literal">false</span> -o Acquire::https::Verify-Host=<span class="literal">false</span> update</span><br></pre></td></tr></table></figure></div>
+
+<p>更新完毕后，可能在安装<code>ca-certificates</code>还会出现这样的问题：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">root@5395055d0589:/# apt install ca-certificates</span><br><span class="line">Reading package lists... Done</span><br><span class="line">Building dependency tree... Done</span><br><span class="line">Reading state information... Done</span><br><span class="line">The following additional packages will be installed:</span><br><span class="line">  openssl</span><br><span class="line">The following NEW packages will be installed:</span><br><span class="line">  ca-certificates openssl</span><br><span class="line">0 upgraded, 2 newly installed, 0 to remove and 0 not upgraded.</span><br><span class="line">Need to get 1162 kB of archives.</span><br><span class="line">After this operation, 2326 kB of additional disk space will be used.</span><br><span class="line">Do you want to <span class="built_in">continue</span>? [Y/n] y</span><br><span class="line">Ign:1 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-updates/main amd64 openssl amd64 3.0.13-0ubuntu3.4</span><br><span class="line">Ign:2 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble/main amd64 ca-certificates all 20240203</span><br><span class="line">Ign:1 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-updates/main amd64 openssl amd64 3.0.13-0ubuntu3.4</span><br><span class="line">Ign:2 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble/main amd64 ca-certificates all 20240203</span><br><span class="line">Ign:1 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-updates/main amd64 openssl amd64 3.0.13-0ubuntu3.4</span><br><span class="line">Ign:2 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble/main amd64 ca-certificates all 20240203</span><br><span class="line">Err:1 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-updates/main amd64 openssl amd64 3.0.13-0ubuntu3.4</span><br><span class="line">  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">Err:2 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble/main amd64 ca-certificates all 20240203</span><br><span class="line">  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/o/openssl/openssl_3.0.13-0ubuntu3.4_amd64.deb: No system certificates available. Try installing ca-certificates.</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/c/ca-certificates/ca-certificates_20240203_all.deb: No system certificates available. Try installing ca-certificates.</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/o/openssl/openssl_3.0.13-0ubuntu3.4_amd64.deb: No system certificates available. Try installing ca-certificates.</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/c/ca-certificates/ca-certificates_20240203_all.deb: No system certificates available. Try installing ca-certificates.</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/o/openssl/openssl_3.0.13-0ubuntu3.4_amd64.deb: No system certificates available. Try installing ca-certificates.</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/c/ca-certificates/ca-certificates_20240203_all.deb: No system certificates available. Try installing ca-certificates.</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/o/openssl/openssl_3.0.13-0ubuntu3.4_amd64.deb: No system certificates available. Try installing ca-certificates.</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/c/ca-certificates/ca-certificates_20240203_all.deb: No system certificates available. Try installing ca-certificates.</span><br><span class="line">E: Failed to fetch https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/o/openssl/openssl_3.0.13-0ubuntu3.4_amd64.deb  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">E: Failed to fetch https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/c/ca-certificates/ca-certificates_20240203_all.deb  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">E: Unable to fetch some archives, maybe run apt-get update or try with --fix-missing?</span><br></pre></td></tr></table></figure></div>
+<p>从错误信息来看，<code>apt</code>在尝试从清华镜像站下载<code>ca-certificates</code>和<code>openssl</code>时仍然遇到了证书验证失败的问题。这可能是由于现有的<code>ca-certificates</code>软件包本身损坏或缺失导致的。</p>
+<p>因此可以在下载时临时禁用证书验证：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">apt-get -o Acquire::https::Verify-Peer=<span class="literal">false</span> -o Acquire::https::Verify-Host=<span class="literal">false</span> install ca-certificates openssl</span><br></pre></td></tr></table></figure></div>]]></content>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Win10 SSH 服务配置</title>
+    <url>/2024/07/30/Openssh%E9%85%8D%E7%BD%AE/</url>
+    <content><![CDATA[<h1 id="1-Windows-10-下安装-SSH-服务（Openssh）"><a href="#1-Windows-10-下安装-SSH-服务（Openssh）" class="headerlink" title="1.Windows 10 下安装 SSH 服务（Openssh）"></a>1.Windows 10 下安装 SSH 服务（Openssh）</h1><h2 id="1-1-下载"><a href="#1-1-下载" class="headerlink" title="1.1 下载"></a>1.1 下载</h2><p><a href="https://github.com/PowerShell/Win32-OpenSSH"> <strong>Openssh 下载地址</strong> </a></p>
+<h2 id="1-2-解压"><a href="#1-2-解压" class="headerlink" title="1.2 解压"></a>1.2 解压</h2><p>解压到如下目录（建议加压到<code>C:\Program Files</code>下，不然会出现未知错误）：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">C:\Program Files\OpenSSH_Win64\</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="1-3-安装"><a href="#1-3-安装" class="headerlink" title="1.3 安装"></a>1.3 安装</h2><p><strong>注意：</strong> 一定要使用<code>powershell</code>并且要以管理员的身份打开。</p>
+<ul>
+<li><p>Windows 下开启运行执行<code>*.sp1</code>文件类型：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">set-executionpolicy remotesigned</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>安装<code>sshd</code></p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> C:\Program Files\OpenSSH_Win64\</span><br><span class="line"></span><br><span class="line">./install-sshd.ps1</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<h2 id="1-4-测试连接"><a href="#1-4-测试连接" class="headerlink" title="1.4 测试连接"></a>1.4 测试连接</h2><ul>
+<li><p>验证是否安装成功：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">ssh -V</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>测试是否能与远程主机进行连接：<br>在与远程主机连接之前确保能<code>ping</code>通，然后通过<code>ssh &lt;username&gt;@&lt;PCIPAddr&gt;</code>与远程主机进行连接。</p>
+</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>linux</tag>
+        <tag>ssh</tag>
       </tags>
   </entry>
   <entry>
@@ -3377,105 +3482,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Linux 和 Windows 双系统下的 grub 引导修复</title>
-    <url>/2024/10/28/grub%E5%BC%95%E5%AF%BC%E4%BF%AE%E5%A4%8D/</url>
-    <content><![CDATA[<h1 id="1-出现的问题"><a href="#1-出现的问题" class="headerlink" title="1.出现的问题"></a>1.出现的问题</h1><p>如下图所示：<br><a href="https://imgse.com/i/pA05Jit"><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://s21.ax1x.com/2024/10/28/pA05Jit.jpg"
-                      alt="引导出错.jpg"
-                ><figcaption>引导出错.jpg</figcaption></figure></a><br>提示找不到<code>/efi/Microsoft/Boot/bootmgfw.efi</code>，<code>no such device: 4458-2764</code>。后面这一串数据其实是<code>Windows</code>引导分区的<code>UUID</code>。一般情况下是因为重装系统，导致<code>UUID</code>改变了，但是 Linux 下的 Grub 引导并没有进行修改，这时候是需要手动修改的。</p>
-<h1 id="2-解决方案"><a href="#2-解决方案" class="headerlink" title="2.解决方案"></a>2.解决方案</h1><p>首先需要知道 Windows 的引导分区是否存在：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">lsblk</span><br></pre></td></tr></table></figure></div>
-<p>或者使用：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> fdisk -l</span><br></pre></td></tr></table></figure></div>
-<p>显示的信息更详细。</p>
-<p>输出：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">NAME        MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS</span><br><span class="line">nvme1n1     259:0    0 476.9G  0 disk </span><br><span class="line">├─nvme1n1p1 259:1    0   300M  0 part </span><br><span class="line">├─nvme1n1p2 259:2    0    16M  0 part </span><br><span class="line">├─nvme1n1p3 259:3    0   100G  0 part </span><br><span class="line">└─nvme1n1p4 259:4    0 376.6G  0 part </span><br><span class="line">nvme0n1     259:5    0 238.5G  0 disk </span><br><span class="line">├─nvme0n1p1 259:6    0   301M  0 part /boot/efi</span><br><span class="line">└─nvme0n1p2 259:7    0 238.2G  0 part /</span><br></pre></td></tr></table></figure></div>
-<p>根据自己电脑磁盘情况查找，我的是<code>nvme1n1p1</code>（一般都是<code>300M</code>的那个分区）。然后记住这个分区名。</p>
-<p>查看分区<code>UUID</code>：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> blkid /dev/nvme1n1p1</span><br></pre></td></tr></table></figure></div>
-
-<p>输出：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">/dev/nvme1n1p1: UUID=&quot;9252-7D2A&quot; BLOCK_SIZE=&quot;512&quot; TYPE=&quot;vfat&quot; PARTLABEL=&quot;EFI system partition&quot; PARTUUID=&quot;c9ce23fc-7bde-40a9-8cce-8da0df9079cb&quot;</span><br></pre></td></tr></table></figure></div>
-
-<p>把这个<code>UUID</code>记下，我的这里是<code>9252-7D2A</code>。</p>
-<p>打开并编辑<code>/boot/grub/grub.cfg</code>文件：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nano /boot/grub/grub.cfg</span><br></pre></td></tr></table></figure></div>
-
-<p>找到这样的一个内容：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">menuentry &#x27;Windows Boot Manager (on /dev/nvme0n1p1)&#x27; --class windows --class os $menuentry_id_option &#x27;osprober-efi-4458-2764&gt;</span><br><span class="line">        insmod part_gpt</span><br><span class="line">        insmod fat</span><br><span class="line">        search --no-floppy --fs-uuid --set=root 9252-7D2A</span><br><span class="line">        chainloader /efi/Microsoft/Boot/bootmgfw.efi</span><br></pre></td></tr></table></figure></div>
-<p>把<code>--set=root</code>后面的<code>UUID</code>改为你自己电脑的，然后重启电脑就行了。</p>
-]]></content>
-      <tags>
-        <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>解决 Linux 下使用 matplotlib 中文乱码问题</title>
-    <url>/2024/09/14/linux-matplotli%E4%B9%B1%E7%A0%81%E8%A7%A3%E5%86%B3/</url>
-    <content><![CDATA[<h1 id="1-出现的问题"><a href="#1-出现的问题" class="headerlink" title="1.出现的问题"></a>1.出现的问题</h1><p>以下面这个代码为例：</p>
-<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line">x = np.arange(<span class="number">1</span>, <span class="number">12</span>)</span><br><span class="line">y = x ** <span class="number">2</span> + <span class="number">4</span></span><br><span class="line">plt.title(<span class="string">&quot;Matplotlib demo&quot;</span>)</span><br><span class="line">plt.xlabel(<span class="string">&quot;时间(分钟)&quot;</span>)</span><br><span class="line">plt.ylabel(<span class="string">&quot;金额($)&quot;</span>)</span><br><span class="line">plt.plot(x,y)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure></div>
-
-
-<p>在 Linux 下使用 Python 的<code>matplotlib</code>包默认是会出现乱码的：<br><a href="https://imgse.com/i/pAuEYVI"><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://s21.ax1x.com/2024/09/14/pAuEYVI.png"
-                      alt="乱码.png"
-                ><figcaption>乱码.png</figcaption></figure></a></p>
-<h1 id="2-解决方法"><a href="#2-解决方法" class="headerlink" title="2.解决方法"></a>2.解决方法</h1><h2 id="2-1-下载字体"><a href="#2-1-下载字体" class="headerlink" title="2.1 下载字体"></a>2.1 下载字体</h2><p>网上常用的中文字体是<code>SimHei</code>，<a class="link"   href="https://github.com/StellarCN/scp_zh/blob/master/fonts/SimHei.ttf" >下载地址<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
-<h2 id="2-2-查找存放字体的文件夹"><a href="#2-2-查找存放字体的文件夹" class="headerlink" title="2.2 查找存放字体的文件夹"></a>2.2 查找存放字体的文件夹</h2><div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib</span><br><span class="line"> </span><br><span class="line"><span class="built_in">print</span>(matplotlib.matplotlib_fname())   <span class="comment"># 查找字体路径</span></span><br></pre></td></tr></table></figure></div>
-<p>运行这段代码会打印出字体存放路径，如：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">/home/sky/miniconda3/envs/test/lib/python3.12/site-packages/matplotlib/mpl-data/matplotlibrc</span><br></pre></td></tr></table></figure></div>
-<p>删掉<code>matplotlibrc</code>这部分后然后进入目录下：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /home/sky/miniconda3/envs/test/lib/python3.12/site-packages/matplotlib/mpl-data/</span><br></pre></td></tr></table></figure></div>
-
-<p>然后进入存放字体的目录：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> fonts/ttf </span><br></pre></td></tr></table></figure></div>
-
-<p>把下载好的字体文件<code>SimHei.ttf</code>复制到<code>ttf</code>目录下：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cp</span> ~/下载/SimHei.ttf .  </span><br></pre></td></tr></table></figure></div>
-
-<p>然后回到<code>mpl-data</code>目录下，修改<code>matplotlibrc</code>文件：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">nano matplotlibrc</span><br></pre></td></tr></table></figure></div>
-
-<p>找到<code>font.serif</code>，<code>font.sans-serif</code>所在位置，如下如所示。在冒号后面加入<code>SimHei</code>，保存退出：<br><a href="https://imgse.com/i/pAuJFz9"><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://s21.ax1x.com/2024/09/15/pAuJFz9.md.png"
-                      alt="修改的地方"
-                ><figcaption>修改的地方</figcaption></figure></a></p>
-<h2 id="2-3-清理缓存"><a href="#2-3-清理缓存" class="headerlink" title="2.3 清理缓存"></a>2.3 清理缓存</h2><p>查找缓存位置：</p>
-<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib    </span><br><span class="line"><span class="built_in">print</span>(matplotlib.get_cachedir())</span><br></pre></td></tr></table></figure></div>
-
-<p>把缓存文件删除即可：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">rm</span> ~/.cache/matplotlib -rf</span><br></pre></td></tr></table></figure></div>
-
-<h1 id="3-解决示例"><a href="#3-解决示例" class="headerlink" title="3.解决示例"></a>3.解决示例</h1><p><a href="https://imgse.com/i/pAuERiV"><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://s21.ax1x.com/2024/09/14/pAuERiV.png"
-                      alt="正常输出.png"
-                ><figcaption>正常输出.png</figcaption></figure></a></p>
-<h2 id="3-1-参考教程"><a href="#3-1-参考教程" class="headerlink" title="3.1 参考教程"></a>3.1 参考教程</h2><ul>
-<li><a class="link"   href="https://developer.aliyun.com/article/1577567" >【Deepin20系统】Linux系统中永久解决matplotlib画图中文乱码问题和使用seaborn中文乱码问题<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
-<li><a class="link"   href="https://cloud.tencent.com/developer/article/1877673" >解决Python使用matplotlib绘图时出现的中文乱码问题<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
-</ul>
-<h1 id="4-负号乱码解决"><a href="#4-负号乱码解决" class="headerlink" title="4.负号乱码解决"></a>4.负号乱码解决</h1><p>只要在前面加以段这个代码：</p>
-<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 解决负号显示问题</span></span><br><span class="line">plt.rcParams[<span class="string">&#x27;axes.unicode_minus&#x27;</span>] = <span class="literal">False</span></span><br></pre></td></tr></table></figure></div>
-<p>就能正常显示负号</p>
-]]></content>
-      <categories>
-        <category>Python技巧</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-        <tag>linux</tag>
-        <tag>matplotlib</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>终端 zsh 配置指南</title>
     <url>/2024/07/19/zsh%E9%85%8D%E7%BD%AE/</url>
     <content><![CDATA[<h1 id="一、终端代理设置"><a href="#一、终端代理设置" class="headerlink" title="一、终端代理设置"></a>一、终端代理设置</h1><p>建议加上，在进行通过终端的下载、更新系统、<code>conda</code>下载或者<code>git clone</code>时，能走代理来提高下载速度。但是<code>docker</code>需要单独配置一套代理。<code>zsh</code>和<code>bash</code>都可以用这种方式。</p>
@@ -3631,50 +3637,67 @@
       </tags>
   </entry>
   <entry>
-    <title>解决 Ubuntu 下中文乱码问题</title>
-    <url>/2024/11/30/ubuntu%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/</url>
-    <content><![CDATA[<h1 id="1-安装中文字体包"><a href="#1-安装中文字体包" class="headerlink" title="1.安装中文字体包"></a>1.安装中文字体包</h1><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt-get install language-pack-zh-hans</span><br></pre></td></tr></table></figure></div>
+    <title>解决 Linux 下使用 matplotlib 中文乱码问题</title>
+    <url>/2024/09/14/linux-matplotli%E4%B9%B1%E7%A0%81%E8%A7%A3%E5%86%B3/</url>
+    <content><![CDATA[<h1 id="1-出现的问题"><a href="#1-出现的问题" class="headerlink" title="1.出现的问题"></a>1.出现的问题</h1><p>以下面这个代码为例：</p>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line">x = np.arange(<span class="number">1</span>, <span class="number">12</span>)</span><br><span class="line">y = x ** <span class="number">2</span> + <span class="number">4</span></span><br><span class="line">plt.title(<span class="string">&quot;Matplotlib demo&quot;</span>)</span><br><span class="line">plt.xlabel(<span class="string">&quot;时间(分钟)&quot;</span>)</span><br><span class="line">plt.ylabel(<span class="string">&quot;金额($)&quot;</span>)</span><br><span class="line">plt.plot(x,y)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure></div>
 
-<h1 id="2-修改配置文件"><a href="#2-修改配置文件" class="headerlink" title="2.修改配置文件"></a>2.修改配置文件</h1><p>注：下列操作在<code>docker</code>的<code>ubuntu</code>容器中不需要加<code>sudo</code>，默认就是<code>root</code>权限。</p>
-<h2 id="2-1-方式一：修改-bashrc文件（推荐）"><a href="#2-1-方式一：修改-bashrc文件（推荐）" class="headerlink" title="2.1 方式一：修改~/.bashrc文件（推荐）"></a>2.1 方式一：修改<code>~/.bashrc</code>文件（推荐）</h2><p>修改<code>~/.bashrc</code>文件：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">nano ~/.bashrc</span><br></pre></td></tr></table></figure></div>
 
-<p>添加：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">export LANG=zh_CN.UTF-8</span><br><span class="line">export LANGUAGE=zh_CN:zh</span><br><span class="line">export LC_ALL=zh_CN.UTF-8</span><br></pre></td></tr></table></figure></div>
+<p>在 Linux 下使用 Python 的<code>matplotlib</code>包默认是会出现乱码的：<br><a href="https://imgse.com/i/pAuEYVI"><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s21.ax1x.com/2024/09/14/pAuEYVI.png"
+                      alt="乱码.png"
+                ><figcaption>乱码.png</figcaption></figure></a></p>
+<h1 id="2-解决方法"><a href="#2-解决方法" class="headerlink" title="2.解决方法"></a>2.解决方法</h1><h2 id="2-1-下载字体"><a href="#2-1-下载字体" class="headerlink" title="2.1 下载字体"></a>2.1 下载字体</h2><p>网上常用的中文字体是<code>SimHei</code>，<a class="link"   href="https://github.com/StellarCN/scp_zh/blob/master/fonts/SimHei.ttf" >下载地址<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h2 id="2-2-查找存放字体的文件夹"><a href="#2-2-查找存放字体的文件夹" class="headerlink" title="2.2 查找存放字体的文件夹"></a>2.2 查找存放字体的文件夹</h2><div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib</span><br><span class="line"> </span><br><span class="line"><span class="built_in">print</span>(matplotlib.matplotlib_fname())   <span class="comment"># 查找字体路径</span></span><br></pre></td></tr></table></figure></div>
+<p>运行这段代码会打印出字体存放路径，如：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">/home/sky/miniconda3/envs/test/lib/python3.12/site-packages/matplotlib/mpl-data/matplotlibrc</span><br></pre></td></tr></table></figure></div>
+<p>删掉<code>matplotlibrc</code>这部分后然后进入目录下：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /home/sky/miniconda3/envs/test/lib/python3.12/site-packages/matplotlib/mpl-data/</span><br></pre></td></tr></table></figure></div>
 
-<p>然后执行：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">source</span> /etc/profile</span><br></pre></td></tr></table></figure></div>
+<p>然后进入存放字体的目录：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> fonts/ttf </span><br></pre></td></tr></table></figure></div>
 
-<h2 id="2-2-方式二：修改-etc-profile文件"><a href="#2-2-方式二：修改-etc-profile文件" class="headerlink" title="2.2 方式二：修改/etc/profile文件"></a>2.2 方式二：修改<code>/etc/profile</code>文件</h2><p>修改<code>/etc/profile</code>配置文件：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nano /etc/profile</span><br></pre></td></tr></table></figure></div>
+<p>把下载好的字体文件<code>SimHei.ttf</code>复制到<code>ttf</code>目录下：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cp</span> ~/下载/SimHei.ttf .  </span><br></pre></td></tr></table></figure></div>
 
-<p>添加：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">export LANG=zh_CN.UTF-8</span><br><span class="line">export LANGUAGE=zh_CN:zh</span><br><span class="line">export LC_ALL=zh_CN.UTF-8</span><br></pre></td></tr></table></figure></div>
+<p>然后回到<code>mpl-data</code>目录下，修改<code>matplotlibrc</code>文件：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">nano matplotlibrc</span><br></pre></td></tr></table></figure></div>
 
-<p>然后执行：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">source</span> /etc/profile</span><br></pre></td></tr></table></figure></div>
-<p>可能每次重启系统后，都得执行这条命令。</p>
-<h2 id="2-3-方式三：修改-etc-environment文件"><a href="#2-3-方式三：修改-etc-environment文件" class="headerlink" title="2.3 方式三：修改/etc/environment文件"></a>2.3 方式三：修改<code>/etc/environment</code>文件</h2><p>注：该方式不一定成功。</p>
-<p>修改<code>/etc/environment</code>配置文件：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nano /etc/environment</span><br></pre></td></tr></table></figure></div>
+<p>找到<code>font.serif</code>，<code>font.sans-serif</code>所在位置，如下如所示。在冒号后面加入<code>SimHei</code>，保存退出：<br><a href="https://imgse.com/i/pAuJFz9"><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s21.ax1x.com/2024/09/15/pAuJFz9.md.png"
+                      alt="修改的地方"
+                ><figcaption>修改的地方</figcaption></figure></a></p>
+<h2 id="2-3-清理缓存"><a href="#2-3-清理缓存" class="headerlink" title="2.3 清理缓存"></a>2.3 清理缓存</h2><p>查找缓存位置：</p>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib    </span><br><span class="line"><span class="built_in">print</span>(matplotlib.get_cachedir())</span><br></pre></td></tr></table></figure></div>
 
-<p>加入下面的内容：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">LANG=&quot;zh_CN.UTF-8&quot;</span><br><span class="line">LANGUAGE=&quot;zh_CN:zh&quot;</span><br><span class="line">LC_ALL=&quot;zh_CN.UTF-8&quot;</span><br></pre></td></tr></table></figure></div>
+<p>把缓存文件删除即可：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">rm</span> ~/.cache/matplotlib -rf</span><br></pre></td></tr></table></figure></div>
 
-<h1 id="3-添加中文配置内容（选做）"><a href="#3-添加中文配置内容（选做）" class="headerlink" title="3.添加中文配置内容（选做）"></a>3.添加中文配置内容（选做）</h1><p>再修改<code>/var/lib/locales/supported.d/local</code>文件（如果没有，就手动创建）</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nano /var/lib/locales/supported.d/local</span><br></pre></td></tr></table></figure></div>
-
-<p>加入下面内容：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">en_US.UTF-8 UTF-8</span><br><span class="line">zh_CN.UTF-8 UTF-8</span><br><span class="line">zh_CN.GBK GBK</span><br><span class="line">zh_CN GB2312</span><br></pre></td></tr></table></figure></div>
-
-<p>最后执行：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> locale-gen</span><br></pre></td></tr></table></figure></div>
-
-<p>然后重启系统即可。</p>
-<h1 id="3-中文空格乱码解决"><a href="#3-中文空格乱码解决" class="headerlink" title="3.中文空格乱码解决"></a>3.中文空格乱码解决</h1><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt-get install fonts-droid-fallback ttf-wqy-zenhei ttf-wqy-microhei fonts-arphic-ukai fonts-arphic-uming</span><br></pre></td></tr></table></figure></div>]]></content>
+<h1 id="3-解决示例"><a href="#3-解决示例" class="headerlink" title="3.解决示例"></a>3.解决示例</h1><p><a href="https://imgse.com/i/pAuERiV"><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s21.ax1x.com/2024/09/14/pAuERiV.png"
+                      alt="正常输出.png"
+                ><figcaption>正常输出.png</figcaption></figure></a></p>
+<h2 id="3-1-参考教程"><a href="#3-1-参考教程" class="headerlink" title="3.1 参考教程"></a>3.1 参考教程</h2><ul>
+<li><a class="link"   href="https://developer.aliyun.com/article/1577567" >【Deepin20系统】Linux系统中永久解决matplotlib画图中文乱码问题和使用seaborn中文乱码问题<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link"   href="https://cloud.tencent.com/developer/article/1877673" >解决Python使用matplotlib绘图时出现的中文乱码问题<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+</ul>
+<h1 id="4-负号乱码解决"><a href="#4-负号乱码解决" class="headerlink" title="4.负号乱码解决"></a>4.负号乱码解决</h1><p>只要在前面加以段这个代码：</p>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 解决负号显示问题</span></span><br><span class="line">plt.rcParams[<span class="string">&#x27;axes.unicode_minus&#x27;</span>] = <span class="literal">False</span></span><br></pre></td></tr></table></figure></div>
+<p>就能正常显示负号</p>
+]]></content>
+      <categories>
+        <category>Python技巧</category>
+      </categories>
       <tags>
+        <tag>python</tag>
         <tag>linux</tag>
-        <tag>docker</tag>
+        <tag>matplotlib</tag>
       </tags>
   </entry>
   <entry>
