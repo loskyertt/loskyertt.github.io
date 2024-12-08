@@ -832,89 +832,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Docker 配置 MySQL 教程</title>
-    <url>/2024/09/05/Docker-MySQL/</url>
-    <content><![CDATA[<h1 id="1-Docker-MySQL-配置"><a href="#1-Docker-MySQL-配置" class="headerlink" title="1.Docker-MySQL 配置"></a>1.Docker-MySQL 配置</h1><h2 id="1-1-拉取镜像与创建容器"><a href="#1-1-拉取镜像与创建容器" class="headerlink" title="1.1 拉取镜像与创建容器"></a>1.1 拉取镜像与创建容器</h2><ol>
-<li><p><strong>拉取 MySQL 镜像：</strong><br>通过运行 <code>docker pull mysql[:版本号]</code>，版本号可选，默认是latest。</p>
-</li>
-<li><p><strong>创建并运行 MySQL 容器（推荐）：</strong><br>使用以下命令来运行 MySQL 容器。这里假设想在主机上绑定3306端口，并设置一个root用户的密码：</p>
-</li>
-</ol>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run \</span><br><span class="line">--name some-mysql \</span><br><span class="line">-e MYSQL_ROOT_PASSWORD=1234 \</span><br><span class="line">-p 3306:3306 \</span><br><span class="line">-v ~/docker_volume/mysql/data:/var/lib/mysql \</span><br><span class="line">-v ~/docker_volume/mysql/init:/docker-entrypoint-initdb.d \</span><br><span class="line">-v ~/docker_volume/mysql/conf:/etc/mysql/conf.d \</span><br><span class="line">-d mysql:&lt;版本号&gt;</span><br></pre></td></tr></table></figure></div>
-
-<p><strong>以上命令的说明：</strong></p>
-<ul>
-<li><code>--name some-mysql</code>：给容器指定一个名称，比如 <code>some-mysql</code>。</li>
-<li><code>-e MYSQL_ROOT_PASSWORD=1234</code>：设置root用户的密码为 <code>1234</code>。</li>
-<li><code>mysql:latest</code>：使用最新版本的 MySQL 镜像。</li>
-<li><code>p</code>：设置端口，<code>3306:3306</code>中，前者是宿主机的端口，可以自定义，后者是映射到容器的端口。默认是<code>TCP</code>协议。</li>
-<li><code>-v</code>：挂载容器里的文件（<code>~/docker_volume/mysql/data</code>为本地目录）。<strong>注意：</strong> 要先创建好对应的文件路径！！同时本地文件夹会把容器内的文件夹完全覆盖！</li>
-</ul>
-<h2 id="1-2-连接到容器"><a href="#1-2-连接到容器" class="headerlink" title="1.2 连接到容器"></a>1.2 连接到容器</h2><ol>
-<li><strong>连接到 MySQL 容器：</strong></li>
-</ol>
-<p>进入到容器内部然后进行连接：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it some-mysql bash</span><br><span class="line"></span><br><span class="line">mysql -uroot -p</span><br></pre></td></tr></table></figure></div>
-
-<p>直接连接到容器：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it some-mysql mysql -uroot -p</span><br></pre></td></tr></table></figure></div>
-<p>这会启动一个终端会话，并要求输入上面设置的root用户的密码 (<code>1234</code>)。</p>
-<p>以上命令的说明：</p>
-<ol>
-<li><strong>docker exec：</strong></li>
-</ol>
-<ul>
-<li><strong>含义：</strong> 在一个已经运行的容器内执行命令。</li>
-<li><strong>用途：</strong> 允许你在运行的容器中执行新的命令。</li>
-</ul>
-<ol start="2">
-<li><strong>-it：</strong></li>
-</ol>
-<ul>
-<li><strong><code>-i</code> (interactive)：</strong> 保持标准输入（stdin）打开，使得你可以与容器中的进程进行交互。</li>
-<li><strong><code>-t</code> (tty)：</strong> 分配一个伪终端，提供一个终端会话环境。这两个选项一起使用可以进入容器并交互。</li>
-</ul>
-<ol start="3">
-<li><strong>some-mysql：</strong></li>
-</ol>
-<ul>
-<li><strong>含义：</strong> 容器的名称或 ID。</li>
-</ul>
-<ol start="4">
-<li><strong>mysql：</strong></li>
-</ol>
-<ul>
-<li><strong>含义：</strong> 这是在容器内执行的命令。在这个例子中，是启动 MySQL 客户端。</li>
-<li><strong>用途：</strong> 连接到 MySQL 数据库。</li>
-</ul>
-<ol start="5">
-<li><strong>-uroot：</strong></li>
-</ol>
-<ul>
-<li><strong><code>-u</code>：</strong> 指定 MySQL 客户端的用户名。</li>
-<li><strong>root：</strong> MySQL 数据库的用户名。在这个例子中，使用的是 <code>root</code> 用户。</li>
-</ul>
-<ol start="6">
-<li><strong><code>-p</code>：</strong></li>
-</ol>
-<ul>
-<li><strong>含义：</strong> 提示输入 MySQL 用户的密码。</li>
-<li><strong>用途：</strong> 在执行命令后，你会被提示输入 <code>root</code> 用户的密码。这个密码是在运行容器时通过 <code>MYSQL_ROOT_PASSWORD</code> 环境变量设置的。</li>
-</ul>
-<p>以上命令的 <code>-p 3306:3306</code> 会将主机的3306端口映射到容器的3306端口，这样可以从主机上的MySQL客户端连接到容器中的MySQL服务。</p>
-<h2 id="1-3-更改容器信息"><a href="#1-3-更改容器信息" class="headerlink" title="1.3 更改容器信息"></a>1.3 更改容器信息</h2><h3 id="1-3-1-方法一：停止并删除现有容器"><a href="#1-3-1-方法一：停止并删除现有容器" class="headerlink" title="1.3.1 方法一：停止并删除现有容器"></a>1.3.1 方法一：停止并删除现有容器</h3><p>首先，停止并删除现有的 <code>mysql-test</code> 容器：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker start mysql-test        <span class="comment"># 运行</span></span><br><span class="line">docker stop mysql-test        <span class="comment"># 停止</span></span><br><span class="line">docker <span class="built_in">rm</span> mysql-test        <span class="comment"># 删除</span></span><br></pre></td></tr></table></figure></div>
-<p>然后再重新创建<code>mysql-test</code>即可。</p>
-<h3 id="1-3-2-方法二：不同的容器名称"><a href="#1-3-2-方法二：不同的容器名称" class="headerlink" title="1.3.2 方法二：不同的容器名称"></a>1.3.2 方法二：不同的容器名称</h3><p>可以使用不同的名称来运行容器，这样就不需要删除现有的容器。例如：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run --name mysql-test-2 -e MYSQL_ROOT_PASSWORD=0403 -p 3307:3306 -d mysql:latest</span><br></pre></td></tr></table></figure></div>
-<p>这样会启动一个新容器，名称为 <code>mysql-test-2</code>，并绑定主机的3307端口到容器的3306端口。</p>
-<h2 id="1-4-查看容器信息"><a href="#1-4-查看容器信息" class="headerlink" title="1.4 查看容器信息"></a>1.4 查看容器信息</h2><p>查看容器或镜像内部信息（如端口，ip地址，挂载卷等）：</p>
-<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker inspect &lt;容器名/容器ID/镜像名/镜像ID&gt;</span><br></pre></td></tr></table></figure></div>]]></content>
-      <tags>
-        <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Openwrt 在 Docker 下运行并作为旁路由</title>
     <url>/2024/07/30/Docker-Openwrt/</url>
     <content><![CDATA[<h1 id="1-前言"><a href="#1-前言" class="headerlink" title="1.前言"></a>1.前言</h1><p>这几天想试着玩一下<code>Openwrt</code>来作旁路由，但是又没有软路由固件，后来考虑到<code>Openwrt</code>也是基于 Linux 的，那么在 Docker Hub 上应该有其对应的镜像吧，然后查了下果真有。于是有了后续的操作 … …</p>
@@ -1206,59 +1123,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Docker 搭建深度学习环境</title>
-    <url>/2024/09/09/Docker%E6%90%AD%E5%BB%BADL%E7%8E%AF%E5%A2%83/</url>
-    <content><![CDATA[<h1 id="1-安裝NVIDIA-Container-Toolkit套件"><a href="#1-安裝NVIDIA-Container-Toolkit套件" class="headerlink" title="1.安裝NVIDIA Container Toolkit套件"></a>1.安裝NVIDIA Container Toolkit套件</h1><p>对于 Arch 系发行版，可以直接通过下面指令安装：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S nvidia-container-toolkit</span><br></pre></td></tr></table></figure></div>
-
-<p>然后新增设定：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">mkdir</span> /etc/docker</span><br><span class="line"><span class="built_in">sudo</span> nano /etc/docker/daemon.json</span><br></pre></td></tr></table></figure></div>
-
-<p>添加：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;runtimes&quot;: &#123;</span><br><span class="line">        &quot;nvidia&quot;: &#123;</span><br><span class="line">            &quot;path&quot;: &quot;nvidia-container-runtime&quot;,</span><br><span class="line">            &quot;runtimeArgs&quot;: []</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
-
-<p>重启 Docker ：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl restart docker</span><br></pre></td></tr></table></figure></div>
-
-<p>拉取CUDA 12.1版本的镜像测试：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> docker run --<span class="built_in">rm</span> --gpus all nvidia/cuda:12.1.0-base-ubuntu20.04 nvidia-smi</span><br></pre></td></tr></table></figure></div>
-<p>检查是否能在容器中运行<code>nvidia-smi</code>：<br><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://ivonblog.com/posts/archlinux-install-nvidia-drivers/images/Screenshot_20231226_160611.webp"
-                      alt="nvidia-smi"
-                ><figcaption>nvidia-smi</figcaption></figure></p>
-<h1 id="2-各个-CUDA-tag的区别"><a href="#2-各个-CUDA-tag的区别" class="headerlink" title="2.各个 CUDA tag的区别"></a>2.各个 CUDA <code>tag</code>的区别</h1><p>其它 CUDA 镜像可以通过在 DockerHub 找到：<a class="link"   href="https://hub.docker.com/r/nvidia/cuda" >nvidia&#x2F;cuda<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
-<ol>
-<li><strong>Base</strong> : Includes only the CUDA runtime (cudart), which is essential for running CUDA-based applications but doesn’t come with extra libraries or development tools.</li>
-<li><strong>Runtime</strong> : Builds on the <code>base</code> image and adds CUDA math libraries like cuBLAS, cuFFT, and cuRAND. This version is suitable for running applications that require these additional libraries without needing to compile CUDA code.</li>
-<li><strong>Devel</strong> : Builds on the <code>runtime</code> image and includes all the necessary headers and development tools like <code>nvcc</code> for compiling and building CUDA applications. This is useful for developers building or extending CUDA applications.</li>
-<li><strong>CUDNN&#x2F;Devel Runtime</strong> : Adds cuDNN libraries to the runtime or devel image for working with deep learning applications.</li>
-</ol>
-<p>Different versions also support various operating systems like Ubuntu 20.04, 22.04, or 24.04. The <code>devel</code> tags are especially useful when you need to compile custom CUDA code, whereas the <code>runtime</code> tags are lighter and designed for deployment【76†source】【77†source】.</p>
-<h1 id="3-搭建-PyTorch"><a href="#3-搭建-PyTorch" class="headerlink" title="3.搭建 PyTorch"></a>3.搭建 PyTorch</h1><p>根据需要拉取<code>PyTorch</code>镜像：<a class="link"   href="https://hub.docker.com/r/pytorch/pytorch" >pytorch&#x2F;pytorch<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
-<p>我这里以最新版为例：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker pull pytorch/pytorch</span><br></pre></td></tr></table></figure></div>
-
-<p>可以先查看下镜像内容（比如端口、挂载点）：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker inspect pytorch/pytorch:latest</span><br></pre></td></tr></table></figure></div>
-<p>这个镜像的默认挂载点是<code>/workspace</code>。</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -it --name=pytorch -v ~/workspace:/workspace -p 8888:8888 pytorch/pytorch:latest</span><br></pre></td></tr></table></figure></div>
-<p>这里映射的端口是<code>jupyter</code>的。需要在容器里手动安装<code>jupyter</code>。</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">conda install jupyter</span><br></pre></td></tr></table></figure></div>
-
-<p>运行<code>jupyter</code>：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">jupyter lab --ip=0.0.0.0 --no-browser --allow-root</span><br></pre></td></tr></table></figure></div>
-<p>启动<code>Jupyter Lab</code>时，默认情况下它只绑定到<code>localhost</code>，并不会对外开放。所以你需要明确绑定<code>0.0.0.0</code>，以便它能从容器外部访问。</p>
-]]></content>
-      <categories>
-        <category>深度学习</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>通过 Docker 搭建 PCL 环境</title>
     <url>/2024/11/30/Docker%E6%90%AD%E5%BB%BAPCL%E7%8E%AF%E5%A2%83/</url>
     <content><![CDATA[<h1 id="1-在容器内部构建"><a href="#1-在容器内部构建" class="headerlink" title="1.在容器内部构建"></a>1.在容器内部构建</h1><p>个人推荐使用这种方式，用<code>Dockerfile</code>总会出奇奇怪怪的问题。</p>
@@ -1328,6 +1192,142 @@
       <tags>
         <tag>docker</tag>
         <tag>c++</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Docker 搭建深度学习环境</title>
+    <url>/2024/09/09/Docker%E6%90%AD%E5%BB%BADL%E7%8E%AF%E5%A2%83/</url>
+    <content><![CDATA[<h1 id="1-安裝NVIDIA-Container-Toolkit套件"><a href="#1-安裝NVIDIA-Container-Toolkit套件" class="headerlink" title="1.安裝NVIDIA Container Toolkit套件"></a>1.安裝NVIDIA Container Toolkit套件</h1><p>对于 Arch 系发行版，可以直接通过下面指令安装：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S nvidia-container-toolkit</span><br></pre></td></tr></table></figure></div>
+
+<p>然后新增设定：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">mkdir</span> /etc/docker</span><br><span class="line"><span class="built_in">sudo</span> nano /etc/docker/daemon.json</span><br></pre></td></tr></table></figure></div>
+
+<p>添加：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;runtimes&quot;: &#123;</span><br><span class="line">        &quot;nvidia&quot;: &#123;</span><br><span class="line">            &quot;path&quot;: &quot;nvidia-container-runtime&quot;,</span><br><span class="line">            &quot;runtimeArgs&quot;: []</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<p>重启 Docker ：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl restart docker</span><br></pre></td></tr></table></figure></div>
+
+<p>拉取CUDA 12.1版本的镜像测试：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> docker run --<span class="built_in">rm</span> --gpus all nvidia/cuda:12.1.0-base-ubuntu20.04 nvidia-smi</span><br></pre></td></tr></table></figure></div>
+<p>检查是否能在容器中运行<code>nvidia-smi</code>：<br><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://ivonblog.com/posts/archlinux-install-nvidia-drivers/images/Screenshot_20231226_160611.webp"
+                      alt="nvidia-smi"
+                ><figcaption>nvidia-smi</figcaption></figure></p>
+<h1 id="2-各个-CUDA-tag的区别"><a href="#2-各个-CUDA-tag的区别" class="headerlink" title="2.各个 CUDA tag的区别"></a>2.各个 CUDA <code>tag</code>的区别</h1><p>其它 CUDA 镜像可以通过在 DockerHub 找到：<a class="link"   href="https://hub.docker.com/r/nvidia/cuda" >nvidia&#x2F;cuda<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<ol>
+<li><strong>Base</strong> : Includes only the CUDA runtime (cudart), which is essential for running CUDA-based applications but doesn’t come with extra libraries or development tools.</li>
+<li><strong>Runtime</strong> : Builds on the <code>base</code> image and adds CUDA math libraries like cuBLAS, cuFFT, and cuRAND. This version is suitable for running applications that require these additional libraries without needing to compile CUDA code.</li>
+<li><strong>Devel</strong> : Builds on the <code>runtime</code> image and includes all the necessary headers and development tools like <code>nvcc</code> for compiling and building CUDA applications. This is useful for developers building or extending CUDA applications.</li>
+<li><strong>CUDNN&#x2F;Devel Runtime</strong> : Adds cuDNN libraries to the runtime or devel image for working with deep learning applications.</li>
+</ol>
+<p>Different versions also support various operating systems like Ubuntu 20.04, 22.04, or 24.04. The <code>devel</code> tags are especially useful when you need to compile custom CUDA code, whereas the <code>runtime</code> tags are lighter and designed for deployment【76†source】【77†source】.</p>
+<h1 id="3-搭建-PyTorch"><a href="#3-搭建-PyTorch" class="headerlink" title="3.搭建 PyTorch"></a>3.搭建 PyTorch</h1><p>根据需要拉取<code>PyTorch</code>镜像：<a class="link"   href="https://hub.docker.com/r/pytorch/pytorch" >pytorch&#x2F;pytorch<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<p>我这里以最新版为例：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker pull pytorch/pytorch</span><br></pre></td></tr></table></figure></div>
+
+<p>可以先查看下镜像内容（比如端口、挂载点）：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker inspect pytorch/pytorch:latest</span><br></pre></td></tr></table></figure></div>
+<p>这个镜像的默认挂载点是<code>/workspace</code>。</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -it --name=pytorch -v ~/workspace:/workspace -p 8888:8888 pytorch/pytorch:latest</span><br></pre></td></tr></table></figure></div>
+<p>这里映射的端口是<code>jupyter</code>的。需要在容器里手动安装<code>jupyter</code>。</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">conda install jupyter</span><br></pre></td></tr></table></figure></div>
+
+<p>运行<code>jupyter</code>：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">jupyter lab --ip=0.0.0.0 --no-browser --allow-root</span><br></pre></td></tr></table></figure></div>
+<p>启动<code>Jupyter Lab</code>时，默认情况下它只绑定到<code>localhost</code>，并不会对外开放。所以你需要明确绑定<code>0.0.0.0</code>，以便它能从容器外部访问。</p>
+]]></content>
+      <categories>
+        <category>深度学习</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Docker 配置 MySQL 教程</title>
+    <url>/2024/09/05/Docker-MySQL/</url>
+    <content><![CDATA[<h1 id="1-Docker-MySQL-配置"><a href="#1-Docker-MySQL-配置" class="headerlink" title="1.Docker-MySQL 配置"></a>1.Docker-MySQL 配置</h1><h2 id="1-1-拉取镜像与创建容器"><a href="#1-1-拉取镜像与创建容器" class="headerlink" title="1.1 拉取镜像与创建容器"></a>1.1 拉取镜像与创建容器</h2><ol>
+<li><p><strong>拉取 MySQL 镜像：</strong><br>通过运行 <code>docker pull mysql[:版本号]</code>，版本号可选，默认是latest。</p>
+</li>
+<li><p><strong>创建并运行 MySQL 容器（推荐）：</strong><br>使用以下命令来运行 MySQL 容器。这里假设想在主机上绑定3306端口，并设置一个root用户的密码：</p>
+</li>
+</ol>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run \</span><br><span class="line">--name some-mysql \</span><br><span class="line">-e MYSQL_ROOT_PASSWORD=1234 \</span><br><span class="line">-p 3306:3306 \</span><br><span class="line">-v ~/docker_volume/mysql/data:/var/lib/mysql \</span><br><span class="line">-v ~/docker_volume/mysql/init:/docker-entrypoint-initdb.d \</span><br><span class="line">-v ~/docker_volume/mysql/conf:/etc/mysql/conf.d \</span><br><span class="line">-d mysql:&lt;版本号&gt;</span><br></pre></td></tr></table></figure></div>
+
+<p><strong>以上命令的说明：</strong></p>
+<ul>
+<li><code>--name some-mysql</code>：给容器指定一个名称，比如 <code>some-mysql</code>。</li>
+<li><code>-e MYSQL_ROOT_PASSWORD=1234</code>：设置root用户的密码为 <code>1234</code>。</li>
+<li><code>mysql:latest</code>：使用最新版本的 MySQL 镜像。</li>
+<li><code>p</code>：设置端口，<code>3306:3306</code>中，前者是宿主机的端口，可以自定义，后者是映射到容器的端口。默认是<code>TCP</code>协议。</li>
+<li><code>-v</code>：挂载容器里的文件（<code>~/docker_volume/mysql/data</code>为本地目录）。<strong>注意：</strong> 要先创建好对应的文件路径！！同时本地文件夹会把容器内的文件夹完全覆盖！</li>
+</ul>
+<h2 id="1-2-连接到容器"><a href="#1-2-连接到容器" class="headerlink" title="1.2 连接到容器"></a>1.2 连接到容器</h2><ol>
+<li><strong>连接到 MySQL 容器：</strong></li>
+</ol>
+<p>进入到容器内部然后进行连接：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it some-mysql bash</span><br><span class="line"></span><br><span class="line">mysql -uroot -p</span><br></pre></td></tr></table></figure></div>
+
+<p>直接连接到容器：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it some-mysql mysql -uroot -p</span><br></pre></td></tr></table></figure></div>
+<p>这会启动一个终端会话，并要求输入上面设置的root用户的密码 (<code>1234</code>)。</p>
+<p>以上命令的说明：</p>
+<ol>
+<li><strong>docker exec：</strong></li>
+</ol>
+<ul>
+<li><strong>含义：</strong> 在一个已经运行的容器内执行命令。</li>
+<li><strong>用途：</strong> 允许你在运行的容器中执行新的命令。</li>
+</ul>
+<ol start="2">
+<li><strong>-it：</strong></li>
+</ol>
+<ul>
+<li><strong><code>-i</code> (interactive)：</strong> 保持标准输入（stdin）打开，使得你可以与容器中的进程进行交互。</li>
+<li><strong><code>-t</code> (tty)：</strong> 分配一个伪终端，提供一个终端会话环境。这两个选项一起使用可以进入容器并交互。</li>
+</ul>
+<ol start="3">
+<li><strong>some-mysql：</strong></li>
+</ol>
+<ul>
+<li><strong>含义：</strong> 容器的名称或 ID。</li>
+</ul>
+<ol start="4">
+<li><strong>mysql：</strong></li>
+</ol>
+<ul>
+<li><strong>含义：</strong> 这是在容器内执行的命令。在这个例子中，是启动 MySQL 客户端。</li>
+<li><strong>用途：</strong> 连接到 MySQL 数据库。</li>
+</ul>
+<ol start="5">
+<li><strong>-uroot：</strong></li>
+</ol>
+<ul>
+<li><strong><code>-u</code>：</strong> 指定 MySQL 客户端的用户名。</li>
+<li><strong>root：</strong> MySQL 数据库的用户名。在这个例子中，使用的是 <code>root</code> 用户。</li>
+</ul>
+<ol start="6">
+<li><strong><code>-p</code>：</strong></li>
+</ol>
+<ul>
+<li><strong>含义：</strong> 提示输入 MySQL 用户的密码。</li>
+<li><strong>用途：</strong> 在执行命令后，你会被提示输入 <code>root</code> 用户的密码。这个密码是在运行容器时通过 <code>MYSQL_ROOT_PASSWORD</code> 环境变量设置的。</li>
+</ul>
+<p>以上命令的 <code>-p 3306:3306</code> 会将主机的3306端口映射到容器的3306端口，这样可以从主机上的MySQL客户端连接到容器中的MySQL服务。</p>
+<h2 id="1-3-更改容器信息"><a href="#1-3-更改容器信息" class="headerlink" title="1.3 更改容器信息"></a>1.3 更改容器信息</h2><h3 id="1-3-1-方法一：停止并删除现有容器"><a href="#1-3-1-方法一：停止并删除现有容器" class="headerlink" title="1.3.1 方法一：停止并删除现有容器"></a>1.3.1 方法一：停止并删除现有容器</h3><p>首先，停止并删除现有的 <code>mysql-test</code> 容器：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker start mysql-test        <span class="comment"># 运行</span></span><br><span class="line">docker stop mysql-test        <span class="comment"># 停止</span></span><br><span class="line">docker <span class="built_in">rm</span> mysql-test        <span class="comment"># 删除</span></span><br></pre></td></tr></table></figure></div>
+<p>然后再重新创建<code>mysql-test</code>即可。</p>
+<h3 id="1-3-2-方法二：不同的容器名称"><a href="#1-3-2-方法二：不同的容器名称" class="headerlink" title="1.3.2 方法二：不同的容器名称"></a>1.3.2 方法二：不同的容器名称</h3><p>可以使用不同的名称来运行容器，这样就不需要删除现有的容器。例如：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run --name mysql-test-2 -e MYSQL_ROOT_PASSWORD=0403 -p 3307:3306 -d mysql:latest</span><br></pre></td></tr></table></figure></div>
+<p>这样会启动一个新容器，名称为 <code>mysql-test-2</code>，并绑定主机的3307端口到容器的3306端口。</p>
+<h2 id="1-4-查看容器信息"><a href="#1-4-查看容器信息" class="headerlink" title="1.4 查看容器信息"></a>1.4 查看容器信息</h2><p>查看容器或镜像内部信息（如端口，ip地址，挂载卷等）：</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker inspect &lt;容器名/容器ID/镜像名/镜像ID&gt;</span><br></pre></td></tr></table></figure></div>]]></content>
+      <tags>
+        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -1895,6 +1895,92 @@
       </tags>
   </entry>
   <entry>
+    <title>Linux 环境下配置 Docker</title>
+    <url>/2024/07/20/Linux-Docker/</url>
+    <content><![CDATA[<h1 id="1、Docker-配置"><a href="#1、Docker-配置" class="headerlink" title="1、Docker 配置"></a>1、Docker 配置</h1><h2 id="1-1-安装-Docker"><a href="#1-1-安装-Docker" class="headerlink" title="1.1 安装 Docker"></a>1.1 安装 Docker</h2><ul>
+<li><strong>安装方式一（推荐）：</strong></li>
+</ul>
+<p>通过<code>yay</code>直接安装（全局安装）：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">yay -Sy docker docker-compose</span><br></pre></td></tr></table></figure></div>
+<p><code>docker-compose</code>可选安装，它可以通过配置文件<code>Dockerfile</code>来构建镜像。</p>
+<ul>
+<li><strong>安装方式二：</strong></li>
+</ul>
+<p>通过<code>conda</code>安装（局部安装，可全局使用）：</p>
+<p>首先需要创建虚拟环境用于存储安装的<code>docker</code>和<code>docker-compose</code>。</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">conda create --name docker python=3.12</span><br></pre></td></tr></table></figure></div>
+<p>Python版本可自己选择。</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">conda install docker docker-compose -c conda-forge</span><br></pre></td></tr></table></figure></div>
+
+<p>这里的<code>-c conda-forge</code>一定要加，默认的<code>conda.org</code>源没有<code>docker</code>。</p>
+<p>安装好的<code>docker</code>和<code>docker-compose</code>是在该路径下：<br><code>~/.conda/envs/docker/bin/docker</code><br><code>~/.conda/envs/docker/bin/docker-compose</code></p>
+<h2 id="1-2-docker-基本操作"><a href="#1-2-docker-基本操作" class="headerlink" title="1.2 docker 基本操作"></a>1.2 docker 基本操作</h2><h3 id="1-2-1-docker-服务"><a href="#1-2-1-docker-服务" class="headerlink" title="1.2.1 docker 服务"></a>1.2.1 docker 服务</h3><ul>
+<li><p>启动docker服务</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start docker</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>关闭docker服务</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl stop docker.service docker.socket</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>检查<code>docker</code>服务状态</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status docker</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>开机自启动设置</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> --now docker</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<h3 id="1-2-2-添加用户到-docker-组"><a href="#1-2-2-添加用户到-docker-组" class="headerlink" title="1.2.2 添加用户到 docker 组"></a>1.2.2 添加用户到 docker 组</h3><p>为了避免每次运行<code>docker</code>命令时都需要使用 <code>sudo</code>，可以将当前用户添加到 <code>docker</code> 组：</p>
+<div class="code-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> usermod -aG docker <span class="variable">$USER</span></span><br></pre></td></tr></table></figure></div>
+
+<p>然后，重新登录以使更改生效，或者重新加载用户组信息：</p>
+<p>登录：</p>
+<div class="code-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="code"><pre><span class="line">newgrp docker</span><br></pre></td></tr></table></figure></div>
+
+<p>退出：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure></div>
+
+<p>可能需要重启系统来让配置生效。</p>
+<h2 id="1-3-代理配置（一定要配置）"><a href="#1-3-代理配置（一定要配置）" class="headerlink" title="1.3 代理配置（一定要配置）"></a>1.3 代理配置（一定要配置）</h2><p>1.创建<code>docker</code>相关的<code>systemd</code>目录，这个目录下的配置将覆盖<code>docker</code>的默认配置：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">mkdir</span> -p /etc/systemd/system/docker.service.d</span><br></pre></td></tr></table></figure></div>
+
+<p>2.新建配置文件：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">kate /etc/systemd/system/docker.service.d/proxy.conf</span><br></pre></td></tr></table></figure></div>
+
+<p>将以下内容复制到<code>proxy.conf</code>中：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">[Service]</span><br><span class="line">Environment=&quot;HTTP_PROXY=http://127.0.0.1:7890&quot;</span><br><span class="line">Environment=&quot;HTTPS_PROXY=http://127.0.0.1:7890&quot;</span><br></pre></td></tr></table></figure></div>
+
+<p>这里需要根据自己实际的代理端口填写。</p>
+<p>3.如果自己建了私有的镜像仓库，需要<code>docker</code>绕过代理服务器直连，那么配置<code>NO_PROXY</code>变量：</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">[Service]</span><br><span class="line">Environment=&quot;HTTP_PROXY=http://127.0.0.1:7890&quot;</span><br><span class="line">Environment=&quot;HTTPS_PROXY=http://127.0.0.1:7890&quot;</span><br><span class="line">Environment=&quot;NO_PROXY=your-registry.com,10.10.10.10,*.example.com&quot;</span><br></pre></td></tr></table></figure></div>
+
+<p>多个<code>NO_PROXY</code>变量的值用逗号分隔，而且可以使用通配符（*），极端情况下，如果<code>NO_PROXY=*</code>，那么所有请求都将不通过代理服务器。</p>
+<p>4.重新加载配置文件，重启<code>docker</code>：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl daemon-reload</span><br></pre></td></tr></table></figure></div>
+
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl restart docker</span><br></pre></td></tr></table></figure></div>
+
+<p>5.检查确认环境变量已经正确配置：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl show --property=Environment docker</span><br></pre></td></tr></table></figure></div>
+
+<p>像输出以下内容就成功了：</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">Environment=HTTP_PROXY=http://127.0.0.1:7890 HTTPS_PROXY=http://127.0.0.1:7890</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="1-4-命令简化配置"><a href="#1-4-命令简化配置" class="headerlink" title="1.4 命令简化配置"></a>1.4 命令简化配置</h2><p><strong>以下推荐加到.bashrc或者.zshrc中。</strong></p>
+<ol>
+<li>格式化查看容器：<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker ps --format <span class="string">&quot;table &#123;&#123;.ID&#125;&#125;\t&#123;&#123;.Image&#125;&#125;\t&#123;&#123;.Ports&#125;&#125;\t&#123;&#123;.Status&#125;&#125;\t&#123;&#123;.Names&#125;&#125;&quot;</span></span><br></pre></td></tr></table></figure></div></li>
+</ol>
+<p>命令简化：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">alias dps=&#x27;docker ps --format &quot;table &#123;&#123;.ID&#125;&#125;\t&#123;&#123;.Image&#125;&#125;\t&#123;&#123;.Ports&#125;&#125;\t&#123;&#123;.Status&#125;&#125;\t&#123;&#123;.Names&#125;&#125;&quot;&#x27;</span><br></pre></td></tr></table></figure></div>
+
+<ol start="2">
+<li>查看网络配置：<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker inspect --format=<span class="string">&#x27;&#123;&#123;.HostConfig.NetworkMode&#125;&#125;&#x27;</span> &lt;容器名/容器ID&gt;</span><br></pre></td></tr></table></figure></div></li>
+</ol>
+<p>命令简化：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">alias din=&#x27;docker inspect --format=&#x27;&#123;&#123;.HostConfig.NetworkMode&#125;&#125;&#x27;&#x27;</span><br></pre></td></tr></table></figure></div>]]></content>
+      <tags>
+        <tag>linux</tag>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Linux 下 Grub 引导配置教程以及更换内核</title>
     <url>/2024/09/03/Grub%E8%AE%BE%E7%BD%AE/</url>
     <content><![CDATA[<h1 id="1-基本说明"><a href="#1-基本说明" class="headerlink" title="1.基本说明"></a>1.基本说明</h1><p><code>GRUB</code>（GRand Unified Bootloader）的配置文件 是<code>/etc/default/grub</code>，用于配置 GRUB 引导加载器的行为。</p>
@@ -2054,92 +2140,6 @@
 ]]></content>
       <tags>
         <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Linux 环境下配置 Docker</title>
-    <url>/2024/07/20/Linux-Docker/</url>
-    <content><![CDATA[<h1 id="1、Docker-配置"><a href="#1、Docker-配置" class="headerlink" title="1、Docker 配置"></a>1、Docker 配置</h1><h2 id="1-1-安装-Docker"><a href="#1-1-安装-Docker" class="headerlink" title="1.1 安装 Docker"></a>1.1 安装 Docker</h2><ul>
-<li><strong>安装方式一（推荐）：</strong></li>
-</ul>
-<p>通过<code>yay</code>直接安装（全局安装）：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">yay -Sy docker docker-compose</span><br></pre></td></tr></table></figure></div>
-<p><code>docker-compose</code>可选安装，它可以通过配置文件<code>Dockerfile</code>来构建镜像。</p>
-<ul>
-<li><strong>安装方式二：</strong></li>
-</ul>
-<p>通过<code>conda</code>安装（局部安装，可全局使用）：</p>
-<p>首先需要创建虚拟环境用于存储安装的<code>docker</code>和<code>docker-compose</code>。</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">conda create --name docker python=3.12</span><br></pre></td></tr></table></figure></div>
-<p>Python版本可自己选择。</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">conda install docker docker-compose -c conda-forge</span><br></pre></td></tr></table></figure></div>
-
-<p>这里的<code>-c conda-forge</code>一定要加，默认的<code>conda.org</code>源没有<code>docker</code>。</p>
-<p>安装好的<code>docker</code>和<code>docker-compose</code>是在该路径下：<br><code>~/.conda/envs/docker/bin/docker</code><br><code>~/.conda/envs/docker/bin/docker-compose</code></p>
-<h2 id="1-2-docker-基本操作"><a href="#1-2-docker-基本操作" class="headerlink" title="1.2 docker 基本操作"></a>1.2 docker 基本操作</h2><h3 id="1-2-1-docker-服务"><a href="#1-2-1-docker-服务" class="headerlink" title="1.2.1 docker 服务"></a>1.2.1 docker 服务</h3><ul>
-<li><p>启动docker服务</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start docker</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>关闭docker服务</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl stop docker.service docker.socket</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>检查<code>docker</code>服务状态</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status docker</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>开机自启动设置</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> --now docker</span><br></pre></td></tr></table></figure></div></li>
-</ul>
-<h3 id="1-2-2-添加用户到-docker-组"><a href="#1-2-2-添加用户到-docker-组" class="headerlink" title="1.2.2 添加用户到 docker 组"></a>1.2.2 添加用户到 docker 组</h3><p>为了避免每次运行<code>docker</code>命令时都需要使用 <code>sudo</code>，可以将当前用户添加到 <code>docker</code> 组：</p>
-<div class="code-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> usermod -aG docker <span class="variable">$USER</span></span><br></pre></td></tr></table></figure></div>
-
-<p>然后，重新登录以使更改生效，或者重新加载用户组信息：</p>
-<p>登录：</p>
-<div class="code-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="code"><pre><span class="line">newgrp docker</span><br></pre></td></tr></table></figure></div>
-
-<p>退出：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure></div>
-
-<p>可能需要重启系统来让配置生效。</p>
-<h2 id="1-3-代理配置（一定要配置）"><a href="#1-3-代理配置（一定要配置）" class="headerlink" title="1.3 代理配置（一定要配置）"></a>1.3 代理配置（一定要配置）</h2><p>1.创建<code>docker</code>相关的<code>systemd</code>目录，这个目录下的配置将覆盖<code>docker</code>的默认配置：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">mkdir</span> -p /etc/systemd/system/docker.service.d</span><br></pre></td></tr></table></figure></div>
-
-<p>2.新建配置文件：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">kate /etc/systemd/system/docker.service.d/proxy.conf</span><br></pre></td></tr></table></figure></div>
-
-<p>将以下内容复制到<code>proxy.conf</code>中：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">[Service]</span><br><span class="line">Environment=&quot;HTTP_PROXY=http://127.0.0.1:7890&quot;</span><br><span class="line">Environment=&quot;HTTPS_PROXY=http://127.0.0.1:7890&quot;</span><br></pre></td></tr></table></figure></div>
-
-<p>这里需要根据自己实际的代理端口填写。</p>
-<p>3.如果自己建了私有的镜像仓库，需要<code>docker</code>绕过代理服务器直连，那么配置<code>NO_PROXY</code>变量：</p>
-<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">[Service]</span><br><span class="line">Environment=&quot;HTTP_PROXY=http://127.0.0.1:7890&quot;</span><br><span class="line">Environment=&quot;HTTPS_PROXY=http://127.0.0.1:7890&quot;</span><br><span class="line">Environment=&quot;NO_PROXY=your-registry.com,10.10.10.10,*.example.com&quot;</span><br></pre></td></tr></table></figure></div>
-
-<p>多个<code>NO_PROXY</code>变量的值用逗号分隔，而且可以使用通配符（*），极端情况下，如果<code>NO_PROXY=*</code>，那么所有请求都将不通过代理服务器。</p>
-<p>4.重新加载配置文件，重启<code>docker</code>：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl daemon-reload</span><br></pre></td></tr></table></figure></div>
-
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl restart docker</span><br></pre></td></tr></table></figure></div>
-
-<p>5.检查确认环境变量已经正确配置：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl show --property=Environment docker</span><br></pre></td></tr></table></figure></div>
-
-<p>像输出以下内容就成功了：</p>
-<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">Environment=HTTP_PROXY=http://127.0.0.1:7890 HTTPS_PROXY=http://127.0.0.1:7890</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="1-4-命令简化配置"><a href="#1-4-命令简化配置" class="headerlink" title="1.4 命令简化配置"></a>1.4 命令简化配置</h2><p><strong>以下推荐加到.bashrc或者.zshrc中。</strong></p>
-<ol>
-<li>格式化查看容器：<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker ps --format <span class="string">&quot;table &#123;&#123;.ID&#125;&#125;\t&#123;&#123;.Image&#125;&#125;\t&#123;&#123;.Ports&#125;&#125;\t&#123;&#123;.Status&#125;&#125;\t&#123;&#123;.Names&#125;&#125;&quot;</span></span><br></pre></td></tr></table></figure></div></li>
-</ol>
-<p>命令简化：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">alias dps=&#x27;docker ps --format &quot;table &#123;&#123;.ID&#125;&#125;\t&#123;&#123;.Image&#125;&#125;\t&#123;&#123;.Ports&#125;&#125;\t&#123;&#123;.Status&#125;&#125;\t&#123;&#123;.Names&#125;&#125;&quot;&#x27;</span><br></pre></td></tr></table></figure></div>
-
-<ol start="2">
-<li>查看网络配置：<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker inspect --format=<span class="string">&#x27;&#123;&#123;.HostConfig.NetworkMode&#125;&#125;&#x27;</span> &lt;容器名/容器ID&gt;</span><br></pre></td></tr></table></figure></div></li>
-</ol>
-<p>命令简化：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">alias din=&#x27;docker inspect --format=&#x27;&#123;&#123;.HostConfig.NetworkMode&#125;&#125;&#x27;&#x27;</span><br></pre></td></tr></table></figure></div>]]></content>
-      <tags>
-        <tag>linux</tag>
-        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -2643,6 +2643,34 @@
       </tags>
   </entry>
   <entry>
+    <title>Win10 SSH 服务配置</title>
+    <url>/2024/07/30/Openssh%E9%85%8D%E7%BD%AE/</url>
+    <content><![CDATA[<h1 id="1-Windows-10-下安装-SSH-服务（Openssh）"><a href="#1-Windows-10-下安装-SSH-服务（Openssh）" class="headerlink" title="1.Windows 10 下安装 SSH 服务（Openssh）"></a>1.Windows 10 下安装 SSH 服务（Openssh）</h1><h2 id="1-1-下载"><a href="#1-1-下载" class="headerlink" title="1.1 下载"></a>1.1 下载</h2><p><a href="https://github.com/PowerShell/Win32-OpenSSH"> <strong>Openssh 下载地址</strong> </a></p>
+<h2 id="1-2-解压"><a href="#1-2-解压" class="headerlink" title="1.2 解压"></a>1.2 解压</h2><p>解压到如下目录（建议加压到<code>C:\Program Files</code>下，不然会出现未知错误）：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">C:\Program Files\OpenSSH_Win64\</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="1-3-安装"><a href="#1-3-安装" class="headerlink" title="1.3 安装"></a>1.3 安装</h2><p><strong>注意：</strong> 一定要使用<code>powershell</code>并且要以管理员的身份打开。</p>
+<ul>
+<li><p>Windows 下开启运行执行<code>*.sp1</code>文件类型：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">set-executionpolicy remotesigned</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>安装<code>sshd</code></p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> C:\Program Files\OpenSSH_Win64\</span><br><span class="line"></span><br><span class="line">./install-sshd.ps1</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<h2 id="1-4-测试连接"><a href="#1-4-测试连接" class="headerlink" title="1.4 测试连接"></a>1.4 测试连接</h2><ul>
+<li><p>验证是否安装成功：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">ssh -V</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>测试是否能与远程主机进行连接：<br>在与远程主机连接之前确保能<code>ping</code>通，然后通过<code>ssh &lt;username&gt;@&lt;PCIPAddr&gt;</code>与远程主机进行连接。</p>
+</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>linux</tag>
+        <tag>ssh</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Proxy Settings</title>
     <url>/2024/07/19/Proxy-Settings/</url>
     <content><![CDATA[<h1 id="一、代理软件配置"><a href="#一、代理软件配置" class="headerlink" title="一、代理软件配置"></a>一、代理软件配置</h1><h2 id="1-1-speedTest"><a href="#1-1-speedTest" class="headerlink" title="1.1 speedTest"></a>1.1 speedTest</h2><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 日本</span></span><br><span class="line">https://185-140-53-2.lg.looking.house/1000.mb</span><br><span class="line"><span class="comment"># 新加坡</span></span><br><span class="line">https://23-27-101-2.lg.looking.house/100.mb</span><br><span class="line"></span><br><span class="line">https://speed.cloudflare.com/__down?bytes=10000000</span><br><span class="line">https://speed.cloudflare.com/__down?bytes=50000000</span><br><span class="line">https://speed.cloudflare.com/__down?bytes=100000000</span><br><span class="line">https://speed.cloudflare.com/__down?bytes=200000000</span><br><span class="line"></span><br><span class="line"><span class="comment"># 老版测速</span></span><br><span class="line">http://cachefly.cachefly.net/10mb.<span class="built_in">test</span></span><br><span class="line">http://cachefly.cachefly.net/50mb.<span class="built_in">test</span></span><br><span class="line">http://cachefly.cachefly.net/100mb.<span class="built_in">test</span></span><br></pre></td></tr></table></figure></div>
@@ -3011,6 +3039,28 @@
       </tags>
   </entry>
   <entry>
+    <title>解决 Ubuntu 系统下，软件包更新和软件下载速度慢的问题</title>
+    <url>/2024/12/07/Ubuntu%E9%95%9C%E5%83%8F%E6%BA%90/</url>
+    <content><![CDATA[<h1 id="1-问题复现"><a href="#1-问题复现" class="headerlink" title="1.问题复现"></a>1.问题复现</h1><p>在安装后 Debian 系统后，一般第一步都是执行<code>sudo apt update</code>，此时用的是自带的官方镜像源，速度很慢，所以我们会选择切换为国内的镜像源，这里以清华镜像源为例，默认已经配置好了清华镜像源。</p>
+<p>在执行更新时：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">root@5395055d0589:/# apt update</span><br><span class="line">Ign:1 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble InRelease</span><br><span class="line">Ign:2 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-updates InRelease                                </span><br><span class="line">Ign:3 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-backports InRelease                              </span><br><span class="line">Get:4 http://security.ubuntu.com/ubuntu noble-security InRelease [126 kB]                                </span><br><span class="line">Get:5 http://archive.ubuntu.com/ubuntu noble InRelease [256 kB]                                          </span><br><span class="line">Ign:1 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble InRelease </span><br><span class="line">Ign:2 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-updates InRelease</span><br><span class="line">Ign:3 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-backports InRelease</span><br><span class="line">Get:6 http://security.ubuntu.com/ubuntu noble-security/multiverse amd64 Packages [15.3 kB]</span><br><span class="line">Get:7 http://security.ubuntu.com/ubuntu noble-security/universe amd64 Packages [726 kB]</span><br><span class="line">Get:8 http://security.ubuntu.com/ubuntu noble-security/main amd64 Packages [627 kB]</span><br><span class="line">Get:9 http://security.ubuntu.com/ubuntu noble-security/restricted amd64 Packages [607 kB]</span><br><span class="line">Ign:1 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble InRelease                       </span><br><span class="line">Ign:2 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-updates InRelease</span><br><span class="line">Ign:3 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-backports InRelease</span><br><span class="line">Get:10 http://archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]                                                                                                                          </span><br><span class="line">Err:1 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble InRelease                                                                                                                                 </span><br><span class="line">  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">Err:2 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-updates InRelease                                                                                                                         </span><br><span class="line">  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">Err:3 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-backports InRelease                                                                                                                       </span><br><span class="line">  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">Get:11 http://archive.ubuntu.com/ubuntu noble-backports InRelease [126 kB]                                                                                                                        </span><br><span class="line">Get:12 http://archive.ubuntu.com/ubuntu noble/main amd64 Packages [1808 kB]                                                                                                                       </span><br><span class="line">Get:13 http://archive.ubuntu.com/ubuntu noble/restricted amd64 Packages [117 kB]                                                                                                                  </span><br><span class="line">Get:14 http://archive.ubuntu.com/ubuntu noble/universe amd64 Packages [19.3 MB]                                                                                                                   </span><br><span class="line">38% [14 Packages 3024 kB/19.3 MB 16%]                                                                                                                                           75.6 kB/s 4min 12s^C</span><br></pre></td></tr></table></figure></div>
+
+<h1 id="2-解决办法"><a href="#2-解决办法" class="headerlink" title="2.解决办法"></a>2.解决办法</h1><p>可以看到，当清华镜像源证书验证失败时，会尝试从<code>/etc/apt/sources.list.d/ubuntu.sources</code>这里的官方镜像源下载更新，但是下载速度特别慢，所以我通常会禁用这个。</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mv</span> /etc/apt/sources.list.d/ubuntu.sources /etc/apt/sources.list.d/ubuntu.sources.bak</span><br></pre></td></tr></table></figure></div>
+
+<p>然后更新的时候临时禁用证书验证：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">apt-get -o Acquire::https::Verify-Peer=<span class="literal">false</span> -o Acquire::https::Verify-Host=<span class="literal">false</span> update</span><br></pre></td></tr></table></figure></div>
+
+<p>更新完毕后，可能在安装<code>ca-certificates</code>还会出现这样的问题：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">root@5395055d0589:/# apt install ca-certificates</span><br><span class="line">Reading package lists... Done</span><br><span class="line">Building dependency tree... Done</span><br><span class="line">Reading state information... Done</span><br><span class="line">The following additional packages will be installed:</span><br><span class="line">  openssl</span><br><span class="line">The following NEW packages will be installed:</span><br><span class="line">  ca-certificates openssl</span><br><span class="line">0 upgraded, 2 newly installed, 0 to remove and 0 not upgraded.</span><br><span class="line">Need to get 1162 kB of archives.</span><br><span class="line">After this operation, 2326 kB of additional disk space will be used.</span><br><span class="line">Do you want to <span class="built_in">continue</span>? [Y/n] y</span><br><span class="line">Ign:1 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-updates/main amd64 openssl amd64 3.0.13-0ubuntu3.4</span><br><span class="line">Ign:2 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble/main amd64 ca-certificates all 20240203</span><br><span class="line">Ign:1 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-updates/main amd64 openssl amd64 3.0.13-0ubuntu3.4</span><br><span class="line">Ign:2 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble/main amd64 ca-certificates all 20240203</span><br><span class="line">Ign:1 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-updates/main amd64 openssl amd64 3.0.13-0ubuntu3.4</span><br><span class="line">Ign:2 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble/main amd64 ca-certificates all 20240203</span><br><span class="line">Err:1 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-updates/main amd64 openssl amd64 3.0.13-0ubuntu3.4</span><br><span class="line">  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">Err:2 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble/main amd64 ca-certificates all 20240203</span><br><span class="line">  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/o/openssl/openssl_3.0.13-0ubuntu3.4_amd64.deb: No system certificates available. Try installing ca-certificates.</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/c/ca-certificates/ca-certificates_20240203_all.deb: No system certificates available. Try installing ca-certificates.</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/o/openssl/openssl_3.0.13-0ubuntu3.4_amd64.deb: No system certificates available. Try installing ca-certificates.</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/c/ca-certificates/ca-certificates_20240203_all.deb: No system certificates available. Try installing ca-certificates.</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/o/openssl/openssl_3.0.13-0ubuntu3.4_amd64.deb: No system certificates available. Try installing ca-certificates.</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/c/ca-certificates/ca-certificates_20240203_all.deb: No system certificates available. Try installing ca-certificates.</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/o/openssl/openssl_3.0.13-0ubuntu3.4_amd64.deb: No system certificates available. Try installing ca-certificates.</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/c/ca-certificates/ca-certificates_20240203_all.deb: No system certificates available. Try installing ca-certificates.</span><br><span class="line">E: Failed to fetch https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/o/openssl/openssl_3.0.13-0ubuntu3.4_amd64.deb  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">E: Failed to fetch https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/c/ca-certificates/ca-certificates_20240203_all.deb  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">E: Unable to fetch some archives, maybe run apt-get update or try with --fix-missing?</span><br></pre></td></tr></table></figure></div>
+<p>从错误信息来看，<code>apt</code>在尝试从清华镜像站下载<code>ca-certificates</code>和<code>openssl</code>时仍然遇到了证书验证失败的问题。这可能是由于现有的<code>ca-certificates</code>软件包本身损坏或缺失导致的。</p>
+<p>因此可以在下载时临时禁用证书验证：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">apt-get -o Acquire::https::Verify-Peer=<span class="literal">false</span> -o Acquire::https::Verify-Host=<span class="literal">false</span> install ca-certificates openssl</span><br></pre></td></tr></table></figure></div>]]></content>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>VirtualBox 实现主机与虚拟机（CachyOS）传文件</title>
     <url>/2024/08/01/VirtualBox%E4%B8%BB%E6%9C%BA%E4%B8%8E%E8%99%9A%E6%8B%9F%E6%9C%BA%E9%97%B4%E4%BC%A0%E6%96%87%E4%BB%B6/</url>
     <content><![CDATA[<h1 id="1-VirtualBox-中实现主机与虚拟机之间传输文件"><a href="#1-VirtualBox-中实现主机与虚拟机之间传输文件" class="headerlink" title="1.VirtualBox 中实现主机与虚拟机之间传输文件"></a>1.VirtualBox 中实现主机与虚拟机之间传输文件</h1><h2 id="1-1-VirtualBox-中的设置"><a href="#1-1-VirtualBox-中的设置" class="headerlink" title="1.1 VirtualBox 中的设置"></a>1.1 VirtualBox 中的设置</h2><p>如图所示：</p>
@@ -3041,59 +3091,9 @@
       </tags>
   </entry>
   <entry>
-    <title>解决 Ubuntu 系统下，软件包更新和软件下载速度慢的问题</title>
-    <url>/2024/12/07/Ubuntu%E9%95%9C%E5%83%8F%E6%BA%90/</url>
-    <content><![CDATA[<h1 id="1-问题复现"><a href="#1-问题复现" class="headerlink" title="1.问题复现"></a>1.问题复现</h1><p>在安装后 Debian 系统后，一般第一步都是执行<code>sudo apt update</code>，此时用的是自带的官方镜像源，速度很慢，所以我们会选择切换为国内的镜像源，这里以清华镜像源为例，默认已经配置好了清华镜像源。</p>
-<p>在执行更新时：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">root@5395055d0589:/# apt update</span><br><span class="line">Ign:1 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble InRelease</span><br><span class="line">Ign:2 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-updates InRelease                                </span><br><span class="line">Ign:3 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-backports InRelease                              </span><br><span class="line">Get:4 http://security.ubuntu.com/ubuntu noble-security InRelease [126 kB]                                </span><br><span class="line">Get:5 http://archive.ubuntu.com/ubuntu noble InRelease [256 kB]                                          </span><br><span class="line">Ign:1 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble InRelease </span><br><span class="line">Ign:2 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-updates InRelease</span><br><span class="line">Ign:3 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-backports InRelease</span><br><span class="line">Get:6 http://security.ubuntu.com/ubuntu noble-security/multiverse amd64 Packages [15.3 kB]</span><br><span class="line">Get:7 http://security.ubuntu.com/ubuntu noble-security/universe amd64 Packages [726 kB]</span><br><span class="line">Get:8 http://security.ubuntu.com/ubuntu noble-security/main amd64 Packages [627 kB]</span><br><span class="line">Get:9 http://security.ubuntu.com/ubuntu noble-security/restricted amd64 Packages [607 kB]</span><br><span class="line">Ign:1 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble InRelease                       </span><br><span class="line">Ign:2 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-updates InRelease</span><br><span class="line">Ign:3 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-backports InRelease</span><br><span class="line">Get:10 http://archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]                                                                                                                          </span><br><span class="line">Err:1 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble InRelease                                                                                                                                 </span><br><span class="line">  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">Err:2 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-updates InRelease                                                                                                                         </span><br><span class="line">  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">Err:3 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-backports InRelease                                                                                                                       </span><br><span class="line">  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">Get:11 http://archive.ubuntu.com/ubuntu noble-backports InRelease [126 kB]                                                                                                                        </span><br><span class="line">Get:12 http://archive.ubuntu.com/ubuntu noble/main amd64 Packages [1808 kB]                                                                                                                       </span><br><span class="line">Get:13 http://archive.ubuntu.com/ubuntu noble/restricted amd64 Packages [117 kB]                                                                                                                  </span><br><span class="line">Get:14 http://archive.ubuntu.com/ubuntu noble/universe amd64 Packages [19.3 MB]                                                                                                                   </span><br><span class="line">38% [14 Packages 3024 kB/19.3 MB 16%]                                                                                                                                           75.6 kB/s 4min 12s^C</span><br></pre></td></tr></table></figure></div>
-
-<h1 id="2-解决办法"><a href="#2-解决办法" class="headerlink" title="2.解决办法"></a>2.解决办法</h1><p>可以看到，当清华镜像源证书验证失败时，会尝试从<code>/etc/apt/sources.list.d/ubuntu.sources</code>这里的官方镜像源下载更新，但是下载速度特别慢，所以我通常会禁用这个。</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mv</span> /etc/apt/sources.list.d/ubuntu.sources /etc/apt/sources.list.d/ubuntu.sources.bak</span><br></pre></td></tr></table></figure></div>
-
-<p>然后更新的时候临时禁用证书验证：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">apt-get -o Acquire::https::Verify-Peer=<span class="literal">false</span> -o Acquire::https::Verify-Host=<span class="literal">false</span> update</span><br></pre></td></tr></table></figure></div>
-
-<p>更新完毕后，可能在安装<code>ca-certificates</code>还会出现这样的问题：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">root@5395055d0589:/# apt install ca-certificates</span><br><span class="line">Reading package lists... Done</span><br><span class="line">Building dependency tree... Done</span><br><span class="line">Reading state information... Done</span><br><span class="line">The following additional packages will be installed:</span><br><span class="line">  openssl</span><br><span class="line">The following NEW packages will be installed:</span><br><span class="line">  ca-certificates openssl</span><br><span class="line">0 upgraded, 2 newly installed, 0 to remove and 0 not upgraded.</span><br><span class="line">Need to get 1162 kB of archives.</span><br><span class="line">After this operation, 2326 kB of additional disk space will be used.</span><br><span class="line">Do you want to <span class="built_in">continue</span>? [Y/n] y</span><br><span class="line">Ign:1 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-updates/main amd64 openssl amd64 3.0.13-0ubuntu3.4</span><br><span class="line">Ign:2 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble/main amd64 ca-certificates all 20240203</span><br><span class="line">Ign:1 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-updates/main amd64 openssl amd64 3.0.13-0ubuntu3.4</span><br><span class="line">Ign:2 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble/main amd64 ca-certificates all 20240203</span><br><span class="line">Ign:1 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-updates/main amd64 openssl amd64 3.0.13-0ubuntu3.4</span><br><span class="line">Ign:2 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble/main amd64 ca-certificates all 20240203</span><br><span class="line">Err:1 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-updates/main amd64 openssl amd64 3.0.13-0ubuntu3.4</span><br><span class="line">  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">Err:2 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble/main amd64 ca-certificates all 20240203</span><br><span class="line">  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/o/openssl/openssl_3.0.13-0ubuntu3.4_amd64.deb: No system certificates available. Try installing ca-certificates.</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/c/ca-certificates/ca-certificates_20240203_all.deb: No system certificates available. Try installing ca-certificates.</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/o/openssl/openssl_3.0.13-0ubuntu3.4_amd64.deb: No system certificates available. Try installing ca-certificates.</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/c/ca-certificates/ca-certificates_20240203_all.deb: No system certificates available. Try installing ca-certificates.</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/o/openssl/openssl_3.0.13-0ubuntu3.4_amd64.deb: No system certificates available. Try installing ca-certificates.</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/c/ca-certificates/ca-certificates_20240203_all.deb: No system certificates available. Try installing ca-certificates.</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/o/openssl/openssl_3.0.13-0ubuntu3.4_amd64.deb: No system certificates available. Try installing ca-certificates.</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/c/ca-certificates/ca-certificates_20240203_all.deb: No system certificates available. Try installing ca-certificates.</span><br><span class="line">E: Failed to fetch https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/o/openssl/openssl_3.0.13-0ubuntu3.4_amd64.deb  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">E: Failed to fetch https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/c/ca-certificates/ca-certificates_20240203_all.deb  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">E: Unable to fetch some archives, maybe run apt-get update or try with --fix-missing?</span><br></pre></td></tr></table></figure></div>
-<p>从错误信息来看，<code>apt</code>在尝试从清华镜像站下载<code>ca-certificates</code>和<code>openssl</code>时仍然遇到了证书验证失败的问题。这可能是由于现有的<code>ca-certificates</code>软件包本身损坏或缺失导致的。</p>
-<p>因此可以在下载时临时禁用证书验证：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">apt-get -o Acquire::https::Verify-Peer=<span class="literal">false</span> -o Acquire::https::Verify-Host=<span class="literal">false</span> install ca-certificates openssl</span><br></pre></td></tr></table></figure></div>]]></content>
-      <tags>
-        <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Win10 SSH 服务配置</title>
-    <url>/2024/07/30/Openssh%E9%85%8D%E7%BD%AE/</url>
-    <content><![CDATA[<h1 id="1-Windows-10-下安装-SSH-服务（Openssh）"><a href="#1-Windows-10-下安装-SSH-服务（Openssh）" class="headerlink" title="1.Windows 10 下安装 SSH 服务（Openssh）"></a>1.Windows 10 下安装 SSH 服务（Openssh）</h1><h2 id="1-1-下载"><a href="#1-1-下载" class="headerlink" title="1.1 下载"></a>1.1 下载</h2><p><a href="https://github.com/PowerShell/Win32-OpenSSH"> <strong>Openssh 下载地址</strong> </a></p>
-<h2 id="1-2-解压"><a href="#1-2-解压" class="headerlink" title="1.2 解压"></a>1.2 解压</h2><p>解压到如下目录（建议加压到<code>C:\Program Files</code>下，不然会出现未知错误）：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">C:\Program Files\OpenSSH_Win64\</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="1-3-安装"><a href="#1-3-安装" class="headerlink" title="1.3 安装"></a>1.3 安装</h2><p><strong>注意：</strong> 一定要使用<code>powershell</code>并且要以管理员的身份打开。</p>
-<ul>
-<li><p>Windows 下开启运行执行<code>*.sp1</code>文件类型：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">set-executionpolicy remotesigned</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>安装<code>sshd</code></p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> C:\Program Files\OpenSSH_Win64\</span><br><span class="line"></span><br><span class="line">./install-sshd.ps1</span><br></pre></td></tr></table></figure></div></li>
-</ul>
-<h2 id="1-4-测试连接"><a href="#1-4-测试连接" class="headerlink" title="1.4 测试连接"></a>1.4 测试连接</h2><ul>
-<li><p>验证是否安装成功：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">ssh -V</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>测试是否能与远程主机进行连接：<br>在与远程主机连接之前确保能<code>ping</code>通，然后通过<code>ssh &lt;username&gt;@&lt;PCIPAddr&gt;</code>与远程主机进行连接。</p>
-</li>
-</ul>
-]]></content>
-      <tags>
-        <tag>linux</tag>
-        <tag>ssh</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>WSL2 和 Docker 容器中运行 GUI 程序</title>
     <url>/2024/11/27/WSL-%E5%AE%B9%E5%99%A8GUI/</url>
-    <content><![CDATA[<h1 id="1-WSL2-执行-GUI-程序"><a href="#1-WSL2-执行-GUI-程序" class="headerlink" title="1.WSL2 执行 GUI 程序"></a>1.WSL2 执行 GUI 程序</h1><p>需要在 Windows 上安装<code>MobaXterm</code>，这里推荐安装中文版的（原版可以在官网下载）：[中文版<code>Mobaxterm](https://github.com/RipplePiam/MobaXterm-Chinese-Simplified?tab=readme-ov-file)。这个软件自带</code>x11-server&#96;。</p>
+    <content><![CDATA[<h1 id="1-WSL2-执行-GUI-程序（X11）"><a href="#1-WSL2-执行-GUI-程序（X11）" class="headerlink" title="1.WSL2 执行 GUI 程序（X11）"></a>1.WSL2 执行 GUI 程序（X11）</h1><p>需要在 Windows 上安装<code>MobaXterm</code>，这里推荐安装中文版的（原版可以在官网下载）：<a class="link"   href="https://github.com/RipplePiam/MobaXterm-Chinese-Simplified?tab=readme-ov-file" >中文版 Mobaxterm<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>。这个软件自带<code>x11-server</code>。</p>
 <p>然后只需要在 WSL2 （Linux 子系统发行版）中安装<code>x11-apps</code>即可。</p>
 <p>对于<code>Ubuntu</code>：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt install x11-apps -y</span><br></pre></td></tr></table></figure></div>
@@ -3116,7 +3116,8 @@
 <p>如果运行不成功的话，可以执行下面的命令试试：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">DISPALY=&lt;你的宿主机的IP&gt;:0 xclock</span><br></pre></td></tr></table></figure></div>
 <p>比如：<code>DISPALY=172.27.158.40:0 xclock</code>。</p>
-<h1 id="2-Docker-容器中执行-GUI-程序"><a href="#2-Docker-容器中执行-GUI-程序" class="headerlink" title="2.Docker 容器中执行 GUI 程序"></a>2.Docker 容器中执行 GUI 程序</h1><p>整体操作方式跟在 WSL2 中是一样的，这里以 Docker 的<code>ubuntu</code>镜像为例子。</p>
+<hr>
+<h1 id="2-Docker-容器中执行-GUI-程序（X11）"><a href="#2-Docker-容器中执行-GUI-程序（X11）" class="headerlink" title="2.Docker 容器中执行 GUI 程序（X11）"></a>2.Docker 容器中执行 GUI 程序（X11）</h1><p>整体操作方式跟在 WSL2 中是一样的，这里以 Docker 的<code>ubuntu</code>镜像为例子。</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker pull ubuntu</span><br></pre></td></tr></table></figure></div>
 
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -it --name=test-gui --<span class="built_in">env</span> HTTP_PROXY=http:172.27.158.40:7890 --<span class="built_in">env</span> HTTPS_PROXY=http:172.27.158.40:7890 ubuntu:latest</span><br></pre></td></tr></table></figure></div>
@@ -3164,7 +3165,52 @@
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">xhost +<span class="built_in">local</span>:docker</span><br></pre></td></tr></table></figure></div>
 <p>这样再运行<code>xclock</code>就能成功了。</p>
 <p>如果希望更安全，只允许特定用户访问，可以指定用户（比如这里指定<code>root</code>用户）：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">xhost +SI:localuser:root</span><br></pre></td></tr></table></figure></div>]]></content>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">xhost +SI:localuser:root</span><br></pre></td></tr></table></figure></div>
+
+<hr>
+<h1 id="3-Docker-容器中执行-GUI-程序（Wayland）"><a href="#3-Docker-容器中执行-GUI-程序（Wayland）" class="headerlink" title="3.Docker 容器中执行 GUI 程序（Wayland）"></a>3.Docker 容器中执行 GUI 程序（Wayland）</h1><p>运行容器时，挂载 Wayland 必需的 Socket 和环境变量：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -it --name=test-wayland -e WAYLAND_DISPLAY=<span class="variable">$WAYLAND_DISPLAY</span> -e XDG_RUNTIME_DIR=<span class="variable">$XDG_RUNTIME_DIR</span> -v <span class="variable">$XDG_RUNTIME_DIR</span>/<span class="variable">$WAYLAND_DISPLAY</span>:<span class="variable">$XDG_RUNTIME_DIR</span>/<span class="variable">$WAYLAND_DISPLAY</span> --device=/dev/dri ubuntu:latest</span><br></pre></td></tr></table></figure></div>
+
+<p>解释：</p>
+<ul>
+<li><code>-e WAYLAND_DISPLAY=$WAYLAND_DISPLAY</code>：传递 Wayland 显示环境变量（通常为 <code>wayland-0</code>）。</li>
+<li><code>-e XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR</code>：传递 Wayland 的运行时目录。</li>
+<li><code>-v $XDG_RUNTIME_DIR/$WAYLAND_DISPLAY:$XDG_RUNTIME_DIR/$WAYLAND_DISPLAY</code>：挂载 Wayland Socket 文件。</li>
+<li><code>--device=/dev/dri</code>：允许容器访问 GPU。</li>
+</ul>
+<hr>
+<h2 id="3-1-在容器中验证-Wayland-配置"><a href="#3-1-在容器中验证-Wayland-配置" class="headerlink" title="3.1 在容器中验证 Wayland 配置"></a>3.1 在容器中验证 Wayland 配置</h2><p>进入容器后，验证环境是否正确：</p>
+<ol>
+<li><p>检查 <code>WAYLAND_DISPLAY</code>：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="variable">$WAYLAND_DISPLAY</span></span><br></pre></td></tr></table></figure></div>
+<p>应返回 <code>wayland-0</code> 或类似内容。</p>
+</li>
+<li><p>检查 <code>XDG_RUNTIME_DIR</code>：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="variable">$XDG_RUNTIME_DIR</span></span><br><span class="line"><span class="built_in">ls</span> <span class="variable">$XDG_RUNTIME_DIR</span></span><br></pre></td></tr></table></figure></div>
+<p>应包含 <code>wayland-0</code>。</p>
+</li>
+</ol>
+<hr>
+<h2 id="3-2-运行-Weston-terminal（测试）"><a href="#3-2-运行-Weston-terminal（测试）" class="headerlink" title="3.2 运行 Weston-terminal（测试）"></a>3.2 运行 Weston-terminal（测试）</h2><ol>
+<li><p>安装 Weston 系列程序：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">apt install -y weston</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>运行 Weston-terminal 测试：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">weston-terminal</span><br></pre></td></tr></table></figure></div>
+<p>如果配置正确，应该会打开一个终端窗口。如下图所示：<br><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s2.loli.net/2024/12/08/2vfPZbtHQkBIsdV.png"
+                      alt="Snipaste_2024-12-08_13-17-50.png"
+                ><figcaption>Snipaste_2024-12-08_13-17-50.png</figcaption></figure></p>
+</li>
+</ol>
+<hr>
+<h2 id="3-3-补充：切换-Wayland-X11-环境"><a href="#3-3-补充：切换-Wayland-X11-环境" class="headerlink" title="3.3 补充：切换 Wayland&#x2F;X11 环境"></a>3.3 补充：切换 Wayland&#x2F;X11 环境</h2><ul>
+<li>如果你希望 <code>gedit</code> 和其他应用也通过 Wayland 运行，可以启动它们时强制启用 Wayland：<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">WAYLAND_DISPLAY=wayland-0 gedit</span><br></pre></td></tr></table></figure></div></li>
+<li>如果继续使用 X11，则无需修改。</li>
+</ul>
+]]></content>
       <tags>
         <tag>linux</tag>
         <tag>docker</tag>
@@ -3482,6 +3528,70 @@
       </tags>
   </entry>
   <entry>
+    <title>解决 Linux 下使用 matplotlib 中文乱码问题</title>
+    <url>/2024/09/14/linux-matplotli%E4%B9%B1%E7%A0%81%E8%A7%A3%E5%86%B3/</url>
+    <content><![CDATA[<h1 id="1-出现的问题"><a href="#1-出现的问题" class="headerlink" title="1.出现的问题"></a>1.出现的问题</h1><p>以下面这个代码为例：</p>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line">x = np.arange(<span class="number">1</span>, <span class="number">12</span>)</span><br><span class="line">y = x ** <span class="number">2</span> + <span class="number">4</span></span><br><span class="line">plt.title(<span class="string">&quot;Matplotlib demo&quot;</span>)</span><br><span class="line">plt.xlabel(<span class="string">&quot;时间(分钟)&quot;</span>)</span><br><span class="line">plt.ylabel(<span class="string">&quot;金额($)&quot;</span>)</span><br><span class="line">plt.plot(x,y)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure></div>
+
+
+<p>在 Linux 下使用 Python 的<code>matplotlib</code>包默认是会出现乱码的：<br><a href="https://imgse.com/i/pAuEYVI"><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s21.ax1x.com/2024/09/14/pAuEYVI.png"
+                      alt="乱码.png"
+                ><figcaption>乱码.png</figcaption></figure></a></p>
+<h1 id="2-解决方法"><a href="#2-解决方法" class="headerlink" title="2.解决方法"></a>2.解决方法</h1><h2 id="2-1-下载字体"><a href="#2-1-下载字体" class="headerlink" title="2.1 下载字体"></a>2.1 下载字体</h2><p>网上常用的中文字体是<code>SimHei</code>，<a class="link"   href="https://github.com/StellarCN/scp_zh/blob/master/fonts/SimHei.ttf" >下载地址<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h2 id="2-2-查找存放字体的文件夹"><a href="#2-2-查找存放字体的文件夹" class="headerlink" title="2.2 查找存放字体的文件夹"></a>2.2 查找存放字体的文件夹</h2><div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib</span><br><span class="line"> </span><br><span class="line"><span class="built_in">print</span>(matplotlib.matplotlib_fname())   <span class="comment"># 查找字体路径</span></span><br></pre></td></tr></table></figure></div>
+<p>运行这段代码会打印出字体存放路径，如：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">/home/sky/miniconda3/envs/test/lib/python3.12/site-packages/matplotlib/mpl-data/matplotlibrc</span><br></pre></td></tr></table></figure></div>
+<p>删掉<code>matplotlibrc</code>这部分后然后进入目录下：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /home/sky/miniconda3/envs/test/lib/python3.12/site-packages/matplotlib/mpl-data/</span><br></pre></td></tr></table></figure></div>
+
+<p>然后进入存放字体的目录：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> fonts/ttf </span><br></pre></td></tr></table></figure></div>
+
+<p>把下载好的字体文件<code>SimHei.ttf</code>复制到<code>ttf</code>目录下：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cp</span> ~/下载/SimHei.ttf .  </span><br></pre></td></tr></table></figure></div>
+
+<p>然后回到<code>mpl-data</code>目录下，修改<code>matplotlibrc</code>文件：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">nano matplotlibrc</span><br></pre></td></tr></table></figure></div>
+
+<p>找到<code>font.serif</code>，<code>font.sans-serif</code>所在位置，如下如所示。在冒号后面加入<code>SimHei</code>，保存退出：<br><a href="https://imgse.com/i/pAuJFz9"><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s21.ax1x.com/2024/09/15/pAuJFz9.md.png"
+                      alt="修改的地方"
+                ><figcaption>修改的地方</figcaption></figure></a></p>
+<h2 id="2-3-清理缓存"><a href="#2-3-清理缓存" class="headerlink" title="2.3 清理缓存"></a>2.3 清理缓存</h2><p>查找缓存位置：</p>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib    </span><br><span class="line"><span class="built_in">print</span>(matplotlib.get_cachedir())</span><br></pre></td></tr></table></figure></div>
+
+<p>把缓存文件删除即可：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">rm</span> ~/.cache/matplotlib -rf</span><br></pre></td></tr></table></figure></div>
+
+<h1 id="3-解决示例"><a href="#3-解决示例" class="headerlink" title="3.解决示例"></a>3.解决示例</h1><p><a href="https://imgse.com/i/pAuERiV"><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s21.ax1x.com/2024/09/14/pAuERiV.png"
+                      alt="正常输出.png"
+                ><figcaption>正常输出.png</figcaption></figure></a></p>
+<h2 id="3-1-参考教程"><a href="#3-1-参考教程" class="headerlink" title="3.1 参考教程"></a>3.1 参考教程</h2><ul>
+<li><a class="link"   href="https://developer.aliyun.com/article/1577567" >【Deepin20系统】Linux系统中永久解决matplotlib画图中文乱码问题和使用seaborn中文乱码问题<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link"   href="https://cloud.tencent.com/developer/article/1877673" >解决Python使用matplotlib绘图时出现的中文乱码问题<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+</ul>
+<h1 id="4-负号乱码解决"><a href="#4-负号乱码解决" class="headerlink" title="4.负号乱码解决"></a>4.负号乱码解决</h1><p>只要在前面加以段这个代码：</p>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 解决负号显示问题</span></span><br><span class="line">plt.rcParams[<span class="string">&#x27;axes.unicode_minus&#x27;</span>] = <span class="literal">False</span></span><br></pre></td></tr></table></figure></div>
+<p>就能正常显示负号</p>
+]]></content>
+      <categories>
+        <category>Python技巧</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+        <tag>linux</tag>
+        <tag>matplotlib</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>终端 zsh 配置指南</title>
     <url>/2024/07/19/zsh%E9%85%8D%E7%BD%AE/</url>
     <content><![CDATA[<h1 id="一、终端代理设置"><a href="#一、终端代理设置" class="headerlink" title="一、终端代理设置"></a>一、终端代理设置</h1><p>建议加上，在进行通过终端的下载、更新系统、<code>conda</code>下载或者<code>git clone</code>时，能走代理来提高下载速度。但是<code>docker</code>需要单独配置一套代理。<code>zsh</code>和<code>bash</code>都可以用这种方式。</p>
@@ -3634,70 +3744,6 @@
 ]]></content>
       <tags>
         <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>解决 Linux 下使用 matplotlib 中文乱码问题</title>
-    <url>/2024/09/14/linux-matplotli%E4%B9%B1%E7%A0%81%E8%A7%A3%E5%86%B3/</url>
-    <content><![CDATA[<h1 id="1-出现的问题"><a href="#1-出现的问题" class="headerlink" title="1.出现的问题"></a>1.出现的问题</h1><p>以下面这个代码为例：</p>
-<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line">x = np.arange(<span class="number">1</span>, <span class="number">12</span>)</span><br><span class="line">y = x ** <span class="number">2</span> + <span class="number">4</span></span><br><span class="line">plt.title(<span class="string">&quot;Matplotlib demo&quot;</span>)</span><br><span class="line">plt.xlabel(<span class="string">&quot;时间(分钟)&quot;</span>)</span><br><span class="line">plt.ylabel(<span class="string">&quot;金额($)&quot;</span>)</span><br><span class="line">plt.plot(x,y)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure></div>
-
-
-<p>在 Linux 下使用 Python 的<code>matplotlib</code>包默认是会出现乱码的：<br><a href="https://imgse.com/i/pAuEYVI"><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://s21.ax1x.com/2024/09/14/pAuEYVI.png"
-                      alt="乱码.png"
-                ><figcaption>乱码.png</figcaption></figure></a></p>
-<h1 id="2-解决方法"><a href="#2-解决方法" class="headerlink" title="2.解决方法"></a>2.解决方法</h1><h2 id="2-1-下载字体"><a href="#2-1-下载字体" class="headerlink" title="2.1 下载字体"></a>2.1 下载字体</h2><p>网上常用的中文字体是<code>SimHei</code>，<a class="link"   href="https://github.com/StellarCN/scp_zh/blob/master/fonts/SimHei.ttf" >下载地址<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
-<h2 id="2-2-查找存放字体的文件夹"><a href="#2-2-查找存放字体的文件夹" class="headerlink" title="2.2 查找存放字体的文件夹"></a>2.2 查找存放字体的文件夹</h2><div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib</span><br><span class="line"> </span><br><span class="line"><span class="built_in">print</span>(matplotlib.matplotlib_fname())   <span class="comment"># 查找字体路径</span></span><br></pre></td></tr></table></figure></div>
-<p>运行这段代码会打印出字体存放路径，如：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">/home/sky/miniconda3/envs/test/lib/python3.12/site-packages/matplotlib/mpl-data/matplotlibrc</span><br></pre></td></tr></table></figure></div>
-<p>删掉<code>matplotlibrc</code>这部分后然后进入目录下：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /home/sky/miniconda3/envs/test/lib/python3.12/site-packages/matplotlib/mpl-data/</span><br></pre></td></tr></table></figure></div>
-
-<p>然后进入存放字体的目录：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> fonts/ttf </span><br></pre></td></tr></table></figure></div>
-
-<p>把下载好的字体文件<code>SimHei.ttf</code>复制到<code>ttf</code>目录下：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cp</span> ~/下载/SimHei.ttf .  </span><br></pre></td></tr></table></figure></div>
-
-<p>然后回到<code>mpl-data</code>目录下，修改<code>matplotlibrc</code>文件：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">nano matplotlibrc</span><br></pre></td></tr></table></figure></div>
-
-<p>找到<code>font.serif</code>，<code>font.sans-serif</code>所在位置，如下如所示。在冒号后面加入<code>SimHei</code>，保存退出：<br><a href="https://imgse.com/i/pAuJFz9"><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://s21.ax1x.com/2024/09/15/pAuJFz9.md.png"
-                      alt="修改的地方"
-                ><figcaption>修改的地方</figcaption></figure></a></p>
-<h2 id="2-3-清理缓存"><a href="#2-3-清理缓存" class="headerlink" title="2.3 清理缓存"></a>2.3 清理缓存</h2><p>查找缓存位置：</p>
-<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib    </span><br><span class="line"><span class="built_in">print</span>(matplotlib.get_cachedir())</span><br></pre></td></tr></table></figure></div>
-
-<p>把缓存文件删除即可：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">rm</span> ~/.cache/matplotlib -rf</span><br></pre></td></tr></table></figure></div>
-
-<h1 id="3-解决示例"><a href="#3-解决示例" class="headerlink" title="3.解决示例"></a>3.解决示例</h1><p><a href="https://imgse.com/i/pAuERiV"><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://s21.ax1x.com/2024/09/14/pAuERiV.png"
-                      alt="正常输出.png"
-                ><figcaption>正常输出.png</figcaption></figure></a></p>
-<h2 id="3-1-参考教程"><a href="#3-1-参考教程" class="headerlink" title="3.1 参考教程"></a>3.1 参考教程</h2><ul>
-<li><a class="link"   href="https://developer.aliyun.com/article/1577567" >【Deepin20系统】Linux系统中永久解决matplotlib画图中文乱码问题和使用seaborn中文乱码问题<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
-<li><a class="link"   href="https://cloud.tencent.com/developer/article/1877673" >解决Python使用matplotlib绘图时出现的中文乱码问题<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
-</ul>
-<h1 id="4-负号乱码解决"><a href="#4-负号乱码解决" class="headerlink" title="4.负号乱码解决"></a>4.负号乱码解决</h1><p>只要在前面加以段这个代码：</p>
-<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 解决负号显示问题</span></span><br><span class="line">plt.rcParams[<span class="string">&#x27;axes.unicode_minus&#x27;</span>] = <span class="literal">False</span></span><br></pre></td></tr></table></figure></div>
-<p>就能正常显示负号</p>
-]]></content>
-      <categories>
-        <category>Python技巧</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-        <tag>linux</tag>
-        <tag>matplotlib</tag>
       </tags>
   </entry>
   <entry>
