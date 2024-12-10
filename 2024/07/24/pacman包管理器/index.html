@@ -13,7 +13,7 @@
     
     <!--- Seo Part-->
     
-    <link rel="canonical" href="http://example.com/2024/07/24/docker问题汇总/"/>
+    <link rel="canonical" href="http://example.com/2024/07/24/pacman包管理器/"/>
     <meta name="robots" content="index,follow">
     <meta name="googlebot" content="index,follow">
     <meta name="revisit-after" content="1 days">
@@ -23,18 +23,18 @@
         
         <meta name="description" content="your_description">
 <meta property="og:type" content="article">
-<meta property="og:title" content="使用Docker时的问题汇总和解决方式">
-<meta property="og:url" content="http://example.com/2024/07/24/Docker%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/index.html">
+<meta property="og:title" content="pacman 包管理器使用教程">
+<meta property="og:url" content="http://example.com/2024/07/24/pacman%E5%8C%85%E7%AE%A1%E7%90%86%E5%99%A8/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="your_description">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://example.com/2024/07/24/Docker%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/your_image_path">
-<meta property="article:published_time" content="2024-07-24T10:57:16.000Z">
-<meta property="article:modified_time" content="2024-11-13T03:07:10.562Z">
+<meta property="og:image" content="http://example.com/2024/07/24/pacman%E5%8C%85%E7%AE%A1%E7%90%86%E5%99%A8/your_image_path">
+<meta property="article:published_time" content="2024-07-24T08:51:17.000Z">
+<meta property="article:modified_time" content="2024-12-10T08:09:02.395Z">
 <meta property="article:author" content="John Doe">
-<meta property="article:tag" content="docker">
+<meta property="article:tag" content="linux">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2024/07/24/Docker%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/your_image_path">
+<meta name="twitter:image" content="http://example.com/2024/07/24/pacman%E5%8C%85%E7%AE%A1%E7%90%86%E5%99%A8/your_image_path">
     
     
     <!--- Icon Part-->
@@ -46,7 +46,7 @@
     
     <title>
         
-            使用Docker时的问题汇总和解决方式 | sky&#39;s blog
+            pacman 包管理器使用教程 | sky&#39;s blog
         
     </title>
 
@@ -466,8 +466,12 @@
 
 		<div class="article-title relative w-full">
 			
-			<div class="w-full flex items-center pt-6 justify-start">
-				<h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">使用Docker时的问题汇总和解决方式</h1>
+			
+			
+			<img src="https://softwarelab.org/wp-content/uploads/Linux.jpg" alt="pacman 包管理器使用教程" class="w-full h-60 sm:h-72 md:h-80 object-cover sm:rounded-t-large dark:brightness-75" />
+			
+			<div class="w-full flex items-center absolute bottom-0 justify-start">
+				<h1 class="article-title-cover text-center mx-6 my-6 text-second-text-color bg-background-color-transparent px-4 py-3 text-3xl sm:text-4xl md:text-5xl font-semibold backdrop-blur-lg rounded-xl border border-border-color ">pacman 包管理器使用教程</h1>
 			</div>
 			
 		</div>
@@ -488,15 +492,15 @@
 					<div class="article-meta-info">
     <span class="article-date article-meta-item">
         <i class="fa-regular fa-pen-fancy"></i>&nbsp;
-        <span class="desktop">2024-07-24 10:57:16</span>
-        <span class="mobile">2024-07-24 10:57:16</span>
+        <span class="desktop">2024-07-24 08:51:17</span>
+        <span class="mobile">2024-07-24 08:51:17</span>
         <span class="hover-info">Created</span>
     </span>
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2024-11-13 03:07:10</span>
-            <span class="mobile">2024-11-13 03:07:10</span>
+            <span class="desktop">2024-12-10 08:09:02</span>
+            <span class="mobile">2024-12-10 08:09:02</span>
             <span class="hover-info">Updated</span>
         </span>
     
@@ -508,7 +512,7 @@
             <ul>
                 
                     <li>
-                        <a href="/tags/docker/">docker</a>&nbsp;
+                        <a href="/tags/linux/">linux</a>&nbsp;
                     </li>
                 
             </ul>
@@ -518,12 +522,12 @@
     
     
         <span class="article-wordcount article-meta-item">
-            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>275 Words</span>
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>781 Words</span>
         </span>
     
     
         <span class="article-min2read article-meta-item">
-            <i class="fa-regular fa-clock"></i>&nbsp;<span>1 Mins</span>
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>3 Mins</span>
         </span>
     
     
@@ -542,81 +546,84 @@
 
 
 		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
-			<h1 id="1-启动-Docker-失败"><a href="#1-启动-Docker-失败" class="headerlink" title="1.启动 Docker 失败"></a>1.启动 Docker 失败</h1><p>如果发现<code>docker</code>启动失败，可以通过以下命令输出<code>docker</code>运行日志来定位问题所在：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> journalctl -u docker.service --no-pager | <span class="built_in">tail</span> -n 50</span><br></pre></td></tr></table></figure></div>
+			<h1 id="1-介绍"><a href="#1-介绍" class="headerlink" title="1.介绍"></a>1.介绍</h1><p>  在 <code>EndeavouOS</code>（以及其他基于<code>Arch</code>的发行版）中，<code>pacman</code> 是一个用于软件包管理的命令行工具。下面是 <code>pacman</code> 命令的详细解释：</p>
+<ul>
+<li><code>-S</code>：用于安装软件包。</li>
+<li><code>-y</code>：强制刷新软件包数据库。</li>
+<li><code>-yy</code>：强制刷新所有的软件包数据库。通常只需要一个 <code>-y</code> 就足够，但 <code>-yy</code> 用于解决某些情况下可能出现的数据库同步问题。</li>
+<li><code>-u</code>：更新所有已安装的软件包，用于更新系统或者<code>pacman</code>包含的软件以及以来库。</li>
+</ul>
+<p>对于所有用<code>pacman</code>进行的操作，都可以通过<code>yay</code>实现：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman yay</span><br></pre></td></tr></table></figure></div>
+<p><code>yay</code>支持的软件多一些（通过<code>aur</code>源）。</p>
+<h1 id="2-下载和更新"><a href="#2-下载和更新" class="headerlink" title="2.下载和更新"></a>2.下载和更新</h1><ul>
+<li><strong>要更新或下载指定的软件包：</strong><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S 包名</span><br></pre></td></tr></table></figure></div>
+<code>pacman</code> 会检查你指定的软件包是否有新版本，如果有的话，就会下载并安装更新后的版本。</li>
+</ul>
+<h1 id="3-查看包-库信息"><a href="#3-查看包-库信息" class="headerlink" title="3.查看包&#x2F;库信息"></a>3.查看包&#x2F;库信息</h1><ul>
+<li><strong>查看包名信息</strong>：<br>显示指定软件包的信息，但不会安装或更新。这个选项可以用来查看某个软件包的详细信息，包括它的版本、依赖关系等。例如：<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -Si &lt;pkgname&gt;</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<p>查看包的简略信息：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yay -Qs &lt;pkgname&gt;</span><br></pre></td></tr></table></figure></div>
 
-<p>如果问题仍无法解决，可以尝试更彻底的方法：</p>
-<ol>
-<li>卸载 Docker：</li>
-</ol>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -R docker</span><br></pre></td></tr></table></figure></div>
+<p>查看包的详细信息：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yay -Qi &lt;pkgname&gt;</span><br></pre></td></tr></table></figure></div>
 
-<ol start="2">
-<li>删除 Docker 相关的所有数据和配置：</li>
-</ol>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> -rf /var/lib/docker</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> -rf /etc/docker</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> -rf ~/.docker</span><br></pre></td></tr></table></figure></div>
+<ul>
+<li><strong>查看可升级的包&#x2F;库：</strong><br>列出有可用更新的已安装软件包及其最新版本。<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -Qu</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<p>列出所有的外部软件包（即非官方仓库安装的包，如<code>AUR</code>软件包）：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -Qm</span><br></pre></td></tr></table></figure></div>
 
-<ol start="3">
-<li>重新安装 Docker：</li>
-</ol>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S docker</span><br></pre></td></tr></table></figure></div>
+<h1 id="4-卸载"><a href="#4-卸载" class="headerlink" title="4.卸载"></a>4.卸载</h1><h2 id="4-1-卸载单个软件包"><a href="#4-1-卸载单个软件包" class="headerlink" title="4.1 卸载单个软件包"></a>4.1 卸载单个软件包</h2><p>要卸载单个软件包，可以使用以下命令：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -R package_name</span><br></pre></td></tr></table></figure></div>
 
-<ol start="4">
-<li>启动 Docker 服务：</li>
-</ol>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start docker</span><br></pre></td></tr></table></figure></div>
+<h2 id="4-2-卸载软件包及其未使用的依赖"><a href="#4-2-卸载软件包及其未使用的依赖" class="headerlink" title="4.2 卸载软件包及其未使用的依赖"></a>4.2 卸载软件包及其未使用的依赖</h2><p>有时卸载一个包后，它的一些依赖包可能不再被其他软件包使用。要卸载软件包及其未使用的依赖，可以使用以下命令：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -Rns package_name</span><br></pre></td></tr></table></figure></div>
 
-<ol start="5">
-<li>检查 Docker 服务状态：</li>
-</ol>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status docker</span><br></pre></td></tr></table></figure></div>
+<p>解释：</p>
+<ul>
+<li><code>-R</code>(–remove)：卸载指定的包。</li>
+<li><code>-n</code>(–nosave)：从系统中删除安装包的所有配置文件。</li>
+<li><code>-s</code>(–recursive)：递归地卸载未使用的依赖包。</li>
+</ul>
+<h2 id="4-3-强制卸载（不推荐）"><a href="#4-3-强制卸载（不推荐）" class="headerlink" title="4.3 强制卸载（不推荐）"></a>4.3 强制卸载（不推荐）</h2><p>在极少数情况下，可能需要强制卸载一个包，即使这可能会破坏系统的依赖关系。请谨慎使用此选项：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -Rdd package_name</span><br></pre></td></tr></table></figure></div>
 
-<h2 id="1-1-网络冲突导致启动失败"><a href="#1-1-网络冲突导致启动失败" class="headerlink" title="1.1 网络冲突导致启动失败"></a>1.1 网络冲突导致启动失败</h2><p>日志内容如下：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">failed to start daemon: Error initializing network controller: error creating default &quot;bridge&quot; network: cannot create network c13e4912d03075485921194eecec303af8f714e77ad529759990f5b7ca155c68 (docker0): conflicts with network 1b9dcc9575e5af33281149149481d0eca4a5d60de0fac2f9264f0b265ab955db (docker0): networks have same bridge name</span><br></pre></td></tr></table></figure></div>
-<p>这个错误表明 Docker 试图创建默认的 bridge 网络，但是遇到了冲突，因为已经存在一个同名的网络。</p>
-<p><strong>解决办法：</strong></p>
-<ol>
-<li>停止 Docker 服务：</li>
-</ol>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl stop docker</span><br></pre></td></tr></table></figure></div>
+<p>解释：</p>
+<ul>
+<li><code>-d</code>：忽略依赖关系检查。</li>
+</ul>
+<h2 id="4-4-清理未使用的孤立包"><a href="#4-4-清理未使用的孤立包" class="headerlink" title="4.4 清理未使用的孤立包"></a>4.4 清理未使用的孤立包</h2><p>系统中可能会有一些未使用的孤立包，这些包是作为依赖安装的，但现在没有任何包依赖它们。可以使用以下命令清理这些孤立包：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -Rns $(pacman -Qtdq)</span><br></pre></td></tr></table></figure></div>
 
-<ol start="2">
-<li>删除现有的 Docker 网络配置：</li>
-</ol>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> -rf /var/lib/docker/network</span><br></pre></td></tr></table></figure></div>
+<p>解释：</p>
+<ul>
+<li><code>pacman -Qtdq</code>：列出所有未使用的孤立包。</li>
+<li><code>-Rns</code>：递归地卸载未使用的包及其配置文件。</li>
+</ul>
+<h1 id="5-查看安装包的文件及其路径"><a href="#5-查看安装包的文件及其路径" class="headerlink" title="5.查看安装包的文件及其路径"></a>5.查看安装包的文件及其路径</h1><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -Ql boost</span><br></pre></td></tr></table></figure></div>
 
-<ol start="3">
-<li>删除 docker0 网桥：</li>
-</ol>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> ip <span class="built_in">link</span> delete docker0</span><br></pre></td></tr></table></figure></div>
-
-<ol start="4">
-<li>重新启动 Docker 服务：</li>
-</ol>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start docker</span><br></pre></td></tr></table></figure></div>
-
-<ol start="5">
-<li>检查 Docker 服务状态：</li>
-</ol>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status docker</span><br></pre></td></tr></table></figure></div>
+<p>输出示例：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">boost /usr/share/boostbook/xsl/source-highlight.xsl</span><br><span class="line">boost /usr/share/boostbook/xsl/template.xsl</span><br><span class="line">boost /usr/share/boostbook/xsl/testing/</span><br><span class="line">boost /usr/share/boostbook/xsl/testing/Jamfile.xsl</span><br><span class="line">boost /usr/share/boostbook/xsl/testing/testsuite.xsl</span><br><span class="line">boost /usr/share/boostbook/xsl/type.xsl</span><br><span class="line">boost /usr/share/boostbook/xsl/utility.xsl</span><br><span class="line">boost /usr/share/boostbook/xsl/xhtml.xsl</span><br><span class="line">boost /usr/share/boostbook/xsl/xref.xsl</span><br></pre></td></tr></table></figure></div>
 		</div>
 
 		
 		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
 			<div class="article-copyright-info-container">
     <ul>
-        <li><strong>Title:</strong> 使用Docker时的问题汇总和解决方式</li>
+        <li><strong>Title:</strong> pacman 包管理器使用教程</li>
         <li><strong>Author:</strong> loskyertt</li>
         <li><strong>Created at
-                :</strong> 2024-07-24 10:57:16</li>
+                :</strong> 2024-07-24 08:51:17</li>
         
             <li>
                 <strong>Updated at
-                    :</strong> 2024-11-13 03:07:10
+                    :</strong> 2024-12-10 08:09:02
             </li>
         
         <li>
-            <strong>Link:</strong> https://redefine.ohevan.com/2024/07/24/Docker问题汇总/
+            <strong>Link:</strong> https://redefine.ohevan.com/2024/07/24/pacman包管理器/
         </li>
         <li>
             <strong>
@@ -638,7 +645,7 @@
 		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
 			
 			<li class="tag-item mx-0.5">
-				<a href="/tags/docker/">#docker</a>&nbsp;
+				<a href="/tags/linux/">#linux</a>&nbsp;
 			</li>
 			
 		</ul>
@@ -650,27 +657,27 @@
     <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
      <i aria-hidden="true"></i><span>推荐阅读</span>
     </div>
-    <div class="recommended-article-group"><a class="recommended-article-item" href="/2024/07/20/Linux-Docker/" title="Linux 环境下配置 Docker" rel="bookmark">
-  <img src="/images/wallhaven-wqery6-light.webp" alt="Linux 环境下配置 Docker" class="!max-w-none">
-  <span class="title">Linux 环境下配置 Docker</span>
-</a><a class="recommended-article-item" href="/2024/07/24/Docker教程/" title="Docker 教程" rel="bookmark">
-  <img src="/images/wallhaven-wqery6-light.webp" alt="Docker 教程" class="!max-w-none">
-  <span class="title">Docker 教程</span>
-</a><a class="recommended-article-item" href="/2024/07/30/Docker-Openwrt/" title="Openwrt 在 Docker 下运行并作为旁路由" rel="bookmark">
-  <img src="/images/wallhaven-wqery6-light.webp" alt="Openwrt 在 Docker 下运行并作为旁路由" class="!max-w-none">
-  <span class="title">Openwrt 在 Docker 下运行并作为旁路由</span>
+    <div class="recommended-article-group"><a class="recommended-article-item" href="/2024/07/18/EndeavourOS/" title="EndeavourOS 使用记录" rel="bookmark">
+  <img src="https://i0.wp.com/endeavouros.com/wp-content/uploads/2023/10/Endy_planet_ARM.png?resize=1536%2C864&ssl=1" alt="EndeavourOS 使用记录" class="!max-w-none">
+  <span class="title">EndeavourOS 使用记录</span>
+</a><a class="recommended-article-item" href="/2024/12/05/安装KDE桌面/" title="Linux 如何安装 KDE 桌面" rel="bookmark">
+  <img src="/images/wallhaven-wqery6-light.webp" alt="Linux 如何安装 KDE 桌面" class="!max-w-none">
+  <span class="title">Linux 如何安装 KDE 桌面</span>
+</a><a class="recommended-article-item" href="/2024/12/03/Nix使用教程/" title="Nix 使用教程" rel="bookmark">
+  <img src="/images/wallhaven-wqery6-light.webp" alt="Nix 使用教程" class="!max-w-none">
+  <span class="title">Nix 使用教程</span>
 </a></div>
    </div>
    <div class="recommended-mobile">
    <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
      <i aria-hidden="true"></i><span>推荐阅读</span>
    </div>
-   <div class="recommended-article-group"><a class="recommended-article-item" href="/2024/07/20/Linux-Docker/" title="Linux 环境下配置 Docker" rel="bookmark">
-  <img src="/images/wallhaven-wqery6-light.webp" alt="Linux 环境下配置 Docker" class="!max-w-none">
-  <span class="title">Linux 环境下配置 Docker</span>
-</a><a class="recommended-article-item" href="/2024/07/24/Docker教程/" title="Docker 教程" rel="bookmark">
-  <img src="/images/wallhaven-wqery6-light.webp" alt="Docker 教程" class="!max-w-none">
-  <span class="title">Docker 教程</span>
+   <div class="recommended-article-group"><a class="recommended-article-item" href="/2024/07/18/EndeavourOS/" title="EndeavourOS 使用记录" rel="bookmark">
+  <img src="https://i0.wp.com/endeavouros.com/wp-content/uploads/2023/10/Endy_planet_ARM.png?resize=1536%2C864&ssl=1" alt="EndeavourOS 使用记录" class="!max-w-none">
+  <span class="title">EndeavourOS 使用记录</span>
+</a><a class="recommended-article-item" href="/2024/12/05/安装KDE桌面/" title="Linux 如何安装 KDE 桌面" rel="bookmark">
+  <img src="/images/wallhaven-wqery6-light.webp" alt="Linux 如何安装 KDE 桌面" class="!max-w-none">
+  <span class="title">Linux 如何安装 KDE 桌面</span>
 </a></div>
    </div>
   </div>
@@ -679,12 +686,12 @@
 		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
 			
 			<div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
-				<a class="prev" rel="prev" href="/2024/07/24/Docker-Hexo/">
+				<a class="prev" rel="prev" href="/2024/07/24/Docker%E6%95%99%E7%A8%8B/">
 					<span class="left arrow-icon flex justify-center items-center">
 						<i class="fa-solid fa-chevron-left"></i>
 					</span>
 					<span class="title flex justify-center items-center">
-						<span class="post-nav-title-item">通过Docker搭建Hexo博客</span>
+						<span class="post-nav-title-item">Docker 教程</span>
 						<span class="post-nav-item">Prev posts</span>
 					</span>
 				</a>
@@ -692,9 +699,9 @@
 			
 			
 			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
-				<a class="next" rel="next" href="/2024/07/24/Docker%E6%95%99%E7%A8%8B/">
+				<a class="next" rel="next" href="/2024/07/20/Linux-Docker/">
 					<span class="title flex justify-center items-center">
-						<span class="post-nav-title-item">Docker 教程</span>
+						<span class="post-nav-title-item">Linux 环境下配置 Docker</span>
 						<span class="post-nav-item">Next posts</span>
 					</span>
 					<span class="right arrow-icon flex justify-center items-center">
@@ -758,8 +765,8 @@
 		<div class="post-toc-wrap">
 	<div class="post-toc">
 		<div class="toc-title">On this page</div>
-		<div class="page-title">使用Docker时的问题汇总和解决方式</div>
-		<ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E5%90%AF%E5%8A%A8-Docker-%E5%A4%B1%E8%B4%A5"><span class="nav-text">1.启动 Docker 失败</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-%E7%BD%91%E7%BB%9C%E5%86%B2%E7%AA%81%E5%AF%BC%E8%87%B4%E5%90%AF%E5%8A%A8%E5%A4%B1%E8%B4%A5"><span class="nav-text">1.1 网络冲突导致启动失败</span></a></li></ol></li></ol>
+		<div class="page-title">pacman 包管理器使用教程</div>
+		<ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E4%BB%8B%E7%BB%8D"><span class="nav-text">1.介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E4%B8%8B%E8%BD%BD%E5%92%8C%E6%9B%B4%E6%96%B0"><span class="nav-text">2.下载和更新</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E6%9F%A5%E7%9C%8B%E5%8C%85-%E5%BA%93%E4%BF%A1%E6%81%AF"><span class="nav-text">3.查看包&#x2F;库信息</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-%E5%8D%B8%E8%BD%BD"><span class="nav-text">4.卸载</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-%E5%8D%B8%E8%BD%BD%E5%8D%95%E4%B8%AA%E8%BD%AF%E4%BB%B6%E5%8C%85"><span class="nav-text">4.1 卸载单个软件包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-%E5%8D%B8%E8%BD%BD%E8%BD%AF%E4%BB%B6%E5%8C%85%E5%8F%8A%E5%85%B6%E6%9C%AA%E4%BD%BF%E7%94%A8%E7%9A%84%E4%BE%9D%E8%B5%96"><span class="nav-text">4.2 卸载软件包及其未使用的依赖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-%E5%BC%BA%E5%88%B6%E5%8D%B8%E8%BD%BD%EF%BC%88%E4%B8%8D%E6%8E%A8%E8%8D%90%EF%BC%89"><span class="nav-text">4.3 强制卸载（不推荐）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-4-%E6%B8%85%E7%90%86%E6%9C%AA%E4%BD%BF%E7%94%A8%E7%9A%84%E5%AD%A4%E7%AB%8B%E5%8C%85"><span class="nav-text">4.4 清理未使用的孤立包</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-%E6%9F%A5%E7%9C%8B%E5%AE%89%E8%A3%85%E5%8C%85%E7%9A%84%E6%96%87%E4%BB%B6%E5%8F%8A%E5%85%B6%E8%B7%AF%E5%BE%84"><span class="nav-text">5.查看安装包的文件及其路径</span></a></li></ol>
 
 	</div>
 </div>

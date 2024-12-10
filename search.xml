@@ -425,27 +425,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Python 爬虫教程 03</title>
-    <url>/2024/10/17/03Python%E7%88%AC%E8%99%AB/</url>
-    <content><![CDATA[<h1 id="1-无请求头访问"><a href="#1-无请求头访问" class="headerlink" title="1.无请求头访问"></a>1.无请求头访问</h1><p>如果不构建请求头，直接向目标网站发送请求：</p>
-<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;https://spiderbuf.cn/playground/s02&quot;</span></span><br><span class="line"></span><br><span class="line">html = requests.get(url=url).text</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/02course/02.html&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">f.write(html)</span><br><span class="line">f.close()</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(html)</span><br><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/02course/data02.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    tds = tr.xpath(<span class="string">&#x27;./td&#x27;</span>)</span><br><span class="line">    s = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> td <span class="keyword">in</span> tds:</span><br><span class="line">        <span class="comment"># print(td.text)</span></span><br><span class="line">        s = s + <span class="built_in">str</span>(td.text) + <span class="string">&#x27; | &#x27;</span></span><br><span class="line">    <span class="built_in">print</span>(s)</span><br><span class="line">    <span class="keyword">if</span> s!= <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        f.write(s + <span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
-
-<p>输出结果：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">&lt;!DOCTYPE HTML PUBLIC &quot;-//IETF//DTD HTML 2.0//EN&quot;&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;&lt;title&gt;403 Forbidden&lt;/title&gt;&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;center&gt;&lt;h1&gt;403 Forbidden&lt;/h1&gt;&lt;/center&gt;</span><br><span class="line">&lt;hr&gt;&lt;center&gt;tengine&lt;/center&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></div>
-<p>很容易被网站检测到是爬虫。</p>
-<h1 id="2-添加请求头"><a href="#2-添加请求头" class="headerlink" title="2.添加请求头"></a>2.添加请求头</h1><p>所以基本上在发送请求之前都会封装一个<code>http</code>请求的头部信息：</p>
-<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">html = requests.get(url=url, headers=headers).text</span><br></pre></td></tr></table></figure></div>
-
-<p>有时候还需要往里面填入<code>Cookie</code>。甚至为了防止被检测到是爬虫，需要更换<code>User-Agent</code>，比如用火狐浏览器的等，或者浏览器不同版本的，这在网上可以查询到。</p>
-]]></content>
-      <categories>
-        <category>Python爬虫</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Python 爬虫教程 04</title>
     <url>/2024/10/17/04Python%E7%88%AC%E8%99%AB/</url>
     <content><![CDATA[<h1 id="1-测试案例"><a href="#1-测试案例" class="headerlink" title="1.测试案例"></a>1.测试案例</h1><div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;https://spiderbuf.cn/playground/s03&quot;</span></span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">html = requests.get(url=url, headers=headers).text</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/03course/03.html&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">f.write(html)</span><br><span class="line">f.close()</span><br><span class="line"></span><br><span class="line"><span class="comment"># print(html)</span></span><br><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/03course/data03.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    tds = tr.xpath(<span class="string">&#x27;./td&#x27;</span>)</span><br><span class="line">    s = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> td <span class="keyword">in</span> tds:</span><br><span class="line">        s = s + <span class="built_in">str</span>(td.text) + <span class="string">&#x27; | &#x27;</span></span><br><span class="line">    <span class="built_in">print</span>(s)</span><br><span class="line">    <span class="keyword">if</span> s!= <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        f.write(s + <span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
@@ -464,6 +443,27 @@
 <p>这里有一个简单的方法，把解析部分的代码改成这样：</p>
 <div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/03course/data03.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    tds = tr.xpath(<span class="string">&#x27;./td&#x27;</span>)</span><br><span class="line">    s = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> td <span class="keyword">in</span> tds:</span><br><span class="line">        s = s + <span class="built_in">str</span>(td.xpath(<span class="string">&#x27;string(.)&#x27;</span>)) + <span class="string">&#x27;|&#x27;</span>        <span class="comment"># 修改过后的解析操作</span></span><br><span class="line">    <span class="built_in">print</span>(s)</span><br><span class="line">    <span class="keyword">if</span> s!= <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        f.write(s + <span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
 <p>这种方式可以获取元素及其所有子元素的完整文本，而不仅仅是直接子节点的文本。<code>.</code>表示当前节点，这里就表示把当前节点的所有文本内容（包括子节点中的文本）提取出来。</p>
+]]></content>
+      <categories>
+        <category>Python爬虫</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python 爬虫教程 03</title>
+    <url>/2024/10/17/03Python%E7%88%AC%E8%99%AB/</url>
+    <content><![CDATA[<h1 id="1-无请求头访问"><a href="#1-无请求头访问" class="headerlink" title="1.无请求头访问"></a>1.无请求头访问</h1><p>如果不构建请求头，直接向目标网站发送请求：</p>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;https://spiderbuf.cn/playground/s02&quot;</span></span><br><span class="line"></span><br><span class="line">html = requests.get(url=url).text</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/02course/02.html&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">f.write(html)</span><br><span class="line">f.close()</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(html)</span><br><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/02course/data02.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    tds = tr.xpath(<span class="string">&#x27;./td&#x27;</span>)</span><br><span class="line">    s = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> td <span class="keyword">in</span> tds:</span><br><span class="line">        <span class="comment"># print(td.text)</span></span><br><span class="line">        s = s + <span class="built_in">str</span>(td.text) + <span class="string">&#x27; | &#x27;</span></span><br><span class="line">    <span class="built_in">print</span>(s)</span><br><span class="line">    <span class="keyword">if</span> s!= <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        f.write(s + <span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
+
+<p>输出结果：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">&lt;!DOCTYPE HTML PUBLIC &quot;-//IETF//DTD HTML 2.0//EN&quot;&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;&lt;title&gt;403 Forbidden&lt;/title&gt;&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;center&gt;&lt;h1&gt;403 Forbidden&lt;/h1&gt;&lt;/center&gt;</span><br><span class="line">&lt;hr&gt;&lt;center&gt;tengine&lt;/center&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></div>
+<p>很容易被网站检测到是爬虫。</p>
+<h1 id="2-添加请求头"><a href="#2-添加请求头" class="headerlink" title="2.添加请求头"></a>2.添加请求头</h1><p>所以基本上在发送请求之前都会封装一个<code>http</code>请求的头部信息：</p>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">html = requests.get(url=url, headers=headers).text</span><br></pre></td></tr></table></figure></div>
+
+<p>有时候还需要往里面填入<code>Cookie</code>。甚至为了防止被检测到是爬虫，需要更换<code>User-Agent</code>，比如用火狐浏览器的等，或者浏览器不同版本的，这在网上可以查询到。</p>
 ]]></content>
       <categories>
         <category>Python爬虫</category>
@@ -832,6 +832,89 @@
       </tags>
   </entry>
   <entry>
+    <title>Docker 配置 MySQL 教程</title>
+    <url>/2024/09/05/Docker-MySQL/</url>
+    <content><![CDATA[<h1 id="1-Docker-MySQL-配置"><a href="#1-Docker-MySQL-配置" class="headerlink" title="1.Docker-MySQL 配置"></a>1.Docker-MySQL 配置</h1><h2 id="1-1-拉取镜像与创建容器"><a href="#1-1-拉取镜像与创建容器" class="headerlink" title="1.1 拉取镜像与创建容器"></a>1.1 拉取镜像与创建容器</h2><ol>
+<li><p><strong>拉取 MySQL 镜像：</strong><br>通过运行 <code>docker pull mysql[:版本号]</code>，版本号可选，默认是latest。</p>
+</li>
+<li><p><strong>创建并运行 MySQL 容器（推荐）：</strong><br>使用以下命令来运行 MySQL 容器。这里假设想在主机上绑定3306端口，并设置一个root用户的密码：</p>
+</li>
+</ol>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run \</span><br><span class="line">--name some-mysql \</span><br><span class="line">-e MYSQL_ROOT_PASSWORD=1234 \</span><br><span class="line">-p 3306:3306 \</span><br><span class="line">-v ~/docker_volume/mysql/data:/var/lib/mysql \</span><br><span class="line">-v ~/docker_volume/mysql/init:/docker-entrypoint-initdb.d \</span><br><span class="line">-v ~/docker_volume/mysql/conf:/etc/mysql/conf.d \</span><br><span class="line">-d mysql:&lt;版本号&gt;</span><br></pre></td></tr></table></figure></div>
+
+<p><strong>以上命令的说明：</strong></p>
+<ul>
+<li><code>--name some-mysql</code>：给容器指定一个名称，比如 <code>some-mysql</code>。</li>
+<li><code>-e MYSQL_ROOT_PASSWORD=1234</code>：设置root用户的密码为 <code>1234</code>。</li>
+<li><code>mysql:latest</code>：使用最新版本的 MySQL 镜像。</li>
+<li><code>p</code>：设置端口，<code>3306:3306</code>中，前者是宿主机的端口，可以自定义，后者是映射到容器的端口。默认是<code>TCP</code>协议。</li>
+<li><code>-v</code>：挂载容器里的文件（<code>~/docker_volume/mysql/data</code>为本地目录）。<strong>注意：</strong> 要先创建好对应的文件路径！！同时本地文件夹会把容器内的文件夹完全覆盖！</li>
+</ul>
+<h2 id="1-2-连接到容器"><a href="#1-2-连接到容器" class="headerlink" title="1.2 连接到容器"></a>1.2 连接到容器</h2><ol>
+<li><strong>连接到 MySQL 容器：</strong></li>
+</ol>
+<p>进入到容器内部然后进行连接：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it some-mysql bash</span><br><span class="line"></span><br><span class="line">mysql -uroot -p</span><br></pre></td></tr></table></figure></div>
+
+<p>直接连接到容器：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it some-mysql mysql -uroot -p</span><br></pre></td></tr></table></figure></div>
+<p>这会启动一个终端会话，并要求输入上面设置的root用户的密码 (<code>1234</code>)。</p>
+<p>以上命令的说明：</p>
+<ol>
+<li><strong>docker exec：</strong></li>
+</ol>
+<ul>
+<li><strong>含义：</strong> 在一个已经运行的容器内执行命令。</li>
+<li><strong>用途：</strong> 允许你在运行的容器中执行新的命令。</li>
+</ul>
+<ol start="2">
+<li><strong>-it：</strong></li>
+</ol>
+<ul>
+<li><strong><code>-i</code> (interactive)：</strong> 保持标准输入（stdin）打开，使得你可以与容器中的进程进行交互。</li>
+<li><strong><code>-t</code> (tty)：</strong> 分配一个伪终端，提供一个终端会话环境。这两个选项一起使用可以进入容器并交互。</li>
+</ul>
+<ol start="3">
+<li><strong>some-mysql：</strong></li>
+</ol>
+<ul>
+<li><strong>含义：</strong> 容器的名称或 ID。</li>
+</ul>
+<ol start="4">
+<li><strong>mysql：</strong></li>
+</ol>
+<ul>
+<li><strong>含义：</strong> 这是在容器内执行的命令。在这个例子中，是启动 MySQL 客户端。</li>
+<li><strong>用途：</strong> 连接到 MySQL 数据库。</li>
+</ul>
+<ol start="5">
+<li><strong>-uroot：</strong></li>
+</ol>
+<ul>
+<li><strong><code>-u</code>：</strong> 指定 MySQL 客户端的用户名。</li>
+<li><strong>root：</strong> MySQL 数据库的用户名。在这个例子中，使用的是 <code>root</code> 用户。</li>
+</ul>
+<ol start="6">
+<li><strong><code>-p</code>：</strong></li>
+</ol>
+<ul>
+<li><strong>含义：</strong> 提示输入 MySQL 用户的密码。</li>
+<li><strong>用途：</strong> 在执行命令后，你会被提示输入 <code>root</code> 用户的密码。这个密码是在运行容器时通过 <code>MYSQL_ROOT_PASSWORD</code> 环境变量设置的。</li>
+</ul>
+<p>以上命令的 <code>-p 3306:3306</code> 会将主机的3306端口映射到容器的3306端口，这样可以从主机上的MySQL客户端连接到容器中的MySQL服务。</p>
+<h2 id="1-3-更改容器信息"><a href="#1-3-更改容器信息" class="headerlink" title="1.3 更改容器信息"></a>1.3 更改容器信息</h2><h3 id="1-3-1-方法一：停止并删除现有容器"><a href="#1-3-1-方法一：停止并删除现有容器" class="headerlink" title="1.3.1 方法一：停止并删除现有容器"></a>1.3.1 方法一：停止并删除现有容器</h3><p>首先，停止并删除现有的 <code>mysql-test</code> 容器：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker start mysql-test        <span class="comment"># 运行</span></span><br><span class="line">docker stop mysql-test        <span class="comment"># 停止</span></span><br><span class="line">docker <span class="built_in">rm</span> mysql-test        <span class="comment"># 删除</span></span><br></pre></td></tr></table></figure></div>
+<p>然后再重新创建<code>mysql-test</code>即可。</p>
+<h3 id="1-3-2-方法二：不同的容器名称"><a href="#1-3-2-方法二：不同的容器名称" class="headerlink" title="1.3.2 方法二：不同的容器名称"></a>1.3.2 方法二：不同的容器名称</h3><p>可以使用不同的名称来运行容器，这样就不需要删除现有的容器。例如：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run --name mysql-test-2 -e MYSQL_ROOT_PASSWORD=0403 -p 3307:3306 -d mysql:latest</span><br></pre></td></tr></table></figure></div>
+<p>这样会启动一个新容器，名称为 <code>mysql-test-2</code>，并绑定主机的3307端口到容器的3306端口。</p>
+<h2 id="1-4-查看容器信息"><a href="#1-4-查看容器信息" class="headerlink" title="1.4 查看容器信息"></a>1.4 查看容器信息</h2><p>查看容器或镜像内部信息（如端口，ip地址，挂载卷等）：</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker inspect &lt;容器名/容器ID/镜像名/镜像ID&gt;</span><br></pre></td></tr></table></figure></div>]]></content>
+      <tags>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Openwrt 在 Docker 下运行并作为旁路由</title>
     <url>/2024/07/30/Docker-Openwrt/</url>
     <content><![CDATA[<h1 id="1-前言"><a href="#1-前言" class="headerlink" title="1.前言"></a>1.前言</h1><p>这几天想试着玩一下<code>Openwrt</code>来作旁路由，但是又没有软路由固件，后来考虑到<code>Openwrt</code>也是基于 Linux 的，那么在 Docker Hub 上应该有其对应的镜像吧，然后查了下果真有。于是有了后续的操作 … …</p>
@@ -1123,6 +1206,59 @@
       </tags>
   </entry>
   <entry>
+    <title>Docker 搭建深度学习环境</title>
+    <url>/2024/09/09/Docker%E6%90%AD%E5%BB%BADL%E7%8E%AF%E5%A2%83/</url>
+    <content><![CDATA[<h1 id="1-安裝NVIDIA-Container-Toolkit套件"><a href="#1-安裝NVIDIA-Container-Toolkit套件" class="headerlink" title="1.安裝NVIDIA Container Toolkit套件"></a>1.安裝NVIDIA Container Toolkit套件</h1><p>对于 Arch 系发行版，可以直接通过下面指令安装：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S nvidia-container-toolkit</span><br></pre></td></tr></table></figure></div>
+
+<p>然后新增设定：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">mkdir</span> /etc/docker</span><br><span class="line"><span class="built_in">sudo</span> nano /etc/docker/daemon.json</span><br></pre></td></tr></table></figure></div>
+
+<p>添加：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;runtimes&quot;: &#123;</span><br><span class="line">        &quot;nvidia&quot;: &#123;</span><br><span class="line">            &quot;path&quot;: &quot;nvidia-container-runtime&quot;,</span><br><span class="line">            &quot;runtimeArgs&quot;: []</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<p>重启 Docker ：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl restart docker</span><br></pre></td></tr></table></figure></div>
+
+<p>拉取CUDA 12.1版本的镜像测试：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> docker run --<span class="built_in">rm</span> --gpus all nvidia/cuda:12.1.0-base-ubuntu20.04 nvidia-smi</span><br></pre></td></tr></table></figure></div>
+<p>检查是否能在容器中运行<code>nvidia-smi</code>：<br><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://ivonblog.com/posts/archlinux-install-nvidia-drivers/images/Screenshot_20231226_160611.webp"
+                      alt="nvidia-smi"
+                ><figcaption>nvidia-smi</figcaption></figure></p>
+<h1 id="2-各个-CUDA-tag的区别"><a href="#2-各个-CUDA-tag的区别" class="headerlink" title="2.各个 CUDA tag的区别"></a>2.各个 CUDA <code>tag</code>的区别</h1><p>其它 CUDA 镜像可以通过在 DockerHub 找到：<a class="link"   href="https://hub.docker.com/r/nvidia/cuda" >nvidia&#x2F;cuda<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<ol>
+<li><strong>Base</strong> : Includes only the CUDA runtime (cudart), which is essential for running CUDA-based applications but doesn’t come with extra libraries or development tools.</li>
+<li><strong>Runtime</strong> : Builds on the <code>base</code> image and adds CUDA math libraries like cuBLAS, cuFFT, and cuRAND. This version is suitable for running applications that require these additional libraries without needing to compile CUDA code.</li>
+<li><strong>Devel</strong> : Builds on the <code>runtime</code> image and includes all the necessary headers and development tools like <code>nvcc</code> for compiling and building CUDA applications. This is useful for developers building or extending CUDA applications.</li>
+<li><strong>CUDNN&#x2F;Devel Runtime</strong> : Adds cuDNN libraries to the runtime or devel image for working with deep learning applications.</li>
+</ol>
+<p>Different versions also support various operating systems like Ubuntu 20.04, 22.04, or 24.04. The <code>devel</code> tags are especially useful when you need to compile custom CUDA code, whereas the <code>runtime</code> tags are lighter and designed for deployment【76†source】【77†source】.</p>
+<h1 id="3-搭建-PyTorch"><a href="#3-搭建-PyTorch" class="headerlink" title="3.搭建 PyTorch"></a>3.搭建 PyTorch</h1><p>根据需要拉取<code>PyTorch</code>镜像：<a class="link"   href="https://hub.docker.com/r/pytorch/pytorch" >pytorch&#x2F;pytorch<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<p>我这里以最新版为例：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker pull pytorch/pytorch</span><br></pre></td></tr></table></figure></div>
+
+<p>可以先查看下镜像内容（比如端口、挂载点）：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker inspect pytorch/pytorch:latest</span><br></pre></td></tr></table></figure></div>
+<p>这个镜像的默认挂载点是<code>/workspace</code>。</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -it --name=pytorch -v ~/workspace:/workspace -p 8888:8888 pytorch/pytorch:latest</span><br></pre></td></tr></table></figure></div>
+<p>这里映射的端口是<code>jupyter</code>的。需要在容器里手动安装<code>jupyter</code>。</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">conda install jupyter</span><br></pre></td></tr></table></figure></div>
+
+<p>运行<code>jupyter</code>：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">jupyter lab --ip=0.0.0.0 --no-browser --allow-root</span><br></pre></td></tr></table></figure></div>
+<p>启动<code>Jupyter Lab</code>时，默认情况下它只绑定到<code>localhost</code>，并不会对外开放。所以你需要明确绑定<code>0.0.0.0</code>，以便它能从容器外部访问。</p>
+]]></content>
+      <categories>
+        <category>深度学习</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>通过 Docker 搭建 PCL 环境</title>
     <url>/2024/11/30/Docker%E6%90%AD%E5%BB%BAPCL%E7%8E%AF%E5%A2%83/</url>
     <content><![CDATA[<h1 id="1-在容器内部构建"><a href="#1-在容器内部构建" class="headerlink" title="1.在容器内部构建"></a>1.在容器内部构建</h1><p>个人推荐使用这种方式，用<code>Dockerfile</code>总会出奇奇怪怪的问题。</p>
@@ -1192,142 +1328,6 @@
       <tags>
         <tag>docker</tag>
         <tag>c++</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Docker 搭建深度学习环境</title>
-    <url>/2024/09/09/Docker%E6%90%AD%E5%BB%BADL%E7%8E%AF%E5%A2%83/</url>
-    <content><![CDATA[<h1 id="1-安裝NVIDIA-Container-Toolkit套件"><a href="#1-安裝NVIDIA-Container-Toolkit套件" class="headerlink" title="1.安裝NVIDIA Container Toolkit套件"></a>1.安裝NVIDIA Container Toolkit套件</h1><p>对于 Arch 系发行版，可以直接通过下面指令安装：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S nvidia-container-toolkit</span><br></pre></td></tr></table></figure></div>
-
-<p>然后新增设定：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">mkdir</span> /etc/docker</span><br><span class="line"><span class="built_in">sudo</span> nano /etc/docker/daemon.json</span><br></pre></td></tr></table></figure></div>
-
-<p>添加：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;runtimes&quot;: &#123;</span><br><span class="line">        &quot;nvidia&quot;: &#123;</span><br><span class="line">            &quot;path&quot;: &quot;nvidia-container-runtime&quot;,</span><br><span class="line">            &quot;runtimeArgs&quot;: []</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
-
-<p>重启 Docker ：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl restart docker</span><br></pre></td></tr></table></figure></div>
-
-<p>拉取CUDA 12.1版本的镜像测试：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> docker run --<span class="built_in">rm</span> --gpus all nvidia/cuda:12.1.0-base-ubuntu20.04 nvidia-smi</span><br></pre></td></tr></table></figure></div>
-<p>检查是否能在容器中运行<code>nvidia-smi</code>：<br><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://ivonblog.com/posts/archlinux-install-nvidia-drivers/images/Screenshot_20231226_160611.webp"
-                      alt="nvidia-smi"
-                ><figcaption>nvidia-smi</figcaption></figure></p>
-<h1 id="2-各个-CUDA-tag的区别"><a href="#2-各个-CUDA-tag的区别" class="headerlink" title="2.各个 CUDA tag的区别"></a>2.各个 CUDA <code>tag</code>的区别</h1><p>其它 CUDA 镜像可以通过在 DockerHub 找到：<a class="link"   href="https://hub.docker.com/r/nvidia/cuda" >nvidia&#x2F;cuda<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
-<ol>
-<li><strong>Base</strong> : Includes only the CUDA runtime (cudart), which is essential for running CUDA-based applications but doesn’t come with extra libraries or development tools.</li>
-<li><strong>Runtime</strong> : Builds on the <code>base</code> image and adds CUDA math libraries like cuBLAS, cuFFT, and cuRAND. This version is suitable for running applications that require these additional libraries without needing to compile CUDA code.</li>
-<li><strong>Devel</strong> : Builds on the <code>runtime</code> image and includes all the necessary headers and development tools like <code>nvcc</code> for compiling and building CUDA applications. This is useful for developers building or extending CUDA applications.</li>
-<li><strong>CUDNN&#x2F;Devel Runtime</strong> : Adds cuDNN libraries to the runtime or devel image for working with deep learning applications.</li>
-</ol>
-<p>Different versions also support various operating systems like Ubuntu 20.04, 22.04, or 24.04. The <code>devel</code> tags are especially useful when you need to compile custom CUDA code, whereas the <code>runtime</code> tags are lighter and designed for deployment【76†source】【77†source】.</p>
-<h1 id="3-搭建-PyTorch"><a href="#3-搭建-PyTorch" class="headerlink" title="3.搭建 PyTorch"></a>3.搭建 PyTorch</h1><p>根据需要拉取<code>PyTorch</code>镜像：<a class="link"   href="https://hub.docker.com/r/pytorch/pytorch" >pytorch&#x2F;pytorch<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
-<p>我这里以最新版为例：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker pull pytorch/pytorch</span><br></pre></td></tr></table></figure></div>
-
-<p>可以先查看下镜像内容（比如端口、挂载点）：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker inspect pytorch/pytorch:latest</span><br></pre></td></tr></table></figure></div>
-<p>这个镜像的默认挂载点是<code>/workspace</code>。</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -it --name=pytorch -v ~/workspace:/workspace -p 8888:8888 pytorch/pytorch:latest</span><br></pre></td></tr></table></figure></div>
-<p>这里映射的端口是<code>jupyter</code>的。需要在容器里手动安装<code>jupyter</code>。</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">conda install jupyter</span><br></pre></td></tr></table></figure></div>
-
-<p>运行<code>jupyter</code>：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">jupyter lab --ip=0.0.0.0 --no-browser --allow-root</span><br></pre></td></tr></table></figure></div>
-<p>启动<code>Jupyter Lab</code>时，默认情况下它只绑定到<code>localhost</code>，并不会对外开放。所以你需要明确绑定<code>0.0.0.0</code>，以便它能从容器外部访问。</p>
-]]></content>
-      <categories>
-        <category>深度学习</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Docker 配置 MySQL 教程</title>
-    <url>/2024/09/05/Docker-MySQL/</url>
-    <content><![CDATA[<h1 id="1-Docker-MySQL-配置"><a href="#1-Docker-MySQL-配置" class="headerlink" title="1.Docker-MySQL 配置"></a>1.Docker-MySQL 配置</h1><h2 id="1-1-拉取镜像与创建容器"><a href="#1-1-拉取镜像与创建容器" class="headerlink" title="1.1 拉取镜像与创建容器"></a>1.1 拉取镜像与创建容器</h2><ol>
-<li><p><strong>拉取 MySQL 镜像：</strong><br>通过运行 <code>docker pull mysql[:版本号]</code>，版本号可选，默认是latest。</p>
-</li>
-<li><p><strong>创建并运行 MySQL 容器（推荐）：</strong><br>使用以下命令来运行 MySQL 容器。这里假设想在主机上绑定3306端口，并设置一个root用户的密码：</p>
-</li>
-</ol>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run \</span><br><span class="line">--name some-mysql \</span><br><span class="line">-e MYSQL_ROOT_PASSWORD=1234 \</span><br><span class="line">-p 3306:3306 \</span><br><span class="line">-v ~/docker_volume/mysql/data:/var/lib/mysql \</span><br><span class="line">-v ~/docker_volume/mysql/init:/docker-entrypoint-initdb.d \</span><br><span class="line">-v ~/docker_volume/mysql/conf:/etc/mysql/conf.d \</span><br><span class="line">-d mysql:&lt;版本号&gt;</span><br></pre></td></tr></table></figure></div>
-
-<p><strong>以上命令的说明：</strong></p>
-<ul>
-<li><code>--name some-mysql</code>：给容器指定一个名称，比如 <code>some-mysql</code>。</li>
-<li><code>-e MYSQL_ROOT_PASSWORD=1234</code>：设置root用户的密码为 <code>1234</code>。</li>
-<li><code>mysql:latest</code>：使用最新版本的 MySQL 镜像。</li>
-<li><code>p</code>：设置端口，<code>3306:3306</code>中，前者是宿主机的端口，可以自定义，后者是映射到容器的端口。默认是<code>TCP</code>协议。</li>
-<li><code>-v</code>：挂载容器里的文件（<code>~/docker_volume/mysql/data</code>为本地目录）。<strong>注意：</strong> 要先创建好对应的文件路径！！同时本地文件夹会把容器内的文件夹完全覆盖！</li>
-</ul>
-<h2 id="1-2-连接到容器"><a href="#1-2-连接到容器" class="headerlink" title="1.2 连接到容器"></a>1.2 连接到容器</h2><ol>
-<li><strong>连接到 MySQL 容器：</strong></li>
-</ol>
-<p>进入到容器内部然后进行连接：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it some-mysql bash</span><br><span class="line"></span><br><span class="line">mysql -uroot -p</span><br></pre></td></tr></table></figure></div>
-
-<p>直接连接到容器：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it some-mysql mysql -uroot -p</span><br></pre></td></tr></table></figure></div>
-<p>这会启动一个终端会话，并要求输入上面设置的root用户的密码 (<code>1234</code>)。</p>
-<p>以上命令的说明：</p>
-<ol>
-<li><strong>docker exec：</strong></li>
-</ol>
-<ul>
-<li><strong>含义：</strong> 在一个已经运行的容器内执行命令。</li>
-<li><strong>用途：</strong> 允许你在运行的容器中执行新的命令。</li>
-</ul>
-<ol start="2">
-<li><strong>-it：</strong></li>
-</ol>
-<ul>
-<li><strong><code>-i</code> (interactive)：</strong> 保持标准输入（stdin）打开，使得你可以与容器中的进程进行交互。</li>
-<li><strong><code>-t</code> (tty)：</strong> 分配一个伪终端，提供一个终端会话环境。这两个选项一起使用可以进入容器并交互。</li>
-</ul>
-<ol start="3">
-<li><strong>some-mysql：</strong></li>
-</ol>
-<ul>
-<li><strong>含义：</strong> 容器的名称或 ID。</li>
-</ul>
-<ol start="4">
-<li><strong>mysql：</strong></li>
-</ol>
-<ul>
-<li><strong>含义：</strong> 这是在容器内执行的命令。在这个例子中，是启动 MySQL 客户端。</li>
-<li><strong>用途：</strong> 连接到 MySQL 数据库。</li>
-</ul>
-<ol start="5">
-<li><strong>-uroot：</strong></li>
-</ol>
-<ul>
-<li><strong><code>-u</code>：</strong> 指定 MySQL 客户端的用户名。</li>
-<li><strong>root：</strong> MySQL 数据库的用户名。在这个例子中，使用的是 <code>root</code> 用户。</li>
-</ul>
-<ol start="6">
-<li><strong><code>-p</code>：</strong></li>
-</ol>
-<ul>
-<li><strong>含义：</strong> 提示输入 MySQL 用户的密码。</li>
-<li><strong>用途：</strong> 在执行命令后，你会被提示输入 <code>root</code> 用户的密码。这个密码是在运行容器时通过 <code>MYSQL_ROOT_PASSWORD</code> 环境变量设置的。</li>
-</ul>
-<p>以上命令的 <code>-p 3306:3306</code> 会将主机的3306端口映射到容器的3306端口，这样可以从主机上的MySQL客户端连接到容器中的MySQL服务。</p>
-<h2 id="1-3-更改容器信息"><a href="#1-3-更改容器信息" class="headerlink" title="1.3 更改容器信息"></a>1.3 更改容器信息</h2><h3 id="1-3-1-方法一：停止并删除现有容器"><a href="#1-3-1-方法一：停止并删除现有容器" class="headerlink" title="1.3.1 方法一：停止并删除现有容器"></a>1.3.1 方法一：停止并删除现有容器</h3><p>首先，停止并删除现有的 <code>mysql-test</code> 容器：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker start mysql-test        <span class="comment"># 运行</span></span><br><span class="line">docker stop mysql-test        <span class="comment"># 停止</span></span><br><span class="line">docker <span class="built_in">rm</span> mysql-test        <span class="comment"># 删除</span></span><br></pre></td></tr></table></figure></div>
-<p>然后再重新创建<code>mysql-test</code>即可。</p>
-<h3 id="1-3-2-方法二：不同的容器名称"><a href="#1-3-2-方法二：不同的容器名称" class="headerlink" title="1.3.2 方法二：不同的容器名称"></a>1.3.2 方法二：不同的容器名称</h3><p>可以使用不同的名称来运行容器，这样就不需要删除现有的容器。例如：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run --name mysql-test-2 -e MYSQL_ROOT_PASSWORD=0403 -p 3307:3306 -d mysql:latest</span><br></pre></td></tr></table></figure></div>
-<p>这样会启动一个新容器，名称为 <code>mysql-test-2</code>，并绑定主机的3307端口到容器的3306端口。</p>
-<h2 id="1-4-查看容器信息"><a href="#1-4-查看容器信息" class="headerlink" title="1.4 查看容器信息"></a>1.4 查看容器信息</h2><p>查看容器或镜像内部信息（如端口，ip地址，挂载卷等）：</p>
-<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker inspect &lt;容器名/容器ID/镜像名/镜像ID&gt;</span><br></pre></td></tr></table></figure></div>]]></content>
-      <tags>
-        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -1895,92 +1895,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Linux 环境下配置 Docker</title>
-    <url>/2024/07/20/Linux-Docker/</url>
-    <content><![CDATA[<h1 id="1、Docker-配置"><a href="#1、Docker-配置" class="headerlink" title="1、Docker 配置"></a>1、Docker 配置</h1><h2 id="1-1-安装-Docker"><a href="#1-1-安装-Docker" class="headerlink" title="1.1 安装 Docker"></a>1.1 安装 Docker</h2><ul>
-<li><strong>安装方式一（推荐）：</strong></li>
-</ul>
-<p>通过<code>yay</code>直接安装（全局安装）：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">yay -Sy docker docker-compose</span><br></pre></td></tr></table></figure></div>
-<p><code>docker-compose</code>可选安装，它可以通过配置文件<code>Dockerfile</code>来构建镜像。</p>
-<ul>
-<li><strong>安装方式二：</strong></li>
-</ul>
-<p>通过<code>conda</code>安装（局部安装，可全局使用）：</p>
-<p>首先需要创建虚拟环境用于存储安装的<code>docker</code>和<code>docker-compose</code>。</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">conda create --name docker python=3.12</span><br></pre></td></tr></table></figure></div>
-<p>Python版本可自己选择。</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">conda install docker docker-compose -c conda-forge</span><br></pre></td></tr></table></figure></div>
-
-<p>这里的<code>-c conda-forge</code>一定要加，默认的<code>conda.org</code>源没有<code>docker</code>。</p>
-<p>安装好的<code>docker</code>和<code>docker-compose</code>是在该路径下：<br><code>~/.conda/envs/docker/bin/docker</code><br><code>~/.conda/envs/docker/bin/docker-compose</code></p>
-<h2 id="1-2-docker-基本操作"><a href="#1-2-docker-基本操作" class="headerlink" title="1.2 docker 基本操作"></a>1.2 docker 基本操作</h2><h3 id="1-2-1-docker-服务"><a href="#1-2-1-docker-服务" class="headerlink" title="1.2.1 docker 服务"></a>1.2.1 docker 服务</h3><ul>
-<li><p>启动docker服务</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start docker</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>关闭docker服务</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl stop docker.service docker.socket</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>检查<code>docker</code>服务状态</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status docker</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>开机自启动设置</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> --now docker</span><br></pre></td></tr></table></figure></div></li>
-</ul>
-<h3 id="1-2-2-添加用户到-docker-组"><a href="#1-2-2-添加用户到-docker-组" class="headerlink" title="1.2.2 添加用户到 docker 组"></a>1.2.2 添加用户到 docker 组</h3><p>为了避免每次运行<code>docker</code>命令时都需要使用 <code>sudo</code>，可以将当前用户添加到 <code>docker</code> 组：</p>
-<div class="code-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> usermod -aG docker <span class="variable">$USER</span></span><br></pre></td></tr></table></figure></div>
-
-<p>然后，重新登录以使更改生效，或者重新加载用户组信息：</p>
-<p>登录：</p>
-<div class="code-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="code"><pre><span class="line">newgrp docker</span><br></pre></td></tr></table></figure></div>
-
-<p>退出：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure></div>
-
-<p>可能需要重启系统来让配置生效。</p>
-<h2 id="1-3-代理配置（一定要配置）"><a href="#1-3-代理配置（一定要配置）" class="headerlink" title="1.3 代理配置（一定要配置）"></a>1.3 代理配置（一定要配置）</h2><p>1.创建<code>docker</code>相关的<code>systemd</code>目录，这个目录下的配置将覆盖<code>docker</code>的默认配置：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">mkdir</span> -p /etc/systemd/system/docker.service.d</span><br></pre></td></tr></table></figure></div>
-
-<p>2.新建配置文件：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">kate /etc/systemd/system/docker.service.d/proxy.conf</span><br></pre></td></tr></table></figure></div>
-
-<p>将以下内容复制到<code>proxy.conf</code>中：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">[Service]</span><br><span class="line">Environment=&quot;HTTP_PROXY=http://127.0.0.1:7890&quot;</span><br><span class="line">Environment=&quot;HTTPS_PROXY=http://127.0.0.1:7890&quot;</span><br></pre></td></tr></table></figure></div>
-
-<p>这里需要根据自己实际的代理端口填写。</p>
-<p>3.如果自己建了私有的镜像仓库，需要<code>docker</code>绕过代理服务器直连，那么配置<code>NO_PROXY</code>变量：</p>
-<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">[Service]</span><br><span class="line">Environment=&quot;HTTP_PROXY=http://127.0.0.1:7890&quot;</span><br><span class="line">Environment=&quot;HTTPS_PROXY=http://127.0.0.1:7890&quot;</span><br><span class="line">Environment=&quot;NO_PROXY=your-registry.com,10.10.10.10,*.example.com&quot;</span><br></pre></td></tr></table></figure></div>
-
-<p>多个<code>NO_PROXY</code>变量的值用逗号分隔，而且可以使用通配符（*），极端情况下，如果<code>NO_PROXY=*</code>，那么所有请求都将不通过代理服务器。</p>
-<p>4.重新加载配置文件，重启<code>docker</code>：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl daemon-reload</span><br></pre></td></tr></table></figure></div>
-
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl restart docker</span><br></pre></td></tr></table></figure></div>
-
-<p>5.检查确认环境变量已经正确配置：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl show --property=Environment docker</span><br></pre></td></tr></table></figure></div>
-
-<p>像输出以下内容就成功了：</p>
-<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">Environment=HTTP_PROXY=http://127.0.0.1:7890 HTTPS_PROXY=http://127.0.0.1:7890</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="1-4-命令简化配置"><a href="#1-4-命令简化配置" class="headerlink" title="1.4 命令简化配置"></a>1.4 命令简化配置</h2><p><strong>以下推荐加到.bashrc或者.zshrc中。</strong></p>
-<ol>
-<li>格式化查看容器：<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker ps --format <span class="string">&quot;table &#123;&#123;.ID&#125;&#125;\t&#123;&#123;.Image&#125;&#125;\t&#123;&#123;.Ports&#125;&#125;\t&#123;&#123;.Status&#125;&#125;\t&#123;&#123;.Names&#125;&#125;&quot;</span></span><br></pre></td></tr></table></figure></div></li>
-</ol>
-<p>命令简化：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">alias dps=&#x27;docker ps --format &quot;table &#123;&#123;.ID&#125;&#125;\t&#123;&#123;.Image&#125;&#125;\t&#123;&#123;.Ports&#125;&#125;\t&#123;&#123;.Status&#125;&#125;\t&#123;&#123;.Names&#125;&#125;&quot;&#x27;</span><br></pre></td></tr></table></figure></div>
-
-<ol start="2">
-<li>查看网络配置：<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker inspect --format=<span class="string">&#x27;&#123;&#123;.HostConfig.NetworkMode&#125;&#125;&#x27;</span> &lt;容器名/容器ID&gt;</span><br></pre></td></tr></table></figure></div></li>
-</ol>
-<p>命令简化：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">alias din=&#x27;docker inspect --format=&#x27;&#123;&#123;.HostConfig.NetworkMode&#125;&#125;&#x27;&#x27;</span><br></pre></td></tr></table></figure></div>]]></content>
-      <tags>
-        <tag>linux</tag>
-        <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Linux 下 Grub 引导配置教程以及更换内核</title>
     <url>/2024/09/03/Grub%E8%AE%BE%E7%BD%AE/</url>
     <content><![CDATA[<h1 id="1-基本说明"><a href="#1-基本说明" class="headerlink" title="1.基本说明"></a>1.基本说明</h1><p><code>GRUB</code>（GRand Unified Bootloader）的配置文件 是<code>/etc/default/grub</code>，用于配置 GRUB 引导加载器的行为。</p>
@@ -2170,6 +2084,92 @@
       </tags>
   </entry>
   <entry>
+    <title>Linux 环境下配置 Docker</title>
+    <url>/2024/07/20/Linux-Docker/</url>
+    <content><![CDATA[<h1 id="1、Docker-配置"><a href="#1、Docker-配置" class="headerlink" title="1、Docker 配置"></a>1、Docker 配置</h1><h2 id="1-1-安装-Docker"><a href="#1-1-安装-Docker" class="headerlink" title="1.1 安装 Docker"></a>1.1 安装 Docker</h2><ul>
+<li><strong>安装方式一（推荐）：</strong></li>
+</ul>
+<p>通过<code>yay</code>直接安装（全局安装）：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">yay -Sy docker docker-compose</span><br></pre></td></tr></table></figure></div>
+<p><code>docker-compose</code>可选安装，它可以通过配置文件<code>Dockerfile</code>来构建镜像。</p>
+<ul>
+<li><strong>安装方式二：</strong></li>
+</ul>
+<p>通过<code>conda</code>安装（局部安装，可全局使用）：</p>
+<p>首先需要创建虚拟环境用于存储安装的<code>docker</code>和<code>docker-compose</code>。</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">conda create --name docker python=3.12</span><br></pre></td></tr></table></figure></div>
+<p>Python版本可自己选择。</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">conda install docker docker-compose -c conda-forge</span><br></pre></td></tr></table></figure></div>
+
+<p>这里的<code>-c conda-forge</code>一定要加，默认的<code>conda.org</code>源没有<code>docker</code>。</p>
+<p>安装好的<code>docker</code>和<code>docker-compose</code>是在该路径下：<br><code>~/.conda/envs/docker/bin/docker</code><br><code>~/.conda/envs/docker/bin/docker-compose</code></p>
+<h2 id="1-2-docker-基本操作"><a href="#1-2-docker-基本操作" class="headerlink" title="1.2 docker 基本操作"></a>1.2 docker 基本操作</h2><h3 id="1-2-1-docker-服务"><a href="#1-2-1-docker-服务" class="headerlink" title="1.2.1 docker 服务"></a>1.2.1 docker 服务</h3><ul>
+<li><p>启动docker服务</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start docker</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>关闭docker服务</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl stop docker.service docker.socket</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>检查<code>docker</code>服务状态</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status docker</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>开机自启动设置</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> --now docker</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<h3 id="1-2-2-添加用户到-docker-组"><a href="#1-2-2-添加用户到-docker-组" class="headerlink" title="1.2.2 添加用户到 docker 组"></a>1.2.2 添加用户到 docker 组</h3><p>为了避免每次运行<code>docker</code>命令时都需要使用 <code>sudo</code>，可以将当前用户添加到 <code>docker</code> 组：</p>
+<div class="code-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> usermod -aG docker <span class="variable">$USER</span></span><br></pre></td></tr></table></figure></div>
+
+<p>然后，重新登录以使更改生效，或者重新加载用户组信息：</p>
+<p>登录：</p>
+<div class="code-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="code"><pre><span class="line">newgrp docker</span><br></pre></td></tr></table></figure></div>
+
+<p>退出：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure></div>
+
+<p>可能需要重启系统来让配置生效。</p>
+<h2 id="1-3-代理配置（一定要配置）"><a href="#1-3-代理配置（一定要配置）" class="headerlink" title="1.3 代理配置（一定要配置）"></a>1.3 代理配置（一定要配置）</h2><p>1.创建<code>docker</code>相关的<code>systemd</code>目录，这个目录下的配置将覆盖<code>docker</code>的默认配置：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">mkdir</span> -p /etc/systemd/system/docker.service.d</span><br></pre></td></tr></table></figure></div>
+
+<p>2.新建配置文件：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">kate /etc/systemd/system/docker.service.d/proxy.conf</span><br></pre></td></tr></table></figure></div>
+
+<p>将以下内容复制到<code>proxy.conf</code>中：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">[Service]</span><br><span class="line">Environment=&quot;HTTP_PROXY=http://127.0.0.1:7890&quot;</span><br><span class="line">Environment=&quot;HTTPS_PROXY=http://127.0.0.1:7890&quot;</span><br></pre></td></tr></table></figure></div>
+
+<p>这里需要根据自己实际的代理端口填写。</p>
+<p>3.如果自己建了私有的镜像仓库，需要<code>docker</code>绕过代理服务器直连，那么配置<code>NO_PROXY</code>变量：</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">[Service]</span><br><span class="line">Environment=&quot;HTTP_PROXY=http://127.0.0.1:7890&quot;</span><br><span class="line">Environment=&quot;HTTPS_PROXY=http://127.0.0.1:7890&quot;</span><br><span class="line">Environment=&quot;NO_PROXY=your-registry.com,10.10.10.10,*.example.com&quot;</span><br></pre></td></tr></table></figure></div>
+
+<p>多个<code>NO_PROXY</code>变量的值用逗号分隔，而且可以使用通配符（*），极端情况下，如果<code>NO_PROXY=*</code>，那么所有请求都将不通过代理服务器。</p>
+<p>4.重新加载配置文件，重启<code>docker</code>：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl daemon-reload</span><br></pre></td></tr></table></figure></div>
+
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl restart docker</span><br></pre></td></tr></table></figure></div>
+
+<p>5.检查确认环境变量已经正确配置：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl show --property=Environment docker</span><br></pre></td></tr></table></figure></div>
+
+<p>像输出以下内容就成功了：</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">Environment=HTTP_PROXY=http://127.0.0.1:7890 HTTPS_PROXY=http://127.0.0.1:7890</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="1-4-命令简化配置"><a href="#1-4-命令简化配置" class="headerlink" title="1.4 命令简化配置"></a>1.4 命令简化配置</h2><p><strong>以下推荐加到.bashrc或者.zshrc中。</strong></p>
+<ol>
+<li>格式化查看容器：<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker ps --format <span class="string">&quot;table &#123;&#123;.ID&#125;&#125;\t&#123;&#123;.Image&#125;&#125;\t&#123;&#123;.Ports&#125;&#125;\t&#123;&#123;.Status&#125;&#125;\t&#123;&#123;.Names&#125;&#125;&quot;</span></span><br></pre></td></tr></table></figure></div></li>
+</ol>
+<p>命令简化：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">alias dps=&#x27;docker ps --format &quot;table &#123;&#123;.ID&#125;&#125;\t&#123;&#123;.Image&#125;&#125;\t&#123;&#123;.Ports&#125;&#125;\t&#123;&#123;.Status&#125;&#125;\t&#123;&#123;.Names&#125;&#125;&quot;&#x27;</span><br></pre></td></tr></table></figure></div>
+
+<ol start="2">
+<li>查看网络配置：<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker inspect --format=<span class="string">&#x27;&#123;&#123;.HostConfig.NetworkMode&#125;&#125;&#x27;</span> &lt;容器名/容器ID&gt;</span><br></pre></td></tr></table></figure></div></li>
+</ol>
+<p>命令简化：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">alias din=&#x27;docker inspect --format=&#x27;&#123;&#123;.HostConfig.NetworkMode&#125;&#125;&#x27;&#x27;</span><br></pre></td></tr></table></figure></div>]]></content>
+      <tags>
+        <tag>linux</tag>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Linux 下配置 conda 环境</title>
     <url>/2024/08/19/Linux-conda/</url>
     <content><![CDATA[<h1 id="一、miniconda3-配置"><a href="#一、miniconda3-配置" class="headerlink" title="一、miniconda3 配置"></a>一、miniconda3 配置</h1><p><strong>注：</strong> 如果用的是<code>miniforge</code>，操作方式与此类似。</p>
@@ -2224,97 +2224,39 @@
       </tags>
   </entry>
   <entry>
-    <title>Linux 指令</title>
-    <url>/2024/07/24/Linux%E6%8C%87%E4%BB%A4/</url>
-    <content><![CDATA[<h1 id="一、包管理器"><a href="#一、包管理器" class="headerlink" title="一、包管理器"></a>一、包管理器</h1><h2 id="1-1-介绍"><a href="#1-1-介绍" class="headerlink" title="1.1 介绍"></a>1.1 介绍</h2><p>  在 <code>EndeavouOS</code>（以及其他基于<code>Arch</code>的发行版）中，<code>pacman</code> 是一个用于软件包管理的命令行工具。下面是 <code>pacman</code> 命令的详细解释：</p>
-<ul>
-<li><code>-S</code>：用于安装软件包。</li>
-<li><code>-y</code>：强制刷新软件包数据库。</li>
-<li><code>-yy</code>：强制刷新所有的软件包数据库。通常只需要一个 <code>-y</code> 就足够，但 <code>-yy</code> 用于解决某些情况下可能出现的数据库同步问题。</li>
-<li><code>-u</code>：更新所有已安装的软件包，用于更新系统或者<code>pacman</code>包含的软件以及以来库。</li>
-</ul>
-<p>对于所有用<code>pacman</code>进行的操作，都可以通过<code>yay</code>实现：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman yay</span><br></pre></td></tr></table></figure></div>
-<p><code>yay</code>支持的软件多一些（通过<code>aur</code>源）。</p>
-<h2 id="1-2-下载和更新"><a href="#1-2-下载和更新" class="headerlink" title="1.2 下载和更新"></a>1.2 下载和更新</h2><ul>
-<li><strong>要更新或下载指定的软件包：</strong><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S 包名</span><br></pre></td></tr></table></figure></div>
-<code>pacman</code> 会检查你指定的软件包是否有新版本，如果有的话，就会下载并安装更新后的版本。</li>
-</ul>
-<h2 id="1-3-查看包-库信息"><a href="#1-3-查看包-库信息" class="headerlink" title="1.3 查看包&#x2F;库信息"></a>1.3 查看包&#x2F;库信息</h2><ul>
-<li><p><strong>查看包名信息</strong>：<br>显示指定软件包的信息，但不会安装或更新。这个选项可以用来查看某个软件包的详细信息，包括它的版本、依赖关系等。例如：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">pacman -Si &lt;pkgname&gt;</span><br></pre></td></tr></table></figure></div>
-<p>查看包的简略信息</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">yay -Qs &lt;pkgname&gt;</span><br></pre></td></tr></table></figure></div>
-<p>查看包的详细信息</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">yay -Qi &lt;pkgname&gt;</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p><strong>查看可升级的包&#x2F;库：</strong><br>列出有可用更新的已安装软件包及其最新版本。</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -Qu</span><br></pre></td></tr></table></figure></div></li>
-</ul>
-<p>列出所有的外部软件包（即非官方仓库安装的包，如<code>AUR</code>软件包）：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">pacman -Qm</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="1-4-卸载"><a href="#1-4-卸载" class="headerlink" title="1.4 卸载"></a>1.4 卸载</h2><h3 id="1-4-1-卸载单个软件包"><a href="#1-4-1-卸载单个软件包" class="headerlink" title="1.4.1 卸载单个软件包"></a>1.4.1 卸载单个软件包</h3><p>要卸载单个软件包，可以使用以下命令：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -R package_name</span><br></pre></td></tr></table></figure></div>
-
-<h3 id="1-4-2-卸载软件包及其未使用的依赖"><a href="#1-4-2-卸载软件包及其未使用的依赖" class="headerlink" title="1.4.2 卸载软件包及其未使用的依赖"></a>1.4.2 卸载软件包及其未使用的依赖</h3><p>有时卸载一个包后，它的一些依赖包可能不再被其他软件包使用。要卸载软件包及其未使用的依赖，可以使用以下命令：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -Rns package_name</span><br></pre></td></tr></table></figure></div>
-
-<p>解释：</p>
-<ul>
-<li><code>-R</code>(–remove)：卸载指定的包。</li>
-<li><code>-n</code>(–nosave)：从系统中删除安装包的所有配置文件。</li>
-<li><code>-s</code>(–recursive)：递归地卸载未使用的依赖包。</li>
-</ul>
-<h3 id="1-4-3-强制卸载（不推荐）"><a href="#1-4-3-强制卸载（不推荐）" class="headerlink" title="1.4.3 强制卸载（不推荐）"></a>1.4.3 强制卸载（不推荐）</h3><p>在极少数情况下，可能需要强制卸载一个包，即使这可能会破坏系统的依赖关系。请谨慎使用此选项：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -Rdd package_name</span><br></pre></td></tr></table></figure></div>
-
-<p>解释：</p>
-<ul>
-<li><code>-d</code>：忽略依赖关系检查。</li>
-</ul>
-<h3 id="1-4-4-清理未使用的孤立包"><a href="#1-4-4-清理未使用的孤立包" class="headerlink" title="1.4.4 清理未使用的孤立包"></a>1.4.4 清理未使用的孤立包</h3><p>系统中可能会有一些未使用的孤立包，这些包是作为依赖安装的，但现在没有任何包依赖它们。可以使用以下命令清理这些孤立包：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -Rns $(pacman -Qtdq)</span><br></pre></td></tr></table></figure></div>
-
-<p>解释：</p>
-<ul>
-<li><code>pacman -Qtdq</code>：列出所有未使用的孤立包。</li>
-<li><code>-Rns</code>：递归地卸载未使用的包及其配置文件。</li>
-</ul>
-<h2 id="1-5-查看安装包的文件及其路径"><a href="#1-5-查看安装包的文件及其路径" class="headerlink" title="1.5 查看安装包的文件及其路径"></a>1.5 查看安装包的文件及其路径</h2><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -Ql boost</span><br></pre></td></tr></table></figure></div>
-
-<p>输出示例：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">boost /usr/share/boostbook/xsl/source-highlight.xsl</span><br><span class="line">boost /usr/share/boostbook/xsl/template.xsl</span><br><span class="line">boost /usr/share/boostbook/xsl/testing/</span><br><span class="line">boost /usr/share/boostbook/xsl/testing/Jamfile.xsl</span><br><span class="line">boost /usr/share/boostbook/xsl/testing/testsuite.xsl</span><br><span class="line">boost /usr/share/boostbook/xsl/type.xsl</span><br><span class="line">boost /usr/share/boostbook/xsl/utility.xsl</span><br><span class="line">boost /usr/share/boostbook/xsl/xhtml.xsl</span><br><span class="line">boost /usr/share/boostbook/xsl/xref.xsl</span><br></pre></td></tr></table></figure></div>
-
-
-<h1 id="二、常用指令"><a href="#二、常用指令" class="headerlink" title="二、常用指令"></a>二、常用指令</h1><h2 id="2-1-查看开机启动项的方法"><a href="#2-1-查看开机启动项的方法" class="headerlink" title="2.1 查看开机启动项的方法"></a>2.1 查看开机启动项的方法</h2><h3 id="2-1-1-使用-systemctl-查看-systemd-服务"><a href="#2-1-1-使用-systemctl-查看-systemd-服务" class="headerlink" title="2.1.1 使用 systemctl 查看 systemd 服务"></a>2.1.1 使用 systemctl 查看 systemd 服务</h3><p>使用 <code>systemctl</code> 命令来列出所有启用的（开机自启动的）systemd 服务：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">systemctl list-unit-files --<span class="built_in">type</span>=service --state=enabled</span><br></pre></td></tr></table></figure></div>
+    <title>Linux 常用指令汇总</title>
+    <url>/2024/12/10/Linux%E6%8C%87%E4%BB%A4/</url>
+    <content><![CDATA[<h1 id="1-查看开机启动项"><a href="#1-查看开机启动项" class="headerlink" title="1.查看开机启动项"></a>1.查看开机启动项</h1><h2 id="1-1-使用-systemctl-查看-systemd-服务"><a href="#1-1-使用-systemctl-查看-systemd-服务" class="headerlink" title="1.1 使用 systemctl 查看 systemd 服务"></a>1.1 使用 systemctl 查看 systemd 服务</h2><p>使用 <code>systemctl</code> 命令来列出所有启用的（开机自启动的）systemd 服务：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl list-unit-files --<span class="built_in">type</span>=service --state=enabled</span><br></pre></td></tr></table></figure></div>
 
 <p>查看当前运行的服务：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">systemctl list-units --<span class="built_in">type</span>=service --state=running</span><br></pre></td></tr></table></figure></div>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl list-units --<span class="built_in">type</span>=service --state=running</span><br></pre></td></tr></table></figure></div>
 
 <p>你也可以使用 <code>systemctl</code> 查看所有启用的单元文件，包括服务、套接字、目标等：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">systemctl list-unit-files --state=enabled</span><br></pre></td></tr></table></figure></div>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl list-unit-files --state=enabled</span><br></pre></td></tr></table></figure></div>
 
-<h3 id="2-1-2-查看用户和系统级别的开机自启动应用"><a href="#2-1-2-查看用户和系统级别的开机自启动应用" class="headerlink" title="2.1.2 查看用户和系统级别的开机自启动应用"></a>2.1.2 查看用户和系统级别的开机自启动应用</h3><p>用户级别的开机自启动应用通常在 <code>~/.config/autostart</code> 目录下。你可以使用以下命令查看该目录中的内容：</p>
+<p>如果是查看当前用户级别的服务，只需要加上参数<code>--user</code>即可，不需要<code>sudo</code>：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">systemctl --user list-unit-files --<span class="built_in">type</span>=service</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="1-2-查看用户和系统级别的开机自启动应用"><a href="#1-2-查看用户和系统级别的开机自启动应用" class="headerlink" title="1.2 查看用户和系统级别的开机自启动应用"></a>1.2 查看用户和系统级别的开机自启动应用</h2><p>用户级别的开机自启动应用通常在 <code>~/.config/autostart</code> 目录下。你可以使用以下命令查看该目录中的内容：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 用户</span></span><br><span class="line"><span class="built_in">ls</span> ~/.config/autostart</span><br><span class="line"></span><br><span class="line"><span class="comment"># 系统</span></span><br><span class="line"><span class="built_in">ls</span> /etc/xdg/autostart</span><br></pre></td></tr></table></figure></div>
 
-<h3 id="2-1-3-使用-crontab-查看定时任务"><a href="#2-1-3-使用-crontab-查看定时任务" class="headerlink" title="2.1.3 使用 crontab 查看定时任务"></a>2.1.3 使用 crontab 查看定时任务</h3><p>你还可以使用 <code>crontab</code> 查看是否有任何定时任务设置为在启动时运行。使用以下命令查看当前用户的 <code>crontab</code> 条目：</p>
+<h2 id="1-3-使用-crontab-查看定时任务"><a href="#1-3-使用-crontab-查看定时任务" class="headerlink" title="1.3 使用 crontab 查看定时任务"></a>1.3 使用 crontab 查看定时任务</h2><p>你还可以使用 <code>crontab</code> 查看是否有任何定时任务设置为在启动时运行。使用以下命令查看当前用户的 <code>crontab</code> 条目：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">crontab -l</span><br></pre></td></tr></table></figure></div>
 
 <p>如果有需要在系统启动时运行的任务，它们通常会使用 <code>@reboot</code> 时间标志。</p>
-<h3 id="2-1-4-检查-etc-rc-local-文件"><a href="#2-1-4-检查-etc-rc-local-文件" class="headerlink" title="2.1.4 检查 &#x2F;etc&#x2F;rc.local 文件"></a>2.1.4 检查 &#x2F;etc&#x2F;rc.local 文件</h3><p>虽然 <code>rc.local</code> 文件在现代系统中不再常用，但有时仍然会使用它来设置开机自启动任务。你可以检查这个文件（如果存在）来查看是否有任何任务设置为在启动时运行：</p>
+<h2 id="1-4-检查-etc-rc-local-文件"><a href="#1-4-检查-etc-rc-local-文件" class="headerlink" title="1.4 检查 &#x2F;etc&#x2F;rc.local 文件"></a>1.4 检查 &#x2F;etc&#x2F;rc.local 文件</h2><p>虽然 <code>rc.local</code> 文件在现代系统中不再常用，但有时仍然会使用它来设置开机自启动任务。你可以检查这个文件（如果存在）来查看是否有任何任务设置为在启动时运行：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cat</span> /etc/rc.local</span><br></pre></td></tr></table></figure></div>
 
-<h2 id="2-2-文件操作"><a href="#2-2-文件操作" class="headerlink" title="2.2 文件操作"></a>2.2 文件操作</h2><h3 id="2-2-1-touch-指令"><a href="#2-2-1-touch-指令" class="headerlink" title="2.2.1 touch 指令"></a>2.2.1 touch 指令</h3><p>创建文件：</p>
+<h1 id="2-文件操作"><a href="#2-文件操作" class="headerlink" title="2.文件操作"></a>2.文件操作</h1><h2 id="2-1-touch-指令"><a href="#2-1-touch-指令" class="headerlink" title="2.1 touch 指令"></a>2.1 touch 指令</h2><p>创建文件：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">touch</span> &lt;filename&gt;</span><br></pre></td></tr></table></figure></div>
 
-<h3 id="2-2-2-mkdir-指令"><a href="#2-2-2-mkdir-指令" class="headerlink" title="2.2.2 mkdir 指令"></a>2.2.2 mkdir 指令</h3><p>创建文件夹：</p>
+<h2 id="2-2-mkdir-指令"><a href="#2-2-mkdir-指令" class="headerlink" title="2.2 mkdir 指令"></a>2.2 mkdir 指令</h2><p>创建文件夹：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> &lt;foldername&gt;</span><br></pre></td></tr></table></figure></div>
 <p>强行创建，比如当<code>&lt;folder1&gt;</code>不存在时：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> -p &lt;folder1&gt;/&lt;folder2&gt;</span><br></pre></td></tr></table></figure></div>
 
-<h3 id="2-2-3-rm-指令"><a href="#2-2-3-rm-指令" class="headerlink" title="2.2.3 rm 指令"></a>2.2.3 rm 指令</h3><p>删除文件：</p>
+<h2 id="2-3-rm-指令"><a href="#2-3-rm-指令" class="headerlink" title="2.3 rm 指令"></a>2.3 rm 指令</h2><p>删除文件：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">rm</span> &lt;filename1&gt; &lt;filename2&gt;</span><br></pre></td></tr></table></figure></div>
 
 <p>删除该文件夹下的所有子文件</p>
@@ -2324,22 +2266,23 @@
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">rm</span> * -rf</span><br></pre></td></tr></table></figure></div>
 
 <p><strong>注：</strong> 后缀的<code>-rf</code>是指强制删除（不会有警告），<code>-r</code>是指递归普通删除（若与其它文件有链接，会提出警告）。</p>
-<h3 id="2-2-4-cp-指令"><a href="#2-2-4-cp-指令" class="headerlink" title="2.2.4 cp 指令"></a>2.2.4 cp 指令</h3><p>复制文件夹操作需要加<code>-r</code>：</p>
+<h2 id="2-4-cp-指令"><a href="#2-4-cp-指令" class="headerlink" title="2.4 cp 指令"></a>2.4 cp 指令</h2><p>复制文件夹操作需要加<code>-r</code>：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cp</span> &lt;foldername1&gt; &lt;foldername2&gt; -r</span><br></pre></td></tr></table></figure></div>
 
-<h3 id="2-2-5-mv-指令"><a href="#2-2-5-mv-指令" class="headerlink" title="2.2.5 mv 指令"></a>2.2.5 mv 指令</h3><p>可以对文件或者文件夹进行重命名：</p>
+<h2 id="2-5-mv-指令"><a href="#2-5-mv-指令" class="headerlink" title="2.5 mv 指令"></a>2.5 mv 指令</h2><p>可以对文件或者文件夹进行重命名：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mv</span> test01.txt test02.txt</span><br></pre></td></tr></table></figure></div>
 <p>如果<code>test01.txt</code>存在，<code>test02.txt</code>不存在，会把<code>test01.txt</code>命名为<code>test02.txt</code>。</p>
 <p>对文件或者文件夹进行移动操作：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mv</span> /test.txt ~/temp</span><br></pre></td></tr></table></figure></div>
 <p>把<code>test.txt</code>移动到<code>~/temp</code>文件夹下。</p>
-<h3 id="2-5-6-加上-r-的用处"><a href="#2-5-6-加上-r-的用处" class="headerlink" title="2.5.6 加上 -r 的用处"></a>2.5.6 加上 -r 的用处</h3><p>总结下<code>rm</code>、<code>cp</code>、<code>mv</code>这三种指令，对文件夹操作都会加上<code>-r</code>。这里表示<code>加上</code>-r<code>（或</code>–recursive&#96;）选项后，这些命令会递归地操作目录及其内容。</p>
-<h3 id="2-5-7-find-指令"><a href="#2-5-7-find-指令" class="headerlink" title="2.5.7 find 指令"></a>2.5.7 find 指令</h3><ol>
+<p>总结下<code>rm</code>、<code>cp</code>、<code>mv</code>这三种指令，对文件夹操作都会加上<code>-r</code>。这里表示<code>加上</code>-r<code>（或</code>–recursive&#96;）选项后，这些命令会递归地操作目录及其内容。</p>
+<h2 id="2-6-find-指令"><a href="#2-6-find-指令" class="headerlink" title="2.6 find 指令"></a>2.6 find 指令</h2><ol>
 <li><p><strong>基本语法</strong> ：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">find [路径] [选项] [表达式]</span><br></pre></td></tr></table></figure></div>
 </li>
 <li><p><strong>查找特定目录下的所有文件</strong> ：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">find /path/to/directory</span><br></pre></td></tr></table></figure></div>
+<p>这会列出<code>/path/to/directory</code>目录下的所有文件及其子目录下的文件。</p>
 </li>
 <li><p><strong>根据文件名查找</strong> ：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">find /path/to/directory -name <span class="string">&quot;filename.txt&quot;</span></span><br></pre></td></tr></table></figure></div>
@@ -2358,15 +2301,15 @@
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">find /path/to/directory -mtime -7</span><br></pre></td></tr></table></figure></div>
 </li>
 <li><p><strong>执行命令</strong> ：<br>找到文件后执行命令，例如删除找到的文件：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">find /path/to/directory -name <span class="string">&quot;filename.txt&quot;</span> -<span class="built_in">exec</span> <span class="built_in">rm</span> &#123;&#125; \;</span><br></pre></td></tr></table></figure></div>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 删除文件</span></span><br><span class="line">find /path/to/directory -name <span class="string">&quot;filename.txt&quot;</span> -<span class="built_in">exec</span> <span class="built_in">rm</span> &#123;&#125; \;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除文件夹</span></span><br><span class="line">find /path/to/directory -<span class="built_in">type</span> d -name <span class="string">&#x27;folder&#x27;</span> -<span class="built_in">exec</span> <span class="built_in">rm</span> -rf &#123;&#125; +</span><br></pre></td></tr></table></figure></div>
 </li>
 <li><p><strong>查找并列出文件的详细信息</strong>：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">find /path/to/directory -name <span class="string">&quot;filename.txt&quot;</span> -<span class="built_in">ls</span></span><br></pre></td></tr></table></figure></div>
 </li>
 <li><p><strong>结合多个条件</strong> ：<br>查找所有 <code>.txt</code> 文件并且大小大于 1MB：</p>
-<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">find /path/to/directory -name &quot;*.txt&quot; -size +1M</span><br></pre></td></tr></table></figure></div></li>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">find /path/to/directory -name <span class="string">&quot;*.txt&quot;</span> -size +1M</span><br></pre></td></tr></table></figure></div></li>
 </ol>
-<h2 id="2-3-赋予文件或文件夹权限"><a href="#2-3-赋予文件或文件夹权限" class="headerlink" title="2.3 赋予文件或文件夹权限"></a>2.3 赋予文件或文件夹权限</h2><ol>
+<h1 id="3-权限"><a href="#3-权限" class="headerlink" title="3.权限"></a>3.权限</h1><ol>
 <li><p>使用<code>chmod</code>命令递归地更改文件夹内所有文件和子文件夹的权限：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">chmod</span> -R 777 /path/to/your/folder</span><br></pre></td></tr></table></figure></div>
 <p><code>-R</code>表示递归。</p>
@@ -2376,9 +2319,14 @@
 <p>这将只更改所有文件的权限，而不影响文件夹的权限。</p>
 </li>
 <li><p>单独更改文件夹的权限（例如，给文件夹777权限，而文件保持不变）：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">find /path/to/your/folder -<span class="built_in">type</span> d -<span class="built_in">exec</span> <span class="built_in">chmod</span> 777 &#123;&#125; +</span><br></pre></td></tr></table></figure></div></li>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">find /path/to/your/folder -<span class="built_in">type</span> d -<span class="built_in">exec</span> <span class="built_in">chmod</span> 777 &#123;&#125; +</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>把文件改为可执行</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">chmod</span> u+x script.sh</span><br></pre></td></tr></table></figure></div>
+<p><code>u</code>参数代表文件的所有者<code>user</code>，可以不加，但是就会改变组<code>group</code>和其他用户的权限。</p>
+</li>
 </ol>
-<h2 id="2-4-解压缩"><a href="#2-4-解压缩" class="headerlink" title="2.4 解压缩"></a>2.4 解压缩</h2><p><code>tar</code> 是一个常用的 Unix 和 Linux 工具，用于归档（打包）和压缩文件。</p>
+<h1 id="4-解压缩"><a href="#4-解压缩" class="headerlink" title="4.解压缩"></a>4.解压缩</h1><p><code>tar</code> 是一个常用的 Unix 和 Linux 工具，用于归档（打包）和压缩文件。</p>
 <p>参数如下：</p>
 <ul>
 <li><strong><code>-z</code></strong> ：通过 <code>gzip</code> 压缩或解压缩数据。这个选项告诉 <code>tar</code> 文件是经过 <code>gzip</code> 压缩的。用于处理<code>.tar.gz</code>或<code>.tgz</code>文件。</li>
@@ -2387,10 +2335,10 @@
 <li><strong><code>-v</code></strong> ：显示详细的输出。在解压缩或打包过程中，它会列出处理的文件名。</li>
 <li><strong><code>-f</code></strong> ：指定归档文件的名称。这个选项后面需要跟上归档文件的名称。</li>
 </ul>
-<h3 id="使用示例"><a href="#使用示例" class="headerlink" title="使用示例"></a>使用示例</h3><p>假设你有一个压缩的 tar 文件 <code>archive.tar.gz</code>，你可以使用以下命令来解压它：</p>
+<p>假设你有一个压缩的 tar 文件 <code>archive.tar.gz</code>，你可以使用以下命令来解压它：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">tar -zxvf archive.tar.gz</span><br></pre></td></tr></table></figure></div>
 
-<h2 id="2-5-切换为-root-用户"><a href="#2-5-切换为-root-用户" class="headerlink" title="2.5 切换为 root 用户"></a>2.5 切换为 root 用户</h2><h3 id="2-5-1-使用-su-命令"><a href="#2-5-1-使用-su-命令" class="headerlink" title="2.5.1 使用 su 命令"></a>2.5.1 使用 <code>su</code> 命令</h3><p><code>su</code>（switch user）命令可以用来切换到其他用户，包括 <code>root</code> 用户。</p>
+<h1 id="5-切换为-root-用户"><a href="#5-切换为-root-用户" class="headerlink" title="5.切换为 root 用户"></a>5.切换为 root 用户</h1><h2 id="5-1-使用-su-命令"><a href="#5-1-使用-su-命令" class="headerlink" title="5.1 使用 su 命令"></a>5.1 使用 <code>su</code> 命令</h2><p><code>su</code>（switch user）命令可以用来切换到其他用户，包括 <code>root</code> 用户。</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">su -</span><br></pre></td></tr></table></figure></div>
 
 <ul>
@@ -2400,7 +2348,7 @@
 <p>如果你只想切换到 <code>root</code> 用户而不加载 <code>root</code> 用户的环境配置，可以省略 <code>-</code> 选项：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">su</span><br></pre></td></tr></table></figure></div>
 
-<h3 id="2-5-2-使用-sudo-命令"><a href="#2-5-2-使用-sudo-命令" class="headerlink" title="2.5.2 使用 sudo 命令"></a>2.5.2 使用 <code>sudo</code> 命令</h3><p><code>sudo</code> 命令允许以 <code>root</code> 用户或其他用户的身份执行命令。要切换到 <code>root</code> 用户，你可以使用以下命令：</p>
+<h2 id="5-2-使用-sudo-命令"><a href="#5-2-使用-sudo-命令" class="headerlink" title="5.2 使用 sudo 命令"></a>5.2 使用 <code>sudo</code> 命令</h2><p><code>sudo</code> 命令允许以 <code>root</code> 用户或其他用户的身份执行命令。要切换到 <code>root</code> 用户，你可以使用以下命令：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> -i</span><br></pre></td></tr></table></figure></div>
 
 <ul>
@@ -2413,17 +2361,17 @@
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">ls</span> /root</span><br></pre></td></tr></table></figure></div>
 
 <p>这会以 <code>root</code> 用户的权限执行 <code>ls /root</code> 命令。</p>
-<h3 id="2-5-3-使用-sudo-su-命令"><a href="#2-5-3-使用-sudo-su-命令" class="headerlink" title="2.5.3 使用 sudo su 命令"></a>2.5.3 使用 <code>sudo su</code> 命令</h3><p>你也可以通过 <code>sudo</code> 命令切换到 <code>root</code> 用户，使用以下命令：</p>
+<h2 id="5-3-使用-sudo-su-命令（常用）"><a href="#5-3-使用-sudo-su-命令（常用）" class="headerlink" title="5.3 使用 sudo su 命令（常用）"></a>5.3 使用 <code>sudo su</code> 命令（常用）</h2><p>你也可以通过 <code>sudo</code> 命令切换到 <code>root</code> 用户，使用以下命令：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> su -</span><br></pre></td></tr></table></figure></div>
 
 <ul>
 <li><strong><code>sudo su -</code></strong> 组合命令先用 <code>sudo</code> 获得临时的 <code>root</code> 权限，再用 <code>su -</code> 切换到 <code>root</code> 用户。</li>
 </ul>
-<h3 id="2-5-4-注意事项"><a href="#2-5-4-注意事项" class="headerlink" title="2.5.4 注意事项"></a>2.5.4 注意事项</h3><ul>
+<h2 id="5-4-注意事项"><a href="#5-4-注意事项" class="headerlink" title="5.4 注意事项"></a>5.4 注意事项</h2><ul>
 <li><strong><code>root</code> 密码</strong> ：你需要知道 <code>root</code> 用户的密码来使用 <code>su</code> 命令。<code>sudo</code> 需要你当前用户在 <code>sudoers</code> 文件中有权限执行 <code>sudo</code> 命令，且你需要输入你自己的用户密码。</li>
 <li><strong>权限管理</strong> ：在某些系统（如 Ubuntu）默认不启用 <code>root</code> 用户的密码，而是通过 <code>sudo</code> 提供管理员权限。你可能需要使用 <code>sudo</code> 命令而不是 <code>su</code> 来获得 <code>root</code> 权限。</li>
 </ul>
-<h2 id="2-6-查看文件大小"><a href="#2-6-查看文件大小" class="headerlink" title="2.6 查看文件大小"></a>2.6 查看文件大小</h2><h3 id="2-6-1-使用-du-命令"><a href="#2-6-1-使用-du-命令" class="headerlink" title="2.6.1 使用 du 命令"></a>2.6.1 使用 <code>du</code> 命令</h3><p><code>du</code>（disk usage）命令用于显示文件和目录的磁盘使用情况：</p>
+<h1 id="6-查看文件大小"><a href="#6-查看文件大小" class="headerlink" title="6.查看文件大小"></a>6.查看文件大小</h1><h2 id="6-1-使用-du-命令"><a href="#6-1-使用-du-命令" class="headerlink" title="6.1 使用 du 命令"></a>6.1 使用 <code>du</code> 命令</h2><p><code>du</code>（disk usage）命令用于显示文件和目录的磁盘使用情况：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">du</span> -sh /path/to/directory</span><br></pre></td></tr></table></figure></div>
 
 <p><strong>参数解释：</strong></p>
@@ -2431,17 +2379,17 @@
 <li><strong><code>-s</code></strong> ：显示总计，只显示指定目录的总大小，而不是递归显示每个子目录。</li>
 <li><strong><code>-h</code></strong> ：以人类可读的格式显示大小（如 KB, MB, GB），使输出更易读。</li>
 </ul>
-<h3 id="2-6-2-使用-du-命令按大小排序"><a href="#2-6-2-使用-du-命令按大小排序" class="headerlink" title="2.6.2 使用 du 命令按大小排序"></a>2.6.2 使用 <code>du</code> 命令按大小排序</h3><p>如果你想按大小排序显示子目录，可以使用以下命令：</p>
+<h2 id="6-2-使用-du-命令按大小排序"><a href="#6-2-使用-du-命令按大小排序" class="headerlink" title="6.2 使用 du 命令按大小排序"></a>6.2 使用 <code>du</code> 命令按大小排序</h2><p>如果你想按大小排序显示子目录，可以使用以下命令：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">du</span> -h /path/to/directory | <span class="built_in">sort</span> -h</span><br></pre></td></tr></table></figure></div>
 
-<h3 id="2-6-3-使用-ls-命令查看目录大小"><a href="#2-6-3-使用-ls-命令查看目录大小" class="headerlink" title="2.6.3 使用 ls 命令查看目录大小"></a>2.6.3 使用 <code>ls</code> 命令查看目录大小</h3><p>尽管 <code>ls</code> 命令主要用于列出目录中的文件，它也可以用来查看目录的大小，但它的显示可能不如 <code>du</code> 直观。</p>
+<h2 id="6-3-使用-ls-命令查看目录大小"><a href="#6-3-使用-ls-命令查看目录大小" class="headerlink" title="6.3 使用 ls 命令查看目录大小"></a>6.3 使用 <code>ls</code> 命令查看目录大小</h2><p>尽管 <code>ls</code> 命令主要用于列出目录中的文件，它也可以用来查看目录的大小，但它的显示可能不如 <code>du</code> 直观。</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">ls</span> -lh /path/to/directory</span><br></pre></td></tr></table></figure></div>
 
 <ul>
 <li>**<code>-l</code>**：长格式列出文件信息，包括大小。</li>
 <li>**<code>-h</code>**：以人类可读的格式显示文件大小。</li>
 </ul>
-<h2 id="2-7-查看文件详细信息"><a href="#2-7-查看文件详细信息" class="headerlink" title="2.7 查看文件详细信息"></a>2.7 查看文件详细信息</h2><ol>
+<h1 id="7-查看文件详细信息"><a href="#7-查看文件详细信息" class="headerlink" title="7.查看文件详细信息"></a>7.查看文件详细信息</h1><ol>
 <li><p><strong>使用 <code>stat</code> 命令：</strong></p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">stat</span> filename</span><br></pre></td></tr></table></figure></div>
 <p>这会显示文件的详细信息，包括创建时间（如果文件系统支持），通常在“Birth”字段下。如果你的文件系统不支持创建时间，它可能不会显示这个字段。</p>
@@ -2453,11 +2401,11 @@
 <li><p><strong>文件系统支持：</strong><br>一些文件系统（如 ext4）支持创建时间，而其他文件系统（如 ext3）则可能不支持。如果你在 <code>stat</code> 输出中看不到创建时间，可能是因为你的文件系统不支持这一功能。</p>
 </li>
 </ol>
-<h1 id="三、提高编译速度的方法"><a href="#三、提高编译速度的方法" class="headerlink" title="三、提高编译速度的方法"></a>三、提高编译速度的方法</h1><h2 id="3-1-增加编译并行度"><a href="#3-1-增加编译并行度" class="headerlink" title="3.1 增加编译并行度"></a>3.1 增加编译并行度</h2><p>可以通过设置更多的并行编译任务来加速编译过程。使用与 CPU 核心数量相等或更多的并行任务数。设置 MAKEFLAGS 来实现这一点：</p>
+<h1 id="8-提高编译速度的方法"><a href="#8-提高编译速度的方法" class="headerlink" title="8.提高编译速度的方法"></a>8.提高编译速度的方法</h1><h2 id="8-1-增加编译并行度"><a href="#8-1-增加编译并行度" class="headerlink" title="8.1 增加编译并行度"></a>8.1 增加编译并行度</h2><p>可以通过设置更多的并行编译任务来加速编译过程。使用与 CPU 核心数量相等或更多的并行任务数。设置 MAKEFLAGS 来实现这一点：</p>
 <p>编辑 &#x2F;etc&#x2F;makepkg.conf 文件，找到以下行并进行修改：</p>
 <div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">MAKEFLAGS=&quot;-j$(nproc)&quot;</span><br></pre></td></tr></table></figure></div>
 <p><code>$(nproc)</code>会自动检测 CPU 核心数，并设置相同数量的并行任务。包括在执行<code>make</code>指令时，可以通过加<code>-j&lt;核心数&gt;</code>来手动指定编译时用CPU的核心数。</p>
-<h1 id="四、用户操作"><a href="#四、用户操作" class="headerlink" title="四、用户操作"></a>四、用户操作</h1><h2 id="4-1-创建一个新用户"><a href="#4-1-创建一个新用户" class="headerlink" title="4.1 创建一个新用户"></a>4.1 创建一个新用户</h2><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> useradd -m &lt;new_username&gt;</span><br></pre></td></tr></table></figure></div>
+<h1 id="9-用户操作"><a href="#9-用户操作" class="headerlink" title="9.用户操作"></a>9.用户操作</h1><h2 id="9-1-创建一个新用户"><a href="#9-1-创建一个新用户" class="headerlink" title="9.1 创建一个新用户"></a>9.1 创建一个新用户</h2><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> useradd -m &lt;new_username&gt;</span><br></pre></td></tr></table></figure></div>
 <p><code>-m</code>：创建用户的同时生成一个主目录。</p>
 <p>为新用户设置密码：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> passwd &lt;new_username&gt;</span><br></pre></td></tr></table></figure></div>
@@ -2467,7 +2415,7 @@
 <p>Arch 系的发行版是用下面这种方式：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> usermod -aG wheel &lt;new_username&gt;</span><br></pre></td></tr></table></figure></div>
 
-<h2 id="4-2-移除用户"><a href="#4-2-移除用户" class="headerlink" title="4.2 移除用户"></a>4.2 移除用户</h2><p>删除用户及其主目录：</p>
+<h2 id="9-2-移除用户"><a href="#9-2-移除用户" class="headerlink" title="9.2 移除用户"></a>9.2 移除用户</h2><p>删除用户及其主目录：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> userdel -r &lt;username&gt;</span><br></pre></td></tr></table></figure></div>
 <p><code>-r</code>：删除用户的同时移除用户的主目录及文件。如果不使用<code>-r</code>，只会删除用户账号，不会删除用户的主目录和文件。</p>
 ]]></content>
@@ -2671,30 +2619,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Proxy Settings</title>
-    <url>/2024/07/19/Proxy-Settings/</url>
-    <content><![CDATA[<h1 id="一、代理软件配置"><a href="#一、代理软件配置" class="headerlink" title="一、代理软件配置"></a>一、代理软件配置</h1><h2 id="1-1-speedTest"><a href="#1-1-speedTest" class="headerlink" title="1.1 speedTest"></a>1.1 speedTest</h2><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 日本</span></span><br><span class="line">https://185-140-53-2.lg.looking.house/1000.mb</span><br><span class="line"><span class="comment"># 新加坡</span></span><br><span class="line">https://23-27-101-2.lg.looking.house/100.mb</span><br><span class="line"></span><br><span class="line">https://speed.cloudflare.com/__down?bytes=10000000</span><br><span class="line">https://speed.cloudflare.com/__down?bytes=50000000</span><br><span class="line">https://speed.cloudflare.com/__down?bytes=100000000</span><br><span class="line">https://speed.cloudflare.com/__down?bytes=200000000</span><br><span class="line"></span><br><span class="line"><span class="comment"># 老版测速</span></span><br><span class="line">http://cachefly.cachefly.net/10mb.<span class="built_in">test</span></span><br><span class="line">http://cachefly.cachefly.net/50mb.<span class="built_in">test</span></span><br><span class="line">http://cachefly.cachefly.net/100mb.<span class="built_in">test</span></span><br></pre></td></tr></table></figure></div>
-
-<h2 id="1-2-speedurl"><a href="#1-2-speedurl" class="headerlink" title="1.2 speedurl"></a>1.2 speedurl</h2><div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://www.google.com/generate_204</span><br><span class="line"></span><br><span class="line">http://cp.cloudflare.com/</span><br><span class="line"></span><br><span class="line">http://connectivitycheck.gstatic.com/generate_204</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="1-3-DNS选项"><a href="#1-3-DNS选项" class="headerlink" title="1.3 DNS选项"></a>1.3 DNS选项</h2><ul>
-<li><strong>远程DNS</strong></li>
-</ul>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">udp://1.1.1.1</span><br><span class="line"></span><br><span class="line">https://dns.google/dns-query</span><br></pre></td></tr></table></figure></div>
-
-<ul>
-<li><strong>直连DNS</strong></li>
-</ul>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">114.114.114.114</span><br><span class="line"></span><br><span class="line">https://doh.pub/dns-query</span><br></pre></td></tr></table></figure></div>
-]]></content>
-      <categories>
-        <category>科学上网</category>
-      </categories>
-      <tags>
-        <tag>proxy</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Python 下的多进程和多线程编程</title>
     <url>/2024/09/16/Python-%E5%A4%9A%E8%BF%9B%E7%A8%8B%E5%92%8C%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B/</url>
     <content><![CDATA[<h1 id="1-多进程"><a href="#1-多进程" class="headerlink" title="1.多进程"></a>1.多进程</h1><h2 id="1-1-使用多进程完成任务"><a href="#1-1-使用多进程完成任务" class="headerlink" title="1. 1 使用多进程完成任务"></a>1. 1 使用多进程完成任务</h2><p>用到的包：<code>multiprocessing</code>，以下面的代码为例：</p>
@@ -2880,6 +2804,30 @@
       </categories>
       <tags>
         <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Proxy Settings</title>
+    <url>/2024/07/19/Proxy-Settings/</url>
+    <content><![CDATA[<h1 id="一、代理软件配置"><a href="#一、代理软件配置" class="headerlink" title="一、代理软件配置"></a>一、代理软件配置</h1><h2 id="1-1-speedTest"><a href="#1-1-speedTest" class="headerlink" title="1.1 speedTest"></a>1.1 speedTest</h2><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 日本</span></span><br><span class="line">https://185-140-53-2.lg.looking.house/1000.mb</span><br><span class="line"><span class="comment"># 新加坡</span></span><br><span class="line">https://23-27-101-2.lg.looking.house/100.mb</span><br><span class="line"></span><br><span class="line">https://speed.cloudflare.com/__down?bytes=10000000</span><br><span class="line">https://speed.cloudflare.com/__down?bytes=50000000</span><br><span class="line">https://speed.cloudflare.com/__down?bytes=100000000</span><br><span class="line">https://speed.cloudflare.com/__down?bytes=200000000</span><br><span class="line"></span><br><span class="line"><span class="comment"># 老版测速</span></span><br><span class="line">http://cachefly.cachefly.net/10mb.<span class="built_in">test</span></span><br><span class="line">http://cachefly.cachefly.net/50mb.<span class="built_in">test</span></span><br><span class="line">http://cachefly.cachefly.net/100mb.<span class="built_in">test</span></span><br></pre></td></tr></table></figure></div>
+
+<h2 id="1-2-speedurl"><a href="#1-2-speedurl" class="headerlink" title="1.2 speedurl"></a>1.2 speedurl</h2><div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://www.google.com/generate_204</span><br><span class="line"></span><br><span class="line">http://cp.cloudflare.com/</span><br><span class="line"></span><br><span class="line">http://connectivitycheck.gstatic.com/generate_204</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="1-3-DNS选项"><a href="#1-3-DNS选项" class="headerlink" title="1.3 DNS选项"></a>1.3 DNS选项</h2><ul>
+<li><strong>远程DNS</strong></li>
+</ul>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">udp://1.1.1.1</span><br><span class="line"></span><br><span class="line">https://dns.google/dns-query</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li><strong>直连DNS</strong></li>
+</ul>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">114.114.114.114</span><br><span class="line"></span><br><span class="line">https://doh.pub/dns-query</span><br></pre></td></tr></table></figure></div>
+]]></content>
+      <categories>
+        <category>科学上网</category>
+      </categories>
+      <tags>
+        <tag>proxy</tag>
       </tags>
   </entry>
   <entry>
@@ -3592,6 +3540,181 @@
       </tags>
   </entry>
   <entry>
+    <title>pacman 包管理器使用教程</title>
+    <url>/2024/07/24/pacman%E5%8C%85%E7%AE%A1%E7%90%86%E5%99%A8/</url>
+    <content><![CDATA[<h1 id="1-介绍"><a href="#1-介绍" class="headerlink" title="1.介绍"></a>1.介绍</h1><p>  在 <code>EndeavouOS</code>（以及其他基于<code>Arch</code>的发行版）中，<code>pacman</code> 是一个用于软件包管理的命令行工具。下面是 <code>pacman</code> 命令的详细解释：</p>
+<ul>
+<li><code>-S</code>：用于安装软件包。</li>
+<li><code>-y</code>：强制刷新软件包数据库。</li>
+<li><code>-yy</code>：强制刷新所有的软件包数据库。通常只需要一个 <code>-y</code> 就足够，但 <code>-yy</code> 用于解决某些情况下可能出现的数据库同步问题。</li>
+<li><code>-u</code>：更新所有已安装的软件包，用于更新系统或者<code>pacman</code>包含的软件以及以来库。</li>
+</ul>
+<p>对于所有用<code>pacman</code>进行的操作，都可以通过<code>yay</code>实现：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman yay</span><br></pre></td></tr></table></figure></div>
+<p><code>yay</code>支持的软件多一些（通过<code>aur</code>源）。</p>
+<h1 id="2-下载和更新"><a href="#2-下载和更新" class="headerlink" title="2.下载和更新"></a>2.下载和更新</h1><ul>
+<li><strong>要更新或下载指定的软件包：</strong><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S 包名</span><br></pre></td></tr></table></figure></div>
+<code>pacman</code> 会检查你指定的软件包是否有新版本，如果有的话，就会下载并安装更新后的版本。</li>
+</ul>
+<h1 id="3-查看包-库信息"><a href="#3-查看包-库信息" class="headerlink" title="3.查看包&#x2F;库信息"></a>3.查看包&#x2F;库信息</h1><ul>
+<li><strong>查看包名信息</strong>：<br>显示指定软件包的信息，但不会安装或更新。这个选项可以用来查看某个软件包的详细信息，包括它的版本、依赖关系等。例如：<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -Si &lt;pkgname&gt;</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<p>查看包的简略信息：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">yay -Qs &lt;pkgname&gt;</span><br></pre></td></tr></table></figure></div>
+
+<p>查看包的详细信息：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">yay -Qi &lt;pkgname&gt;</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li><strong>查看可升级的包&#x2F;库：</strong><br>列出有可用更新的已安装软件包及其最新版本。<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -Qu</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<p>列出所有的外部软件包（即非官方仓库安装的包，如<code>AUR</code>软件包）：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -Qm</span><br></pre></td></tr></table></figure></div>
+
+<h1 id="4-卸载"><a href="#4-卸载" class="headerlink" title="4.卸载"></a>4.卸载</h1><h2 id="4-1-卸载单个软件包"><a href="#4-1-卸载单个软件包" class="headerlink" title="4.1 卸载单个软件包"></a>4.1 卸载单个软件包</h2><p>要卸载单个软件包，可以使用以下命令：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -R package_name</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="4-2-卸载软件包及其未使用的依赖"><a href="#4-2-卸载软件包及其未使用的依赖" class="headerlink" title="4.2 卸载软件包及其未使用的依赖"></a>4.2 卸载软件包及其未使用的依赖</h2><p>有时卸载一个包后，它的一些依赖包可能不再被其他软件包使用。要卸载软件包及其未使用的依赖，可以使用以下命令：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -Rns package_name</span><br></pre></td></tr></table></figure></div>
+
+<p>解释：</p>
+<ul>
+<li><code>-R</code>(–remove)：卸载指定的包。</li>
+<li><code>-n</code>(–nosave)：从系统中删除安装包的所有配置文件。</li>
+<li><code>-s</code>(–recursive)：递归地卸载未使用的依赖包。</li>
+</ul>
+<h2 id="4-3-强制卸载（不推荐）"><a href="#4-3-强制卸载（不推荐）" class="headerlink" title="4.3 强制卸载（不推荐）"></a>4.3 强制卸载（不推荐）</h2><p>在极少数情况下，可能需要强制卸载一个包，即使这可能会破坏系统的依赖关系。请谨慎使用此选项：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -Rdd package_name</span><br></pre></td></tr></table></figure></div>
+
+<p>解释：</p>
+<ul>
+<li><code>-d</code>：忽略依赖关系检查。</li>
+</ul>
+<h2 id="4-4-清理未使用的孤立包"><a href="#4-4-清理未使用的孤立包" class="headerlink" title="4.4 清理未使用的孤立包"></a>4.4 清理未使用的孤立包</h2><p>系统中可能会有一些未使用的孤立包，这些包是作为依赖安装的，但现在没有任何包依赖它们。可以使用以下命令清理这些孤立包：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -Rns $(pacman -Qtdq)</span><br></pre></td></tr></table></figure></div>
+
+<p>解释：</p>
+<ul>
+<li><code>pacman -Qtdq</code>：列出所有未使用的孤立包。</li>
+<li><code>-Rns</code>：递归地卸载未使用的包及其配置文件。</li>
+</ul>
+<h1 id="5-查看安装包的文件及其路径"><a href="#5-查看安装包的文件及其路径" class="headerlink" title="5.查看安装包的文件及其路径"></a>5.查看安装包的文件及其路径</h1><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -Ql boost</span><br></pre></td></tr></table></figure></div>
+
+<p>输出示例：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">boost /usr/share/boostbook/xsl/source-highlight.xsl</span><br><span class="line">boost /usr/share/boostbook/xsl/template.xsl</span><br><span class="line">boost /usr/share/boostbook/xsl/testing/</span><br><span class="line">boost /usr/share/boostbook/xsl/testing/Jamfile.xsl</span><br><span class="line">boost /usr/share/boostbook/xsl/testing/testsuite.xsl</span><br><span class="line">boost /usr/share/boostbook/xsl/type.xsl</span><br><span class="line">boost /usr/share/boostbook/xsl/utility.xsl</span><br><span class="line">boost /usr/share/boostbook/xsl/xhtml.xsl</span><br><span class="line">boost /usr/share/boostbook/xsl/xref.xsl</span><br></pre></td></tr></table></figure></div>]]></content>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>从源码安装 SSH</title>
+    <url>/2024/09/11/%E4%BB%8E%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85SSH/</url>
+    <content><![CDATA[<h1 id="1-构建基础镜像"><a href="#1-构建基础镜像" class="headerlink" title="1.构建基础镜像"></a>1.构建基础镜像</h1><p>在当期目录下（与<code>Dockerfile</code>同目录），添加<code>sources.list</code>文件，并添加镜像源：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line"># Ubuntu sources have moved to the /etc/apt/sources.list.d/ubuntu.sources</span><br><span class="line"># file, which uses the deb822 format. Use deb822-formatted .sources files</span><br><span class="line"># to manage package sources in the /etc/apt/sources.list.d/ directory.</span><br><span class="line"># See the sources.list(5) manual page for details.</span><br><span class="line"></span><br><span class="line"># 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble main restricted universe multiverse</span><br><span class="line"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble main restricted universe multiverse</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble-updates main restricted universe multiverse</span><br><span class="line"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble-updates main restricted universe multiverse</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble-backports main restricted universe multiverse</span><br><span class="line"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble-backports main restricted universe multiverse</span><br><span class="line"></span><br><span class="line"># 以下安全更新软件源包含了官方源与镜像站配置，如有需要可自行修改注释切换</span><br><span class="line"># deb http://security.ubuntu.com/ubuntu/ noble-security main restricted universe multiverse</span><br><span class="line"># deb-src http://security.ubuntu.com/ubuntu/ noble-security main restricted universe multiverse</span><br><span class="line"></span><br><span class="line"># 预发布软件源，不建议启用</span><br><span class="line"># deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble-proposed main restricted universe multiverse</span><br><span class="line"># # deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble-proposed main restricted universe multiverse</span><br></pre></td></tr></table></figure></div>
+<p><a href="https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/"><code>Ubuntu</code>清华镜像源</a></p>
+<p><code>Dockerfile</code>编写：</p>
+<div class="code-container" data-rel="Dockerfile"><figure class="iseeu highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="keyword">FROM</span> ubuntu</span><br><span class="line"></span><br><span class="line"><span class="keyword">ENV</span> http_proxy=http://<span class="number">172.27</span>.<span class="number">150.74</span>:<span class="number">7890</span>/</span><br><span class="line"><span class="keyword">ENV</span> https_proxy=http://<span class="number">172.27</span>.<span class="number">150.74</span>:<span class="number">7890</span>/</span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> apt-get update &amp;&amp; apt-get install -y nano wget <span class="built_in">sudo</span> net-tools</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> sources.list /etc/apt/</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">22</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /root/</span></span><br></pre></td></tr></table></figure></div>
+<p>根据自己实际情况设置代理环境（<code>ENV</code>）。</p>
+<p>然后开始构建镜像：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker build -t ubuntu:openssh .</span><br></pre></td></tr></table></figure></div>
+
+<h1 id="2-创建容器"><a href="#2-创建容器" class="headerlink" title="2.创建容器"></a>2.创建容器</h1><p>运行一个容器实例：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -it --name=ssh ubuntu:openssh</span><br></pre></td></tr></table></figure></div>
+
+<h1 id="3-从源码安装-SSH"><a href="#3-从源码安装-SSH" class="headerlink" title="3.从源码安装 SSH"></a>3.从源码安装 SSH</h1><p>要从源码安装和升级 OpenSSH，在 Ubuntu 上可以按照以下步骤操作：</p>
+<h2 id="3-1-准备环境"><a href="#3-1-准备环境" class="headerlink" title="3.1 准备环境"></a>3.1 准备环境</h2><p>首先，确保系统中安装了编译 OpenSSH 所需的依赖包。</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt update</span><br><span class="line"><span class="built_in">sudo</span> apt install build-essential zlib1g-dev libssl-dev libpam0g-dev libselinux1-dev</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="3-2-下载-OpenSSH-源码"><a href="#3-2-下载-OpenSSH-源码" class="headerlink" title="3.2 下载 OpenSSH 源码"></a>3.2 下载 OpenSSH 源码</h2><p>从官方 OpenSSH 网站下载最新的源码压缩包：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wget https://cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-X.XX.tar.gz</span><br></pre></td></tr></table></figure></div>
+
+<p>将 <code>X.XX</code> 替换为最新版本的版本号，可以在 <a class="link"   href="https://www.openssh.com/portable.html" >OpenSSH 官网<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> 查询最新版本。</p>
+<p>解压缩下载的文件：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">tar -xzf openssh-X.XX.tar.gz先设置下容器的`root`账户的</span><br><span class="line"><span class="built_in">cd</span> openssh-X.XX</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="3-3-配置-OpenSSH"><a href="#3-3-配置-OpenSSH" class="headerlink" title="3.3 配置 OpenSSH"></a>3.3 配置 OpenSSH</h2><p>在编译 OpenSSH 之前，使用 <code>configure</code> 脚本来生成 Makefile。可以根据你的系统环境和需求指定一些配置选项：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">./configure --prefix=/usr --sysconfdir=/etc/ssh --with-pam --with-ssl-engine</span><br></pre></td></tr></table></figure></div>
+
+<p>常用的选项包括：</p>
+<ul>
+<li><code>--prefix=/usr</code>: 将安装路径设置为 <code>/usr</code> 而不是默认的 <code>/usr/local</code>。</li>
+<li><code>--sysconfdir=/etc/ssh</code>: 指定配置文件目录为 <code>/etc/ssh</code>。</li>
+<li><code>--with-pam</code>: 启用 PAM（可插拔认证模块）。</li>
+<li><code>--with-ssl-engine</code>: 使用 OpenSSL 的 SSL 引擎。</li>
+</ul>
+<p>你可以使用 <code>./configure --help</code> 来查看所有可用的配置选项。</p>
+<h2 id="3-4-编译-OpenSSH"><a href="#3-4-编译-OpenSSH" class="headerlink" title="3.4 编译 OpenSSH"></a>3.4 编译 OpenSSH</h2><p>配置完成后，编译源码：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">make</span><br></pre></td></tr></table></figure></div>
+
+<p>编译完成后，可以通过 <code>make tests</code> 运行测试，以确保 OpenSSH 正确构建。</p>
+<h2 id="3-5-安装-OpenSSH"><a href="#3-5-安装-OpenSSH" class="headerlink" title="3.5 安装 OpenSSH"></a>3.5 安装 OpenSSH</h2><p>在编译成功并通过测试后，使用 <code>make install</code> 来安装 OpenSSH。</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> make install</span><br></pre></td></tr></table></figure></div>
+
+<p>这个命令将会把编译好的文件安装到系统中。</p>
+<p>执行时可能会出现这种错误：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">Privilege separation user sshd does not exist</span><br></pre></td></tr></table></figure></div>
+<p>该错误与<code>sshd</code>用户的缺失有关，这是 OpenSSH 用于权限隔离的一个功能。没有这个用户，SSH 守护进程可能无法正常启动。</p>
+<p>解决办法：</p>
+<ul>
+<li><p>创建<code>sshd</code>用户：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> useradd -r -d /var/empty -s /usr/sbin/nologin sshd</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>验证配置：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> /usr/sbin/sshd -t -f /etc/ssh/sshd_config</span><br></pre></td></tr></table></figure></div>
+<p>如果没有输出或错误，说明配置文件是正确的。</p>
+</li>
+</ul>
+<h2 id="3-6-配置-OpenSSH"><a href="#3-6-配置-OpenSSH" class="headerlink" title="3.6 配置 OpenSSH"></a>3.6 配置 OpenSSH</h2><p>安装完成后，检查 OpenSSH 的配置文件 <code>/etc/ssh/sshd_config</code>。</p>
+<p>找到以下配置项，并确保它们没有被注释掉（前面没有<code>#</code>）并且值设置正确：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">PasswordAuthentication <span class="built_in">yes</span></span><br><span class="line">PermitRootLogin <span class="built_in">yes</span></span><br></pre></td></tr></table></figure></div>
+<p>记得设置容器中<code>root</code>用户的密码：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">passwd</span><br></pre></td></tr></table></figure></div>
+
+<p>升级或重新安装可能会覆盖某些配置，因此你可能需要备份原有的配置文件并重新应用它们：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">cp</span> /etc/ssh/sshd_config /etc/ssh/sshd_config.backup</span><br></pre></td></tr></table></figure></div>
+
+<p>编辑新的配置文件：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nano /etc/ssh/sshd_config</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="3-7-重启-SSH-服务"><a href="#3-7-重启-SSH-服务" class="headerlink" title="3.7 重启 SSH 服务"></a>3.7 重启 SSH 服务</h2><p>安装完成后，需要重新启动 SSH 服务来应用新版本：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl restart ssh</span><br></pre></td></tr></table></figure></div>
+
+<p>你可以通过以下命令确认 SSH 版本是否更新：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">ssh -V</span><br></pre></td></tr></table></figure></div>
+
+<p>环境中可能没有<code>systemctl</code>，先检查下是否有<code>service</code>：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">which</span> service</span><br></pre></td></tr></table></figure></div>
+
+<p>可以用<code>service</code>来控制：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> service ssh status</span><br></pre></td></tr></table></figure></div>
+
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> service ssh start</span><br></pre></td></tr></table></figure></div>
+
+<p>如果<code>service</code>不可用，可以直接运行<code>sshd</code>来启动：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">which</span> sshd</span><br></pre></td></tr></table></figure></div>
+<p>运行：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">/usr/sbin/sshd</span><br></pre></td></tr></table></figure></div>
+<h3 id="8-防止自动更新覆盖"><a href="#8-防止自动更新覆盖" class="headerlink" title="8. 防止自动更新覆盖"></a>8. 防止自动更新覆盖</h3><p>默认情况下，Ubuntu 使用 <code>apt</code> 来自动管理和更新软件包。如果你不希望 OpenSSH 通过 <code>apt</code> 更新被覆盖，可以将其锁定：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt-mark hold openssh-server openssh-client</span><br></pre></td></tr></table></figure></div>
+
+<p>这样可以确保 <code>apt</code> 不会自动更新 OpenSSH。</p>
+<h2 id="3-9-验证安装"><a href="#3-9-验证安装" class="headerlink" title="3.9 验证安装"></a>3.9 验证安装</h2><p>最后，确保 OpenSSH 正常运行。通过以下命令验证 SSH 是否正在监听：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status ssh</span><br></pre></td></tr></table></figure></div>
+
+<p>没有<code>systemctl</code>的话，可以用：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">ps aux | grep sshd</span><br></pre></td></tr></table></figure></div>
+
+<p>输出是这样表示启动成功：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">root       10106  0.0  0.0   8784  4508 ?        Ss   06:28   0:00 sshd: /usr/sbin/sshd [listener] 0 of 10-100 startups</span><br><span class="line">root       10150  0.0  0.0   3528  1872 pts/0    S+   06:32   0:00 grep --color=auto sshd</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="3-8-连接"><a href="#3-8-连接" class="headerlink" title="3.8 连接"></a>3.8 连接</h2><p>在宿主机中测试：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">ssh root@&lt;container_IP&gt;</span><br></pre></td></tr></table></figure></div>]]></content>
+      <tags>
+        <tag>linux</tag>
+        <tag>ssh</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>终端 zsh 配置指南</title>
     <url>/2024/07/19/zsh%E9%85%8D%E7%BD%AE/</url>
     <content><![CDATA[<h1 id="一、终端代理设置"><a href="#一、终端代理设置" class="headerlink" title="一、终端代理设置"></a>一、终端代理设置</h1><p>建议加上，在进行通过终端的下载、更新系统、<code>conda</code>下载或者<code>git clone</code>时，能走代理来提高下载速度。但是<code>docker</code>需要单独配置一套代理。<code>zsh</code>和<code>bash</code>都可以用这种方式。</p>
@@ -3747,111 +3870,19 @@
       </tags>
   </entry>
   <entry>
-    <title>从源码安装 SSH</title>
-    <url>/2024/09/11/%E4%BB%8E%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85SSH/</url>
-    <content><![CDATA[<h1 id="1-构建基础镜像"><a href="#1-构建基础镜像" class="headerlink" title="1.构建基础镜像"></a>1.构建基础镜像</h1><p>在当期目录下（与<code>Dockerfile</code>同目录），添加<code>sources.list</code>文件，并添加镜像源：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line"># Ubuntu sources have moved to the /etc/apt/sources.list.d/ubuntu.sources</span><br><span class="line"># file, which uses the deb822 format. Use deb822-formatted .sources files</span><br><span class="line"># to manage package sources in the /etc/apt/sources.list.d/ directory.</span><br><span class="line"># See the sources.list(5) manual page for details.</span><br><span class="line"></span><br><span class="line"># 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble main restricted universe multiverse</span><br><span class="line"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble main restricted universe multiverse</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble-updates main restricted universe multiverse</span><br><span class="line"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble-updates main restricted universe multiverse</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble-backports main restricted universe multiverse</span><br><span class="line"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble-backports main restricted universe multiverse</span><br><span class="line"></span><br><span class="line"># 以下安全更新软件源包含了官方源与镜像站配置，如有需要可自行修改注释切换</span><br><span class="line"># deb http://security.ubuntu.com/ubuntu/ noble-security main restricted universe multiverse</span><br><span class="line"># deb-src http://security.ubuntu.com/ubuntu/ noble-security main restricted universe multiverse</span><br><span class="line"></span><br><span class="line"># 预发布软件源，不建议启用</span><br><span class="line"># deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble-proposed main restricted universe multiverse</span><br><span class="line"># # deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble-proposed main restricted universe multiverse</span><br></pre></td></tr></table></figure></div>
-<p><a href="https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/"><code>Ubuntu</code>清华镜像源</a></p>
-<p><code>Dockerfile</code>编写：</p>
-<div class="code-container" data-rel="Dockerfile"><figure class="iseeu highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="keyword">FROM</span> ubuntu</span><br><span class="line"></span><br><span class="line"><span class="keyword">ENV</span> http_proxy=http://<span class="number">172.27</span>.<span class="number">150.74</span>:<span class="number">7890</span>/</span><br><span class="line"><span class="keyword">ENV</span> https_proxy=http://<span class="number">172.27</span>.<span class="number">150.74</span>:<span class="number">7890</span>/</span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> apt-get update &amp;&amp; apt-get install -y nano wget <span class="built_in">sudo</span> net-tools</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> sources.list /etc/apt/</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">22</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /root/</span></span><br></pre></td></tr></table></figure></div>
-<p>根据自己实际情况设置代理环境（<code>ENV</code>）。</p>
-<p>然后开始构建镜像：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker build -t ubuntu:openssh .</span><br></pre></td></tr></table></figure></div>
-
-<h1 id="2-创建容器"><a href="#2-创建容器" class="headerlink" title="2.创建容器"></a>2.创建容器</h1><p>运行一个容器实例：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -it --name=ssh ubuntu:openssh</span><br></pre></td></tr></table></figure></div>
-
-<h1 id="3-从源码安装-SSH"><a href="#3-从源码安装-SSH" class="headerlink" title="3.从源码安装 SSH"></a>3.从源码安装 SSH</h1><p>要从源码安装和升级 OpenSSH，在 Ubuntu 上可以按照以下步骤操作：</p>
-<h2 id="3-1-准备环境"><a href="#3-1-准备环境" class="headerlink" title="3.1 准备环境"></a>3.1 准备环境</h2><p>首先，确保系统中安装了编译 OpenSSH 所需的依赖包。</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt update</span><br><span class="line"><span class="built_in">sudo</span> apt install build-essential zlib1g-dev libssl-dev libpam0g-dev libselinux1-dev</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="3-2-下载-OpenSSH-源码"><a href="#3-2-下载-OpenSSH-源码" class="headerlink" title="3.2 下载 OpenSSH 源码"></a>3.2 下载 OpenSSH 源码</h2><p>从官方 OpenSSH 网站下载最新的源码压缩包：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wget https://cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-X.XX.tar.gz</span><br></pre></td></tr></table></figure></div>
-
-<p>将 <code>X.XX</code> 替换为最新版本的版本号，可以在 <a class="link"   href="https://www.openssh.com/portable.html" >OpenSSH 官网<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> 查询最新版本。</p>
-<p>解压缩下载的文件：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">tar -xzf openssh-X.XX.tar.gz先设置下容器的`root`账户的</span><br><span class="line"><span class="built_in">cd</span> openssh-X.XX</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="3-3-配置-OpenSSH"><a href="#3-3-配置-OpenSSH" class="headerlink" title="3.3 配置 OpenSSH"></a>3.3 配置 OpenSSH</h2><p>在编译 OpenSSH 之前，使用 <code>configure</code> 脚本来生成 Makefile。可以根据你的系统环境和需求指定一些配置选项：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">./configure --prefix=/usr --sysconfdir=/etc/ssh --with-pam --with-ssl-engine</span><br></pre></td></tr></table></figure></div>
-
-<p>常用的选项包括：</p>
-<ul>
-<li><code>--prefix=/usr</code>: 将安装路径设置为 <code>/usr</code> 而不是默认的 <code>/usr/local</code>。</li>
-<li><code>--sysconfdir=/etc/ssh</code>: 指定配置文件目录为 <code>/etc/ssh</code>。</li>
-<li><code>--with-pam</code>: 启用 PAM（可插拔认证模块）。</li>
-<li><code>--with-ssl-engine</code>: 使用 OpenSSL 的 SSL 引擎。</li>
-</ul>
-<p>你可以使用 <code>./configure --help</code> 来查看所有可用的配置选项。</p>
-<h2 id="3-4-编译-OpenSSH"><a href="#3-4-编译-OpenSSH" class="headerlink" title="3.4 编译 OpenSSH"></a>3.4 编译 OpenSSH</h2><p>配置完成后，编译源码：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">make</span><br></pre></td></tr></table></figure></div>
-
-<p>编译完成后，可以通过 <code>make tests</code> 运行测试，以确保 OpenSSH 正确构建。</p>
-<h2 id="3-5-安装-OpenSSH"><a href="#3-5-安装-OpenSSH" class="headerlink" title="3.5 安装 OpenSSH"></a>3.5 安装 OpenSSH</h2><p>在编译成功并通过测试后，使用 <code>make install</code> 来安装 OpenSSH。</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> make install</span><br></pre></td></tr></table></figure></div>
-
-<p>这个命令将会把编译好的文件安装到系统中。</p>
-<p>执行时可能会出现这种错误：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">Privilege separation user sshd does not exist</span><br></pre></td></tr></table></figure></div>
-<p>该错误与<code>sshd</code>用户的缺失有关，这是 OpenSSH 用于权限隔离的一个功能。没有这个用户，SSH 守护进程可能无法正常启动。</p>
-<p>解决办法：</p>
-<ul>
-<li><p>创建<code>sshd</code>用户：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> useradd -r -d /var/empty -s /usr/sbin/nologin sshd</span><br></pre></td></tr></table></figure></div>
+    <title>双系统时间配置（Linux + Windows）</title>
+    <url>/2024/12/08/%E5%8F%8C%E7%B3%BB%E7%BB%9F%E6%97%B6%E9%97%B4/</url>
+    <content><![CDATA[<h1 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h1><ol>
+<li><p>将系统的实时时钟（RTC，Real-Time Clock）设置为本地时间：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> timedatectl set-local-rtc 1 --adjust-system-clock</span><br></pre></td></tr></table></figure></div>
+<p>RTC 是计算机主板上的一个小型电池供电的时钟，即使在计算机关闭时也会继续运行。参数 <code>1</code> 表示启用本地时间，而 <code>0</code> 表示协调世界时（UTC）。<code>--adjust-system-clock</code> 参数的作用是在设置 RTC 为本地时间的同时，自动调整系统时钟以匹配 RTC 时间。这可以确保系统时间和 RTC 时间同步。</p>
 </li>
-<li><p>验证配置：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> /usr/sbin/sshd -t -f /etc/ssh/sshd_config</span><br></pre></td></tr></table></figure></div>
-<p>如果没有输出或错误，说明配置文件是正确的。</p>
-</li>
-</ul>
-<h2 id="3-6-配置-OpenSSH"><a href="#3-6-配置-OpenSSH" class="headerlink" title="3.6 配置 OpenSSH"></a>3.6 配置 OpenSSH</h2><p>安装完成后，检查 OpenSSH 的配置文件 <code>/etc/ssh/sshd_config</code>。</p>
-<p>找到以下配置项，并确保它们没有被注释掉（前面没有<code>#</code>）并且值设置正确：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">PasswordAuthentication <span class="built_in">yes</span></span><br><span class="line">PermitRootLogin <span class="built_in">yes</span></span><br></pre></td></tr></table></figure></div>
-<p>记得设置容器中<code>root</code>用户的密码：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">passwd</span><br></pre></td></tr></table></figure></div>
-
-<p>升级或重新安装可能会覆盖某些配置，因此你可能需要备份原有的配置文件并重新应用它们：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">cp</span> /etc/ssh/sshd_config /etc/ssh/sshd_config.backup</span><br></pre></td></tr></table></figure></div>
-
-<p>编辑新的配置文件：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nano /etc/ssh/sshd_config</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="3-7-重启-SSH-服务"><a href="#3-7-重启-SSH-服务" class="headerlink" title="3.7 重启 SSH 服务"></a>3.7 重启 SSH 服务</h2><p>安装完成后，需要重新启动 SSH 服务来应用新版本：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl restart ssh</span><br></pre></td></tr></table></figure></div>
-
-<p>你可以通过以下命令确认 SSH 版本是否更新：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">ssh -V</span><br></pre></td></tr></table></figure></div>
-
-<p>环境中可能没有<code>systemctl</code>，先检查下是否有<code>service</code>：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">which</span> service</span><br></pre></td></tr></table></figure></div>
-
-<p>可以用<code>service</code>来控制：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> service ssh status</span><br></pre></td></tr></table></figure></div>
-
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> service ssh start</span><br></pre></td></tr></table></figure></div>
-
-<p>如果<code>service</code>不可用，可以直接运行<code>sshd</code>来启动：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">which</span> sshd</span><br></pre></td></tr></table></figure></div>
-<p>运行：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">/usr/sbin/sshd</span><br></pre></td></tr></table></figure></div>
-<h3 id="8-防止自动更新覆盖"><a href="#8-防止自动更新覆盖" class="headerlink" title="8. 防止自动更新覆盖"></a>8. 防止自动更新覆盖</h3><p>默认情况下，Ubuntu 使用 <code>apt</code> 来自动管理和更新软件包。如果你不希望 OpenSSH 通过 <code>apt</code> 更新被覆盖，可以将其锁定：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt-mark hold openssh-server openssh-client</span><br></pre></td></tr></table></figure></div>
-
-<p>这样可以确保 <code>apt</code> 不会自动更新 OpenSSH。</p>
-<h2 id="3-9-验证安装"><a href="#3-9-验证安装" class="headerlink" title="3.9 验证安装"></a>3.9 验证安装</h2><p>最后，确保 OpenSSH 正常运行。通过以下命令验证 SSH 是否正在监听：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status ssh</span><br></pre></td></tr></table></figure></div>
-
-<p>没有<code>systemctl</code>的话，可以用：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">ps aux | grep sshd</span><br></pre></td></tr></table></figure></div>
-
-<p>输出是这样表示启动成功：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">root       10106  0.0  0.0   8784  4508 ?        Ss   06:28   0:00 sshd: /usr/sbin/sshd [listener] 0 of 10-100 startups</span><br><span class="line">root       10150  0.0  0.0   3528  1872 pts/0    S+   06:32   0:00 grep --color=auto sshd</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="3-8-连接"><a href="#3-8-连接" class="headerlink" title="3.8 连接"></a>3.8 连接</h2><p>在宿主机中测试：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">ssh root@&lt;container_IP&gt;</span><br></pre></td></tr></table></figure></div>]]></content>
+<li><p>检验，询当前的系统时间和日期设置：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">timedatectl</span><br></pre></td></tr></table></figure></div></li>
+</ol>
+]]></content>
       <tags>
         <tag>linux</tag>
-        <tag>ssh</tag>
       </tags>
   </entry>
   <entry>
@@ -3985,22 +4016,6 @@
       <tags>
         <tag>c++</tag>
         <tag>cmake</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>双系统时间配置（Linux + Windows）</title>
-    <url>/2024/12/08/%E5%8F%8C%E7%B3%BB%E7%BB%9F%E6%97%B6%E9%97%B4/</url>
-    <content><![CDATA[<h1 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h1><ol>
-<li><p>将系统的实时时钟（RTC，Real-Time Clock）设置为本地时间：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> timedatectl set-local-rtc 1 --adjust-system-clock</span><br></pre></td></tr></table></figure></div>
-<p>RTC 是计算机主板上的一个小型电池供电的时钟，即使在计算机关闭时也会继续运行。参数 <code>1</code> 表示启用本地时间，而 <code>0</code> 表示协调世界时（UTC）。<code>--adjust-system-clock</code> 参数的作用是在设置 RTC 为本地时间的同时，自动调整系统时钟以匹配 RTC 时间。这可以确保系统时间和 RTC 时间同步。</p>
-</li>
-<li><p>检验，询当前的系统时间和日期设置：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">timedatectl</span><br></pre></td></tr></table></figure></div></li>
-</ol>
-]]></content>
-      <tags>
-        <tag>linux</tag>
       </tags>
   </entry>
 </search>
