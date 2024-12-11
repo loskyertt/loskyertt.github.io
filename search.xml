@@ -1,88 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Python 爬虫教程 02</title>
-    <url>/2024/10/17/02Python%E7%88%AC%E8%99%AB/</url>
-    <content><![CDATA[<h1 id="1-测试网址"><a href="#1-测试网址" class="headerlink" title="1.测试网址"></a>1.测试网址</h1><p><a class="link"   href="https://www.spiderbuf.cn/list" >测试网站<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
-<h1 id="2-编写代码"><a href="#2-编写代码" class="headerlink" title="2.编写代码"></a>2.编写代码</h1><h2 id="2-1-代码示例"><a href="#2-1-代码示例" class="headerlink" title="2.1 代码示例"></a>2.1 代码示例</h2><div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;https://spiderbuf.cn/playground/s01&quot;</span></span><br><span class="line"></span><br><span class="line">html = requests.get(url=url).text</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/01course/01.html&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">f.write(html)</span><br><span class="line">f.close()</span><br><span class="line"></span><br><span class="line"><span class="comment"># print(html)</span></span><br><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/01course/data01.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    tds = tr.xpath(<span class="string">&#x27;./td&#x27;</span>)</span><br><span class="line">    s = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> td <span class="keyword">in</span> tds:</span><br><span class="line">        <span class="comment"># 这里加 str 是为了防止 &lt;td&gt;&lt;/td&gt; 之间是空数据</span></span><br><span class="line">        s = s + <span class="built_in">str</span>(td.text) + <span class="string">&#x27; | &#x27;</span></span><br><span class="line">    <span class="built_in">print</span>(s)</span><br><span class="line">    <span class="comment"># 保存解析到的数据到本地</span></span><br><span class="line">    <span class="keyword">if</span> s!= <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        f.write(s + <span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
-
-<p>在很多时候，建议先把请求到的网页内容保存到本地（如上面代码所示），因为有时候解析数据无法一次性解析成功，那就会再向网页发送请求，这样不断的去访问服务器，就容易被服务器检测到是爬虫。</p>
-<h1 id="3-lxml-基础使用"><a href="#3-lxml-基础使用" class="headerlink" title="3.lxml 基础使用"></a>3.lxml 基础使用</h1><h2 id="3-1-XPath-基本语法"><a href="#3-1-XPath-基本语法" class="headerlink" title="3.1 XPath 基本语法"></a>3.1 XPath 基本语法</h2><ul>
-<li><code>/</code>：从根节点选择。根节点是一个 XML 或 HTML 文档的最顶层节点，所有其他元素都是它的子节点。</li>
-<li><code>//</code>：选择文档中的所有符合条件的节点，不论它们在文档的什么位置。</li>
-<li><code>.</code>：当前节点。</li>
-<li><code>..</code>：父节点。</li>
-<li><code>@</code>：选择属性。</li>
-<li><code>[ ]</code>：筛选器，添加条件。</li>
-<li><code>text()</code>：选择文本节点。</li>
-</ul>
-<h2 id="3-2-示例说明"><a href="#3-2-示例说明" class="headerlink" title="3.2 示例说明"></a>3.2 示例说明</h2><p>假设有如下 HTML 结构，<code>&lt;html&gt;</code>是根节点：</p>
-<div class="code-container" data-rel="Html"><figure class="iseeu highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">table</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">&quot;status&quot;</span>&gt;</span>在线<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span>&gt;</span>123<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">&quot;status&quot;</span>&gt;</span>离线<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span>&gt;</span>456<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">&quot;status&quot;</span>&gt;</span>在线<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span>&gt;</span>789<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></div>
-
-<h2 id="3-3-使用-XPath-提取数据"><a href="#3-3-使用-XPath-提取数据" class="headerlink" title="3.3 使用 XPath 提取数据"></a>3.3 使用 XPath 提取数据</h2><ol>
-<li><strong>提取所有行的 <code>&lt;td&gt;</code> 内容：</strong></li>
-</ol>
-<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
-
-<p><code>//tr</code> 表示选择文档中所有的 <code>&lt;tr&gt;</code> 节点，不论它们在文档的哪个层级。</p>
-<ol start="2">
-<li><strong>提取某个特定列的数据：</strong></li>
-</ol>
-<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">status_list = root.xpath(<span class="string">&#x27;//td[@class=&quot;status&quot;]/text()&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(status_list)</span><br></pre></td></tr></table></figure></div>
-
-<ul>
-<li><code>//td[@class=&quot;status&quot;]</code>：选择所有 class 为 “status” 的 <code>&lt;td&gt;</code> 节点。</li>
-<li><code>/text()</code>：选择这些节点的文本内容。</li>
-</ul>
-<p><strong>结果：</strong></p>
-<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">[<span class="string">&#x27;在线&#x27;</span>, <span class="string">&#x27;离线&#x27;</span>, <span class="string">&#x27;在线&#x27;</span>]</span><br></pre></td></tr></table></figure></div>
-
-<ol start="3">
-<li><strong>结合 <code>for</code> 循环逐行提取多个列的内容：</strong></li>
-</ol>
-<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    status = tr.xpath(<span class="string">&#x27;./td[@class=&quot;status&quot;]/text()&#x27;</span>)[<span class="number">0</span>]  <span class="comment"># 获取状态</span></span><br><span class="line">    number = tr.xpath(<span class="string">&#x27;./td[2]/text()&#x27;</span>)[<span class="number">0</span>]  <span class="comment"># 获取数字</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;状态: <span class="subst">&#123;status&#125;</span>, 数字: <span class="subst">&#123;number&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure></div>
-
-<ul>
-<li><code>./td[@class=&quot;status&quot;]/text()</code>：从当前行的 <code>&lt;td&gt;</code> 中选择 class 为 “status” 的列。</li>
-<li><code>./td[2]/text()</code>：选择当前行的第二个 <code>&lt;td&gt;</code> 节点的文本内容。</li>
-</ul>
-<p><strong>输出：</strong></p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">状态: 在线, 数字: 123</span><br><span class="line">状态: 离线, 数字: 456</span><br><span class="line">状态: 在线, 数字: 789</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="3-4-XPath-实用技巧"><a href="#3-4-XPath-实用技巧" class="headerlink" title="3.4 XPath 实用技巧"></a>3.4 XPath 实用技巧</h2><ol>
-<li><p><strong>使用属性选择节点：</strong></p>
-<ul>
-<li><code>//td[@class=&quot;status&quot;]</code> 选择所有 class 为 “status” 的 <code>&lt;td&gt;</code>。</li>
-<li><code>//a[@href]</code> 选择带有 <code>href</code> 属性的所有 <code>&lt;a&gt;</code> 标签。</li>
-</ul>
-</li>
-<li><p><strong>使用索引选择特定节点：</strong></p>
-<ul>
-<li><code>//tr[1]</code> 选择第一个 <code>&lt;tr&gt;</code> 节点。</li>
-<li><code>//td[2]</code> 选择当前 <code>&lt;tr&gt;</code> 中的第二个 <code>&lt;td&gt;</code> 节点。</li>
-</ul>
-</li>
-<li><p><strong>选择文本和属性：</strong></p>
-<ul>
-<li><code>//td/text()</code> 选择 <code>&lt;td&gt;</code> 内的文本。</li>
-<li><code>//a/@href</code> 选择所有 <code>&lt;a&gt;</code> 标签的 <code>href</code> 属性。</li>
-</ul>
-</li>
-<li><p><strong>条件筛选：</strong></p>
-<ul>
-<li><code>//tr[td[1]=&quot;在线&quot;]</code> 选择第一列文本为“在线”的行。</li>
-</ul>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>Python爬虫</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Python 爬虫教程 01</title>
     <url>/2024/09/17/01Python%E7%88%AC%E8%99%AB/</url>
     <content><![CDATA[<h1 id="1-浏览器"><a href="#1-浏览器" class="headerlink" title="1.浏览器"></a>1.浏览器</h1><h2 id="1-1-获取页面信息"><a href="#1-1-获取页面信息" class="headerlink" title="1.1 获取页面信息"></a>1.1 获取页面信息</h2><p>进入要爬取的页面，按<code>F12</code>进入开发者模式：<br><figure class="image-caption"><img  
@@ -464,6 +382,88 @@
 <p>这里有一个简单的方法，把解析部分的代码改成这样：</p>
 <div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/03course/data03.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    tds = tr.xpath(<span class="string">&#x27;./td&#x27;</span>)</span><br><span class="line">    s = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> td <span class="keyword">in</span> tds:</span><br><span class="line">        s = s + <span class="built_in">str</span>(td.xpath(<span class="string">&#x27;string(.)&#x27;</span>)) + <span class="string">&#x27;|&#x27;</span>        <span class="comment"># 修改过后的解析操作</span></span><br><span class="line">    <span class="built_in">print</span>(s)</span><br><span class="line">    <span class="keyword">if</span> s!= <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        f.write(s + <span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
 <p>这种方式可以获取元素及其所有子元素的完整文本，而不仅仅是直接子节点的文本。<code>.</code>表示当前节点，这里就表示把当前节点的所有文本内容（包括子节点中的文本）提取出来。</p>
+]]></content>
+      <categories>
+        <category>Python爬虫</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python 爬虫教程 02</title>
+    <url>/2024/10/17/02Python%E7%88%AC%E8%99%AB/</url>
+    <content><![CDATA[<h1 id="1-测试网址"><a href="#1-测试网址" class="headerlink" title="1.测试网址"></a>1.测试网址</h1><p><a class="link"   href="https://www.spiderbuf.cn/list" >测试网站<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h1 id="2-编写代码"><a href="#2-编写代码" class="headerlink" title="2.编写代码"></a>2.编写代码</h1><h2 id="2-1-代码示例"><a href="#2-1-代码示例" class="headerlink" title="2.1 代码示例"></a>2.1 代码示例</h2><div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;https://spiderbuf.cn/playground/s01&quot;</span></span><br><span class="line"></span><br><span class="line">html = requests.get(url=url).text</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/01course/01.html&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">f.write(html)</span><br><span class="line">f.close()</span><br><span class="line"></span><br><span class="line"><span class="comment"># print(html)</span></span><br><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/01course/data01.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    tds = tr.xpath(<span class="string">&#x27;./td&#x27;</span>)</span><br><span class="line">    s = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> td <span class="keyword">in</span> tds:</span><br><span class="line">        <span class="comment"># 这里加 str 是为了防止 &lt;td&gt;&lt;/td&gt; 之间是空数据</span></span><br><span class="line">        s = s + <span class="built_in">str</span>(td.text) + <span class="string">&#x27; | &#x27;</span></span><br><span class="line">    <span class="built_in">print</span>(s)</span><br><span class="line">    <span class="comment"># 保存解析到的数据到本地</span></span><br><span class="line">    <span class="keyword">if</span> s!= <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        f.write(s + <span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
+
+<p>在很多时候，建议先把请求到的网页内容保存到本地（如上面代码所示），因为有时候解析数据无法一次性解析成功，那就会再向网页发送请求，这样不断的去访问服务器，就容易被服务器检测到是爬虫。</p>
+<h1 id="3-lxml-基础使用"><a href="#3-lxml-基础使用" class="headerlink" title="3.lxml 基础使用"></a>3.lxml 基础使用</h1><h2 id="3-1-XPath-基本语法"><a href="#3-1-XPath-基本语法" class="headerlink" title="3.1 XPath 基本语法"></a>3.1 XPath 基本语法</h2><ul>
+<li><code>/</code>：从根节点选择。根节点是一个 XML 或 HTML 文档的最顶层节点，所有其他元素都是它的子节点。</li>
+<li><code>//</code>：选择文档中的所有符合条件的节点，不论它们在文档的什么位置。</li>
+<li><code>.</code>：当前节点。</li>
+<li><code>..</code>：父节点。</li>
+<li><code>@</code>：选择属性。</li>
+<li><code>[ ]</code>：筛选器，添加条件。</li>
+<li><code>text()</code>：选择文本节点。</li>
+</ul>
+<h2 id="3-2-示例说明"><a href="#3-2-示例说明" class="headerlink" title="3.2 示例说明"></a>3.2 示例说明</h2><p>假设有如下 HTML 结构，<code>&lt;html&gt;</code>是根节点：</p>
+<div class="code-container" data-rel="Html"><figure class="iseeu highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">table</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">&quot;status&quot;</span>&gt;</span>在线<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span>&gt;</span>123<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">&quot;status&quot;</span>&gt;</span>离线<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span>&gt;</span>456<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">&quot;status&quot;</span>&gt;</span>在线<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span>&gt;</span>789<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></div>
+
+<h2 id="3-3-使用-XPath-提取数据"><a href="#3-3-使用-XPath-提取数据" class="headerlink" title="3.3 使用 XPath 提取数据"></a>3.3 使用 XPath 提取数据</h2><ol>
+<li><strong>提取所有行的 <code>&lt;td&gt;</code> 内容：</strong></li>
+</ol>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
+
+<p><code>//tr</code> 表示选择文档中所有的 <code>&lt;tr&gt;</code> 节点，不论它们在文档的哪个层级。</p>
+<ol start="2">
+<li><strong>提取某个特定列的数据：</strong></li>
+</ol>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">status_list = root.xpath(<span class="string">&#x27;//td[@class=&quot;status&quot;]/text()&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(status_list)</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li><code>//td[@class=&quot;status&quot;]</code>：选择所有 class 为 “status” 的 <code>&lt;td&gt;</code> 节点。</li>
+<li><code>/text()</code>：选择这些节点的文本内容。</li>
+</ul>
+<p><strong>结果：</strong></p>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">[<span class="string">&#x27;在线&#x27;</span>, <span class="string">&#x27;离线&#x27;</span>, <span class="string">&#x27;在线&#x27;</span>]</span><br></pre></td></tr></table></figure></div>
+
+<ol start="3">
+<li><strong>结合 <code>for</code> 循环逐行提取多个列的内容：</strong></li>
+</ol>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    status = tr.xpath(<span class="string">&#x27;./td[@class=&quot;status&quot;]/text()&#x27;</span>)[<span class="number">0</span>]  <span class="comment"># 获取状态</span></span><br><span class="line">    number = tr.xpath(<span class="string">&#x27;./td[2]/text()&#x27;</span>)[<span class="number">0</span>]  <span class="comment"># 获取数字</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;状态: <span class="subst">&#123;status&#125;</span>, 数字: <span class="subst">&#123;number&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li><code>./td[@class=&quot;status&quot;]/text()</code>：从当前行的 <code>&lt;td&gt;</code> 中选择 class 为 “status” 的列。</li>
+<li><code>./td[2]/text()</code>：选择当前行的第二个 <code>&lt;td&gt;</code> 节点的文本内容。</li>
+</ul>
+<p><strong>输出：</strong></p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">状态: 在线, 数字: 123</span><br><span class="line">状态: 离线, 数字: 456</span><br><span class="line">状态: 在线, 数字: 789</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="3-4-XPath-实用技巧"><a href="#3-4-XPath-实用技巧" class="headerlink" title="3.4 XPath 实用技巧"></a>3.4 XPath 实用技巧</h2><ol>
+<li><p><strong>使用属性选择节点：</strong></p>
+<ul>
+<li><code>//td[@class=&quot;status&quot;]</code> 选择所有 class 为 “status” 的 <code>&lt;td&gt;</code>。</li>
+<li><code>//a[@href]</code> 选择带有 <code>href</code> 属性的所有 <code>&lt;a&gt;</code> 标签。</li>
+</ul>
+</li>
+<li><p><strong>使用索引选择特定节点：</strong></p>
+<ul>
+<li><code>//tr[1]</code> 选择第一个 <code>&lt;tr&gt;</code> 节点。</li>
+<li><code>//td[2]</code> 选择当前 <code>&lt;tr&gt;</code> 中的第二个 <code>&lt;td&gt;</code> 节点。</li>
+</ul>
+</li>
+<li><p><strong>选择文本和属性：</strong></p>
+<ul>
+<li><code>//td/text()</code> 选择 <code>&lt;td&gt;</code> 内的文本。</li>
+<li><code>//a/@href</code> 选择所有 <code>&lt;a&gt;</code> 标签的 <code>href</code> 属性。</li>
+</ul>
+</li>
+<li><p><strong>条件筛选：</strong></p>
+<ul>
+<li><code>//tr[td[1]=&quot;在线&quot;]</code> 选择第一列文本为“在线”的行。</li>
+</ul>
+</li>
+</ol>
 ]]></content>
       <categories>
         <category>Python爬虫</category>
@@ -915,6 +915,21 @@
       </tags>
   </entry>
   <entry>
+    <title>Dockerfile 教程</title>
+    <url>/2024/09/03/Dockerfile%E6%95%99%E7%A8%8B/</url>
+    <content><![CDATA[<h1 id="1-代理配置"><a href="#1-代理配置" class="headerlink" title="1.代理配置"></a>1.代理配置</h1><p>有时侯在构建镜像时，需要执行一些下载操作，没有配置国内镜像源的话，下载速度可能会很慢甚至出错，所以需要在 Dockerfile 中配置代理。</p>
+<p>在 Dockerfile 中加上：</p>
+<div class="code-container" data-rel="Dockerfile"><figure class="iseeu highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="keyword">ENV</span> http_proxy=http://your-proxy-address:port/</span><br><span class="line"><span class="keyword">ENV</span> https_proxy=http://your-proxy-address:port/</span><br></pre></td></tr></table></figure></div>
+
+<p><code>http_proxy</code>和<code>https_proxy</code>：这两个环境变量分别用于<code>HTTP</code>和<code>HTTPS</code>的代理服务器地址。你需要将<code>your-proxy-address:port</code>替换为宿主机在当前网络下的 IP 地址和代理端口。注意这里是宿主机的实际<code>IP</code>地址，不是本地回环（<code>loop</code>）地址。同过<code>ifconfig</code>或者<code>ip a</code>查看。</p>
+<p>这属于是 docker 的环境变量设置，环境变量通常不会自动写入容器中的配置文件，如<code>.bashrc</code>或<code>/etc/environment</code>，但它们会在容器启动时自动加载。</p>
+]]></content>
+      <tags>
+        <tag>docker</tag>
+        <tag>proxy</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Openwrt 在 Docker 下运行并作为旁路由</title>
     <url>/2024/07/30/Docker-Openwrt/</url>
     <content><![CDATA[<h1 id="1-前言"><a href="#1-前言" class="headerlink" title="1.前言"></a>1.前言</h1><p>这几天想试着玩一下<code>Openwrt</code>来作旁路由，但是又没有软路由固件，后来考虑到<code>Openwrt</code>也是基于 Linux 的，那么在 Docker Hub 上应该有其对应的镜像吧，然后查了下果真有。于是有了后续的操作 … …</p>
@@ -1188,21 +1203,6 @@
         <tag>proxy</tag>
         <tag>openwrt</tag>
         <tag>虚拟机</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Dockerfile 教程</title>
-    <url>/2024/09/03/Dockerfile%E6%95%99%E7%A8%8B/</url>
-    <content><![CDATA[<h1 id="1-代理配置"><a href="#1-代理配置" class="headerlink" title="1.代理配置"></a>1.代理配置</h1><p>有时侯在构建镜像时，需要执行一些下载操作，没有配置国内镜像源的话，下载速度可能会很慢甚至出错，所以需要在 Dockerfile 中配置代理。</p>
-<p>在 Dockerfile 中加上：</p>
-<div class="code-container" data-rel="Dockerfile"><figure class="iseeu highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="keyword">ENV</span> http_proxy=http://your-proxy-address:port/</span><br><span class="line"><span class="keyword">ENV</span> https_proxy=http://your-proxy-address:port/</span><br></pre></td></tr></table></figure></div>
-
-<p><code>http_proxy</code>和<code>https_proxy</code>：这两个环境变量分别用于<code>HTTP</code>和<code>HTTPS</code>的代理服务器地址。你需要将<code>your-proxy-address:port</code>替换为宿主机在当前网络下的 IP 地址和代理端口。注意这里是宿主机的实际<code>IP</code>地址，不是本地回环（<code>loop</code>）地址。同过<code>ifconfig</code>或者<code>ip a</code>查看。</p>
-<p>这属于是 docker 的环境变量设置，环境变量通常不会自动写入容器中的配置文件，如<code>.bashrc</code>或<code>/etc/environment</code>，但它们会在容器启动时自动加载。</p>
-]]></content>
-      <tags>
-        <tag>docker</tag>
-        <tag>proxy</tag>
       </tags>
   </entry>
   <entry>
@@ -2224,91 +2224,6 @@
       </tags>
   </entry>
   <entry>
-    <title>MiHomo(Clash Meta) 纯内核使用教程</title>
-    <url>/2024/07/25/MiHomo%E6%95%99%E7%A8%8B/</url>
-    <content><![CDATA[<h1 id="1-前言（说明）"><a href="#1-前言（说明）" class="headerlink" title="1.前言（说明）"></a>1.前言（说明）</h1><p>在 <a class="link"   href="https://github.com/" >github<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> 上其实有不少的客户端和服务端的软件，如果不喜欢折腾的话，这篇文章可能不怎么适合你，建议直接使用第三方客户端的代理软件。这篇文章主要是记录自己使用 mihomo 的一些心得，因为强迫症的原因，所以是通过 docker 来部署整个代理服务的。当然，用 docker 部署也是有好处的，配置好后可以连同镜像一起打包备份或者<code>push</code>到 <a class="link"   href="https://hub.docker.com/" >Docker Hub<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> 上，后续电脑环境改变了仍然能使用。</p>
-<h1 id="2-下载必要的文件"><a href="#2-下载必要的文件" class="headerlink" title="2.下载必要的文件"></a>2.下载必要的文件</h1><p>先把存放下载文件的项目文件夹创建好：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> ~/clashmeta &amp;&amp; <span class="built_in">cd</span> clashmeta</span><br></pre></td></tr></table></figure></div>
-<p>后续下载好的文件都放在<code>clashmeta</code>文件夹下。</p>
-<h2 id="2-1-内核"><a href="#2-1-内核" class="headerlink" title="2.1 内核"></a>2.1 内核</h2><p><a class="link"   href="https://github.com/MetaCubeX/mihomo/releases" >稳定版下载地址<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
-<p>我这里用的是 debian 镜像，所以下载的是这个版本：<br><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://s2.loli.net/2024/07/25/n5DSvEiMquTJ7fC.png"
-                      alt="image01.png"
-                ><figcaption>image01.png</figcaption></figure></p>
-<h2 id="2-2-GeoIP-GeoSite-库"><a href="#2-2-GeoIP-GeoSite-库" class="headerlink" title="2.2 GeoIP &amp; GeoSite 库"></a>2.2 GeoIP &amp; GeoSite 库</h2><p><a class="link"   href="https://gcore.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.dat" >GeoIP 库下载<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a><br><a class="link"   href="https://gcore.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geosite.dat" >GeoSite 库下载<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
-<h2 id="2-3-config-yaml-配置文件"><a href="#2-3-config-yaml-配置文件" class="headerlink" title="2.3 config.yaml 配置文件"></a>2.3 config.yaml 配置文件</h2><p><a class="link"   href="https://github.com/loskyertt/clash_meta/blob/master/config.yaml" >config.yaml 下载<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
-<p>需要把<code>config.yaml</code>这部分内容修改以下：<br><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://s2.loli.net/2024/07/25/uwHzqYafTrVlxE2.png"
-                      alt="image02.png"
-                ><figcaption>image02.png</figcaption></figure></p>
-<p>填上自己的机场链接即可。</p>
-<h2 id="2-4-UI-文件"><a href="#2-4-UI-文件" class="headerlink" title="2.4 UI 文件"></a>2.4 UI 文件</h2><p><a class="link"   href="https://github.com/MetaCubeX/metacubexd" >ui 下载<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
-<h1 id="3-拉取镜像"><a href="#3-拉取镜像" class="headerlink" title="3.拉取镜像"></a>3.拉取镜像</h1><p>mihomo 的作者在 Docker Hub 上是有镜像的，但是里面没有说明文档，我在后面进行补充。</p>
-<p>直接拉取最新的稳定版本的 debian 镜像即可：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker pull debian</span><br></pre></td></tr></table></figure></div>
-
-<h1 id="4-开始配置"><a href="#4-开始配置" class="headerlink" title="4.开始配置"></a>4.开始配置</h1><h2 id="4-1-创建容器"><a href="#4-1-创建容器" class="headerlink" title="4.1 创建容器"></a>4.1 创建容器</h2><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -it --name clashmeta -p 7890:7890 -p 9090:9090 -v ~/clashmeta:/root/clashmeta debian:latest /bin/bash</span><br></pre></td></tr></table></figure></div>
-<p>此时直接进入了创建好的容器内部。<br><strong>说明：</strong> 这里的<code>7890</code>端口是代理端口，<code>9090</code>端口是本地网站端口。</p>
-<h2 id="4-2-容器内的操作"><a href="#4-2-容器内的操作" class="headerlink" title="4.2 容器内的操作"></a>4.2 容器内的操作</h2><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /root/clashmeta</span><br></pre></td></tr></table></figure></div>
-
-<p>执行：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">dpkg -i mihomo-linux-amd64-v1.18.6.deb</span><br></pre></td></tr></table></figure></div>
-<p>把<code>mihomo</code>安装到容器内。可以通过<code>which mihomo</code>来查看是否安装成功。</p>
-<p>开启代理，输入：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">mihomo -d ./</span><br></pre></td></tr></table></figure></div>
-<p>然后打开浏览器输入<code>http://127.0.0.1:9090/ui</code>就能进入代理界面。</p>
-<h1 id="5-使用现成的镜像配置"><a href="#5-使用现成的镜像配置" class="headerlink" title="5.使用现成的镜像配置"></a>5.使用现成的镜像配置</h1><p>拉取镜像：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker pull metacubex/mihomo:latest</span><br></pre></td></tr></table></figure></div>
-
-<p>如果当前网络环境不行的话，也可以使用我存放在阿里的镜像：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker pull registry.cn-hangzhou.aliyuncs.com/loskyertt/meta:1.18.8</span><br></pre></td></tr></table></figure></div>
-
-<p>创建卷挂在目录：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker volume create mihomo</span><br></pre></td></tr></table></figure></div>
-
-<p>创建容器实例：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -itd --name=mihomo --restart=always -p7890:7890 -p9090:9090 -v mihomo:/root/.config/mihomo metacubex/mihomo:latest</span><br></pre></td></tr></table></figure></div>
-
-<p>然后把配置文件（<code>config.yaml</code>）和<code>ui</code>文件移到卷挂载目录下：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">mv</span> config.yaml /var/lib/docker/volumes/mihomo/_data/</span><br></pre></td></tr></table></figure></div>
-
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">mv</span> ui /var/lib/docker/volumes/mihomo/_data/</span><br></pre></td></tr></table></figure></div>
-
-<p>重启容器即可：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker restart mihomo</span><br></pre></td></tr></table></figure></div>
-
-<h1 id="6-结果图"><a href="#6-结果图" class="headerlink" title="6.结果图"></a>6.结果图</h1><p><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://s2.loli.net/2024/07/25/ulftdepWhZK3YR4.png"
-                      alt="image03.png"
-                ><figcaption>image03.png</figcaption></figure></p>
-<p><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://s2.loli.net/2024/07/25/qxW3TZfYP5lBS9p.png"
-                      alt="image04.png"
-                ><figcaption>image04.png</figcaption></figure></p>
-<h1 id="7-注意事项"><a href="#7-注意事项" class="headerlink" title="7.注意事项"></a>7.注意事项</h1><p>如果发现仍然不能科学上网，可以打开“设置”检查下“代理设置”，手动设置代理地址和端口<code>127.0.0.1:7890</code>（火狐浏览器可能需要在内置的浏览器设置中进行配置下）。对于 Windows 用户来说，其实操作逻辑都是一样的（当然也可以不用 docker ），配置完后注意设置防火墙就行。</p>
-<h1 id="8-参考教程"><a href="#8-参考教程" class="headerlink" title="8.参考教程"></a>8.参考教程</h1><ul>
-<li><a class="link"   href="https://www.youtube.com/watch?v=d-2vCYLjXHs&t=23s" >【进阶使用】Clash Meta 纯内核使用教程|多机场融合|规则自动更新|Tun虚拟网卡模式|避免DNS泄露|WebRTC泄露<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>科学上网</category>
-      </categories>
-      <tags>
-        <tag>linux</tag>
-        <tag>docker</tag>
-        <tag>proxy</tag>
-        <tag>clash</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Linux 常用指令汇总</title>
     <url>/2024/12/10/Linux%E6%8C%87%E4%BB%A4/</url>
     <content><![CDATA[<h1 id="1-查看开机启动项"><a href="#1-查看开机启动项" class="headerlink" title="1.查看开机启动项"></a>1.查看开机启动项</h1><h2 id="1-1-使用-systemctl-查看-systemd-服务"><a href="#1-1-使用-systemctl-查看-systemd-服务" class="headerlink" title="1.1 使用 systemctl 查看 systemd 服务"></a>1.1 使用 systemctl 查看 systemd 服务</h2><p>使用 <code>systemctl</code> 命令来列出所有启用的（开机自启动的）systemd 服务：</p>
@@ -2558,6 +2473,91 @@
 ]]></content>
       <tags>
         <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>MiHomo(Clash Meta) 纯内核使用教程</title>
+    <url>/2024/07/25/MiHomo%E6%95%99%E7%A8%8B/</url>
+    <content><![CDATA[<h1 id="1-前言（说明）"><a href="#1-前言（说明）" class="headerlink" title="1.前言（说明）"></a>1.前言（说明）</h1><p>在 <a class="link"   href="https://github.com/" >github<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> 上其实有不少的客户端和服务端的软件，如果不喜欢折腾的话，这篇文章可能不怎么适合你，建议直接使用第三方客户端的代理软件。这篇文章主要是记录自己使用 mihomo 的一些心得，因为强迫症的原因，所以是通过 docker 来部署整个代理服务的。当然，用 docker 部署也是有好处的，配置好后可以连同镜像一起打包备份或者<code>push</code>到 <a class="link"   href="https://hub.docker.com/" >Docker Hub<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> 上，后续电脑环境改变了仍然能使用。</p>
+<h1 id="2-下载必要的文件"><a href="#2-下载必要的文件" class="headerlink" title="2.下载必要的文件"></a>2.下载必要的文件</h1><p>先把存放下载文件的项目文件夹创建好：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> ~/clashmeta &amp;&amp; <span class="built_in">cd</span> clashmeta</span><br></pre></td></tr></table></figure></div>
+<p>后续下载好的文件都放在<code>clashmeta</code>文件夹下。</p>
+<h2 id="2-1-内核"><a href="#2-1-内核" class="headerlink" title="2.1 内核"></a>2.1 内核</h2><p><a class="link"   href="https://github.com/MetaCubeX/mihomo/releases" >稳定版下载地址<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<p>我这里用的是 debian 镜像，所以下载的是这个版本：<br><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s2.loli.net/2024/07/25/n5DSvEiMquTJ7fC.png"
+                      alt="image01.png"
+                ><figcaption>image01.png</figcaption></figure></p>
+<h2 id="2-2-GeoIP-GeoSite-库"><a href="#2-2-GeoIP-GeoSite-库" class="headerlink" title="2.2 GeoIP &amp; GeoSite 库"></a>2.2 GeoIP &amp; GeoSite 库</h2><p><a class="link"   href="https://gcore.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.dat" >GeoIP 库下载<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a><br><a class="link"   href="https://gcore.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geosite.dat" >GeoSite 库下载<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h2 id="2-3-config-yaml-配置文件"><a href="#2-3-config-yaml-配置文件" class="headerlink" title="2.3 config.yaml 配置文件"></a>2.3 config.yaml 配置文件</h2><p><a class="link"   href="https://github.com/loskyertt/clash_meta/blob/master/config.yaml" >config.yaml 下载<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<p>需要把<code>config.yaml</code>这部分内容修改以下：<br><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s2.loli.net/2024/07/25/uwHzqYafTrVlxE2.png"
+                      alt="image02.png"
+                ><figcaption>image02.png</figcaption></figure></p>
+<p>填上自己的机场链接即可。</p>
+<h2 id="2-4-UI-文件"><a href="#2-4-UI-文件" class="headerlink" title="2.4 UI 文件"></a>2.4 UI 文件</h2><p><a class="link"   href="https://github.com/MetaCubeX/metacubexd" >ui 下载<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h1 id="3-拉取镜像"><a href="#3-拉取镜像" class="headerlink" title="3.拉取镜像"></a>3.拉取镜像</h1><p>mihomo 的作者在 Docker Hub 上是有镜像的，但是里面没有说明文档，我在后面进行补充。</p>
+<p>直接拉取最新的稳定版本的 debian 镜像即可：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker pull debian</span><br></pre></td></tr></table></figure></div>
+
+<h1 id="4-开始配置"><a href="#4-开始配置" class="headerlink" title="4.开始配置"></a>4.开始配置</h1><h2 id="4-1-创建容器"><a href="#4-1-创建容器" class="headerlink" title="4.1 创建容器"></a>4.1 创建容器</h2><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -it --name clashmeta -p 7890:7890 -p 9090:9090 -v ~/clashmeta:/root/clashmeta debian:latest /bin/bash</span><br></pre></td></tr></table></figure></div>
+<p>此时直接进入了创建好的容器内部。<br><strong>说明：</strong> 这里的<code>7890</code>端口是代理端口，<code>9090</code>端口是本地网站端口。</p>
+<h2 id="4-2-容器内的操作"><a href="#4-2-容器内的操作" class="headerlink" title="4.2 容器内的操作"></a>4.2 容器内的操作</h2><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /root/clashmeta</span><br></pre></td></tr></table></figure></div>
+
+<p>执行：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">dpkg -i mihomo-linux-amd64-v1.18.6.deb</span><br></pre></td></tr></table></figure></div>
+<p>把<code>mihomo</code>安装到容器内。可以通过<code>which mihomo</code>来查看是否安装成功。</p>
+<p>开启代理，输入：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">mihomo -d ./</span><br></pre></td></tr></table></figure></div>
+<p>然后打开浏览器输入<code>http://127.0.0.1:9090/ui</code>就能进入代理界面。</p>
+<h1 id="5-使用现成的镜像配置"><a href="#5-使用现成的镜像配置" class="headerlink" title="5.使用现成的镜像配置"></a>5.使用现成的镜像配置</h1><p>拉取镜像：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker pull metacubex/mihomo:latest</span><br></pre></td></tr></table></figure></div>
+
+<p>如果当前网络环境不行的话，也可以使用我存放在阿里的镜像：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker pull registry.cn-hangzhou.aliyuncs.com/loskyertt/meta:1.18.8</span><br></pre></td></tr></table></figure></div>
+
+<p>创建卷挂在目录：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker volume create mihomo</span><br></pre></td></tr></table></figure></div>
+
+<p>创建容器实例：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -itd --name=mihomo --restart=always -p7890:7890 -p9090:9090 -v mihomo:/root/.config/mihomo metacubex/mihomo:latest</span><br></pre></td></tr></table></figure></div>
+
+<p>然后把配置文件（<code>config.yaml</code>）和<code>ui</code>文件移到卷挂载目录下：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">mv</span> config.yaml /var/lib/docker/volumes/mihomo/_data/</span><br></pre></td></tr></table></figure></div>
+
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">mv</span> ui /var/lib/docker/volumes/mihomo/_data/</span><br></pre></td></tr></table></figure></div>
+
+<p>重启容器即可：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker restart mihomo</span><br></pre></td></tr></table></figure></div>
+
+<h1 id="6-结果图"><a href="#6-结果图" class="headerlink" title="6.结果图"></a>6.结果图</h1><p><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s2.loli.net/2024/07/25/ulftdepWhZK3YR4.png"
+                      alt="image03.png"
+                ><figcaption>image03.png</figcaption></figure></p>
+<p><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s2.loli.net/2024/07/25/qxW3TZfYP5lBS9p.png"
+                      alt="image04.png"
+                ><figcaption>image04.png</figcaption></figure></p>
+<h1 id="7-注意事项"><a href="#7-注意事项" class="headerlink" title="7.注意事项"></a>7.注意事项</h1><p>如果发现仍然不能科学上网，可以打开“设置”检查下“代理设置”，手动设置代理地址和端口<code>127.0.0.1:7890</code>（火狐浏览器可能需要在内置的浏览器设置中进行配置下）。对于 Windows 用户来说，其实操作逻辑都是一样的（当然也可以不用 docker ），配置完后注意设置防火墙就行。</p>
+<h1 id="8-参考教程"><a href="#8-参考教程" class="headerlink" title="8.参考教程"></a>8.参考教程</h1><ul>
+<li><a class="link"   href="https://www.youtube.com/watch?v=d-2vCYLjXHs&t=23s" >【进阶使用】Clash Meta 纯内核使用教程|多机场融合|规则自动更新|Tun虚拟网卡模式|避免DNS泄露|WebRTC泄露<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>科学上网</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+        <tag>docker</tag>
+        <tag>proxy</tag>
+        <tag>clash</tag>
       </tags>
   </entry>
   <entry>
@@ -2893,10 +2893,44 @@
 <p>安装好后需要配置环境变量，把下面这行内容添加到<code>.bashrc</code>或者<code>.zshrc</code>中（取决于自己用的<code>shell</code>）：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">export</span> QT_QPA_PLATFORM=xcb</span><br></pre></td></tr></table></figure></div>
 
-<p>进行这步配置主要是为了避免运行<code>qt</code>程序时，出现下面的问题：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">qt.qpa.plugin: Could not find the Qt platform plugin &quot;wayland&quot; in &quot;&quot;</span><br></pre></td></tr></table></figure></div>
+<h2 id="进行这步配置主要是为了避免运行qt程序时，出现下面的问题："><a href="#进行这步配置主要是为了避免运行qt程序时，出现下面的问题：" class="headerlink" title="进行这步配置主要是为了避免运行qt程序时，出现下面的问题："></a>进行这步配置主要是为了避免运行<code>qt</code>程序时，出现下面的问题：<br><div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">qt.qpa.plugin: Could not find the Qt platform plugin &quot;wayland&quot; in &quot;&quot;</span><br></pre></td></tr></table></figure></div></h2><h1 id="2-安装字体"><a href="#2-安装字体" class="headerlink" title="2.安装字体"></a>2.安装字体</h1><p>默认情况下，中文字体会安装在以下路径之一：</p>
+<ol>
+<li><code>/usr/share/fonts/noto-cjk/</code>：用于 <strong>Noto CJK</strong> 字体（推荐）。</li>
+<li><code>/usr/share/fonts/wenquanyi/</code>：用于 <strong>文泉驿</strong> 字体。</li>
+<li><code>/usr/share/fonts/TTF/</code> 或 <code>/usr/share/fonts/truetype/</code>：用于 TTF&#x2F;OTF 格式的字体文件。</li>
+</ol>
+<p>先查看下系统是否有中文字体，使用下面的指令：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">fc-list :lang=zh</span><br></pre></td></tr></table></figure></div>
+<p>如果有输出的话，后面操作就不用管，否则就需要额外安装字体。</p>
+<p>在我的系统中（Arch-WSL2），<code>/usr/share/fonts/</code> 目录下只显示了以下内容，说明没有中文字体：</p>
+<ul>
+<li><p><strong>100dpi 和 75dpi</strong>：<br>这些是 X11 系统中的点阵字体（bitmap fonts），通常用于较低分辨率的显示器或作为一些旧式程序的备用字体。  </p>
+<ul>
+<li><code>100dpi</code> 表示每英寸 100 点的字体。</li>
+<li><code>75dpi</code> 表示每英寸 75 点的字体。<br>这些字体一般用于非常老旧的 X11 应用程序，现代应用通常不需要这些字体。</li>
+</ul>
+</li>
+<li><p><strong>encodings</strong>：<br>包含字体编码文件，用于定义如何将字符代码映射到字体中的字形。它主要与点阵字体或老式字体相关。</p>
+</li>
+<li><p><strong>util</strong>：<br>一些字体工具或辅助文件的目录，通常与字体管理或配置有关。</p>
+</li>
+</ul>
+<ol>
+<li>安装 Noto CJK 字体（推荐）</li>
+</ol>
+<p>这是 Google 提供的现代中文字体，适用于大多数应用场景：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S noto-fonts-cjk</span><br></pre></td></tr></table></figure></div>
 
-<h1 id="2-项目构建"><a href="#2-项目构建" class="headerlink" title="2.项目构建"></a>2.项目构建</h1><p>一个简单的<code>qt</code>开发模板：</p>
+<ol start="2">
+<li>安装其他中文字体</li>
+</ol>
+<ul>
+<li><strong>文泉驿字体</strong>：<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S wqy-zenhei wqy-microhei</span><br></pre></td></tr></table></figure></div></li>
+<li><strong>思源宋体</strong>（Noto Serif CJK）：<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S noto-fonts-emoji noto-fonts-cjk noto-fonts</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<p>安装一种即可，安装好后，需要重启系统（我这里只需要重启 Arch-WSL2 子系统）。</p>
+<hr>
+<h1 id="3-项目构建"><a href="#3-项目构建" class="headerlink" title="3.项目构建"></a>3.项目构建</h1><p>一个简单的<code>qt</code>开发模板：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">cmake_minimum_required(VERSI0N 3.12)</span><br><span class="line"></span><br><span class="line"><span class="built_in">set</span>(CMAKE_C_COMPILER clang)</span><br><span class="line"><span class="built_in">set</span>(CMAKE_CXX_COMPILER clang++)</span><br><span class="line"></span><br><span class="line"><span class="built_in">set</span>(CMAKE_CXX_STANDARD 20)</span><br><span class="line"><span class="built_in">set</span>(CMAKE_AUTOMOC ON)</span><br><span class="line"><span class="built_in">set</span>(CMAKE_AUTORCC ON)</span><br><span class="line"><span class="built_in">set</span>(CMAKE_AUTOUIC ON)</span><br><span class="line"></span><br><span class="line">project(qtguide)</span><br><span class="line"></span><br><span class="line">find_package(Qt6 REQUIRED COMPONENTS Core Widgets REQUIRED)</span><br><span class="line"></span><br><span class="line">file(GLOB sources *.cpp)</span><br><span class="line">add_executable(qtguide <span class="variable">$&#123;sources&#125;</span>)</span><br><span class="line">target_link_libraries(qtguide PRIVATE Qt6::Core Qt6::Widgets)</span><br></pre></td></tr></table></figure></div>
 <p>建议设置<code>clang</code>和<code>clang++</code>作为编译器。我在 Arch-WSL2 下使用<code>gcc</code>和<code>g++</code>会出现问题。还有就是设置编译器这部分，一定要放在<code>cmake_minimum_required</code>下面，其它的上面。因为编译器的选择会影响后续变量、库、目标等配置。CMake 初始化后再更改编译器可能会导致配置问题。</p>
 <p>对于<code>qt</code>模板，可以参考我的仓库中的模板配置：<a class="link"   href="https://github.com/loskyertt/cpp_template" >cpp_template<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>。</p>
@@ -3393,67 +3427,6 @@
       </tags>
   </entry>
   <entry>
-    <title>CMake 基础教程</title>
-    <url>/2024/11/29/cmake%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/</url>
-    <content><![CDATA[<h1 id="1-构建指令"><a href="#1-构建指令" class="headerlink" title="1.构建指令"></a>1.构建指令</h1><p>现代<code>CMake</code>提供了更方便的<code>-B</code>和<code>--build</code>指令，不同平台，统一命令！</p>
-<p>在源码目录用<code>-B</code>直接创建<code>build</code>目录并生成<code>build/Makefile</code>:</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">cmake -B build</span><br></pre></td></tr></table></figure></div>
-<p>这种方式免去了先创建<code>build</code>目录再切换进去再指定源码目录的麻烦。</p>
-<p>示例如下：<br><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://s2.loli.net/2024/11/29/tL9qsWvMekI3zcw.png"
-                      alt="示例1"
-                ><figcaption>示例1</figcaption></figure></p>
-<p>自动调用本地的构建系统在<code>build</code>里构建，相当于<code>make -C build -j4</code>：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">cmake --build build -j4</span><br></pre></td></tr></table></figure></div>
-<p>这种方式统一了不同平台（Linux 上会调用<code>make</code>，Windows 上调用<code>devenv.exe</code>）</p>
-<p>调用本地的构建系统执行<code>install</code>这个目标，即安装：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> cmake --build build --target install</span><br></pre></td></tr></table></figure></div>
-<p>相当于 Linux 下的<code>sudo make install</code>。</p>
-<p>结论：从现在开始，如果在命令行操作<code>cmake</code>，请使用更方便的<code>-B</code>和<code>--build</code>命令。</p>
-<h1 id="2-生成器"><a href="#2-生成器" class="headerlink" title="2.生成器"></a>2.生成器</h1><ul>
-<li>Linux 系统上的<code>CMake</code>默认用是<code>Unix Makefiles</code>生成器；Windows 系统默认是<code>Visual Studio 2019</code>生成器；MacOS 系统默认是<code>Xcode</code>生成器。</li>
-<li>可以用<code>-G</code>参数改用别的生成器，例如<code>cmake -G Ninja</code>会生成<code>Ninja</code>这个构建系统的构建规则。<code>Ninja</code>是一个高性能，跨平台的构建系统，Linux、Windows、MacOS上都可以用。</li>
-<li><code>Ninja</code>可以从包管理器里安装，没有包管理器的 Windows 可以用 Python 的包管理器安装：<code>pip install ninja</code>（有趣的事实：<code>CMake</code>也可以通过<code>pip install cmake</code>安装）。</li>
-<li>事实上，<code>MSBuild</code>是单核心的构建系统，<code>Makefile</code>虽然多核心，但因历史兼容原因效率一般。而<code>Ninja</code>则是专为性能优化的构建系统，它和<code>CMake</code>结合都是行业标准了。</li>
-</ul>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">cmake -G Ninja -B build</span><br></pre></td></tr></table></figure></div>
-<p>注：<code>-G Ninja</code>还可以写成<code>-GNinja</code>和<code>-G &quot;Ninja&quot;</code>（推荐这种）。在 Linux 上没有指定的话，默认是<code>-G &quot;Unix Makefiles&quot;</code>。</p>
-<p>如图所示：<br><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://s2.loli.net/2024/11/29/5veQ3nHVUhT7ipl.png"
-                      alt="示例2"
-                ><figcaption>示例2</figcaption></figure></p>
-<h2 id="2-1-Ninja和Makefile的简单对比："><a href="#2-1-Ninja和Makefile的简单对比：" class="headerlink" title="2.1 Ninja和Makefile的简单对比："></a>2.1 <code>Ninja</code>和<code>Makefile</code>的简单对比：</h2><p><code>ninja</code>花费的时间：<br><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://s2.loli.net/2024/11/29/sha1dGMkHTNuQ8A.png"
-                      alt="ninja.png"
-                ><figcaption>ninja.png</figcaption></figure></p>
-<p><code>make</code>花费的时间：<br><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://s2.loli.net/2024/11/29/kfcOwtZbQV4UMA5.png"
-                      alt="make.png"
-                ><figcaption>make.png</figcaption></figure></p>
-<p>从两幅图对比可以看出，<code>ninja</code>花费的时间更少，效率更高。</p>
-<p>事实上，在性能上：<code>Ninja &gt; Makefile &gt; MSBuild</code>。<code>Makefile</code>启动时会把每个文件都检测一遍，浪费很多时间。特别是有很多文件，但是实际需要构建的只有一小部分，从而是<code>I/O Bound</code>的时候，<code>Ninja</code>的速度提升就很明显。然而某些专利公司的<code>CUDA toolkit</code>在 Windows 上只允许用<code>MSBuild</code>构建，不能用<code>Ninja</code>（怕不是和<code>Bill Gates</code>有什么交易，哈哈）。</p>
-<h1 id="3-编译器设置"><a href="#3-编译器设置" class="headerlink" title="3.编译器设置"></a>3.编译器设置</h1><p>可以在<code>CMakeLists.txt</code>中添加：</p>
-<div class="code-container" data-rel="Cmake"><figure class="iseeu highlight cmake"><table><tr><td class="code"><pre><span class="line"><span class="keyword">set</span>(CMAKE_C_COMPILER clang)</span><br><span class="line"><span class="keyword">set</span>(CMAKE_CXX_COMPILER clang++)</span><br></pre></td></tr></table></figure></div>
-<p>指定编译器为<code>clang</code>和<code>clang++</code>。不指定的话，默认是<code>gcc</code>和<code>g++</code>。</p>
-<p>也可以在命令行阶段指定：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">cmake -B build -G Ninja -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++</span><br></pre></td></tr></table></figure></div>]]></content>
-      <categories>
-        <category>C++</category>
-      </categories>
-      <tags>
-        <tag>c++</tag>
-        <tag>cmake</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>firewall 的常用指令</title>
     <url>/2024/09/11/firewall%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/</url>
     <content><![CDATA[<h1 id="1-检查-firewall"><a href="#1-检查-firewall" class="headerlink" title="1.检查 firewall"></a>1.检查 firewall</h1><p>是否安装：</p>
@@ -3550,6 +3523,67 @@
         <tag>linux</tag>
         <tag>c++</tag>
         <tag>WSL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CMake 基础教程</title>
+    <url>/2024/11/29/cmake%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/</url>
+    <content><![CDATA[<h1 id="1-构建指令"><a href="#1-构建指令" class="headerlink" title="1.构建指令"></a>1.构建指令</h1><p>现代<code>CMake</code>提供了更方便的<code>-B</code>和<code>--build</code>指令，不同平台，统一命令！</p>
+<p>在源码目录用<code>-B</code>直接创建<code>build</code>目录并生成<code>build/Makefile</code>:</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">cmake -B build</span><br></pre></td></tr></table></figure></div>
+<p>这种方式免去了先创建<code>build</code>目录再切换进去再指定源码目录的麻烦。</p>
+<p>示例如下：<br><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s2.loli.net/2024/11/29/tL9qsWvMekI3zcw.png"
+                      alt="示例1"
+                ><figcaption>示例1</figcaption></figure></p>
+<p>自动调用本地的构建系统在<code>build</code>里构建，相当于<code>make -C build -j4</code>：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">cmake --build build -j4</span><br></pre></td></tr></table></figure></div>
+<p>这种方式统一了不同平台（Linux 上会调用<code>make</code>，Windows 上调用<code>devenv.exe</code>）</p>
+<p>调用本地的构建系统执行<code>install</code>这个目标，即安装：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> cmake --build build --target install</span><br></pre></td></tr></table></figure></div>
+<p>相当于 Linux 下的<code>sudo make install</code>。</p>
+<p>结论：从现在开始，如果在命令行操作<code>cmake</code>，请使用更方便的<code>-B</code>和<code>--build</code>命令。</p>
+<h1 id="2-生成器"><a href="#2-生成器" class="headerlink" title="2.生成器"></a>2.生成器</h1><ul>
+<li>Linux 系统上的<code>CMake</code>默认用是<code>Unix Makefiles</code>生成器；Windows 系统默认是<code>Visual Studio 2019</code>生成器；MacOS 系统默认是<code>Xcode</code>生成器。</li>
+<li>可以用<code>-G</code>参数改用别的生成器，例如<code>cmake -G Ninja</code>会生成<code>Ninja</code>这个构建系统的构建规则。<code>Ninja</code>是一个高性能，跨平台的构建系统，Linux、Windows、MacOS上都可以用。</li>
+<li><code>Ninja</code>可以从包管理器里安装，没有包管理器的 Windows 可以用 Python 的包管理器安装：<code>pip install ninja</code>（有趣的事实：<code>CMake</code>也可以通过<code>pip install cmake</code>安装）。</li>
+<li>事实上，<code>MSBuild</code>是单核心的构建系统，<code>Makefile</code>虽然多核心，但因历史兼容原因效率一般。而<code>Ninja</code>则是专为性能优化的构建系统，它和<code>CMake</code>结合都是行业标准了。</li>
+</ul>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">cmake -G Ninja -B build</span><br></pre></td></tr></table></figure></div>
+<p>注：<code>-G Ninja</code>还可以写成<code>-GNinja</code>和<code>-G &quot;Ninja&quot;</code>（推荐这种）。在 Linux 上没有指定的话，默认是<code>-G &quot;Unix Makefiles&quot;</code>。</p>
+<p>如图所示：<br><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s2.loli.net/2024/11/29/5veQ3nHVUhT7ipl.png"
+                      alt="示例2"
+                ><figcaption>示例2</figcaption></figure></p>
+<h2 id="2-1-Ninja和Makefile的简单对比："><a href="#2-1-Ninja和Makefile的简单对比：" class="headerlink" title="2.1 Ninja和Makefile的简单对比："></a>2.1 <code>Ninja</code>和<code>Makefile</code>的简单对比：</h2><p><code>ninja</code>花费的时间：<br><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s2.loli.net/2024/11/29/sha1dGMkHTNuQ8A.png"
+                      alt="ninja.png"
+                ><figcaption>ninja.png</figcaption></figure></p>
+<p><code>make</code>花费的时间：<br><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s2.loli.net/2024/11/29/kfcOwtZbQV4UMA5.png"
+                      alt="make.png"
+                ><figcaption>make.png</figcaption></figure></p>
+<p>从两幅图对比可以看出，<code>ninja</code>花费的时间更少，效率更高。</p>
+<p>事实上，在性能上：<code>Ninja &gt; Makefile &gt; MSBuild</code>。<code>Makefile</code>启动时会把每个文件都检测一遍，浪费很多时间。特别是有很多文件，但是实际需要构建的只有一小部分，从而是<code>I/O Bound</code>的时候，<code>Ninja</code>的速度提升就很明显。然而某些专利公司的<code>CUDA toolkit</code>在 Windows 上只允许用<code>MSBuild</code>构建，不能用<code>Ninja</code>（怕不是和<code>Bill Gates</code>有什么交易，哈哈）。</p>
+<h1 id="3-编译器设置"><a href="#3-编译器设置" class="headerlink" title="3.编译器设置"></a>3.编译器设置</h1><p>可以在<code>CMakeLists.txt</code>中添加：</p>
+<div class="code-container" data-rel="Cmake"><figure class="iseeu highlight cmake"><table><tr><td class="code"><pre><span class="line"><span class="keyword">set</span>(CMAKE_C_COMPILER clang)</span><br><span class="line"><span class="keyword">set</span>(CMAKE_CXX_COMPILER clang++)</span><br></pre></td></tr></table></figure></div>
+<p>指定编译器为<code>clang</code>和<code>clang++</code>。不指定的话，默认是<code>gcc</code>和<code>g++</code>。</p>
+<p>也可以在命令行阶段指定：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">cmake -B build -G Ninja -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++</span><br></pre></td></tr></table></figure></div>]]></content>
+      <categories>
+        <category>C++</category>
+      </categories>
+      <tags>
+        <tag>c++</tag>
+        <tag>cmake</tag>
       </tags>
   </entry>
   <entry>

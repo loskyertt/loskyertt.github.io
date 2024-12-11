@@ -30,7 +30,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://example.com/2024/12/11/Qt%E5%92%8CVScode%E9%85%8D%E7%BD%AE/your_image_path">
 <meta property="article:published_time" content="2024-12-11T19:04:07.000Z">
-<meta property="article:modified_time" content="2024-12-11T11:35:24.213Z">
+<meta property="article:modified_time" content="2024-12-11T12:50:07.996Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="linux">
 <meta property="article:tag" content="c++">
@@ -497,8 +497,8 @@
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2024-12-11 11:35:24</span>
-            <span class="mobile">2024-12-11 11:35:24</span>
+            <span class="desktop">2024-12-11 12:50:07</span>
+            <span class="mobile">2024-12-11 12:50:07</span>
             <span class="hover-info">Updated</span>
         </span>
     
@@ -528,12 +528,12 @@
     
     
         <span class="article-wordcount article-meta-item">
-            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>359 Words</span>
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>779 Words</span>
         </span>
     
     
         <span class="article-min2read article-meta-item">
-            <i class="fa-regular fa-clock"></i>&nbsp;<span>1 Mins</span>
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>3 Mins</span>
         </span>
     
     
@@ -560,10 +560,44 @@
 <p>安装好后需要配置环境变量，把下面这行内容添加到<code>.bashrc</code>或者<code>.zshrc</code>中（取决于自己用的<code>shell</code>）：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> QT_QPA_PLATFORM=xcb</span><br></pre></td></tr></table></figure></div>
 
-<p>进行这步配置主要是为了避免运行<code>qt</code>程序时，出现下面的问题：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">qt.qpa.plugin: Could not find the Qt platform plugin &quot;wayland&quot; in &quot;&quot;</span><br></pre></td></tr></table></figure></div>
+<h2 id="进行这步配置主要是为了避免运行qt程序时，出现下面的问题："><a href="#进行这步配置主要是为了避免运行qt程序时，出现下面的问题：" class="headerlink" title="进行这步配置主要是为了避免运行qt程序时，出现下面的问题："></a>进行这步配置主要是为了避免运行<code>qt</code>程序时，出现下面的问题：<br><div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">qt.qpa.plugin: Could not find the Qt platform plugin &quot;wayland&quot; in &quot;&quot;</span><br></pre></td></tr></table></figure></div></h2><h1 id="2-安装字体"><a href="#2-安装字体" class="headerlink" title="2.安装字体"></a>2.安装字体</h1><p>默认情况下，中文字体会安装在以下路径之一：</p>
+<ol>
+<li><code>/usr/share/fonts/noto-cjk/</code>：用于 <strong>Noto CJK</strong> 字体（推荐）。</li>
+<li><code>/usr/share/fonts/wenquanyi/</code>：用于 <strong>文泉驿</strong> 字体。</li>
+<li><code>/usr/share/fonts/TTF/</code> 或 <code>/usr/share/fonts/truetype/</code>：用于 TTF&#x2F;OTF 格式的字体文件。</li>
+</ol>
+<p>先查看下系统是否有中文字体，使用下面的指令：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fc-list :lang=zh</span><br></pre></td></tr></table></figure></div>
+<p>如果有输出的话，后面操作就不用管，否则就需要额外安装字体。</p>
+<p>在我的系统中（Arch-WSL2），<code>/usr/share/fonts/</code> 目录下只显示了以下内容，说明没有中文字体：</p>
+<ul>
+<li><p><strong>100dpi 和 75dpi</strong>：<br>这些是 X11 系统中的点阵字体（bitmap fonts），通常用于较低分辨率的显示器或作为一些旧式程序的备用字体。  </p>
+<ul>
+<li><code>100dpi</code> 表示每英寸 100 点的字体。</li>
+<li><code>75dpi</code> 表示每英寸 75 点的字体。<br>这些字体一般用于非常老旧的 X11 应用程序，现代应用通常不需要这些字体。</li>
+</ul>
+</li>
+<li><p><strong>encodings</strong>：<br>包含字体编码文件，用于定义如何将字符代码映射到字体中的字形。它主要与点阵字体或老式字体相关。</p>
+</li>
+<li><p><strong>util</strong>：<br>一些字体工具或辅助文件的目录，通常与字体管理或配置有关。</p>
+</li>
+</ul>
+<ol>
+<li>安装 Noto CJK 字体（推荐）</li>
+</ol>
+<p>这是 Google 提供的现代中文字体，适用于大多数应用场景：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S noto-fonts-cjk</span><br></pre></td></tr></table></figure></div>
 
-<h1 id="2-项目构建"><a href="#2-项目构建" class="headerlink" title="2.项目构建"></a>2.项目构建</h1><p>一个简单的<code>qt</code>开发模板：</p>
+<ol start="2">
+<li>安装其他中文字体</li>
+</ol>
+<ul>
+<li><strong>文泉驿字体</strong>：<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S wqy-zenhei wqy-microhei</span><br></pre></td></tr></table></figure></div></li>
+<li><strong>思源宋体</strong>（Noto Serif CJK）：<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S noto-fonts-emoji noto-fonts-cjk noto-fonts</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<p>安装一种即可，安装好后，需要重启系统（我这里只需要重启 Arch-WSL2 子系统）。</p>
+<hr>
+<h1 id="3-项目构建"><a href="#3-项目构建" class="headerlink" title="3.项目构建"></a>3.项目构建</h1><p>一个简单的<code>qt</code>开发模板：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">cmake_minimum_required(VERSI0N 3.12)</span><br><span class="line"></span><br><span class="line"><span class="built_in">set</span>(CMAKE_C_COMPILER clang)</span><br><span class="line"><span class="built_in">set</span>(CMAKE_CXX_COMPILER clang++)</span><br><span class="line"></span><br><span class="line"><span class="built_in">set</span>(CMAKE_CXX_STANDARD 20)</span><br><span class="line"><span class="built_in">set</span>(CMAKE_AUTOMOC ON)</span><br><span class="line"><span class="built_in">set</span>(CMAKE_AUTORCC ON)</span><br><span class="line"><span class="built_in">set</span>(CMAKE_AUTOUIC ON)</span><br><span class="line"></span><br><span class="line">project(qtguide)</span><br><span class="line"></span><br><span class="line">find_package(Qt6 REQUIRED COMPONENTS Core Widgets REQUIRED)</span><br><span class="line"></span><br><span class="line">file(GLOB sources *.cpp)</span><br><span class="line">add_executable(qtguide <span class="variable">$&#123;sources&#125;</span>)</span><br><span class="line">target_link_libraries(qtguide PRIVATE Qt6::Core Qt6::Widgets)</span><br></pre></td></tr></table></figure></div>
 <p>建议设置<code>clang</code>和<code>clang++</code>作为编译器。我在 Arch-WSL2 下使用<code>gcc</code>和<code>g++</code>会出现问题。还有就是设置编译器这部分，一定要放在<code>cmake_minimum_required</code>下面，其它的上面。因为编译器的选择会影响后续变量、库、目标等配置。CMake 初始化后再更改编译器可能会导致配置问题。</p>
 <p>对于<code>qt</code>模板，可以参考我的仓库中的模板配置：<a class="link"   target="_blank" rel="noopener" href="https://github.com/loskyertt/cpp_template" >cpp_template<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>。</p>
@@ -581,7 +615,7 @@
         
             <li>
                 <strong>Updated at
-                    :</strong> 2024-12-11 11:35:24
+                    :</strong> 2024-12-11 12:50:07
             </li>
         
         <li>
@@ -627,27 +661,27 @@
     <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
      <i aria-hidden="true"></i><span>推荐阅读</span>
     </div>
-    <div class="recommended-article-group"><a class="recommended-article-item" href="/2024/11/12/WSL2教程/" title="WSL2 的使用教程" rel="bookmark">
+    <div class="recommended-article-group"><a class="recommended-article-item" href="/2024/09/14/linux-matplotli乱码解决/" title="解决 Linux 下使用 matplotlib 中文乱码问题" rel="bookmark">
+  <img src="/images/wallhaven-wqery6-light.webp" alt="解决 Linux 下使用 matplotlib 中文乱码问题" class="!max-w-none">
+  <span class="title">解决 Linux 下使用 matplotlib 中文乱码问题</span>
+</a><a class="recommended-article-item" href="/2024/11/12/WSL2教程/" title="WSL2 的使用教程" rel="bookmark">
   <img src="/images/wallhaven-wqery6-light.webp" alt="WSL2 的使用教程" class="!max-w-none">
   <span class="title">WSL2 的使用教程</span>
 </a><a class="recommended-article-item" href="/2024/11/29/cmake基础教程/" title="CMake 基础教程" rel="bookmark">
   <img src="/images/wallhaven-wqery6-light.webp" alt="CMake 基础教程" class="!max-w-none">
   <span class="title">CMake 基础教程</span>
-</a><a class="recommended-article-item" href="/2024/12/05/安装KDE桌面/" title="Linux 如何安装 KDE 桌面" rel="bookmark">
-  <img src="/images/wallhaven-wqery6-light.webp" alt="Linux 如何安装 KDE 桌面" class="!max-w-none">
-  <span class="title">Linux 如何安装 KDE 桌面</span>
 </a></div>
    </div>
    <div class="recommended-mobile">
    <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
      <i aria-hidden="true"></i><span>推荐阅读</span>
    </div>
-   <div class="recommended-article-group"><a class="recommended-article-item" href="/2024/11/12/WSL2教程/" title="WSL2 的使用教程" rel="bookmark">
+   <div class="recommended-article-group"><a class="recommended-article-item" href="/2024/09/14/linux-matplotli乱码解决/" title="解决 Linux 下使用 matplotlib 中文乱码问题" rel="bookmark">
+  <img src="/images/wallhaven-wqery6-light.webp" alt="解决 Linux 下使用 matplotlib 中文乱码问题" class="!max-w-none">
+  <span class="title">解决 Linux 下使用 matplotlib 中文乱码问题</span>
+</a><a class="recommended-article-item" href="/2024/11/12/WSL2教程/" title="WSL2 的使用教程" rel="bookmark">
   <img src="/images/wallhaven-wqery6-light.webp" alt="WSL2 的使用教程" class="!max-w-none">
   <span class="title">WSL2 的使用教程</span>
-</a><a class="recommended-article-item" href="/2024/11/29/cmake基础教程/" title="CMake 基础教程" rel="bookmark">
-  <img src="/images/wallhaven-wqery6-light.webp" alt="CMake 基础教程" class="!max-w-none">
-  <span class="title">CMake 基础教程</span>
 </a></div>
    </div>
   </div>
@@ -724,7 +758,7 @@
 	<div class="post-toc">
 		<div class="toc-title">On this page</div>
 		<div class="page-title">VSCode 配置 C++ Qt 开发环境</div>
-		<ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E5%AE%89%E8%A3%85%E5%BC%80%E5%8F%91%E5%8C%85"><span class="nav-text">1.安装开发包</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA"><span class="nav-text">2.项目构建</span></a></li></ol>
+		<ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E5%AE%89%E8%A3%85%E5%BC%80%E5%8F%91%E5%8C%85"><span class="nav-text">1.安装开发包</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9B%E8%A1%8C%E8%BF%99%E6%AD%A5%E9%85%8D%E7%BD%AE%E4%B8%BB%E8%A6%81%E6%98%AF%E4%B8%BA%E4%BA%86%E9%81%BF%E5%85%8D%E8%BF%90%E8%A1%8Cqt%E7%A8%8B%E5%BA%8F%E6%97%B6%EF%BC%8C%E5%87%BA%E7%8E%B0%E4%B8%8B%E9%9D%A2%E7%9A%84%E9%97%AE%E9%A2%98%EF%BC%9A"><span class="nav-text">进行这步配置主要是为了避免运行qt程序时，出现下面的问题：1qt.qpa.plugin: Could not find the Qt platform plugin &quot;wayland&quot; in &quot;&quot;</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E5%AE%89%E8%A3%85%E5%AD%97%E4%BD%93"><span class="nav-text">2.安装字体</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA"><span class="nav-text">3.项目构建</span></a></li></ol>
 
 	</div>
 </div>
@@ -755,7 +789,7 @@
                     </span>
                     
                         <span>
-                            47.6k words in total
+                            48k words in total
                         </span>
                     
                 </p>
