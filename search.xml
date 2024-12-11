@@ -343,6 +343,152 @@
       </tags>
   </entry>
   <entry>
+    <title>Python 爬虫教程 03</title>
+    <url>/2024/10/17/03Python%E7%88%AC%E8%99%AB/</url>
+    <content><![CDATA[<h1 id="1-无请求头访问"><a href="#1-无请求头访问" class="headerlink" title="1.无请求头访问"></a>1.无请求头访问</h1><p>如果不构建请求头，直接向目标网站发送请求：</p>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;https://spiderbuf.cn/playground/s02&quot;</span></span><br><span class="line"></span><br><span class="line">html = requests.get(url=url).text</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/02course/02.html&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">f.write(html)</span><br><span class="line">f.close()</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(html)</span><br><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/02course/data02.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    tds = tr.xpath(<span class="string">&#x27;./td&#x27;</span>)</span><br><span class="line">    s = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> td <span class="keyword">in</span> tds:</span><br><span class="line">        <span class="comment"># print(td.text)</span></span><br><span class="line">        s = s + <span class="built_in">str</span>(td.text) + <span class="string">&#x27; | &#x27;</span></span><br><span class="line">    <span class="built_in">print</span>(s)</span><br><span class="line">    <span class="keyword">if</span> s!= <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        f.write(s + <span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
+
+<p>输出结果：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">&lt;!DOCTYPE HTML PUBLIC &quot;-//IETF//DTD HTML 2.0//EN&quot;&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;&lt;title&gt;403 Forbidden&lt;/title&gt;&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;center&gt;&lt;h1&gt;403 Forbidden&lt;/h1&gt;&lt;/center&gt;</span><br><span class="line">&lt;hr&gt;&lt;center&gt;tengine&lt;/center&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></div>
+<p>很容易被网站检测到是爬虫。</p>
+<h1 id="2-添加请求头"><a href="#2-添加请求头" class="headerlink" title="2.添加请求头"></a>2.添加请求头</h1><p>所以基本上在发送请求之前都会封装一个<code>http</code>请求的头部信息：</p>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">html = requests.get(url=url, headers=headers).text</span><br></pre></td></tr></table></figure></div>
+
+<p>有时候还需要往里面填入<code>Cookie</code>。甚至为了防止被检测到是爬虫，需要更换<code>User-Agent</code>，比如用火狐浏览器的等，或者浏览器不同版本的，这在网上可以查询到。</p>
+]]></content>
+      <categories>
+        <category>Python爬虫</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python 爬虫教程 04</title>
+    <url>/2024/10/17/04Python%E7%88%AC%E8%99%AB/</url>
+    <content><![CDATA[<h1 id="1-测试案例"><a href="#1-测试案例" class="headerlink" title="1.测试案例"></a>1.测试案例</h1><div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;https://spiderbuf.cn/playground/s03&quot;</span></span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">html = requests.get(url=url, headers=headers).text</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/03course/03.html&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">f.write(html)</span><br><span class="line">f.close()</span><br><span class="line"></span><br><span class="line"><span class="comment"># print(html)</span></span><br><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/03course/data03.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    tds = tr.xpath(<span class="string">&#x27;./td&#x27;</span>)</span><br><span class="line">    s = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> td <span class="keyword">in</span> tds:</span><br><span class="line">        s = s + <span class="built_in">str</span>(td.text) + <span class="string">&#x27; | &#x27;</span></span><br><span class="line">    <span class="built_in">print</span>(s)</span><br><span class="line">    <span class="keyword">if</span> s!= <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        f.write(s + <span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
+
+<p>直接运行上面这段代码，会发现输出结果是这样的：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">1 | None | CD-82-76-71-65-75 | 堡垒机 | 服务器 | Windows10 | 80,22,443 | </span><br><span class="line">                             | </span><br><span class="line">2 | None | E6-84-22-55-44-BE | 摄像头 | 摄像头 | HUAWEI | 80,22,443 | </span><br><span class="line">                             | </span><br><span class="line">3 | None | 37-01-AE-BE-5E-C0 | 文件服务器 | 服务器 | Linux | 80,22,443 | </span><br><span class="line">                             | </span><br><span class="line">4 | None | 84-A9-97-A8-B2-99 | 交换机 | 交换机 | HUAWEI | None | </span><br><span class="line">                             | </span><br><span class="line">5 | None | 8C-94-9D-85-6C-C1 | 堡垒机 | 服务器 | Windows10 | 80,22,443 | </span><br><span class="line">                             | </span><br><span class="line">6 | None | F2-10-E3-CA-DF-DC | 数据库服务器 | 服务器 | Windows10 | 80,22,443 | </span><br><span class="line">                             | </span><br><span class="line">7 | None | 46-9A-AF-F4-DC-33 | 数据库服务器 | 服务器 | Windows10 | 80,22,443 | </span><br><span class="line">                             | </span><br><span class="line">8 | None | B5-66-A6-0C-C6-57 | 堡垒机 | 服务器 | Linux | 80,22,443 | </span><br><span class="line">                             | </span><br><span class="line">9 | None | 5C-3F-8E-6E-D9-C5 | OA服务器 | 服务器 | Linux | 80,22,443 | </span><br><span class="line">                             | </span><br><span class="line">10 | None | EC-C6-79-88-4C-BA | 测试服务器 | 服务器 | Linux | 80,22,443 | </span><br><span class="line">                             | </span><br></pre></td></tr></table></figure></div>
+<p>第一列的内容都是<code>None</code>，这是为什么呢？</p>
+<h1 id="2-分析页面源码结构"><a href="#2-分析页面源码结构" class="headerlink" title="2.分析页面源码结构"></a>2.分析页面源码结构</h1><p>我们先来看下我们要爬取的页面的源码结构，是这段内容：</p>
+<div class="code-container" data-rel="Html"><figure class="iseeu highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">td</span>&gt;</span>1<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#&quot;</span>&gt;</span>172.16.80.178<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">td</span>&gt;</span>CD-82-76-71-65-75<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">td</span>&gt;</span>堡垒机<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">td</span>&gt;</span>服务器<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">td</span>&gt;</span>Windows10<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">td</span>&gt;</span>80,22,443<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">font</span> <span class="attr">color</span>=<span class="string">&quot;green&quot;</span>&gt;</span>在线<span class="tag">&lt;/<span class="name">font</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br></pre></td></tr></table></figure></div>
+
+<p>可以发现有两个部分：</p>
+<ul>
+<li>第二个<code>td</code>：<code>&lt;td&gt;&lt;a href=&quot;#&quot;&gt;172.16.80.178&lt;/a&gt;&lt;/td&gt;</code></li>
+<li>最后一个<code>td</code>：<code>&lt;td&gt;&lt;font color=&quot;green&quot;&gt;在线&lt;/font&gt;&lt;/td&gt;</code><br>这两个部分<code>&lt;td&gt;</code>里是不含内容的。要像这种<code>&lt;td&gt;文本&lt;/td&gt;</code>才说名含有内容，对于这种<code>&lt;td&gt;&lt;a&gt;文本&lt;a&gt;&lt;/td&gt;</code>是<code>&lt;a&gt;</code>含有内容，<code>&lt;td&gt;</code>不含。<br>所以我们要取出<code>&lt;a&gt;</code>节点里的内容应该怎么做呢？有一个思路是把<code>&lt;td&gt;</code>节点下的<code>&lt;a&gt;</code>节点的内容再取一遍，但这未免有点麻烦了。</li>
+</ul>
+<p>这里有一个简单的方法，把解析部分的代码改成这样：</p>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/03course/data03.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    tds = tr.xpath(<span class="string">&#x27;./td&#x27;</span>)</span><br><span class="line">    s = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> td <span class="keyword">in</span> tds:</span><br><span class="line">        s = s + <span class="built_in">str</span>(td.xpath(<span class="string">&#x27;string(.)&#x27;</span>)) + <span class="string">&#x27;|&#x27;</span>        <span class="comment"># 修改过后的解析操作</span></span><br><span class="line">    <span class="built_in">print</span>(s)</span><br><span class="line">    <span class="keyword">if</span> s!= <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        f.write(s + <span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
+<p>这种方式可以获取元素及其所有子元素的完整文本，而不仅仅是直接子节点的文本。<code>.</code>表示当前节点，这里就表示把当前节点的所有文本内容（包括子节点中的文本）提取出来。</p>
+]]></content>
+      <categories>
+        <category>Python爬虫</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python 爬虫教程 06</title>
+    <url>/2024/10/18/06Python%E7%88%AC%E8%99%AB/</url>
+    <content><![CDATA[<h1 id="1-分析网站"><a href="#1-分析网站" class="headerlink" title="1.分析网站"></a>1.分析网站</h1><p>第一步还是要先向网站发送请求，然后获得请求的内容：</p>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;https://www.spiderbuf.cn/playground/s05&quot;</span></span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">html = requests.get(url= url, headers=headers).text</span><br><span class="line"><span class="built_in">print</span>(html)</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/05course/05.html&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">f.write(html)</span><br><span class="line">f.close()</span><br></pre></td></tr></table></figure></div>
+
+<p>然后开始解析网页源码，在浏览器中，要爬取的网站页面点击右键，然后选择 <strong>查看网页源代码</strong> ：<br><a href="https://imgse.com/i/pAUDMm4"><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s21.ax1x.com/2024/10/18/pAUDMm4.png"
+                      alt="如图操作.png"
+                ><figcaption>如图操作.png</figcaption></figure></a></p>
+<p>找到要爬取的图片部分：<br><a href="https://imgse.com/i/pAUD8t1"><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s21.ax1x.com/2024/10/18/pAUD8t1.png"
+                      alt="图片部分.png"
+                ><figcaption>图片部分.png</figcaption></figure></a></p>
+<p>点击里面的链接可以进入到图片页面：<br><a href="https://imgse.com/i/pAUD8t1"><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s21.ax1x.com/2024/10/18/pAUD8t1.png"
+                      alt="图片.png"
+                ><figcaption>图片.png</figcaption></figure></a></p>
+<p>注意这幅图中左上角的链接<code>https://www.spiderbuf.cn/static/images/beginner/1kwfkui2.jpg</code>。这条链接分成两部分来看：<code>https://www.spiderbuf.cn</code> + <code>/static/images/beginner/1kwfkui2.jpg</code></p>
+<p>也就是说，要爬取图片的话，只需要解析出后半部分的链接即可。</p>
+<h1 id="2-解析图片链接"><a href="#2-解析图片链接" class="headerlink" title="2.解析图片链接"></a>2.解析图片链接</h1><p>代码示例：</p>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">root = etree.HTML(html)</span><br><span class="line">imgs = root.xpath(<span class="string">&#x27;//img/@src&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> imgs:</span><br><span class="line">    img_data = requests.get(<span class="string">&#x27;https://www.spiderbuf.cn&#x27;</span> + item, headers=headers).content     <span class="comment"># content 表示以二进制解析内容</span></span><br><span class="line">    img = <span class="built_in">open</span>(<span class="string">&quot;./课程/05course/&quot;</span> + <span class="built_in">str</span>(item).replace(<span class="string">&#x27;/&#x27;</span>, <span class="string">&#x27;&#x27;</span>), <span class="string">&#x27;wb&#x27;</span>)   <span class="comment"># b 表示以二进制的方式写入</span></span><br><span class="line">    img.write(img_data)</span><br><span class="line">    img.close()</span><br></pre></td></tr></table></figure></div>
+
+<p><strong>为什么这里是写成<code>//img/@src</code>，而不是<code>//img/[@src]/text()</code>？</strong></p>
+<p>在 XPath 中，<code>//img/@src</code> 和 <code>//img[@src]/text()</code> 的含义和使用场景不同，主要区别在于它们提取的是元素的属性值还是元素的文本内容。</p>
+<ol>
+<li><code>//img/@src</code>: 提取属性值</li>
+</ol>
+<ul>
+<li><strong>作用</strong> ：<code>//img/@src</code> 用于选择所有 <code>&lt;img&gt;</code> 标签的 <code>src</code> 属性值。</li>
+<li><strong>解释</strong> ：<ul>
+<li><code>//img</code>：选择文档中所有的 <code>&lt;img&gt;</code> 元素。</li>
+<li><code>@src</code>：选择每个 <code>&lt;img&gt;</code> 元素的 <code>src</code> 属性值。</li>
+</ul>
+</li>
+<li><strong>返回值</strong> ：它直接返回属性的值，比如 <code>/static/images/beginner/9cwjdins.jpg</code>，即图片的 URL。</li>
+</ul>
+<ol start="2">
+<li><code>//img[@src]/text()</code>: 提取元素文本</li>
+</ol>
+<ul>
+<li><strong>作用</strong> ：<code>//img[@src]/text()</code> 用于选择所有具有 <code>src</code> 属性的 <code>&lt;img&gt;</code> 元素的 <strong>文本内容</strong> 。</li>
+<li><strong>解释</strong> ：<ul>
+<li><code>//img[@src]</code>：选择所有带有 <code>src</code> 属性的 <code>&lt;img&gt;</code> 元素。</li>
+<li><code>text()</code>：提取该元素的文本内容。</li>
+</ul>
+</li>
+<li><strong>返回值</strong> ：它会返回元素的文本内容，而不是属性的值。</li>
+</ul>
+<p>在这里的<code>&lt;img&gt;</code> 标签是一个 <strong>自闭合标签</strong> ，通常不会包含任何文本内容。因此，<code>//img[@src]/text()</code> 通常不会返回任何有效的结果，因为 <code>&lt;img&gt;</code> 标签中<strong>没有文本</strong>。</p>
+]]></content>
+      <categories>
+        <category>Python爬虫</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python 爬虫教程 05</title>
+    <url>/2024/10/17/05Python%E7%88%AC%E8%99%AB/</url>
+    <content><![CDATA[<h1 id="1-网页分析"><a href="#1-网页分析" class="headerlink" title="1.网页分析"></a>1.网页分析</h1><p>有时候要爬取的网页是需要翻页的，如图所示：</p>
+<p><a href="https://imgse.com/i/pAUAa1e"><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s21.ax1x.com/2024/10/17/pAUAa1e.png"
+                      alt="第一页.png"
+                ><figcaption>第一页.png</figcaption></figure></a></p>
+<p>设置有时候尽管网页需要翻页，但是在执行翻页操作时，地址栏（网址）没有发生变化，这时候可能隐藏在浏览器控制台的<code>network</code>中，如图所示：<br><a href="https://imgse.com/i/pAUAwXd"><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s21.ax1x.com/2024/10/17/pAUAwXd.png"
+                      alt="控制台.png"
+                ><figcaption>控制台.png</figcaption></figure></a></p>
+<h1 id="2-知道明确页数的情况"><a href="#2-知道明确页数的情况" class="headerlink" title="2.知道明确页数的情况"></a>2.知道明确页数的情况</h1><p>示例代码：</p>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">base_url = <span class="string">&quot;https://www.spiderbuf.cn/playground/s04?pageno=&#123;&#125;&quot;</span></span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 实现翻页爬取</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="number">6</span>):</span><br><span class="line">    url = base_url.<span class="built_in">format</span>(i)</span><br><span class="line">    html = requests.get(url=url, headers=headers).text</span><br><span class="line"></span><br><span class="line">    f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/04course/04_%d.html&#x27;</span> % i, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    f.write(html)</span><br><span class="line">    f.close()</span><br><span class="line"></span><br><span class="line">    root = etree.HTML(html)</span><br><span class="line">    trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/04course/data04_%d.txt&#x27;</span> % i, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    <span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">        tds = tr.xpath(<span class="string">&#x27;./td&#x27;</span>)</span><br><span class="line">        s = <span class="string">&#x27;&#x27;</span></span><br><span class="line">        <span class="keyword">for</span> td <span class="keyword">in</span> tds:</span><br><span class="line">            s = s + <span class="built_in">str</span>(td.xpath(<span class="string">&#x27;string(.)&#x27;</span>)) + <span class="string">&#x27;|&#x27;</span></span><br><span class="line">        <span class="built_in">print</span>(s)</span><br><span class="line">        <span class="keyword">if</span> s!= <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">            f.write(s + <span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
+
+<h1 id="3-不知道明确页数的情况"><a href="#3-不知道明确页数的情况" class="headerlink" title="3.不知道明确页数的情况"></a>3.不知道明确页数的情况</h1><p>可以通过查看网页源码找寻总页数，然后先用<code>xpath</code>解析网页里<code>总页数</code>的这个内容，再通过正则表达式解析出里面的数字：</p>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"><span class="keyword">import</span> re       <span class="comment"># 正则表达式库</span></span><br><span class="line"></span><br><span class="line">base_url = <span class="string">&quot;https://www.spiderbuf.cn/playground/s04?pageno=&#123;&#125;&quot;</span></span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">html_1 = requests.get(url= base_url.<span class="built_in">format</span>(<span class="number">1</span>), headers=headers).text</span><br><span class="line">root = etree.HTML(html_1)</span><br><span class="line">pages_text = root.xpath(<span class="string">&#x27;.//li/span/text()&#x27;</span>)    <span class="comment"># 返回的是一个列表</span></span><br><span class="line"><span class="built_in">print</span>(pages_text[<span class="number">0</span>])</span><br><span class="line"><span class="comment"># 正则表达式解析，提取数字</span></span><br><span class="line">pages = re.findall(<span class="string">&#x27;[0-9]&#x27;</span>, pages_text[<span class="number">0</span>])      <span class="comment"># 返回的是一个列表</span></span><br><span class="line"><span class="built_in">print</span>(pages)</span><br></pre></td></tr></table></figure></div>
+
+<p>输出结果：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">共5页</span><br><span class="line">[&#x27;5&#x27;]</span><br></pre></td></tr></table></figure></div>
+
+<p>感觉这个方法并不怎么实用，因为这种情况的话是能直接在网页看到有多少页的，再解析就是多此一举了。提这个也只是为了引出正则表达式，关于正则表达式的教程，可以结合 AI 来学习。</p>
+]]></content>
+      <categories>
+        <category>Python爬虫</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Python 爬虫教程 02</title>
     <url>/2024/10/17/02Python%E7%88%AC%E8%99%AB/</url>
     <content><![CDATA[<h1 id="1-测试网址"><a href="#1-测试网址" class="headerlink" title="1.测试网址"></a>1.测试网址</h1><p><a class="link"   href="https://www.spiderbuf.cn/list" >测试网站<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
@@ -416,152 +562,6 @@
 </ul>
 </li>
 </ol>
-]]></content>
-      <categories>
-        <category>Python爬虫</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Python 爬虫教程 04</title>
-    <url>/2024/10/17/04Python%E7%88%AC%E8%99%AB/</url>
-    <content><![CDATA[<h1 id="1-测试案例"><a href="#1-测试案例" class="headerlink" title="1.测试案例"></a>1.测试案例</h1><div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;https://spiderbuf.cn/playground/s03&quot;</span></span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">html = requests.get(url=url, headers=headers).text</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/03course/03.html&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">f.write(html)</span><br><span class="line">f.close()</span><br><span class="line"></span><br><span class="line"><span class="comment"># print(html)</span></span><br><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/03course/data03.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    tds = tr.xpath(<span class="string">&#x27;./td&#x27;</span>)</span><br><span class="line">    s = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> td <span class="keyword">in</span> tds:</span><br><span class="line">        s = s + <span class="built_in">str</span>(td.text) + <span class="string">&#x27; | &#x27;</span></span><br><span class="line">    <span class="built_in">print</span>(s)</span><br><span class="line">    <span class="keyword">if</span> s!= <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        f.write(s + <span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
-
-<p>直接运行上面这段代码，会发现输出结果是这样的：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">1 | None | CD-82-76-71-65-75 | 堡垒机 | 服务器 | Windows10 | 80,22,443 | </span><br><span class="line">                             | </span><br><span class="line">2 | None | E6-84-22-55-44-BE | 摄像头 | 摄像头 | HUAWEI | 80,22,443 | </span><br><span class="line">                             | </span><br><span class="line">3 | None | 37-01-AE-BE-5E-C0 | 文件服务器 | 服务器 | Linux | 80,22,443 | </span><br><span class="line">                             | </span><br><span class="line">4 | None | 84-A9-97-A8-B2-99 | 交换机 | 交换机 | HUAWEI | None | </span><br><span class="line">                             | </span><br><span class="line">5 | None | 8C-94-9D-85-6C-C1 | 堡垒机 | 服务器 | Windows10 | 80,22,443 | </span><br><span class="line">                             | </span><br><span class="line">6 | None | F2-10-E3-CA-DF-DC | 数据库服务器 | 服务器 | Windows10 | 80,22,443 | </span><br><span class="line">                             | </span><br><span class="line">7 | None | 46-9A-AF-F4-DC-33 | 数据库服务器 | 服务器 | Windows10 | 80,22,443 | </span><br><span class="line">                             | </span><br><span class="line">8 | None | B5-66-A6-0C-C6-57 | 堡垒机 | 服务器 | Linux | 80,22,443 | </span><br><span class="line">                             | </span><br><span class="line">9 | None | 5C-3F-8E-6E-D9-C5 | OA服务器 | 服务器 | Linux | 80,22,443 | </span><br><span class="line">                             | </span><br><span class="line">10 | None | EC-C6-79-88-4C-BA | 测试服务器 | 服务器 | Linux | 80,22,443 | </span><br><span class="line">                             | </span><br></pre></td></tr></table></figure></div>
-<p>第一列的内容都是<code>None</code>，这是为什么呢？</p>
-<h1 id="2-分析页面源码结构"><a href="#2-分析页面源码结构" class="headerlink" title="2.分析页面源码结构"></a>2.分析页面源码结构</h1><p>我们先来看下我们要爬取的页面的源码结构，是这段内容：</p>
-<div class="code-container" data-rel="Html"><figure class="iseeu highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">td</span>&gt;</span>1<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#&quot;</span>&gt;</span>172.16.80.178<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">td</span>&gt;</span>CD-82-76-71-65-75<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">td</span>&gt;</span>堡垒机<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">td</span>&gt;</span>服务器<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">td</span>&gt;</span>Windows10<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">td</span>&gt;</span>80,22,443<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">font</span> <span class="attr">color</span>=<span class="string">&quot;green&quot;</span>&gt;</span>在线<span class="tag">&lt;/<span class="name">font</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br></pre></td></tr></table></figure></div>
-
-<p>可以发现有两个部分：</p>
-<ul>
-<li>第二个<code>td</code>：<code>&lt;td&gt;&lt;a href=&quot;#&quot;&gt;172.16.80.178&lt;/a&gt;&lt;/td&gt;</code></li>
-<li>最后一个<code>td</code>：<code>&lt;td&gt;&lt;font color=&quot;green&quot;&gt;在线&lt;/font&gt;&lt;/td&gt;</code><br>这两个部分<code>&lt;td&gt;</code>里是不含内容的。要像这种<code>&lt;td&gt;文本&lt;/td&gt;</code>才说名含有内容，对于这种<code>&lt;td&gt;&lt;a&gt;文本&lt;a&gt;&lt;/td&gt;</code>是<code>&lt;a&gt;</code>含有内容，<code>&lt;td&gt;</code>不含。<br>所以我们要取出<code>&lt;a&gt;</code>节点里的内容应该怎么做呢？有一个思路是把<code>&lt;td&gt;</code>节点下的<code>&lt;a&gt;</code>节点的内容再取一遍，但这未免有点麻烦了。</li>
-</ul>
-<p>这里有一个简单的方法，把解析部分的代码改成这样：</p>
-<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/03course/data03.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    tds = tr.xpath(<span class="string">&#x27;./td&#x27;</span>)</span><br><span class="line">    s = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> td <span class="keyword">in</span> tds:</span><br><span class="line">        s = s + <span class="built_in">str</span>(td.xpath(<span class="string">&#x27;string(.)&#x27;</span>)) + <span class="string">&#x27;|&#x27;</span>        <span class="comment"># 修改过后的解析操作</span></span><br><span class="line">    <span class="built_in">print</span>(s)</span><br><span class="line">    <span class="keyword">if</span> s!= <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        f.write(s + <span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
-<p>这种方式可以获取元素及其所有子元素的完整文本，而不仅仅是直接子节点的文本。<code>.</code>表示当前节点，这里就表示把当前节点的所有文本内容（包括子节点中的文本）提取出来。</p>
-]]></content>
-      <categories>
-        <category>Python爬虫</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Python 爬虫教程 03</title>
-    <url>/2024/10/17/03Python%E7%88%AC%E8%99%AB/</url>
-    <content><![CDATA[<h1 id="1-无请求头访问"><a href="#1-无请求头访问" class="headerlink" title="1.无请求头访问"></a>1.无请求头访问</h1><p>如果不构建请求头，直接向目标网站发送请求：</p>
-<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;https://spiderbuf.cn/playground/s02&quot;</span></span><br><span class="line"></span><br><span class="line">html = requests.get(url=url).text</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/02course/02.html&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">f.write(html)</span><br><span class="line">f.close()</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(html)</span><br><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/02course/data02.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    tds = tr.xpath(<span class="string">&#x27;./td&#x27;</span>)</span><br><span class="line">    s = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> td <span class="keyword">in</span> tds:</span><br><span class="line">        <span class="comment"># print(td.text)</span></span><br><span class="line">        s = s + <span class="built_in">str</span>(td.text) + <span class="string">&#x27; | &#x27;</span></span><br><span class="line">    <span class="built_in">print</span>(s)</span><br><span class="line">    <span class="keyword">if</span> s!= <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        f.write(s + <span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
-
-<p>输出结果：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">&lt;!DOCTYPE HTML PUBLIC &quot;-//IETF//DTD HTML 2.0//EN&quot;&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;&lt;title&gt;403 Forbidden&lt;/title&gt;&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;center&gt;&lt;h1&gt;403 Forbidden&lt;/h1&gt;&lt;/center&gt;</span><br><span class="line">&lt;hr&gt;&lt;center&gt;tengine&lt;/center&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></div>
-<p>很容易被网站检测到是爬虫。</p>
-<h1 id="2-添加请求头"><a href="#2-添加请求头" class="headerlink" title="2.添加请求头"></a>2.添加请求头</h1><p>所以基本上在发送请求之前都会封装一个<code>http</code>请求的头部信息：</p>
-<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">html = requests.get(url=url, headers=headers).text</span><br></pre></td></tr></table></figure></div>
-
-<p>有时候还需要往里面填入<code>Cookie</code>。甚至为了防止被检测到是爬虫，需要更换<code>User-Agent</code>，比如用火狐浏览器的等，或者浏览器不同版本的，这在网上可以查询到。</p>
-]]></content>
-      <categories>
-        <category>Python爬虫</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Python 爬虫教程 05</title>
-    <url>/2024/10/17/05Python%E7%88%AC%E8%99%AB/</url>
-    <content><![CDATA[<h1 id="1-网页分析"><a href="#1-网页分析" class="headerlink" title="1.网页分析"></a>1.网页分析</h1><p>有时候要爬取的网页是需要翻页的，如图所示：</p>
-<p><a href="https://imgse.com/i/pAUAa1e"><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://s21.ax1x.com/2024/10/17/pAUAa1e.png"
-                      alt="第一页.png"
-                ><figcaption>第一页.png</figcaption></figure></a></p>
-<p>设置有时候尽管网页需要翻页，但是在执行翻页操作时，地址栏（网址）没有发生变化，这时候可能隐藏在浏览器控制台的<code>network</code>中，如图所示：<br><a href="https://imgse.com/i/pAUAwXd"><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://s21.ax1x.com/2024/10/17/pAUAwXd.png"
-                      alt="控制台.png"
-                ><figcaption>控制台.png</figcaption></figure></a></p>
-<h1 id="2-知道明确页数的情况"><a href="#2-知道明确页数的情况" class="headerlink" title="2.知道明确页数的情况"></a>2.知道明确页数的情况</h1><p>示例代码：</p>
-<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">base_url = <span class="string">&quot;https://www.spiderbuf.cn/playground/s04?pageno=&#123;&#125;&quot;</span></span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 实现翻页爬取</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="number">6</span>):</span><br><span class="line">    url = base_url.<span class="built_in">format</span>(i)</span><br><span class="line">    html = requests.get(url=url, headers=headers).text</span><br><span class="line"></span><br><span class="line">    f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/04course/04_%d.html&#x27;</span> % i, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    f.write(html)</span><br><span class="line">    f.close()</span><br><span class="line"></span><br><span class="line">    root = etree.HTML(html)</span><br><span class="line">    trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/04course/data04_%d.txt&#x27;</span> % i, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    <span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">        tds = tr.xpath(<span class="string">&#x27;./td&#x27;</span>)</span><br><span class="line">        s = <span class="string">&#x27;&#x27;</span></span><br><span class="line">        <span class="keyword">for</span> td <span class="keyword">in</span> tds:</span><br><span class="line">            s = s + <span class="built_in">str</span>(td.xpath(<span class="string">&#x27;string(.)&#x27;</span>)) + <span class="string">&#x27;|&#x27;</span></span><br><span class="line">        <span class="built_in">print</span>(s)</span><br><span class="line">        <span class="keyword">if</span> s!= <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">            f.write(s + <span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
-
-<h1 id="3-不知道明确页数的情况"><a href="#3-不知道明确页数的情况" class="headerlink" title="3.不知道明确页数的情况"></a>3.不知道明确页数的情况</h1><p>可以通过查看网页源码找寻总页数，然后先用<code>xpath</code>解析网页里<code>总页数</code>的这个内容，再通过正则表达式解析出里面的数字：</p>
-<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"><span class="keyword">import</span> re       <span class="comment"># 正则表达式库</span></span><br><span class="line"></span><br><span class="line">base_url = <span class="string">&quot;https://www.spiderbuf.cn/playground/s04?pageno=&#123;&#125;&quot;</span></span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">html_1 = requests.get(url= base_url.<span class="built_in">format</span>(<span class="number">1</span>), headers=headers).text</span><br><span class="line">root = etree.HTML(html_1)</span><br><span class="line">pages_text = root.xpath(<span class="string">&#x27;.//li/span/text()&#x27;</span>)    <span class="comment"># 返回的是一个列表</span></span><br><span class="line"><span class="built_in">print</span>(pages_text[<span class="number">0</span>])</span><br><span class="line"><span class="comment"># 正则表达式解析，提取数字</span></span><br><span class="line">pages = re.findall(<span class="string">&#x27;[0-9]&#x27;</span>, pages_text[<span class="number">0</span>])      <span class="comment"># 返回的是一个列表</span></span><br><span class="line"><span class="built_in">print</span>(pages)</span><br></pre></td></tr></table></figure></div>
-
-<p>输出结果：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">共5页</span><br><span class="line">[&#x27;5&#x27;]</span><br></pre></td></tr></table></figure></div>
-
-<p>感觉这个方法并不怎么实用，因为这种情况的话是能直接在网页看到有多少页的，再解析就是多此一举了。提这个也只是为了引出正则表达式，关于正则表达式的教程，可以结合 AI 来学习。</p>
-]]></content>
-      <categories>
-        <category>Python爬虫</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Python 爬虫教程 06</title>
-    <url>/2024/10/18/06Python%E7%88%AC%E8%99%AB/</url>
-    <content><![CDATA[<h1 id="1-分析网站"><a href="#1-分析网站" class="headerlink" title="1.分析网站"></a>1.分析网站</h1><p>第一步还是要先向网站发送请求，然后获得请求的内容：</p>
-<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;https://www.spiderbuf.cn/playground/s05&quot;</span></span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">html = requests.get(url= url, headers=headers).text</span><br><span class="line"><span class="built_in">print</span>(html)</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/05course/05.html&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">f.write(html)</span><br><span class="line">f.close()</span><br></pre></td></tr></table></figure></div>
-
-<p>然后开始解析网页源码，在浏览器中，要爬取的网站页面点击右键，然后选择 <strong>查看网页源代码</strong> ：<br><a href="https://imgse.com/i/pAUDMm4"><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://s21.ax1x.com/2024/10/18/pAUDMm4.png"
-                      alt="如图操作.png"
-                ><figcaption>如图操作.png</figcaption></figure></a></p>
-<p>找到要爬取的图片部分：<br><a href="https://imgse.com/i/pAUD8t1"><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://s21.ax1x.com/2024/10/18/pAUD8t1.png"
-                      alt="图片部分.png"
-                ><figcaption>图片部分.png</figcaption></figure></a></p>
-<p>点击里面的链接可以进入到图片页面：<br><a href="https://imgse.com/i/pAUD8t1"><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://s21.ax1x.com/2024/10/18/pAUD8t1.png"
-                      alt="图片.png"
-                ><figcaption>图片.png</figcaption></figure></a></p>
-<p>注意这幅图中左上角的链接<code>https://www.spiderbuf.cn/static/images/beginner/1kwfkui2.jpg</code>。这条链接分成两部分来看：<code>https://www.spiderbuf.cn</code> + <code>/static/images/beginner/1kwfkui2.jpg</code></p>
-<p>也就是说，要爬取图片的话，只需要解析出后半部分的链接即可。</p>
-<h1 id="2-解析图片链接"><a href="#2-解析图片链接" class="headerlink" title="2.解析图片链接"></a>2.解析图片链接</h1><p>代码示例：</p>
-<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">root = etree.HTML(html)</span><br><span class="line">imgs = root.xpath(<span class="string">&#x27;//img/@src&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> imgs:</span><br><span class="line">    img_data = requests.get(<span class="string">&#x27;https://www.spiderbuf.cn&#x27;</span> + item, headers=headers).content     <span class="comment"># content 表示以二进制解析内容</span></span><br><span class="line">    img = <span class="built_in">open</span>(<span class="string">&quot;./课程/05course/&quot;</span> + <span class="built_in">str</span>(item).replace(<span class="string">&#x27;/&#x27;</span>, <span class="string">&#x27;&#x27;</span>), <span class="string">&#x27;wb&#x27;</span>)   <span class="comment"># b 表示以二进制的方式写入</span></span><br><span class="line">    img.write(img_data)</span><br><span class="line">    img.close()</span><br></pre></td></tr></table></figure></div>
-
-<p><strong>为什么这里是写成<code>//img/@src</code>，而不是<code>//img/[@src]/text()</code>？</strong></p>
-<p>在 XPath 中，<code>//img/@src</code> 和 <code>//img[@src]/text()</code> 的含义和使用场景不同，主要区别在于它们提取的是元素的属性值还是元素的文本内容。</p>
-<ol>
-<li><code>//img/@src</code>: 提取属性值</li>
-</ol>
-<ul>
-<li><strong>作用</strong> ：<code>//img/@src</code> 用于选择所有 <code>&lt;img&gt;</code> 标签的 <code>src</code> 属性值。</li>
-<li><strong>解释</strong> ：<ul>
-<li><code>//img</code>：选择文档中所有的 <code>&lt;img&gt;</code> 元素。</li>
-<li><code>@src</code>：选择每个 <code>&lt;img&gt;</code> 元素的 <code>src</code> 属性值。</li>
-</ul>
-</li>
-<li><strong>返回值</strong> ：它直接返回属性的值，比如 <code>/static/images/beginner/9cwjdins.jpg</code>，即图片的 URL。</li>
-</ul>
-<ol start="2">
-<li><code>//img[@src]/text()</code>: 提取元素文本</li>
-</ol>
-<ul>
-<li><strong>作用</strong> ：<code>//img[@src]/text()</code> 用于选择所有具有 <code>src</code> 属性的 <code>&lt;img&gt;</code> 元素的 <strong>文本内容</strong> 。</li>
-<li><strong>解释</strong> ：<ul>
-<li><code>//img[@src]</code>：选择所有带有 <code>src</code> 属性的 <code>&lt;img&gt;</code> 元素。</li>
-<li><code>text()</code>：提取该元素的文本内容。</li>
-</ul>
-</li>
-<li><strong>返回值</strong> ：它会返回元素的文本内容，而不是属性的值。</li>
-</ul>
-<p>在这里的<code>&lt;img&gt;</code> 标签是一个 <strong>自闭合标签</strong> ，通常不会包含任何文本内容。因此，<code>//img[@src]/text()</code> 通常不会返回任何有效的结果，因为 <code>&lt;img&gt;</code> 标签中<strong>没有文本</strong>。</p>
 ]]></content>
       <categories>
         <category>Python爬虫</category>
@@ -1331,6 +1331,70 @@
       </tags>
   </entry>
   <entry>
+    <title>使用Docker时的问题汇总和解决方式</title>
+    <url>/2024/07/24/Docker%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/</url>
+    <content><![CDATA[<h1 id="1-启动-Docker-失败"><a href="#1-启动-Docker-失败" class="headerlink" title="1.启动 Docker 失败"></a>1.启动 Docker 失败</h1><p>如果发现<code>docker</code>启动失败，可以通过以下命令输出<code>docker</code>运行日志来定位问题所在：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> journalctl -u docker.service --no-pager | <span class="built_in">tail</span> -n 50</span><br></pre></td></tr></table></figure></div>
+
+<p>如果问题仍无法解决，可以尝试更彻底的方法：</p>
+<ol>
+<li>卸载 Docker：</li>
+</ol>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -R docker</span><br></pre></td></tr></table></figure></div>
+
+<ol start="2">
+<li>删除 Docker 相关的所有数据和配置：</li>
+</ol>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> -rf /var/lib/docker</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> -rf /etc/docker</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> -rf ~/.docker</span><br></pre></td></tr></table></figure></div>
+
+<ol start="3">
+<li>重新安装 Docker：</li>
+</ol>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S docker</span><br></pre></td></tr></table></figure></div>
+
+<ol start="4">
+<li>启动 Docker 服务：</li>
+</ol>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start docker</span><br></pre></td></tr></table></figure></div>
+
+<ol start="5">
+<li>检查 Docker 服务状态：</li>
+</ol>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status docker</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="1-1-网络冲突导致启动失败"><a href="#1-1-网络冲突导致启动失败" class="headerlink" title="1.1 网络冲突导致启动失败"></a>1.1 网络冲突导致启动失败</h2><p>日志内容如下：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">failed to start daemon: Error initializing network controller: error creating default &quot;bridge&quot; network: cannot create network c13e4912d03075485921194eecec303af8f714e77ad529759990f5b7ca155c68 (docker0): conflicts with network 1b9dcc9575e5af33281149149481d0eca4a5d60de0fac2f9264f0b265ab955db (docker0): networks have same bridge name</span><br></pre></td></tr></table></figure></div>
+<p>这个错误表明 Docker 试图创建默认的 bridge 网络，但是遇到了冲突，因为已经存在一个同名的网络。</p>
+<p><strong>解决办法：</strong></p>
+<ol>
+<li>停止 Docker 服务：</li>
+</ol>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl stop docker</span><br></pre></td></tr></table></figure></div>
+
+<ol start="2">
+<li>删除现有的 Docker 网络配置：</li>
+</ol>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> -rf /var/lib/docker/network</span><br></pre></td></tr></table></figure></div>
+
+<ol start="3">
+<li>删除 docker0 网桥：</li>
+</ol>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> ip <span class="built_in">link</span> delete docker0</span><br></pre></td></tr></table></figure></div>
+
+<ol start="4">
+<li>重新启动 Docker 服务：</li>
+</ol>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start docker</span><br></pre></td></tr></table></figure></div>
+
+<ol start="5">
+<li>检查 Docker 服务状态：</li>
+</ol>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status docker</span><br></pre></td></tr></table></figure></div>]]></content>
+      <tags>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Docker 教程</title>
     <url>/2024/07/24/Docker%E6%95%99%E7%A8%8B/</url>
     <content><![CDATA[<h1 id="一、基本指令"><a href="#一、基本指令" class="headerlink" title="一、基本指令"></a>一、基本指令</h1><h2 id="1-1-查看镜像版本"><a href="#1-1-查看镜像版本" class="headerlink" title="1.1 查看镜像版本"></a>1.1 查看镜像版本</h2><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker inspect &lt;镜像ID&gt; | grep -i version</span><br></pre></td></tr></table></figure></div>
@@ -1456,70 +1520,6 @@
 <p>以后可以使用 <code>docker load</code> 命令从 tar 文件加载镜像。例如，从 <code>hexo_latest.tar</code> 加载镜像：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker load -i hexo_latest.tar</span><br></pre></td></tr></table></figure></div>
 ]]></content>
-      <tags>
-        <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>使用Docker时的问题汇总和解决方式</title>
-    <url>/2024/07/24/Docker%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/</url>
-    <content><![CDATA[<h1 id="1-启动-Docker-失败"><a href="#1-启动-Docker-失败" class="headerlink" title="1.启动 Docker 失败"></a>1.启动 Docker 失败</h1><p>如果发现<code>docker</code>启动失败，可以通过以下命令输出<code>docker</code>运行日志来定位问题所在：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> journalctl -u docker.service --no-pager | <span class="built_in">tail</span> -n 50</span><br></pre></td></tr></table></figure></div>
-
-<p>如果问题仍无法解决，可以尝试更彻底的方法：</p>
-<ol>
-<li>卸载 Docker：</li>
-</ol>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -R docker</span><br></pre></td></tr></table></figure></div>
-
-<ol start="2">
-<li>删除 Docker 相关的所有数据和配置：</li>
-</ol>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> -rf /var/lib/docker</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> -rf /etc/docker</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> -rf ~/.docker</span><br></pre></td></tr></table></figure></div>
-
-<ol start="3">
-<li>重新安装 Docker：</li>
-</ol>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S docker</span><br></pre></td></tr></table></figure></div>
-
-<ol start="4">
-<li>启动 Docker 服务：</li>
-</ol>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start docker</span><br></pre></td></tr></table></figure></div>
-
-<ol start="5">
-<li>检查 Docker 服务状态：</li>
-</ol>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status docker</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="1-1-网络冲突导致启动失败"><a href="#1-1-网络冲突导致启动失败" class="headerlink" title="1.1 网络冲突导致启动失败"></a>1.1 网络冲突导致启动失败</h2><p>日志内容如下：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">failed to start daemon: Error initializing network controller: error creating default &quot;bridge&quot; network: cannot create network c13e4912d03075485921194eecec303af8f714e77ad529759990f5b7ca155c68 (docker0): conflicts with network 1b9dcc9575e5af33281149149481d0eca4a5d60de0fac2f9264f0b265ab955db (docker0): networks have same bridge name</span><br></pre></td></tr></table></figure></div>
-<p>这个错误表明 Docker 试图创建默认的 bridge 网络，但是遇到了冲突，因为已经存在一个同名的网络。</p>
-<p><strong>解决办法：</strong></p>
-<ol>
-<li>停止 Docker 服务：</li>
-</ol>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl stop docker</span><br></pre></td></tr></table></figure></div>
-
-<ol start="2">
-<li>删除现有的 Docker 网络配置：</li>
-</ol>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> -rf /var/lib/docker/network</span><br></pre></td></tr></table></figure></div>
-
-<ol start="3">
-<li>删除 docker0 网桥：</li>
-</ol>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> ip <span class="built_in">link</span> delete docker0</span><br></pre></td></tr></table></figure></div>
-
-<ol start="4">
-<li>重新启动 Docker 服务：</li>
-</ol>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start docker</span><br></pre></td></tr></table></figure></div>
-
-<ol start="5">
-<li>检查 Docker 服务状态：</li>
-</ol>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status docker</span><br></pre></td></tr></table></figure></div>]]></content>
       <tags>
         <tag>docker</tag>
       </tags>
@@ -2057,33 +2057,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Linux(EndeavourOS) 下给 Steam 设置代理</title>
-    <url>/2024/07/24/Linux-Steam/</url>
-    <content><![CDATA[<h1 id="1-解决"><a href="#1-解决" class="headerlink" title="1.解决"></a>1.解决</h1><ol>
-<li><p>打开 Steam 大屏模式（ <strong>一定是大屏模式！</strong> ）。<br><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://nyalog.oss-cn-hongkong.aliyuncs.com/NyaLog/articles/Steam%20Linux%20%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/Steam-BigScreen-min.png"
-                      alt="大屏模式"
-                ><figcaption>大屏模式</figcaption></figure></p>
-</li>
-<li><p>然后在设置里进入网络设置界面，然后点开填入自己的代理地址和端口。<br><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://nyalog.oss-cn-hongkong.aliyuncs.com/NyaLog/articles/Steam%20Linux%20%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/Steam-proxy-min.png"
-                      alt="设置界面"
-                ><figcaption>设置界面</figcaption></figure></p>
-</li>
-<li><p>设置成功后退出重启 Steam 即可。</p>
-</li>
-</ol>
-]]></content>
-      <tags>
-        <tag>linux</tag>
-        <tag>steam</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Linux 环境下配置 Docker</title>
     <url>/2024/07/20/Linux-Docker/</url>
     <content><![CDATA[<h1 id="1、Docker-配置"><a href="#1、Docker-配置" class="headerlink" title="1、Docker 配置"></a>1、Docker 配置</h1><h2 id="1-1-安装-Docker"><a href="#1-1-安装-Docker" class="headerlink" title="1.1 安装 Docker"></a>1.1 安装 Docker</h2><ul>
@@ -2170,6 +2143,33 @@
       </tags>
   </entry>
   <entry>
+    <title>Linux(EndeavourOS) 下给 Steam 设置代理</title>
+    <url>/2024/07/24/Linux-Steam/</url>
+    <content><![CDATA[<h1 id="1-解决"><a href="#1-解决" class="headerlink" title="1.解决"></a>1.解决</h1><ol>
+<li><p>打开 Steam 大屏模式（ <strong>一定是大屏模式！</strong> ）。<br><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://nyalog.oss-cn-hongkong.aliyuncs.com/NyaLog/articles/Steam%20Linux%20%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/Steam-BigScreen-min.png"
+                      alt="大屏模式"
+                ><figcaption>大屏模式</figcaption></figure></p>
+</li>
+<li><p>然后在设置里进入网络设置界面，然后点开填入自己的代理地址和端口。<br><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://nyalog.oss-cn-hongkong.aliyuncs.com/NyaLog/articles/Steam%20Linux%20%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/Steam-proxy-min.png"
+                      alt="设置界面"
+                ><figcaption>设置界面</figcaption></figure></p>
+</li>
+<li><p>设置成功后退出重启 Steam 即可。</p>
+</li>
+</ol>
+]]></content>
+      <tags>
+        <tag>linux</tag>
+        <tag>steam</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Linux 下配置 conda 环境</title>
     <url>/2024/08/19/Linux-conda/</url>
     <content><![CDATA[<h1 id="一、miniconda3-配置"><a href="#一、miniconda3-配置" class="headerlink" title="一、miniconda3 配置"></a>一、miniconda3 配置</h1><p><strong>注：</strong> 如果用的是<code>miniforge</code>，操作方式与此类似。</p>
@@ -2248,6 +2248,7 @@
 <h2 id="1-4-检查-etc-rc-local-文件"><a href="#1-4-检查-etc-rc-local-文件" class="headerlink" title="1.4 检查 &#x2F;etc&#x2F;rc.local 文件"></a>1.4 检查 &#x2F;etc&#x2F;rc.local 文件</h2><p>虽然 <code>rc.local</code> 文件在现代系统中不再常用，但有时仍然会使用它来设置开机自启动任务。你可以检查这个文件（如果存在）来查看是否有任何任务设置为在启动时运行：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cat</span> /etc/rc.local</span><br></pre></td></tr></table></figure></div>
 
+<hr>
 <h1 id="2-文件操作"><a href="#2-文件操作" class="headerlink" title="2.文件操作"></a>2.文件操作</h1><h2 id="2-1-touch-指令"><a href="#2-1-touch-指令" class="headerlink" title="2.1 touch 指令"></a>2.1 touch 指令</h2><p>创建文件：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">touch</span> &lt;filename&gt;</span><br></pre></td></tr></table></figure></div>
 
@@ -2309,6 +2310,7 @@
 <li><p><strong>结合多个条件</strong> ：<br>查找所有 <code>.txt</code> 文件并且大小大于 1MB：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">find /path/to/directory -name <span class="string">&quot;*.txt&quot;</span> -size +1M</span><br></pre></td></tr></table></figure></div></li>
 </ol>
+<hr>
 <h1 id="3-权限"><a href="#3-权限" class="headerlink" title="3.权限"></a>3.权限</h1><ol>
 <li><p>使用<code>chmod</code>命令递归地更改文件夹内所有文件和子文件夹的权限：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">chmod</span> -R 777 /path/to/your/folder</span><br></pre></td></tr></table></figure></div>
@@ -2326,6 +2328,7 @@
 <p><code>u</code>参数代表文件的所有者<code>user</code>，可以不加，但是就会改变组<code>group</code>和其他用户的权限。</p>
 </li>
 </ol>
+<hr>
 <h1 id="4-解压缩"><a href="#4-解压缩" class="headerlink" title="4.解压缩"></a>4.解压缩</h1><p><code>tar</code> 是一个常用的 Unix 和 Linux 工具，用于归档（打包）和压缩文件。</p>
 <p>参数如下：</p>
 <ul>
@@ -2338,6 +2341,7 @@
 <p>假设你有一个压缩的 tar 文件 <code>archive.tar.gz</code>，你可以使用以下命令来解压它：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">tar -zxvf archive.tar.gz</span><br></pre></td></tr></table></figure></div>
 
+<hr>
 <h1 id="5-切换为-root-用户"><a href="#5-切换为-root-用户" class="headerlink" title="5.切换为 root 用户"></a>5.切换为 root 用户</h1><h2 id="5-1-使用-su-命令"><a href="#5-1-使用-su-命令" class="headerlink" title="5.1 使用 su 命令"></a>5.1 使用 <code>su</code> 命令</h2><p><code>su</code>（switch user）命令可以用来切换到其他用户，包括 <code>root</code> 用户。</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">su -</span><br></pre></td></tr></table></figure></div>
 
@@ -2371,6 +2375,7 @@
 <li><strong><code>root</code> 密码</strong> ：你需要知道 <code>root</code> 用户的密码来使用 <code>su</code> 命令。<code>sudo</code> 需要你当前用户在 <code>sudoers</code> 文件中有权限执行 <code>sudo</code> 命令，且你需要输入你自己的用户密码。</li>
 <li><strong>权限管理</strong> ：在某些系统（如 Ubuntu）默认不启用 <code>root</code> 用户的密码，而是通过 <code>sudo</code> 提供管理员权限。你可能需要使用 <code>sudo</code> 命令而不是 <code>su</code> 来获得 <code>root</code> 权限。</li>
 </ul>
+<hr>
 <h1 id="6-查看文件大小"><a href="#6-查看文件大小" class="headerlink" title="6.查看文件大小"></a>6.查看文件大小</h1><h2 id="6-1-使用-du-命令"><a href="#6-1-使用-du-命令" class="headerlink" title="6.1 使用 du 命令"></a>6.1 使用 <code>du</code> 命令</h2><p><code>du</code>（disk usage）命令用于显示文件和目录的磁盘使用情况：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">du</span> -sh /path/to/directory</span><br></pre></td></tr></table></figure></div>
 
@@ -2389,6 +2394,7 @@
 <li>**<code>-l</code>**：长格式列出文件信息，包括大小。</li>
 <li>**<code>-h</code>**：以人类可读的格式显示文件大小。</li>
 </ul>
+<hr>
 <h1 id="7-查看文件详细信息"><a href="#7-查看文件详细信息" class="headerlink" title="7.查看文件详细信息"></a>7.查看文件详细信息</h1><ol>
 <li><p><strong>使用 <code>stat</code> 命令：</strong></p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">stat</span> filename</span><br></pre></td></tr></table></figure></div>
@@ -2401,10 +2407,12 @@
 <li><p><strong>文件系统支持：</strong><br>一些文件系统（如 ext4）支持创建时间，而其他文件系统（如 ext3）则可能不支持。如果你在 <code>stat</code> 输出中看不到创建时间，可能是因为你的文件系统不支持这一功能。</p>
 </li>
 </ol>
+<hr>
 <h1 id="8-提高编译速度的方法"><a href="#8-提高编译速度的方法" class="headerlink" title="8.提高编译速度的方法"></a>8.提高编译速度的方法</h1><h2 id="8-1-增加编译并行度"><a href="#8-1-增加编译并行度" class="headerlink" title="8.1 增加编译并行度"></a>8.1 增加编译并行度</h2><p>可以通过设置更多的并行编译任务来加速编译过程。使用与 CPU 核心数量相等或更多的并行任务数。设置 MAKEFLAGS 来实现这一点：</p>
 <p>编辑 &#x2F;etc&#x2F;makepkg.conf 文件，找到以下行并进行修改：</p>
 <div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">MAKEFLAGS=&quot;-j$(nproc)&quot;</span><br></pre></td></tr></table></figure></div>
 <p><code>$(nproc)</code>会自动检测 CPU 核心数，并设置相同数量的并行任务。包括在执行<code>make</code>指令时，可以通过加<code>-j&lt;核心数&gt;</code>来手动指定编译时用CPU的核心数。</p>
+<hr>
 <h1 id="9-用户操作"><a href="#9-用户操作" class="headerlink" title="9.用户操作"></a>9.用户操作</h1><h2 id="9-1-创建一个新用户"><a href="#9-1-创建一个新用户" class="headerlink" title="9.1 创建一个新用户"></a>9.1 创建一个新用户</h2><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> useradd -m &lt;new_username&gt;</span><br></pre></td></tr></table></figure></div>
 <p><code>-m</code>：创建用户的同时生成一个主目录。</p>
 <p>为新用户设置密码：</p>
@@ -2418,9 +2426,135 @@
 <h2 id="9-2-移除用户"><a href="#9-2-移除用户" class="headerlink" title="9.2 移除用户"></a>9.2 移除用户</h2><p>删除用户及其主目录：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> userdel -r &lt;username&gt;</span><br></pre></td></tr></table></figure></div>
 <p><code>-r</code>：删除用户的同时移除用户的主目录及文件。如果不使用<code>-r</code>，只会删除用户账号，不会删除用户的主目录和文件。</p>
+<hr>
+<h1 id="10-grep-指令"><a href="#10-grep-指令" class="headerlink" title="10.grep 指令"></a>10.grep 指令</h1><p><code>grep</code> 是一个强大的文本搜索工具，它在 Unix 和类 Unix 系统（如 Linux）中用于搜索文件中匹配指定模式的行。<code>grep</code> 命令的名字来源于全局正则表达式打印（Global Regular Expression Print）。</p>
+<h2 id="10-1-基本用法"><a href="#10-1-基本用法" class="headerlink" title="10.1 基本用法"></a>10.1 基本用法</h2><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">grep [选项] 模式 文件</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li>模式：你想要搜索的文本模式或正则表达式。</li>
+<li>文件：你想要搜索的文件。</li>
+</ul>
+<h2 id="10-2-常用选项"><a href="#10-2-常用选项" class="headerlink" title="10.2 常用选项"></a>10.2 常用选项</h2><ul>
+<li><code>-i</code>：忽略大小写。</li>
+<li><code>-v</code>：显示不匹配的行（即显示除了匹配行之外的所有行）。</li>
+<li><code>-c</code>：显示匹配行的数量，不显示具体内容。</li>
+<li><code>-n</code>：显示匹配行及行号。</li>
+<li><code>-l</code>：显示包含匹配行的文件名。</li>
+<li><code>--color</code>：将匹配的文本高亮显示。</li>
+<li><code>-r</code> 或 <code>-R</code>：递归搜索指定目录下的所有文件。</li>
+<li><code>-e</code>：允许多个搜索模式。</li>
+</ul>
+<h2 id="10-3-示例"><a href="#10-3-示例" class="headerlink" title="10.3 示例"></a>10.3 示例</h2><ol>
+<li><p><strong>搜索包含特定文本的行：</strong></p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">grep <span class="string">&quot;search_text&quot;</span> filename.txt</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p><strong>忽略大小写搜索：</strong></p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">grep -i <span class="string">&quot;SearchText&quot;</span> filename.txt</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p><strong>显示不匹配的行：</strong></p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">grep -v <span class="string">&quot;text_to_exclude&quot;</span> filename.txt</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p><strong>显示匹配行的行号：</strong></p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">grep -n <span class="string">&quot;search_text&quot;</span> filename.txt</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p><strong>递归搜索目录下所有文件：</strong></p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">grep -r <span class="string">&quot;search_text&quot;</span> /path/to/directory</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p><strong>显示匹配行的数量：</strong></p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">grep -c <span class="string">&quot;search_text&quot;</span> filename.txt</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p><strong>使用正则表达式搜索：</strong></p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">grep <span class="string">&quot;^[0-9]&quot;</span> filename.txt</span><br></pre></td></tr></table></figure></div>
+<p>这个命令会搜索所有以数字开头的行。</p>
+</li>
+<li><p><strong>使用多个模式搜索：</strong></p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">grep -e <span class="string">&quot;pattern1&quot;</span> -e <span class="string">&quot;pattern2&quot;</span> filename.txt</span><br></pre></td></tr></table></figure></div></li>
+</ol>
 ]]></content>
       <tags>
         <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Nix 使用教程</title>
+    <url>/2024/12/03/Nix%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/</url>
+    <content><![CDATA[<h1 id="1-Nix-简述"><a href="#1-Nix-简述" class="headerlink" title="1.Nix 简述"></a>1.Nix 简述</h1><h2 id="1-1-安装方法"><a href="#1-1-安装方法" class="headerlink" title="1.1 安装方法"></a>1.1 安装方法</h2><ol>
+<li><p>官方推荐的安装方式：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">sh &lt;(curl -L https://nixos.org/nix/install)</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>多用户安装（推荐）：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">sh &lt;(curl -L https://nixos.org/nix/install) --daemon</span><br></pre></td></tr></table></figure></div></li>
+</ol>
+<p>安装好后，记得执行下<code>source ~/.bashrc</code>或者<code>source ~/.zshrc</code>进行初始化，取决于你用的是<code>bash</code>还是<code>zsh</code>。</p>
+<p>还可以手动初始化：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">. ~/.nix-profile/etc/profile.d/nix.sh</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="1-2-Nix-的优缺点"><a href="#1-2-Nix-的优缺点" class="headerlink" title="1.2 Nix 的优缺点"></a>1.2 Nix 的优缺点</h2><p>优点：</p>
+<ol>
+<li>跨平台兼容性</li>
+</ol>
+<ul>
+<li>可以在 Ubuntu、Fedora、macOS 等多种系统上使用</li>
+<li>保持了包管理的一致性</li>
+</ul>
+<ol start="2">
+<li>依赖管理优势</li>
+</ol>
+<ul>
+<li>完全可重现的包管理</li>
+<li>可以精确控制软件包版本</li>
+<li>不同版本软件可以并存</li>
+<li>回滚和切换软件版本非常容易</li>
+</ul>
+<ol start="3">
+<li>隔离性</li>
+</ol>
+<ul>
+<li>每个包都在独立的目录中</li>
+<li>避免包之间的冲突</li>
+<li>不会污染系统环境</li>
+</ul>
+<ol start="4">
+<li>原子性更新</li>
+</ol>
+<ul>
+<li>要么完全成功，要么完全回滚</li>
+<li>降低系统损坏风险</li>
+</ul>
+<p>缺点：</p>
+<ol>
+<li>学习成本高</li>
+</ol>
+<ul>
+<li>Nix 语言和概念相对复杂</li>
+<li>与传统包管理器差异较大</li>
+</ul>
+<ol start="2">
+<li>性能开销</li>
+</ol>
+<ul>
+<li>首次安装和下载可能较慢</li>
+<li>额外的存储空间消耗</li>
+</ul>
+<ol start="3">
+<li>社区支持</li>
+</ol>
+<ul>
+<li>相比<code>apt</code>、<code>yum</code>，生态较小</li>
+<li>部分软件包可能不够及时</li>
+</ul>
+<h2 id="1-3-使用示例"><a href="#1-3-使用示例" class="headerlink" title="1.3 使用示例"></a>1.3 使用示例</h2><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 安装软件</span></span><br><span class="line">nix-env -iA nixpkgs.firefox</span><br><span class="line"></span><br><span class="line"><span class="comment"># 列出已安装软件</span></span><br><span class="line">nix-env -q</span><br><span class="line"></span><br><span class="line"><span class="comment"># 卸载软件</span></span><br><span class="line">nix-env -e firefox</span><br><span class="line"></span><br><span class="line"><span class="comment"># 更新所有软件</span></span><br><span class="line">nix-channel --update</span><br><span class="line">nix-env -u</span><br></pre></td></tr></table></figure></div>
+
+<p>建议：</p>
+<ul>
+<li>对于日常使用，可以并存使用系统原生包管理器</li>
+<li>适合开发者和追求系统可控性的用户</li>
+<li>不建议完全替代系统默认包管理器</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>linux</tag>
+        <tag>nix</tag>
       </tags>
   </entry>
   <entry>
@@ -2509,85 +2643,27 @@
       </tags>
   </entry>
   <entry>
-    <title>Nix 使用教程</title>
-    <url>/2024/12/03/Nix%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/</url>
-    <content><![CDATA[<h1 id="1-Nix-简述"><a href="#1-Nix-简述" class="headerlink" title="1.Nix 简述"></a>1.Nix 简述</h1><h2 id="1-1-安装方法"><a href="#1-1-安装方法" class="headerlink" title="1.1 安装方法"></a>1.1 安装方法</h2><ol>
-<li><p>官方推荐的安装方式：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">sh &lt;(curl -L https://nixos.org/nix/install)</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>多用户安装（推荐）：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">sh &lt;(curl -L https://nixos.org/nix/install) --daemon</span><br></pre></td></tr></table></figure></div></li>
-</ol>
-<p>安装好后，记得执行下<code>source ~/.bashrc</code>或者<code>source ~/.zshrc</code>进行初始化，取决于你用的是<code>bash</code>还是<code>zsh</code>。</p>
-<p>还可以手动初始化：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">. ~/.nix-profile/etc/profile.d/nix.sh</span><br></pre></td></tr></table></figure></div>
+    <title>Proxy Settings</title>
+    <url>/2024/07/19/Proxy-Settings/</url>
+    <content><![CDATA[<h1 id="一、代理软件配置"><a href="#一、代理软件配置" class="headerlink" title="一、代理软件配置"></a>一、代理软件配置</h1><h2 id="1-1-speedTest"><a href="#1-1-speedTest" class="headerlink" title="1.1 speedTest"></a>1.1 speedTest</h2><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 日本</span></span><br><span class="line">https://185-140-53-2.lg.looking.house/1000.mb</span><br><span class="line"><span class="comment"># 新加坡</span></span><br><span class="line">https://23-27-101-2.lg.looking.house/100.mb</span><br><span class="line"></span><br><span class="line">https://speed.cloudflare.com/__down?bytes=10000000</span><br><span class="line">https://speed.cloudflare.com/__down?bytes=50000000</span><br><span class="line">https://speed.cloudflare.com/__down?bytes=100000000</span><br><span class="line">https://speed.cloudflare.com/__down?bytes=200000000</span><br><span class="line"></span><br><span class="line"><span class="comment"># 老版测速</span></span><br><span class="line">http://cachefly.cachefly.net/10mb.<span class="built_in">test</span></span><br><span class="line">http://cachefly.cachefly.net/50mb.<span class="built_in">test</span></span><br><span class="line">http://cachefly.cachefly.net/100mb.<span class="built_in">test</span></span><br></pre></td></tr></table></figure></div>
 
-<h2 id="1-2-Nix-的优缺点"><a href="#1-2-Nix-的优缺点" class="headerlink" title="1.2 Nix 的优缺点"></a>1.2 Nix 的优缺点</h2><p>优点：</p>
-<ol>
-<li>跨平台兼容性</li>
-</ol>
-<ul>
-<li>可以在 Ubuntu、Fedora、macOS 等多种系统上使用</li>
-<li>保持了包管理的一致性</li>
-</ul>
-<ol start="2">
-<li>依赖管理优势</li>
-</ol>
-<ul>
-<li>完全可重现的包管理</li>
-<li>可以精确控制软件包版本</li>
-<li>不同版本软件可以并存</li>
-<li>回滚和切换软件版本非常容易</li>
-</ul>
-<ol start="3">
-<li>隔离性</li>
-</ol>
-<ul>
-<li>每个包都在独立的目录中</li>
-<li>避免包之间的冲突</li>
-<li>不会污染系统环境</li>
-</ul>
-<ol start="4">
-<li>原子性更新</li>
-</ol>
-<ul>
-<li>要么完全成功，要么完全回滚</li>
-<li>降低系统损坏风险</li>
-</ul>
-<p>缺点：</p>
-<ol>
-<li>学习成本高</li>
-</ol>
-<ul>
-<li>Nix 语言和概念相对复杂</li>
-<li>与传统包管理器差异较大</li>
-</ul>
-<ol start="2">
-<li>性能开销</li>
-</ol>
-<ul>
-<li>首次安装和下载可能较慢</li>
-<li>额外的存储空间消耗</li>
-</ul>
-<ol start="3">
-<li>社区支持</li>
-</ol>
-<ul>
-<li>相比<code>apt</code>、<code>yum</code>，生态较小</li>
-<li>部分软件包可能不够及时</li>
-</ul>
-<h2 id="1-3-使用示例"><a href="#1-3-使用示例" class="headerlink" title="1.3 使用示例"></a>1.3 使用示例</h2><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 安装软件</span></span><br><span class="line">nix-env -iA nixpkgs.firefox</span><br><span class="line"></span><br><span class="line"><span class="comment"># 列出已安装软件</span></span><br><span class="line">nix-env -q</span><br><span class="line"></span><br><span class="line"><span class="comment"># 卸载软件</span></span><br><span class="line">nix-env -e firefox</span><br><span class="line"></span><br><span class="line"><span class="comment"># 更新所有软件</span></span><br><span class="line">nix-channel --update</span><br><span class="line">nix-env -u</span><br></pre></td></tr></table></figure></div>
+<h2 id="1-2-speedurl"><a href="#1-2-speedurl" class="headerlink" title="1.2 speedurl"></a>1.2 speedurl</h2><div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://www.google.com/generate_204</span><br><span class="line"></span><br><span class="line">http://cp.cloudflare.com/</span><br><span class="line"></span><br><span class="line">http://connectivitycheck.gstatic.com/generate_204</span><br></pre></td></tr></table></figure></div>
 
-<p>建议：</p>
-<ul>
-<li>对于日常使用，可以并存使用系统原生包管理器</li>
-<li>适合开发者和追求系统可控性的用户</li>
-<li>不建议完全替代系统默认包管理器</li>
+<h2 id="1-3-DNS选项"><a href="#1-3-DNS选项" class="headerlink" title="1.3 DNS选项"></a>1.3 DNS选项</h2><ul>
+<li><strong>远程DNS</strong></li>
 </ul>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">udp://1.1.1.1</span><br><span class="line"></span><br><span class="line">https://dns.google/dns-query</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li><strong>直连DNS</strong></li>
+</ul>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">114.114.114.114</span><br><span class="line"></span><br><span class="line">https://doh.pub/dns-query</span><br></pre></td></tr></table></figure></div>
 ]]></content>
+      <categories>
+        <category>科学上网</category>
+      </categories>
       <tags>
-        <tag>linux</tag>
-        <tag>nix</tag>
+        <tag>proxy</tag>
       </tags>
   </entry>
   <entry>
@@ -2807,27 +2883,50 @@
       </tags>
   </entry>
   <entry>
-    <title>Proxy Settings</title>
-    <url>/2024/07/19/Proxy-Settings/</url>
-    <content><![CDATA[<h1 id="一、代理软件配置"><a href="#一、代理软件配置" class="headerlink" title="一、代理软件配置"></a>一、代理软件配置</h1><h2 id="1-1-speedTest"><a href="#1-1-speedTest" class="headerlink" title="1.1 speedTest"></a>1.1 speedTest</h2><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 日本</span></span><br><span class="line">https://185-140-53-2.lg.looking.house/1000.mb</span><br><span class="line"><span class="comment"># 新加坡</span></span><br><span class="line">https://23-27-101-2.lg.looking.house/100.mb</span><br><span class="line"></span><br><span class="line">https://speed.cloudflare.com/__down?bytes=10000000</span><br><span class="line">https://speed.cloudflare.com/__down?bytes=50000000</span><br><span class="line">https://speed.cloudflare.com/__down?bytes=100000000</span><br><span class="line">https://speed.cloudflare.com/__down?bytes=200000000</span><br><span class="line"></span><br><span class="line"><span class="comment"># 老版测速</span></span><br><span class="line">http://cachefly.cachefly.net/10mb.<span class="built_in">test</span></span><br><span class="line">http://cachefly.cachefly.net/50mb.<span class="built_in">test</span></span><br><span class="line">http://cachefly.cachefly.net/100mb.<span class="built_in">test</span></span><br></pre></td></tr></table></figure></div>
+    <title>解决 Ubuntu 下中文乱码问题</title>
+    <url>/2024/11/30/Ubuntu%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/</url>
+    <content><![CDATA[<h1 id="1-安装中文字体包"><a href="#1-安装中文字体包" class="headerlink" title="1.安装中文字体包"></a>1.安装中文字体包</h1><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt-get install language-pack-zh-hans</span><br></pre></td></tr></table></figure></div>
 
-<h2 id="1-2-speedurl"><a href="#1-2-speedurl" class="headerlink" title="1.2 speedurl"></a>1.2 speedurl</h2><div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://www.google.com/generate_204</span><br><span class="line"></span><br><span class="line">http://cp.cloudflare.com/</span><br><span class="line"></span><br><span class="line">http://connectivitycheck.gstatic.com/generate_204</span><br></pre></td></tr></table></figure></div>
+<h1 id="2-修改配置文件"><a href="#2-修改配置文件" class="headerlink" title="2.修改配置文件"></a>2.修改配置文件</h1><p>注：下列操作在<code>docker</code>的<code>ubuntu</code>容器中不需要加<code>sudo</code>，默认就是<code>root</code>权限。</p>
+<h2 id="2-1-方式一：修改-bashrc文件（推荐）"><a href="#2-1-方式一：修改-bashrc文件（推荐）" class="headerlink" title="2.1 方式一：修改~/.bashrc文件（推荐）"></a>2.1 方式一：修改<code>~/.bashrc</code>文件（推荐）</h2><p>修改<code>~/.bashrc</code>文件：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">nano ~/.bashrc</span><br></pre></td></tr></table></figure></div>
 
-<h2 id="1-3-DNS选项"><a href="#1-3-DNS选项" class="headerlink" title="1.3 DNS选项"></a>1.3 DNS选项</h2><ul>
-<li><strong>远程DNS</strong></li>
-</ul>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">udp://1.1.1.1</span><br><span class="line"></span><br><span class="line">https://dns.google/dns-query</span><br></pre></td></tr></table></figure></div>
+<p>添加：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">export LANG=zh_CN.UTF-8</span><br><span class="line">export LANGUAGE=zh_CN:zh</span><br><span class="line">export LC_ALL=zh_CN.UTF-8</span><br></pre></td></tr></table></figure></div>
 
-<ul>
-<li><strong>直连DNS</strong></li>
-</ul>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">114.114.114.114</span><br><span class="line"></span><br><span class="line">https://doh.pub/dns-query</span><br></pre></td></tr></table></figure></div>
-]]></content>
-      <categories>
-        <category>科学上网</category>
-      </categories>
+<p>然后执行：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">source</span> /etc/profile</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="2-2-方式二：修改-etc-profile文件"><a href="#2-2-方式二：修改-etc-profile文件" class="headerlink" title="2.2 方式二：修改/etc/profile文件"></a>2.2 方式二：修改<code>/etc/profile</code>文件</h2><p>修改<code>/etc/profile</code>配置文件：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nano /etc/profile</span><br></pre></td></tr></table></figure></div>
+
+<p>添加：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">export LANG=zh_CN.UTF-8</span><br><span class="line">export LANGUAGE=zh_CN:zh</span><br><span class="line">export LC_ALL=zh_CN.UTF-8</span><br></pre></td></tr></table></figure></div>
+
+<p>然后执行：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">source</span> /etc/profile</span><br></pre></td></tr></table></figure></div>
+<p>可能每次重启系统后，都得执行这条命令。</p>
+<h2 id="2-3-方式三：修改-etc-environment文件"><a href="#2-3-方式三：修改-etc-environment文件" class="headerlink" title="2.3 方式三：修改/etc/environment文件"></a>2.3 方式三：修改<code>/etc/environment</code>文件</h2><p>注：该方式不一定成功。</p>
+<p>修改<code>/etc/environment</code>配置文件：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nano /etc/environment</span><br></pre></td></tr></table></figure></div>
+
+<p>加入下面的内容：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">LANG=&quot;zh_CN.UTF-8&quot;</span><br><span class="line">LANGUAGE=&quot;zh_CN:zh&quot;</span><br><span class="line">LC_ALL=&quot;zh_CN.UTF-8&quot;</span><br></pre></td></tr></table></figure></div>
+
+<h1 id="3-添加中文配置内容（选做）"><a href="#3-添加中文配置内容（选做）" class="headerlink" title="3.添加中文配置内容（选做）"></a>3.添加中文配置内容（选做）</h1><p>再修改<code>/var/lib/locales/supported.d/local</code>文件（如果没有，就手动创建）</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nano /var/lib/locales/supported.d/local</span><br></pre></td></tr></table></figure></div>
+
+<p>加入下面内容：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">en_US.UTF-8 UTF-8</span><br><span class="line">zh_CN.UTF-8 UTF-8</span><br><span class="line">zh_CN.GBK GBK</span><br><span class="line">zh_CN GB2312</span><br></pre></td></tr></table></figure></div>
+
+<p>最后执行：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> locale-gen</span><br></pre></td></tr></table></figure></div>
+
+<p>然后重启系统即可。</p>
+<h1 id="3-中文空格乱码解决"><a href="#3-中文空格乱码解决" class="headerlink" title="3.中文空格乱码解决"></a>3.中文空格乱码解决</h1><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt-get install fonts-droid-fallback ttf-wqy-zenhei ttf-wqy-microhei fonts-arphic-ukai fonts-arphic-uming</span><br></pre></td></tr></table></figure></div>]]></content>
       <tags>
-        <tag>proxy</tag>
+        <tag>linux</tag>
+        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -2937,53 +3036,6 @@
       <tags>
         <tag>linux</tag>
         <tag>ssh</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>解决 Ubuntu 下中文乱码问题</title>
-    <url>/2024/11/30/Ubuntu%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/</url>
-    <content><![CDATA[<h1 id="1-安装中文字体包"><a href="#1-安装中文字体包" class="headerlink" title="1.安装中文字体包"></a>1.安装中文字体包</h1><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt-get install language-pack-zh-hans</span><br></pre></td></tr></table></figure></div>
-
-<h1 id="2-修改配置文件"><a href="#2-修改配置文件" class="headerlink" title="2.修改配置文件"></a>2.修改配置文件</h1><p>注：下列操作在<code>docker</code>的<code>ubuntu</code>容器中不需要加<code>sudo</code>，默认就是<code>root</code>权限。</p>
-<h2 id="2-1-方式一：修改-bashrc文件（推荐）"><a href="#2-1-方式一：修改-bashrc文件（推荐）" class="headerlink" title="2.1 方式一：修改~/.bashrc文件（推荐）"></a>2.1 方式一：修改<code>~/.bashrc</code>文件（推荐）</h2><p>修改<code>~/.bashrc</code>文件：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">nano ~/.bashrc</span><br></pre></td></tr></table></figure></div>
-
-<p>添加：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">export LANG=zh_CN.UTF-8</span><br><span class="line">export LANGUAGE=zh_CN:zh</span><br><span class="line">export LC_ALL=zh_CN.UTF-8</span><br></pre></td></tr></table></figure></div>
-
-<p>然后执行：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">source</span> /etc/profile</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="2-2-方式二：修改-etc-profile文件"><a href="#2-2-方式二：修改-etc-profile文件" class="headerlink" title="2.2 方式二：修改/etc/profile文件"></a>2.2 方式二：修改<code>/etc/profile</code>文件</h2><p>修改<code>/etc/profile</code>配置文件：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nano /etc/profile</span><br></pre></td></tr></table></figure></div>
-
-<p>添加：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">export LANG=zh_CN.UTF-8</span><br><span class="line">export LANGUAGE=zh_CN:zh</span><br><span class="line">export LC_ALL=zh_CN.UTF-8</span><br></pre></td></tr></table></figure></div>
-
-<p>然后执行：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">source</span> /etc/profile</span><br></pre></td></tr></table></figure></div>
-<p>可能每次重启系统后，都得执行这条命令。</p>
-<h2 id="2-3-方式三：修改-etc-environment文件"><a href="#2-3-方式三：修改-etc-environment文件" class="headerlink" title="2.3 方式三：修改/etc/environment文件"></a>2.3 方式三：修改<code>/etc/environment</code>文件</h2><p>注：该方式不一定成功。</p>
-<p>修改<code>/etc/environment</code>配置文件：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nano /etc/environment</span><br></pre></td></tr></table></figure></div>
-
-<p>加入下面的内容：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">LANG=&quot;zh_CN.UTF-8&quot;</span><br><span class="line">LANGUAGE=&quot;zh_CN:zh&quot;</span><br><span class="line">LC_ALL=&quot;zh_CN.UTF-8&quot;</span><br></pre></td></tr></table></figure></div>
-
-<h1 id="3-添加中文配置内容（选做）"><a href="#3-添加中文配置内容（选做）" class="headerlink" title="3.添加中文配置内容（选做）"></a>3.添加中文配置内容（选做）</h1><p>再修改<code>/var/lib/locales/supported.d/local</code>文件（如果没有，就手动创建）</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nano /var/lib/locales/supported.d/local</span><br></pre></td></tr></table></figure></div>
-
-<p>加入下面内容：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">en_US.UTF-8 UTF-8</span><br><span class="line">zh_CN.UTF-8 UTF-8</span><br><span class="line">zh_CN.GBK GBK</span><br><span class="line">zh_CN GB2312</span><br></pre></td></tr></table></figure></div>
-
-<p>最后执行：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> locale-gen</span><br></pre></td></tr></table></figure></div>
-
-<p>然后重启系统即可。</p>
-<h1 id="3-中文空格乱码解决"><a href="#3-中文空格乱码解决" class="headerlink" title="3.中文空格乱码解决"></a>3.中文空格乱码解决</h1><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt-get install fonts-droid-fallback ttf-wqy-zenhei ttf-wqy-microhei fonts-arphic-ukai fonts-arphic-uming</span><br></pre></td></tr></table></figure></div>]]></content>
-      <tags>
-        <tag>linux</tag>
-        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -3601,117 +3653,14 @@
 <h1 id="5-查看安装包的文件及其路径"><a href="#5-查看安装包的文件及其路径" class="headerlink" title="5.查看安装包的文件及其路径"></a>5.查看安装包的文件及其路径</h1><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -Ql boost</span><br></pre></td></tr></table></figure></div>
 
 <p>输出示例：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">boost /usr/share/boostbook/xsl/source-highlight.xsl</span><br><span class="line">boost /usr/share/boostbook/xsl/template.xsl</span><br><span class="line">boost /usr/share/boostbook/xsl/testing/</span><br><span class="line">boost /usr/share/boostbook/xsl/testing/Jamfile.xsl</span><br><span class="line">boost /usr/share/boostbook/xsl/testing/testsuite.xsl</span><br><span class="line">boost /usr/share/boostbook/xsl/type.xsl</span><br><span class="line">boost /usr/share/boostbook/xsl/utility.xsl</span><br><span class="line">boost /usr/share/boostbook/xsl/xhtml.xsl</span><br><span class="line">boost /usr/share/boostbook/xsl/xref.xsl</span><br></pre></td></tr></table></figure></div>]]></content>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">boost /usr/share/boostbook/xsl/source-highlight.xsl</span><br><span class="line">boost /usr/share/boostbook/xsl/template.xsl</span><br><span class="line">boost /usr/share/boostbook/xsl/testing/</span><br><span class="line">boost /usr/share/boostbook/xsl/testing/Jamfile.xsl</span><br><span class="line">boost /usr/share/boostbook/xsl/testing/testsuite.xsl</span><br><span class="line">boost /usr/share/boostbook/xsl/type.xsl</span><br><span class="line">boost /usr/share/boostbook/xsl/utility.xsl</span><br><span class="line">boost /usr/share/boostbook/xsl/xhtml.xsl</span><br><span class="line">boost /usr/share/boostbook/xsl/xref.xsl</span><br></pre></td></tr></table></figure></div>
+
+<p>可以加上<code>grep</code>进行匹配：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -Ql boost | grep cmake</span><br></pre></td></tr></table></figure></div>
+<p>在<code>grep</code>后加上<code>-i</code>参数可以忽略大小写进行匹配查找。</p>
+]]></content>
       <tags>
         <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>从源码安装 SSH</title>
-    <url>/2024/09/11/%E4%BB%8E%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85SSH/</url>
-    <content><![CDATA[<h1 id="1-构建基础镜像"><a href="#1-构建基础镜像" class="headerlink" title="1.构建基础镜像"></a>1.构建基础镜像</h1><p>在当期目录下（与<code>Dockerfile</code>同目录），添加<code>sources.list</code>文件，并添加镜像源：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line"># Ubuntu sources have moved to the /etc/apt/sources.list.d/ubuntu.sources</span><br><span class="line"># file, which uses the deb822 format. Use deb822-formatted .sources files</span><br><span class="line"># to manage package sources in the /etc/apt/sources.list.d/ directory.</span><br><span class="line"># See the sources.list(5) manual page for details.</span><br><span class="line"></span><br><span class="line"># 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble main restricted universe multiverse</span><br><span class="line"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble main restricted universe multiverse</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble-updates main restricted universe multiverse</span><br><span class="line"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble-updates main restricted universe multiverse</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble-backports main restricted universe multiverse</span><br><span class="line"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble-backports main restricted universe multiverse</span><br><span class="line"></span><br><span class="line"># 以下安全更新软件源包含了官方源与镜像站配置，如有需要可自行修改注释切换</span><br><span class="line"># deb http://security.ubuntu.com/ubuntu/ noble-security main restricted universe multiverse</span><br><span class="line"># deb-src http://security.ubuntu.com/ubuntu/ noble-security main restricted universe multiverse</span><br><span class="line"></span><br><span class="line"># 预发布软件源，不建议启用</span><br><span class="line"># deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble-proposed main restricted universe multiverse</span><br><span class="line"># # deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble-proposed main restricted universe multiverse</span><br></pre></td></tr></table></figure></div>
-<p><a href="https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/"><code>Ubuntu</code>清华镜像源</a></p>
-<p><code>Dockerfile</code>编写：</p>
-<div class="code-container" data-rel="Dockerfile"><figure class="iseeu highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="keyword">FROM</span> ubuntu</span><br><span class="line"></span><br><span class="line"><span class="keyword">ENV</span> http_proxy=http://<span class="number">172.27</span>.<span class="number">150.74</span>:<span class="number">7890</span>/</span><br><span class="line"><span class="keyword">ENV</span> https_proxy=http://<span class="number">172.27</span>.<span class="number">150.74</span>:<span class="number">7890</span>/</span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> apt-get update &amp;&amp; apt-get install -y nano wget <span class="built_in">sudo</span> net-tools</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> sources.list /etc/apt/</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">22</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /root/</span></span><br></pre></td></tr></table></figure></div>
-<p>根据自己实际情况设置代理环境（<code>ENV</code>）。</p>
-<p>然后开始构建镜像：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker build -t ubuntu:openssh .</span><br></pre></td></tr></table></figure></div>
-
-<h1 id="2-创建容器"><a href="#2-创建容器" class="headerlink" title="2.创建容器"></a>2.创建容器</h1><p>运行一个容器实例：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -it --name=ssh ubuntu:openssh</span><br></pre></td></tr></table></figure></div>
-
-<h1 id="3-从源码安装-SSH"><a href="#3-从源码安装-SSH" class="headerlink" title="3.从源码安装 SSH"></a>3.从源码安装 SSH</h1><p>要从源码安装和升级 OpenSSH，在 Ubuntu 上可以按照以下步骤操作：</p>
-<h2 id="3-1-准备环境"><a href="#3-1-准备环境" class="headerlink" title="3.1 准备环境"></a>3.1 准备环境</h2><p>首先，确保系统中安装了编译 OpenSSH 所需的依赖包。</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt update</span><br><span class="line"><span class="built_in">sudo</span> apt install build-essential zlib1g-dev libssl-dev libpam0g-dev libselinux1-dev</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="3-2-下载-OpenSSH-源码"><a href="#3-2-下载-OpenSSH-源码" class="headerlink" title="3.2 下载 OpenSSH 源码"></a>3.2 下载 OpenSSH 源码</h2><p>从官方 OpenSSH 网站下载最新的源码压缩包：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wget https://cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-X.XX.tar.gz</span><br></pre></td></tr></table></figure></div>
-
-<p>将 <code>X.XX</code> 替换为最新版本的版本号，可以在 <a class="link"   href="https://www.openssh.com/portable.html" >OpenSSH 官网<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> 查询最新版本。</p>
-<p>解压缩下载的文件：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">tar -xzf openssh-X.XX.tar.gz先设置下容器的`root`账户的</span><br><span class="line"><span class="built_in">cd</span> openssh-X.XX</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="3-3-配置-OpenSSH"><a href="#3-3-配置-OpenSSH" class="headerlink" title="3.3 配置 OpenSSH"></a>3.3 配置 OpenSSH</h2><p>在编译 OpenSSH 之前，使用 <code>configure</code> 脚本来生成 Makefile。可以根据你的系统环境和需求指定一些配置选项：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">./configure --prefix=/usr --sysconfdir=/etc/ssh --with-pam --with-ssl-engine</span><br></pre></td></tr></table></figure></div>
-
-<p>常用的选项包括：</p>
-<ul>
-<li><code>--prefix=/usr</code>: 将安装路径设置为 <code>/usr</code> 而不是默认的 <code>/usr/local</code>。</li>
-<li><code>--sysconfdir=/etc/ssh</code>: 指定配置文件目录为 <code>/etc/ssh</code>。</li>
-<li><code>--with-pam</code>: 启用 PAM（可插拔认证模块）。</li>
-<li><code>--with-ssl-engine</code>: 使用 OpenSSL 的 SSL 引擎。</li>
-</ul>
-<p>你可以使用 <code>./configure --help</code> 来查看所有可用的配置选项。</p>
-<h2 id="3-4-编译-OpenSSH"><a href="#3-4-编译-OpenSSH" class="headerlink" title="3.4 编译 OpenSSH"></a>3.4 编译 OpenSSH</h2><p>配置完成后，编译源码：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">make</span><br></pre></td></tr></table></figure></div>
-
-<p>编译完成后，可以通过 <code>make tests</code> 运行测试，以确保 OpenSSH 正确构建。</p>
-<h2 id="3-5-安装-OpenSSH"><a href="#3-5-安装-OpenSSH" class="headerlink" title="3.5 安装 OpenSSH"></a>3.5 安装 OpenSSH</h2><p>在编译成功并通过测试后，使用 <code>make install</code> 来安装 OpenSSH。</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> make install</span><br></pre></td></tr></table></figure></div>
-
-<p>这个命令将会把编译好的文件安装到系统中。</p>
-<p>执行时可能会出现这种错误：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">Privilege separation user sshd does not exist</span><br></pre></td></tr></table></figure></div>
-<p>该错误与<code>sshd</code>用户的缺失有关，这是 OpenSSH 用于权限隔离的一个功能。没有这个用户，SSH 守护进程可能无法正常启动。</p>
-<p>解决办法：</p>
-<ul>
-<li><p>创建<code>sshd</code>用户：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> useradd -r -d /var/empty -s /usr/sbin/nologin sshd</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>验证配置：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> /usr/sbin/sshd -t -f /etc/ssh/sshd_config</span><br></pre></td></tr></table></figure></div>
-<p>如果没有输出或错误，说明配置文件是正确的。</p>
-</li>
-</ul>
-<h2 id="3-6-配置-OpenSSH"><a href="#3-6-配置-OpenSSH" class="headerlink" title="3.6 配置 OpenSSH"></a>3.6 配置 OpenSSH</h2><p>安装完成后，检查 OpenSSH 的配置文件 <code>/etc/ssh/sshd_config</code>。</p>
-<p>找到以下配置项，并确保它们没有被注释掉（前面没有<code>#</code>）并且值设置正确：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">PasswordAuthentication <span class="built_in">yes</span></span><br><span class="line">PermitRootLogin <span class="built_in">yes</span></span><br></pre></td></tr></table></figure></div>
-<p>记得设置容器中<code>root</code>用户的密码：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">passwd</span><br></pre></td></tr></table></figure></div>
-
-<p>升级或重新安装可能会覆盖某些配置，因此你可能需要备份原有的配置文件并重新应用它们：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">cp</span> /etc/ssh/sshd_config /etc/ssh/sshd_config.backup</span><br></pre></td></tr></table></figure></div>
-
-<p>编辑新的配置文件：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nano /etc/ssh/sshd_config</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="3-7-重启-SSH-服务"><a href="#3-7-重启-SSH-服务" class="headerlink" title="3.7 重启 SSH 服务"></a>3.7 重启 SSH 服务</h2><p>安装完成后，需要重新启动 SSH 服务来应用新版本：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl restart ssh</span><br></pre></td></tr></table></figure></div>
-
-<p>你可以通过以下命令确认 SSH 版本是否更新：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">ssh -V</span><br></pre></td></tr></table></figure></div>
-
-<p>环境中可能没有<code>systemctl</code>，先检查下是否有<code>service</code>：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">which</span> service</span><br></pre></td></tr></table></figure></div>
-
-<p>可以用<code>service</code>来控制：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> service ssh status</span><br></pre></td></tr></table></figure></div>
-
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> service ssh start</span><br></pre></td></tr></table></figure></div>
-
-<p>如果<code>service</code>不可用，可以直接运行<code>sshd</code>来启动：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">which</span> sshd</span><br></pre></td></tr></table></figure></div>
-<p>运行：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">/usr/sbin/sshd</span><br></pre></td></tr></table></figure></div>
-<h3 id="8-防止自动更新覆盖"><a href="#8-防止自动更新覆盖" class="headerlink" title="8. 防止自动更新覆盖"></a>8. 防止自动更新覆盖</h3><p>默认情况下，Ubuntu 使用 <code>apt</code> 来自动管理和更新软件包。如果你不希望 OpenSSH 通过 <code>apt</code> 更新被覆盖，可以将其锁定：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt-mark hold openssh-server openssh-client</span><br></pre></td></tr></table></figure></div>
-
-<p>这样可以确保 <code>apt</code> 不会自动更新 OpenSSH。</p>
-<h2 id="3-9-验证安装"><a href="#3-9-验证安装" class="headerlink" title="3.9 验证安装"></a>3.9 验证安装</h2><p>最后，确保 OpenSSH 正常运行。通过以下命令验证 SSH 是否正在监听：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status ssh</span><br></pre></td></tr></table></figure></div>
-
-<p>没有<code>systemctl</code>的话，可以用：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">ps aux | grep sshd</span><br></pre></td></tr></table></figure></div>
-
-<p>输出是这样表示启动成功：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">root       10106  0.0  0.0   8784  4508 ?        Ss   06:28   0:00 sshd: /usr/sbin/sshd [listener] 0 of 10-100 startups</span><br><span class="line">root       10150  0.0  0.0   3528  1872 pts/0    S+   06:32   0:00 grep --color=auto sshd</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="3-8-连接"><a href="#3-8-连接" class="headerlink" title="3.8 连接"></a>3.8 连接</h2><p>在宿主机中测试：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">ssh root@&lt;container_IP&gt;</span><br></pre></td></tr></table></figure></div>]]></content>
-      <tags>
-        <tag>linux</tag>
-        <tag>ssh</tag>
       </tags>
   </entry>
   <entry>
@@ -3883,6 +3832,114 @@
 ]]></content>
       <tags>
         <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>从源码安装 SSH</title>
+    <url>/2024/09/11/%E4%BB%8E%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85SSH/</url>
+    <content><![CDATA[<h1 id="1-构建基础镜像"><a href="#1-构建基础镜像" class="headerlink" title="1.构建基础镜像"></a>1.构建基础镜像</h1><p>在当期目录下（与<code>Dockerfile</code>同目录），添加<code>sources.list</code>文件，并添加镜像源：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line"># Ubuntu sources have moved to the /etc/apt/sources.list.d/ubuntu.sources</span><br><span class="line"># file, which uses the deb822 format. Use deb822-formatted .sources files</span><br><span class="line"># to manage package sources in the /etc/apt/sources.list.d/ directory.</span><br><span class="line"># See the sources.list(5) manual page for details.</span><br><span class="line"></span><br><span class="line"># 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble main restricted universe multiverse</span><br><span class="line"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble main restricted universe multiverse</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble-updates main restricted universe multiverse</span><br><span class="line"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble-updates main restricted universe multiverse</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble-backports main restricted universe multiverse</span><br><span class="line"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble-backports main restricted universe multiverse</span><br><span class="line"></span><br><span class="line"># 以下安全更新软件源包含了官方源与镜像站配置，如有需要可自行修改注释切换</span><br><span class="line"># deb http://security.ubuntu.com/ubuntu/ noble-security main restricted universe multiverse</span><br><span class="line"># deb-src http://security.ubuntu.com/ubuntu/ noble-security main restricted universe multiverse</span><br><span class="line"></span><br><span class="line"># 预发布软件源，不建议启用</span><br><span class="line"># deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble-proposed main restricted universe multiverse</span><br><span class="line"># # deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble-proposed main restricted universe multiverse</span><br></pre></td></tr></table></figure></div>
+<p><a href="https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/"><code>Ubuntu</code>清华镜像源</a></p>
+<p><code>Dockerfile</code>编写：</p>
+<div class="code-container" data-rel="Dockerfile"><figure class="iseeu highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="keyword">FROM</span> ubuntu</span><br><span class="line"></span><br><span class="line"><span class="keyword">ENV</span> http_proxy=http://<span class="number">172.27</span>.<span class="number">150.74</span>:<span class="number">7890</span>/</span><br><span class="line"><span class="keyword">ENV</span> https_proxy=http://<span class="number">172.27</span>.<span class="number">150.74</span>:<span class="number">7890</span>/</span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> apt-get update &amp;&amp; apt-get install -y nano wget <span class="built_in">sudo</span> net-tools</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> sources.list /etc/apt/</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">22</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /root/</span></span><br></pre></td></tr></table></figure></div>
+<p>根据自己实际情况设置代理环境（<code>ENV</code>）。</p>
+<p>然后开始构建镜像：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker build -t ubuntu:openssh .</span><br></pre></td></tr></table></figure></div>
+
+<h1 id="2-创建容器"><a href="#2-创建容器" class="headerlink" title="2.创建容器"></a>2.创建容器</h1><p>运行一个容器实例：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -it --name=ssh ubuntu:openssh</span><br></pre></td></tr></table></figure></div>
+
+<h1 id="3-从源码安装-SSH"><a href="#3-从源码安装-SSH" class="headerlink" title="3.从源码安装 SSH"></a>3.从源码安装 SSH</h1><p>要从源码安装和升级 OpenSSH，在 Ubuntu 上可以按照以下步骤操作：</p>
+<h2 id="3-1-准备环境"><a href="#3-1-准备环境" class="headerlink" title="3.1 准备环境"></a>3.1 准备环境</h2><p>首先，确保系统中安装了编译 OpenSSH 所需的依赖包。</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt update</span><br><span class="line"><span class="built_in">sudo</span> apt install build-essential zlib1g-dev libssl-dev libpam0g-dev libselinux1-dev</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="3-2-下载-OpenSSH-源码"><a href="#3-2-下载-OpenSSH-源码" class="headerlink" title="3.2 下载 OpenSSH 源码"></a>3.2 下载 OpenSSH 源码</h2><p>从官方 OpenSSH 网站下载最新的源码压缩包：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wget https://cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-X.XX.tar.gz</span><br></pre></td></tr></table></figure></div>
+
+<p>将 <code>X.XX</code> 替换为最新版本的版本号，可以在 <a class="link"   href="https://www.openssh.com/portable.html" >OpenSSH 官网<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> 查询最新版本。</p>
+<p>解压缩下载的文件：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">tar -xzf openssh-X.XX.tar.gz先设置下容器的`root`账户的</span><br><span class="line"><span class="built_in">cd</span> openssh-X.XX</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="3-3-配置-OpenSSH"><a href="#3-3-配置-OpenSSH" class="headerlink" title="3.3 配置 OpenSSH"></a>3.3 配置 OpenSSH</h2><p>在编译 OpenSSH 之前，使用 <code>configure</code> 脚本来生成 Makefile。可以根据你的系统环境和需求指定一些配置选项：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">./configure --prefix=/usr --sysconfdir=/etc/ssh --with-pam --with-ssl-engine</span><br></pre></td></tr></table></figure></div>
+
+<p>常用的选项包括：</p>
+<ul>
+<li><code>--prefix=/usr</code>: 将安装路径设置为 <code>/usr</code> 而不是默认的 <code>/usr/local</code>。</li>
+<li><code>--sysconfdir=/etc/ssh</code>: 指定配置文件目录为 <code>/etc/ssh</code>。</li>
+<li><code>--with-pam</code>: 启用 PAM（可插拔认证模块）。</li>
+<li><code>--with-ssl-engine</code>: 使用 OpenSSL 的 SSL 引擎。</li>
+</ul>
+<p>你可以使用 <code>./configure --help</code> 来查看所有可用的配置选项。</p>
+<h2 id="3-4-编译-OpenSSH"><a href="#3-4-编译-OpenSSH" class="headerlink" title="3.4 编译 OpenSSH"></a>3.4 编译 OpenSSH</h2><p>配置完成后，编译源码：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">make</span><br></pre></td></tr></table></figure></div>
+
+<p>编译完成后，可以通过 <code>make tests</code> 运行测试，以确保 OpenSSH 正确构建。</p>
+<h2 id="3-5-安装-OpenSSH"><a href="#3-5-安装-OpenSSH" class="headerlink" title="3.5 安装 OpenSSH"></a>3.5 安装 OpenSSH</h2><p>在编译成功并通过测试后，使用 <code>make install</code> 来安装 OpenSSH。</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> make install</span><br></pre></td></tr></table></figure></div>
+
+<p>这个命令将会把编译好的文件安装到系统中。</p>
+<p>执行时可能会出现这种错误：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">Privilege separation user sshd does not exist</span><br></pre></td></tr></table></figure></div>
+<p>该错误与<code>sshd</code>用户的缺失有关，这是 OpenSSH 用于权限隔离的一个功能。没有这个用户，SSH 守护进程可能无法正常启动。</p>
+<p>解决办法：</p>
+<ul>
+<li><p>创建<code>sshd</code>用户：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> useradd -r -d /var/empty -s /usr/sbin/nologin sshd</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>验证配置：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> /usr/sbin/sshd -t -f /etc/ssh/sshd_config</span><br></pre></td></tr></table></figure></div>
+<p>如果没有输出或错误，说明配置文件是正确的。</p>
+</li>
+</ul>
+<h2 id="3-6-配置-OpenSSH"><a href="#3-6-配置-OpenSSH" class="headerlink" title="3.6 配置 OpenSSH"></a>3.6 配置 OpenSSH</h2><p>安装完成后，检查 OpenSSH 的配置文件 <code>/etc/ssh/sshd_config</code>。</p>
+<p>找到以下配置项，并确保它们没有被注释掉（前面没有<code>#</code>）并且值设置正确：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">PasswordAuthentication <span class="built_in">yes</span></span><br><span class="line">PermitRootLogin <span class="built_in">yes</span></span><br></pre></td></tr></table></figure></div>
+<p>记得设置容器中<code>root</code>用户的密码：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">passwd</span><br></pre></td></tr></table></figure></div>
+
+<p>升级或重新安装可能会覆盖某些配置，因此你可能需要备份原有的配置文件并重新应用它们：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">cp</span> /etc/ssh/sshd_config /etc/ssh/sshd_config.backup</span><br></pre></td></tr></table></figure></div>
+
+<p>编辑新的配置文件：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nano /etc/ssh/sshd_config</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="3-7-重启-SSH-服务"><a href="#3-7-重启-SSH-服务" class="headerlink" title="3.7 重启 SSH 服务"></a>3.7 重启 SSH 服务</h2><p>安装完成后，需要重新启动 SSH 服务来应用新版本：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl restart ssh</span><br></pre></td></tr></table></figure></div>
+
+<p>你可以通过以下命令确认 SSH 版本是否更新：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">ssh -V</span><br></pre></td></tr></table></figure></div>
+
+<p>环境中可能没有<code>systemctl</code>，先检查下是否有<code>service</code>：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">which</span> service</span><br></pre></td></tr></table></figure></div>
+
+<p>可以用<code>service</code>来控制：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> service ssh status</span><br></pre></td></tr></table></figure></div>
+
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> service ssh start</span><br></pre></td></tr></table></figure></div>
+
+<p>如果<code>service</code>不可用，可以直接运行<code>sshd</code>来启动：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">which</span> sshd</span><br></pre></td></tr></table></figure></div>
+<p>运行：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">/usr/sbin/sshd</span><br></pre></td></tr></table></figure></div>
+<h3 id="8-防止自动更新覆盖"><a href="#8-防止自动更新覆盖" class="headerlink" title="8. 防止自动更新覆盖"></a>8. 防止自动更新覆盖</h3><p>默认情况下，Ubuntu 使用 <code>apt</code> 来自动管理和更新软件包。如果你不希望 OpenSSH 通过 <code>apt</code> 更新被覆盖，可以将其锁定：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt-mark hold openssh-server openssh-client</span><br></pre></td></tr></table></figure></div>
+
+<p>这样可以确保 <code>apt</code> 不会自动更新 OpenSSH。</p>
+<h2 id="3-9-验证安装"><a href="#3-9-验证安装" class="headerlink" title="3.9 验证安装"></a>3.9 验证安装</h2><p>最后，确保 OpenSSH 正常运行。通过以下命令验证 SSH 是否正在监听：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status ssh</span><br></pre></td></tr></table></figure></div>
+
+<p>没有<code>systemctl</code>的话，可以用：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">ps aux | grep sshd</span><br></pre></td></tr></table></figure></div>
+
+<p>输出是这样表示启动成功：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">root       10106  0.0  0.0   8784  4508 ?        Ss   06:28   0:00 sshd: /usr/sbin/sshd [listener] 0 of 10-100 startups</span><br><span class="line">root       10150  0.0  0.0   3528  1872 pts/0    S+   06:32   0:00 grep --color=auto sshd</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="3-8-连接"><a href="#3-8-连接" class="headerlink" title="3.8 连接"></a>3.8 连接</h2><p>在宿主机中测试：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">ssh root@&lt;container_IP&gt;</span><br></pre></td></tr></table></figure></div>]]></content>
+      <tags>
+        <tag>linux</tag>
+        <tag>ssh</tag>
       </tags>
   </entry>
   <entry>
