@@ -30,7 +30,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://example.com/2024/11/29/cmake%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/your_image_path">
 <meta property="article:published_time" content="2024-11-29T14:39:43.000Z">
-<meta property="article:modified_time" content="2024-11-29T08:58:14.765Z">
+<meta property="article:modified_time" content="2024-12-12T04:51:13.211Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="c++">
 <meta property="article:tag" content="cmake">
@@ -496,8 +496,8 @@
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2024-11-29 08:58:14</span>
-            <span class="mobile">2024-11-29 08:58:14</span>
+            <span class="desktop">2024-12-12 04:51:13</span>
+            <span class="mobile">2024-12-12 04:51:13</span>
             <span class="hover-info">Updated</span>
         </span>
     
@@ -539,12 +539,12 @@
     
     
         <span class="article-wordcount article-meta-item">
-            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>661 Words</span>
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>1.3k Words</span>
         </span>
     
     
         <span class="article-min2read article-meta-item">
-            <i class="fa-regular fa-clock"></i>&nbsp;<span>2 Mins</span>
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>4 Mins</span>
         </span>
     
     
@@ -608,11 +608,90 @@
                 ><figcaption>make.png</figcaption></figure></p>
 <p>从两幅图对比可以看出，<code>ninja</code>花费的时间更少，效率更高。</p>
 <p>事实上，在性能上：<code>Ninja &gt; Makefile &gt; MSBuild</code>。<code>Makefile</code>启动时会把每个文件都检测一遍，浪费很多时间。特别是有很多文件，但是实际需要构建的只有一小部分，从而是<code>I/O Bound</code>的时候，<code>Ninja</code>的速度提升就很明显。然而某些专利公司的<code>CUDA toolkit</code>在 Windows 上只允许用<code>MSBuild</code>构建，不能用<code>Ninja</code>（怕不是和<code>Bill Gates</code>有什么交易，哈哈）。</p>
-<h1 id="3-编译器设置"><a href="#3-编译器设置" class="headerlink" title="3.编译器设置"></a>3.编译器设置</h1><p>可以在<code>CMakeLists.txt</code>中添加：</p>
+<h1 id="3-设置"><a href="#3-设置" class="headerlink" title="3.设置"></a>3.设置</h1><h2 id="3-1-编译器设置"><a href="#3-1-编译器设置" class="headerlink" title="3.1 编译器设置"></a>3.1 编译器设置</h2><p>可以在<code>CMakeLists.txt</code>中添加：</p>
 <div class="code-container" data-rel="Cmake"><figure class="iseeu highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span>(CMAKE_C_COMPILER clang)</span><br><span class="line"><span class="keyword">set</span>(CMAKE_CXX_COMPILER clang++)</span><br></pre></td></tr></table></figure></div>
-<p>指定编译器为<code>clang</code>和<code>clang++</code>。不指定的话，默认是<code>gcc</code>和<code>g++</code>。</p>
+<p>指定编译器为<code>clang</code>和<code>clang++</code>。不指定的话，默认是<code>gcc</code>和<code>g++</code>。这两条命令应该放在文件的开始位置（<code>cmake_minimum_required</code>之下，其他命令之上），否则可能无效。</p>
 <p>也可以在命令行阶段指定：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cmake -B build -G Ninja -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++</span><br></pre></td></tr></table></figure></div>
+
+<h1 id="4-查找第三方库（以-Qt-为例）"><a href="#4-查找第三方库（以-Qt-为例）" class="headerlink" title="4.查找第三方库（以 Qt 为例）"></a>4.查找第三方库（以 Qt 为例）</h1><h2 id="4-1-set-CMAKE-PREFIX-PATH"><a href="#4-1-set-CMAKE-PREFIX-PATH" class="headerlink" title="4.1 set(CMAKE_PREFIX_PATH &quot;...&quot;)"></a>4.1 <code>set(CMAKE_PREFIX_PATH &quot;...&quot;)</code></h2><ul>
+<li><p><strong>作用：</strong><br>设置一个搜索路径列表，供 CMake 的 <code>find_package()</code> 和其他查找命令使用。  </p>
+<ul>
+<li>CMake 会在指定的路径下，递归搜索各种配置文件（如 <code>*.cmake</code>）。</li>
+<li>它是一个通用的全局路径变量，不仅适用于 Qt，还适用于其他外部库。</li>
+</ul>
+</li>
+<li><p><strong>适用场景：</strong><br>当你需要 CMake 查找多个不同的外部库或模块，并希望统一管理搜索路径时，使用 <code>CMAKE_PREFIX_PATH</code> 是最佳选择。</p>
+</li>
+<li><p><strong>工作机制：</strong></p>
+<ul>
+<li>查找时会从 <code>CMAKE_PREFIX_PATH</code> 指定的目录中依次搜索。</li>
+</ul>
+</li>
+<li><p><strong>优点：</strong></p>
+<ul>
+<li>更通用，可以适配不同的路径组织结构。</li>
+<li>统一管理多个依赖库的搜索路径。</li>
+</ul>
+</li>
+</ul>
+<p>示例：</p>
+<div class="code-container" data-rel="Cmake"><figure class="iseeu highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span>(CMAKE_PREFIX_PATH <span class="string">&quot;/opt/Qt/6.8.0/gcc_64&quot;</span>)</span><br><span class="line"><span class="keyword">find_package</span>(Qt6 REQUIRED COMPONENTS Widgets)</span><br></pre></td></tr></table></figure></div>
+<p>这里会在 <code>/opt/Qt/6.8.0/gcc_64</code> 下递归寻找 <code>lib/cmake/Qt6/Qt6Config.cmake</code> 或其他类似的配置文件。</p>
+<h2 id="4-2-set-Qt-dir"><a href="#4-2-set-Qt-dir" class="headerlink" title="4.2 set(Qt_dir &quot;...&quot;)"></a>4.2 <code>set(Qt_dir &quot;...&quot;)</code></h2><ul>
+<li><p><strong>作用：</strong><br>这是一个项目自定义变量（<code>Qt_dir</code> 的名字是随意的），用于直接指向 Qt 的具体路径（通常是 <code>Qt6Config.cmake</code> 所在的目录）。</p>
+<ul>
+<li>CMake 本身对 <code>Qt_dir</code> 变量没有特殊处理。</li>
+<li>它可以在代码中手动使用，比如直接传递给 <code>find_package()</code> 的 <code>HINTS</code> 参数。</li>
+</ul>
+</li>
+<li><p><strong>适用场景：</strong><br>如果你只需要为当前项目指定一个特定的 Qt 路径，可以用这种方式。不过，这种方式需要手动确保路径的正确性，并显式使用。</p>
+</li>
+<li><p><strong>工作机制</strong>:</p>
+<ul>
+<li><code>Qt_dir</code> 不会影响 CMake 的全局搜索行为，除非在查找时手动传递它。</li>
+</ul>
+</li>
+<li><p><strong>优点</strong>:</p>
+<ul>
+<li>更精确地指定路径，避免其他可能的干扰。</li>
+<li>灵活性更高，适合需要手动控制路径的场景。</li>
+</ul>
+</li>
+</ul>
+<p>示例：</p>
+<div class="code-container" data-rel="Cmake"><figure class="iseeu highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span>(Qt_dir /opt/Qt/<span class="number">6.8</span>.<span class="number">0</span>/gcc_64/lib/cmake/Qt6)</span><br><span class="line"><span class="keyword">find_package</span>(Qt6 REQUIRED COMPONENTS Widgets HINTS <span class="variable">$&#123;Qt_dir&#125;</span>)</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="4-3-总结对比"><a href="#4-3-总结对比" class="headerlink" title="4.3 总结对比"></a>4.3 总结对比</h2><table>
+<thead>
+<tr>
+<th><strong>属性</strong></th>
+<th><strong><code>CMAKE_PREFIX_PATH</code></strong></th>
+<th><strong><code>Qt_dir</code></strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>作用范围</strong></td>
+<td>全局作用于所有 <code>find_package</code> 调用</td>
+<td>仅作用于手动指定的 <code>find_package</code></td>
+</tr>
+<tr>
+<td><strong>使用场景</strong></td>
+<td>管理多个依赖库的路径</td>
+<td>精确指定单个库的路径</td>
+</tr>
+<tr>
+<td><strong>灵活性</strong></td>
+<td>自动化程度高，路径可递归搜索</td>
+<td>需要显式控制，灵活性高</td>
+</tr>
+<tr>
+<td><strong>典型用法</strong></td>
+<td>为整个项目设置通用的依赖路径</td>
+<td>指定特殊或非标准路径</td>
+</tr>
+</tbody></table>
+
 		</div>
 
 		
@@ -626,7 +705,7 @@
         
             <li>
                 <strong>Updated at
-                    :</strong> 2024-11-29 08:58:14
+                    :</strong> 2024-12-12 04:51:13
             </li>
         
         <li>
@@ -668,27 +747,27 @@
     <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
      <i aria-hidden="true"></i><span>推荐阅读</span>
     </div>
-    <div class="recommended-article-group"><a class="recommended-article-item" href="/2024/12/04/编译pcl/" title="如何手动编译 PCL 库" rel="bookmark">
-  <img src="/images/wallhaven-wqery6-light.webp" alt="如何手动编译 PCL 库" class="!max-w-none">
-  <span class="title">如何手动编译 PCL 库</span>
-</a><a class="recommended-article-item" href="/2024/12/11/Qt和VScode配置/" title="VSCode 配置 C++ Qt 开发环境" rel="bookmark">
+    <div class="recommended-article-group"><a class="recommended-article-item" href="/2024/12/11/Qt和VScode配置/" title="VSCode 配置 C++ Qt 开发环境" rel="bookmark">
   <img src="/images/wallhaven-wqery6-light.webp" alt="VSCode 配置 C++ Qt 开发环境" class="!max-w-none">
   <span class="title">VSCode 配置 C++ Qt 开发环境</span>
-</a><a class="recommended-article-item" href="/2024/11/13/gdb配置/" title="解决 VSCode 下使用 gdb 调试 C++ 出现的问题" rel="bookmark">
-  <img src="/images/wallhaven-wqery6-light.webp" alt="解决 VSCode 下使用 gdb 调试 C++ 出现的问题" class="!max-w-none">
-  <span class="title">解决 VSCode 下使用 gdb 调试 C++ 出现的问题</span>
+</a><a class="recommended-article-item" href="/2024/12/04/编译pcl/" title="如何手动编译 PCL 库" rel="bookmark">
+  <img src="/images/wallhaven-wqery6-light.webp" alt="如何手动编译 PCL 库" class="!max-w-none">
+  <span class="title">如何手动编译 PCL 库</span>
+</a><a class="recommended-article-item" href="/2024/12/10/Linux指令/" title="Linux 常用指令汇总" rel="bookmark">
+  <img src="/images/wallhaven-wqery6-light.webp" alt="Linux 常用指令汇总" class="!max-w-none">
+  <span class="title">Linux 常用指令汇总</span>
 </a></div>
    </div>
    <div class="recommended-mobile">
    <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
      <i aria-hidden="true"></i><span>推荐阅读</span>
    </div>
-   <div class="recommended-article-group"><a class="recommended-article-item" href="/2024/12/04/编译pcl/" title="如何手动编译 PCL 库" rel="bookmark">
-  <img src="/images/wallhaven-wqery6-light.webp" alt="如何手动编译 PCL 库" class="!max-w-none">
-  <span class="title">如何手动编译 PCL 库</span>
-</a><a class="recommended-article-item" href="/2024/12/11/Qt和VScode配置/" title="VSCode 配置 C++ Qt 开发环境" rel="bookmark">
+   <div class="recommended-article-group"><a class="recommended-article-item" href="/2024/12/11/Qt和VScode配置/" title="VSCode 配置 C++ Qt 开发环境" rel="bookmark">
   <img src="/images/wallhaven-wqery6-light.webp" alt="VSCode 配置 C++ Qt 开发环境" class="!max-w-none">
   <span class="title">VSCode 配置 C++ Qt 开发环境</span>
+</a><a class="recommended-article-item" href="/2024/12/04/编译pcl/" title="如何手动编译 PCL 库" rel="bookmark">
+  <img src="/images/wallhaven-wqery6-light.webp" alt="如何手动编译 PCL 库" class="!max-w-none">
+  <span class="title">如何手动编译 PCL 库</span>
 </a></div>
    </div>
   </div>
@@ -777,7 +856,7 @@
 	<div class="post-toc">
 		<div class="toc-title">On this page</div>
 		<div class="page-title">CMake 基础教程</div>
-		<ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E6%9E%84%E5%BB%BA%E6%8C%87%E4%BB%A4"><span class="nav-text">1.构建指令</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E7%94%9F%E6%88%90%E5%99%A8"><span class="nav-text">2.生成器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-Ninja%E5%92%8CMakefile%E7%9A%84%E7%AE%80%E5%8D%95%E5%AF%B9%E6%AF%94%EF%BC%9A"><span class="nav-text">2.1 Ninja和Makefile的简单对比：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E7%BC%96%E8%AF%91%E5%99%A8%E8%AE%BE%E7%BD%AE"><span class="nav-text">3.编译器设置</span></a></li></ol>
+		<ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E6%9E%84%E5%BB%BA%E6%8C%87%E4%BB%A4"><span class="nav-text">1.构建指令</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E7%94%9F%E6%88%90%E5%99%A8"><span class="nav-text">2.生成器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-Ninja%E5%92%8CMakefile%E7%9A%84%E7%AE%80%E5%8D%95%E5%AF%B9%E6%AF%94%EF%BC%9A"><span class="nav-text">2.1 Ninja和Makefile的简单对比：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E8%AE%BE%E7%BD%AE"><span class="nav-text">3.设置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-%E7%BC%96%E8%AF%91%E5%99%A8%E8%AE%BE%E7%BD%AE"><span class="nav-text">3.1 编译器设置</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-%E6%9F%A5%E6%89%BE%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%EF%BC%88%E4%BB%A5-Qt-%E4%B8%BA%E4%BE%8B%EF%BC%89"><span class="nav-text">4.查找第三方库（以 Qt 为例）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-set-CMAKE-PREFIX-PATH"><span class="nav-text">4.1 set(CMAKE_PREFIX_PATH &quot;...&quot;)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-set-Qt-dir"><span class="nav-text">4.2 set(Qt_dir &quot;...&quot;)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-%E6%80%BB%E7%BB%93%E5%AF%B9%E6%AF%94"><span class="nav-text">4.3 总结对比</span></a></li></ol></li></ol>
 
 	</div>
 </div>
@@ -808,7 +887,7 @@
                     </span>
                     
                         <span>
-                            48k words in total
+                            48.7k words in total
                         </span>
                     
                 </p>
