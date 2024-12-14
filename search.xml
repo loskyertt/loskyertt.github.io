@@ -425,27 +425,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Python 爬虫教程 03</title>
-    <url>/2024/10/17/03Python%E7%88%AC%E8%99%AB/</url>
-    <content><![CDATA[<h1 id="1-无请求头访问"><a href="#1-无请求头访问" class="headerlink" title="1.无请求头访问"></a>1.无请求头访问</h1><p>如果不构建请求头，直接向目标网站发送请求：</p>
-<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;https://spiderbuf.cn/playground/s02&quot;</span></span><br><span class="line"></span><br><span class="line">html = requests.get(url=url).text</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/02course/02.html&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">f.write(html)</span><br><span class="line">f.close()</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(html)</span><br><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/02course/data02.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    tds = tr.xpath(<span class="string">&#x27;./td&#x27;</span>)</span><br><span class="line">    s = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> td <span class="keyword">in</span> tds:</span><br><span class="line">        <span class="comment"># print(td.text)</span></span><br><span class="line">        s = s + <span class="built_in">str</span>(td.text) + <span class="string">&#x27; | &#x27;</span></span><br><span class="line">    <span class="built_in">print</span>(s)</span><br><span class="line">    <span class="keyword">if</span> s!= <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        f.write(s + <span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
-
-<p>输出结果：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">&lt;!DOCTYPE HTML PUBLIC &quot;-//IETF//DTD HTML 2.0//EN&quot;&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;&lt;title&gt;403 Forbidden&lt;/title&gt;&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;center&gt;&lt;h1&gt;403 Forbidden&lt;/h1&gt;&lt;/center&gt;</span><br><span class="line">&lt;hr&gt;&lt;center&gt;tengine&lt;/center&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></div>
-<p>很容易被网站检测到是爬虫。</p>
-<h1 id="2-添加请求头"><a href="#2-添加请求头" class="headerlink" title="2.添加请求头"></a>2.添加请求头</h1><p>所以基本上在发送请求之前都会封装一个<code>http</code>请求的头部信息：</p>
-<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">html = requests.get(url=url, headers=headers).text</span><br></pre></td></tr></table></figure></div>
-
-<p>有时候还需要往里面填入<code>Cookie</code>。甚至为了防止被检测到是爬虫，需要更换<code>User-Agent</code>，比如用火狐浏览器的等，或者浏览器不同版本的，这在网上可以查询到。</p>
-]]></content>
-      <categories>
-        <category>Python爬虫</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Python 爬虫教程 04</title>
     <url>/2024/10/17/04Python%E7%88%AC%E8%99%AB/</url>
     <content><![CDATA[<h1 id="1-测试案例"><a href="#1-测试案例" class="headerlink" title="1.测试案例"></a>1.测试案例</h1><div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;https://spiderbuf.cn/playground/s03&quot;</span></span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">html = requests.get(url=url, headers=headers).text</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/03course/03.html&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">f.write(html)</span><br><span class="line">f.close()</span><br><span class="line"></span><br><span class="line"><span class="comment"># print(html)</span></span><br><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/03course/data03.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    tds = tr.xpath(<span class="string">&#x27;./td&#x27;</span>)</span><br><span class="line">    s = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> td <span class="keyword">in</span> tds:</span><br><span class="line">        s = s + <span class="built_in">str</span>(td.text) + <span class="string">&#x27; | &#x27;</span></span><br><span class="line">    <span class="built_in">print</span>(s)</span><br><span class="line">    <span class="keyword">if</span> s!= <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        f.write(s + <span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
@@ -464,6 +443,27 @@
 <p>这里有一个简单的方法，把解析部分的代码改成这样：</p>
 <div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/03course/data03.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    tds = tr.xpath(<span class="string">&#x27;./td&#x27;</span>)</span><br><span class="line">    s = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> td <span class="keyword">in</span> tds:</span><br><span class="line">        s = s + <span class="built_in">str</span>(td.xpath(<span class="string">&#x27;string(.)&#x27;</span>)) + <span class="string">&#x27;|&#x27;</span>        <span class="comment"># 修改过后的解析操作</span></span><br><span class="line">    <span class="built_in">print</span>(s)</span><br><span class="line">    <span class="keyword">if</span> s!= <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        f.write(s + <span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
 <p>这种方式可以获取元素及其所有子元素的完整文本，而不仅仅是直接子节点的文本。<code>.</code>表示当前节点，这里就表示把当前节点的所有文本内容（包括子节点中的文本）提取出来。</p>
+]]></content>
+      <categories>
+        <category>Python爬虫</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python 爬虫教程 03</title>
+    <url>/2024/10/17/03Python%E7%88%AC%E8%99%AB/</url>
+    <content><![CDATA[<h1 id="1-无请求头访问"><a href="#1-无请求头访问" class="headerlink" title="1.无请求头访问"></a>1.无请求头访问</h1><p>如果不构建请求头，直接向目标网站发送请求：</p>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;https://spiderbuf.cn/playground/s02&quot;</span></span><br><span class="line"></span><br><span class="line">html = requests.get(url=url).text</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/02course/02.html&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">f.write(html)</span><br><span class="line">f.close()</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(html)</span><br><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/02course/data02.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    tds = tr.xpath(<span class="string">&#x27;./td&#x27;</span>)</span><br><span class="line">    s = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> td <span class="keyword">in</span> tds:</span><br><span class="line">        <span class="comment"># print(td.text)</span></span><br><span class="line">        s = s + <span class="built_in">str</span>(td.text) + <span class="string">&#x27; | &#x27;</span></span><br><span class="line">    <span class="built_in">print</span>(s)</span><br><span class="line">    <span class="keyword">if</span> s!= <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        f.write(s + <span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
+
+<p>输出结果：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">&lt;!DOCTYPE HTML PUBLIC &quot;-//IETF//DTD HTML 2.0//EN&quot;&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;&lt;title&gt;403 Forbidden&lt;/title&gt;&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;center&gt;&lt;h1&gt;403 Forbidden&lt;/h1&gt;&lt;/center&gt;</span><br><span class="line">&lt;hr&gt;&lt;center&gt;tengine&lt;/center&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></div>
+<p>很容易被网站检测到是爬虫。</p>
+<h1 id="2-添加请求头"><a href="#2-添加请求头" class="headerlink" title="2.添加请求头"></a>2.添加请求头</h1><p>所以基本上在发送请求之前都会封装一个<code>http</code>请求的头部信息：</p>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">html = requests.get(url=url, headers=headers).text</span><br></pre></td></tr></table></figure></div>
+
+<p>有时候还需要往里面填入<code>Cookie</code>。甚至为了防止被检测到是爬虫，需要更换<code>User-Agent</code>，比如用火狐浏览器的等，或者浏览器不同版本的，这在网上可以查询到。</p>
 ]]></content>
       <categories>
         <category>Python爬虫</category>
@@ -681,68 +681,89 @@
       </tags>
   </entry>
   <entry>
-    <title>Conda教程</title>
-    <url>/2024/07/19/Conda%E6%95%99%E7%A8%8B/</url>
-    <content><![CDATA[<h1 id="一、conda-指令"><a href="#一、conda-指令" class="headerlink" title="一、conda 指令"></a>一、conda 指令</h1><h2 id="1-1-查看配置"><a href="#1-1-查看配置" class="headerlink" title="1.1 查看配置"></a>1.1 查看配置</h2><div class="code-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="code"><pre><span class="line">conda config --show channels    # 查看镜像源</span><br><span class="line">conda config --show-sources        # 查看配置文件内容</span><br></pre></td></tr></table></figure></div>
+    <title>通过Docker搭建Hexo博客</title>
+    <url>/2024/07/24/Docker-Hexo/</url>
+    <content><![CDATA[<h1 id="1-创建项目文件夹"><a href="#1-创建项目文件夹" class="headerlink" title="1.创建项目文件夹"></a>1.创建项目文件夹</h1><p>创建博客的工作</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> -p ~/Hexo &amp;&amp; <span class="built_in">cd</span> ~/Hexo</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建存放 Dockerfile 的文件夹</span></span><br><span class="line"><span class="built_in">mkdir</span> hexo_docker &amp;&amp; <span class="built_in">cd</span> hexo_docker</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建 Dockerfile</span></span><br><span class="line"><span class="built_in">touch</span> Dockerfile</span><br></pre></td></tr></table></figure></div>
 
-<h2 id="1-2-设置代理端口"><a href="#1-2-设置代理端口" class="headerlink" title="1.2 设置代理端口"></a>1.2 设置代理端口</h2><div class="code-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">添加代理地址端口</span></span><br><span class="line">conda config --set proxy_servers.http http://127.0.0.1:10809</span><br><span class="line">conda config --set proxy_servers.https http://127.0.0.1:10809</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">移除代理</span></span><br><span class="line">conda config --remove-key proxy_servers</span><br></pre></td></tr></table></figure></div>
+<h1 id="2-配置-Dockerfile"><a href="#2-配置-Dockerfile" class="headerlink" title="2.配置 Dockerfile"></a>2.配置 Dockerfile</h1><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 基础镜像</span></span><br><span class="line">FROM node:latest</span><br><span class="line"></span><br><span class="line"><span class="comment"># 维护者信息</span></span><br><span class="line">MAINTAINER yourname&lt;youremail@gmail.com&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 工作目录</span></span><br><span class="line">WORKDIR /hexo</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置 npm 使用淘宝镜像源</span></span><br><span class="line">RUN npm config <span class="built_in">set</span> registry https://registry.npmmirror.com</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装 Hexo</span></span><br><span class="line">RUN npm install hexo-cli -g</span><br><span class="line">RUN hexo init blog</span><br><span class="line">RUN <span class="built_in">cd</span> blog</span><br><span class="line">RUN npm install</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置git</span></span><br><span class="line">RUN git config --global user.name <span class="string">&quot;loskyertt&quot;</span></span><br><span class="line">RUN git config --global user.email <span class="string">&quot;loskyertt0403@gmail.com&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 映射端口</span></span><br><span class="line">EXPOSE 4000</span><br><span class="line"></span><br><span class="line"><span class="comment"># 运行命令</span></span><br><span class="line">CMD [<span class="string">&quot;/bin/bash&quot;</span>]</span><br></pre></td></tr></table></figure></div>
 
-<h2 id="1-3-conda环境"><a href="#1-3-conda环境" class="headerlink" title="1.3 conda环境"></a>1.3 conda环境</h2><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 创建（带名字）</span></span><br><span class="line">conda create -n &lt;conda_name&gt; python=&lt;版本号&gt;</span><br><span class="line"><span class="comment"># 在指定文件路径下创建conda环境</span></span><br><span class="line">conda create --<span class="built_in">yes</span> --prefix /home/sky/桌面/pointTest/.conda python=3.11</span><br><span class="line"></span><br><span class="line"><span class="comment"># 激活conda环境</span></span><br><span class="line">conda activate &lt;conda_name&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 回到base环境</span></span><br><span class="line">conda deactivate</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看有哪些conda环境</span></span><br><span class="line">conda info --envs</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除全部环境</span></span><br><span class="line">conda remove -n env_name --all</span><br><span class="line"><span class="comment"># 删除指定环境</span></span><br><span class="line">conda <span class="built_in">env</span> remove -n env_name</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重命名环境（将 --clone 后面的环境重命名成 -n 后面的名字）</span></span><br><span class="line">conda create -n torch --<span class="built_in">clone</span> py3      <span class="comment"># 将 py3 重命名为 torch</span></span><br></pre></td></tr></table></figure></div>
-<p>注意：<code>--prefix/-p</code>不能与<code>--name/-n</code>同时使用！</p>
-<h2 id="1-4-下载库"><a href="#1-4-下载库" class="headerlink" title="1.4 下载库"></a>1.4 下载库</h2><div class="code-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">从 conda-forge 渠道中提供的包安装</span></span><br><span class="line">conda install -c conda-forge &lt;package_name&gt;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查询 conda-forge 中的包</span></span><br><span class="line">conda search -c conda-forge &lt;package_name&gt;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">安装指定版本的</span></span><br><span class="line">conda install -c conda-forge &lt;package_name&gt;=&lt;版本号&gt;</span><br></pre></td></tr></table></figure></div>
+<p>然后构建镜像（和<code>Dockerfile</code>同目录下）：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker build -t hexo:latest .</span><br></pre></td></tr></table></figure></div>
 
-<h3 id="1-4-1-安装GDAL库"><a href="#1-4-1-安装GDAL库" class="headerlink" title="1.4.1 安装GDAL库"></a>1.4.1 安装GDAL库</h3><div class="code-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash"> 安装 gdal 的依赖库 geos 和 proj</span></span><br><span class="line">conda install geos proj</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">安装指定版本GDAL</span></span><br><span class="line">conda install -c conda-forge gdal=3.2.1</span><br></pre></td></tr></table></figure></div>
+<p>Docker 的 BuildKit 可以加速构建过程并启用更多的优化选项，在构建镜像时启用 BuildKit：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">DOCKER_BUILDKIT=1 docker build -t hexo:latest .</span><br></pre></td></tr></table></figure></div>
 
-<h2 id="1-5-迁移-conda-环境"><a href="#1-5-迁移-conda-环境" class="headerlink" title="1.5 迁移 conda 环境"></a>1.5 迁移 conda 环境</h2><p>将要迁移的环境打包</p>
-<div class="code-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="code"><pre><span class="line">conda pack -n 虚拟环境名称 -o environment.tar.gz</span><br></pre></td></tr></table></figure></div>
+<h1 id="3-更新镜像"><a href="#3-更新镜像" class="headerlink" title="3.更新镜像"></a>3.更新镜像</h1><p>要在已经构建的基础镜像更新镜像，可以使用以下两种方法：</p>
+<h2 id="3-1-方法一：更新现有-Dockerfile-并重建镜像"><a href="#3-1-方法一：更新现有-Dockerfile-并重建镜像" class="headerlink" title="3.1 方法一：更新现有 Dockerfile 并重建镜像"></a>3.1 方法一：更新现有 Dockerfile 并重建镜像</h2><p>更新<code>Dockerfile</code>，然后重新构建镜像。</p>
+<h2 id="3-2-方法二：从已有镜像启动容器并手动添加-Hexo"><a href="#3-2-方法二：从已有镜像启动容器并手动添加-Hexo" class="headerlink" title="3.2 方法二：从已有镜像启动容器并手动添加 Hexo"></a>3.2 方法二：从已有镜像启动容器并手动添加 Hexo</h2><ol>
+<li><strong>启动一个容器</strong></li>
+</ol>
+<p>从已有的基础镜像启动一个交互式容器：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -it hexo:latest /bin/bash</span><br></pre></td></tr></table></figure></div>
 
-<p>如果报错：No command ‘conda pack’</p>
-<div class="code-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">尝试使用</span></span><br><span class="line">conda install -c conda-forge conda-pack</span><br></pre></td></tr></table></figure></div>
+<ol start="2">
+<li><p><strong>在容器内进行操作</strong></p>
+</li>
+<li><p><strong>提交容器为新镜像</strong></p>
+</li>
+</ol>
+<p>退出容器（<code>exit</code> 命令），然后提交容器为新镜像：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker commit &lt;container_id&gt; hexo:with-hexo</span><br></pre></td></tr></table></figure></div>
 
-<p>复制压缩文件到新的电脑环境。进到conda的安装目录：&#x2F;anaconda(或者miniconda)&#x2F;envs&#x2F;</p>
-<div class="code-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">对于 ubuntu 可以通过 whereis conda 查看 conda的安装路径</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="built_in">cd</span> 到 conda 的安装路径</span></span><br><span class="line">mkdir environment</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">解压conda环境：</span></span><br><span class="line">tar -xzvf environment.tar.gz -C  environment</span><br></pre></td></tr></table></figure></div>
+<p><code>with-hexo</code>是镜像标签，可以自定义。这里的 <code>&lt;container_id&gt;</code> 是刚刚启动的容器的 ID。可以使用 <code>docker ps -a</code> 命令找到它。<br><strong>注意：</strong> 如果要把挂载的宿主机的文件提交到镜像里，需要提前做一个<code>cp</code>操作，即通过<code>docker cp</code>把宿主计内的文件复制到容器内，然后再提交。</p>
+<h1 id="4-推送与备份镜像"><a href="#4-推送与备份镜像" class="headerlink" title="4.推送与备份镜像"></a>4.推送与备份镜像</h1><h2 id="4-1-推送镜像到-Docker-Hub"><a href="#4-1-推送镜像到-Docker-Hub" class="headerlink" title="4.1 推送镜像到 Docker Hub"></a>4.1 推送镜像到 Docker Hub</h2><ol>
+<li><strong>登录 Docker Hub</strong></li>
+</ol>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker login</span><br></pre></td></tr></table></figure></div>
 
-<h1 id="二、pip-指令"><a href="#二、pip-指令" class="headerlink" title="二、pip 指令"></a>二、pip 指令</h1><h2 id="2-1-使用临时镜像源下载库"><a href="#2-1-使用临时镜像源下载库" class="headerlink" title="2.1 使用临时镜像源下载库"></a>2.1 使用临时镜像源下载库</h2><div class="code-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="code"><pre><span class="line">pip install &lt;package_name&gt; -i &lt;镜像源url&gt;</span><br></pre></td></tr></table></figure></div>
+<ol start="2">
+<li><strong>标记镜像</strong></li>
+</ol>
+<p>将镜像标记为你的 Docker Hub 存储库。例如，将 <code>hexo:latest</code> 标记为 <code>yourusername/hexo:latest</code>：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker tag hexo:latest yourusername/hexo:latest</span><br></pre></td></tr></table></figure></div>
 
-<h1 id="三、镜像源"><a href="#三、镜像源" class="headerlink" title="三、镜像源"></a>三、镜像源</h1><div class="code-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="code"><pre><span class="line">https://pypi.tuna.tsinghua.edu.cn/simple    # 清华</span><br><span class="line">https://pypi.mirrors.ustc.edu.cn/simple        # 中科大</span><br><span class="line">http://mirrors.aliyun.com/pypi/simple/        # 阿里云</span><br><span class="line">http://pypi.douban.com/simple/            # 豆瓣</span><br></pre></td></tr></table></figure></div>
+<ol start="3">
+<li><strong>推送镜像</strong></li>
+</ol>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker push yourusername/hexo:latest</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="4-1-备份镜像到本地"><a href="#4-1-备份镜像到本地" class="headerlink" title="4.1 备份镜像到本地"></a>4.1 备份镜像到本地</h2><ol>
+<li><strong>保存镜像</strong></li>
+</ol>
+<p>使用 <code>docker save</code> 命令将镜像保存到一个 tar 文件。例如，将 <code>hexo:latest</code> 保存到 <code>hexo_latest.tar</code>：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker save -o hexo_latest.tar hexo:latest</span><br></pre></td></tr></table></figure></div>
+
+<ol start="2">
+<li><strong>加载镜像</strong></li>
+</ol>
+<p>以后你可以使用 <code>docker load</code> 命令从 tar 文件加载镜像。例如，从 <code>hexo_latest.tar</code> 加载镜像：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker load -i hexo_latest.tar</span><br></pre></td></tr></table></figure></div>
+
+<h1 id="5-挂载容器文件的注意项"><a href="#5-挂载容器文件的注意项" class="headerlink" title="5.挂载容器文件的注意项"></a>5.挂载容器文件的注意项</h1><p>在构建镜像时，已经生成了<code>/hexo/blog</code>目录，如果直接执行：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -it --name=<span class="string">&quot;my-blog&quot;</span> -p 4000:4000 -v ~/Hexo/hexo:/hexo hexo:latest /bin/bash</span><br></pre></td></tr></table></figure></div>
+
+<p>这回在主机的<code>~/Hexo/hexo</code>目录和容器内的<code>/hexo</code>目录之间创建一个卷映射。这意味着容器内的<code>/hexo</code>目录会被主机上的<code>~/Hexo</code>目录的内容覆盖。如果主机上的<code>~/Hexo</code>目录是空的或不存在，那么容器内的<code>/hexo</code>目录也会是空的。</p>
+<h3 id="5-6-1-解决方法"><a href="#5-6-1-解决方法" class="headerlink" title="5.6.1 解决方法"></a>5.6.1 解决方法</h3><h4 id="方式一、确保主机目录包含内容"><a href="#方式一、确保主机目录包含内容" class="headerlink" title="方式一、确保主机目录包含内容"></a>方式一、确保主机目录包含内容</h4><p>在主机上确保 <code>~/Hexo</code> 目录存在并包含<code>Hexo</code>项目文件。如果目录不存在或为空，可以先在主机上初始化<code>hexo</code>项目：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> -p ~/Hexo/hexo</span><br><span class="line"><span class="built_in">cd</span> ~/Hexo/hexo</span><br><span class="line">npm install hexo-cli -g</span><br><span class="line">hexo init .</span><br><span class="line"><span class="built_in">cd</span> blog</span><br><span class="line">npm install</span><br></pre></td></tr></table></figure></div>
+
+<h4 id="方式二、在容器内初始化-Hexo-项目"><a href="#方式二、在容器内初始化-Hexo-项目" class="headerlink" title="方式二、在容器内初始化 Hexo 项目"></a>方式二、在容器内初始化 Hexo 项目</h4><p>如果希望在容器内初始化 Hexo 项目而不是依赖主机目录，可以先启动一个临时容器，初始化项目，然后将其复制到主机目录：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -it hexo:latest /bin/bash</span><br></pre></td></tr></table></figure></div>
+
+<p>在容器内执行以下命令：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">npm install hexo-cli -g</span><br><span class="line">hexo init /hexo</span><br><span class="line"><span class="built_in">cd</span> /hexo</span><br><span class="line">npm install</span><br></pre></td></tr></table></figure></div>
+
+<p>退出容器（<code>exit</code>），然后将容器内的 <code>/hexo</code> 目录复制到主机：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker <span class="built_in">cp</span> &lt;container_id&gt;:/hexo ~/Hexo</span><br></pre></td></tr></table></figure></div>
+
+<p>这里的 <code>&lt;container_id&gt;</code> 是你刚刚启动的容器的 ID。可以使用 <code>docker ps -a</code> 命令找到它。</p>
+<h1 id="6-最终步骤"><a href="#6-最终步骤" class="headerlink" title="6.最终步骤"></a>6.最终步骤</h1><p>确保主机上的 <code>~/Hexo</code> 目录存在并包含 Hexo 项目文件，然后再次运行 Docker 容器：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -it --name=<span class="string">&quot;my-blog&quot;</span> -p 4000:4000 -v ~/Hexo/hexo:/hexo hexo:latest /bin/bash</span><br></pre></td></tr></table></figure></div>
+
+<p>这时，容器内的 <code>/hexo</code> 目录将包含主机上 <code>~/Hexo/hexo</code> 目录的内容。</p>
 ]]></content>
       <tags>
-        <tag>conda</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>解决 Debian 系统下，软件包更新和软件下载速度慢的问题</title>
-    <url>/2024/12/03/Debian%E9%95%9C%E5%83%8F%E6%BA%90/</url>
-    <content><![CDATA[<h1 id="1-问题复现"><a href="#1-问题复现" class="headerlink" title="1.问题复现"></a>1.问题复现</h1><p>在安装后 Debian 系统后，一般第一步都是执行<code>sudo apt update</code>，此时用的是自带的官方镜像源，速度很慢，所以我们会选择切换为国内的镜像源，这里以清华镜像源为例，默认已经配置好了清华镜像源。</p>
-<p>在执行更新时：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">sky@DESKTOP-IU948AR:~$ <span class="built_in">sudo</span> apt update</span><br><span class="line">[<span class="built_in">sudo</span>] password <span class="keyword">for</span> sky: </span><br><span class="line">Err:1 https://security.debian.org/debian-security bookworm-security InRelease</span><br><span class="line">  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 151.101.2.132 443]</span><br><span class="line">Err:2 https://mirrors.tuna.tsinghua.edu.cn/debian bookworm InRelease</span><br><span class="line">  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">Err:3 https://mirrors.tuna.tsinghua.edu.cn/debian bookworm-updates InRelease</span><br><span class="line">  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">Err:4 https://mirrors.tuna.tsinghua.edu.cn/debian bookworm-backports InRelease</span><br><span class="line">  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">Reading package lists... Done</span><br><span class="line">Building dependency tree... Done</span><br><span class="line">Reading state information... Done</span><br><span class="line">All packages are up to <span class="built_in">date</span>.</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/debian/dists/bookworm/InRelease: No system certificates available. Try installing ca-certificates.    </span><br><span class="line">W: https://security.debian.org/debian-security/dists/bookworm-security/InRelease: No system certificates available. Try installing ca-certificates.</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/debian/dists/bookworm-updates/InRelease: No system certificates available. Try installing ca-certificates.</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/debian/dists/bookworm-backports/InRelease: No system certificates available. Try installing ca-certificates.</span><br><span class="line">W: Failed to fetch https://mirrors.tuna.tsinghua.edu.cn/debian/dists/bookworm/InRelease  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">W: Failed to fetch https://mirrors.tuna.tsinghua.edu.cn/debian/dists/bookworm-updates/InRelease  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]    </span><br><span class="line">W: Failed to fetch https://mirrors.tuna.tsinghua.edu.cn/debian/dists/bookworm-backports/InRelease  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]  </span><br><span class="line">W: Failed to fetch https://security.debian.org/debian-security/dists/bookworm-security/InRelease  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 151.101.2.132 443]  </span><br><span class="line">W: Some index files failed to download. They have been ignored, or old ones used instead.</span><br><span class="line"></span><br><span class="line">sky@DESKTOP-IU948AR:~$ <span class="built_in">sudo</span> apt install ca-certificates</span><br><span class="line">Reading package lists... Done</span><br><span class="line">Building dependency tree... Done</span><br><span class="line">Reading state information... Done</span><br><span class="line">Package ca-certificates is not available, but is referred to by another package.</span><br><span class="line">This may mean that the package is missing, has been obsoleted, or</span><br><span class="line">is only available from another <span class="built_in">source</span></span><br><span class="line"></span><br><span class="line">E: Package <span class="string">&#x27;ca-certificates&#x27;</span> has no installation candidate</span><br></pre></td></tr></table></figure></div>
-
-<p>可以看出更新失败，需要我们安装<code>ca-certificates</code>，但是又无法成功安装<code>ca-certificates</code>。</p>
-<h1 id="2-解决办法"><a href="#2-解决办法" class="headerlink" title="2.解决办法"></a>2.解决办法</h1><p>这个问题的核心是系统无法验证 HTTPS 源的证书，导致无法更新包管理器的索引或安装新软件包。这可能是因为系统缺少必要的 CA 证书或某些配置问题。</p>
-<h2 id="2-1-方式一：手动安装ca-certificates包"><a href="#2-1-方式一：手动安装ca-certificates包" class="headerlink" title="2.1 方式一：手动安装ca-certificates包"></a>2.1 方式一：手动安装<code>ca-certificates</code>包</h2><h3 id="2-1-1-下载-DEB-包"><a href="#2-1-1-下载-DEB-包" class="headerlink" title="2.1.1 下载 DEB 包"></a>2.1.1 下载 DEB 包</h3><ol>
-<li>在另一台可以正常联网的机器上，访问 <a class="link"   href="https://packages.debian.org/" >Debian Packages<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>。</li>
-<li>下载与系统版本匹配的 <code>ca-certificates</code> 包。例如，适用于 Bookworm 的链接可能是：<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://packages.debian.org/bookworm/all/ca-certificates/download</span><br></pre></td></tr></table></figure></div></li>
-<li>使用 USB 或其他方法将下载的 <code>.deb</code> 文件复制到你的系统。</li>
-</ol>
-<h3 id="2-1-2-手动安装包"><a href="#2-1-2-手动安装包" class="headerlink" title="2.1.2 手动安装包"></a>2.1.2 手动安装包</h3><p>在目标机器上运行以下命令：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> dpkg -i /path/to/ca-certificates*.deb</span><br><span class="line"><span class="built_in">sudo</span> apt update</span><br></pre></td></tr></table></figure></div>
-
-<hr>
-<h3 id="2-2-方式二：临时禁用-HTTPS-验证（推荐）"><a href="#2-2-方式二：临时禁用-HTTPS-验证（推荐）" class="headerlink" title="2.2 方式二：临时禁用 HTTPS 验证（推荐）"></a>2.2 方式二：临时禁用 HTTPS 验证（推荐）</h3><p>可以尝试临时禁用 HTTPS 验证以更新软件源和安装 <code>ca-certificates</code>：</p>
-<p>编辑 <code>/etc/apt/apt.conf.d/99disable-https-check</code> 文件：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nano /etc/apt/apt.conf.d/99disable-https-check</span><br></pre></td></tr></table></figure></div>
-
-<p>添加以下内容：</p>
-<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">Acquire::https::Verify-Peer &quot;false&quot;;</span><br><span class="line">Acquire::https::Verify-Host &quot;false&quot;;</span><br></pre></td></tr></table></figure></div>
-
-<p>保存后运行以下命令：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt update</span><br><span class="line"><span class="built_in">sudo</span> apt install ca-certificates</span><br></pre></td></tr></table></figure></div>
-
-<p>安装完 <code>ca-certificates</code> 后，删除或注释掉该配置以恢复安全性。</p>
-<p>也可以直接在命令行临时禁用：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">apt -o Acquire::https::Verify-Peer=<span class="literal">false</span> -o Acquire::https::Verify-Host=<span class="literal">false</span> update</span><br></pre></td></tr></table></figure></div>]]></content>
-      <tags>
-        <tag>linux</tag>
+        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -829,89 +850,38 @@
       </tags>
   </entry>
   <entry>
-    <title>通过Docker搭建Hexo博客</title>
-    <url>/2024/07/24/Docker-Hexo/</url>
-    <content><![CDATA[<h1 id="1-创建项目文件夹"><a href="#1-创建项目文件夹" class="headerlink" title="1.创建项目文件夹"></a>1.创建项目文件夹</h1><p>创建博客的工作</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> -p ~/Hexo &amp;&amp; <span class="built_in">cd</span> ~/Hexo</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建存放 Dockerfile 的文件夹</span></span><br><span class="line"><span class="built_in">mkdir</span> hexo_docker &amp;&amp; <span class="built_in">cd</span> hexo_docker</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建 Dockerfile</span></span><br><span class="line"><span class="built_in">touch</span> Dockerfile</span><br></pre></td></tr></table></figure></div>
+    <title>解决 Debian 系统下，软件包更新和软件下载速度慢的问题</title>
+    <url>/2024/12/03/Debian%E9%95%9C%E5%83%8F%E6%BA%90/</url>
+    <content><![CDATA[<h1 id="1-问题复现"><a href="#1-问题复现" class="headerlink" title="1.问题复现"></a>1.问题复现</h1><p>在安装后 Debian 系统后，一般第一步都是执行<code>sudo apt update</code>，此时用的是自带的官方镜像源，速度很慢，所以我们会选择切换为国内的镜像源，这里以清华镜像源为例，默认已经配置好了清华镜像源。</p>
+<p>在执行更新时：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">sky@DESKTOP-IU948AR:~$ <span class="built_in">sudo</span> apt update</span><br><span class="line">[<span class="built_in">sudo</span>] password <span class="keyword">for</span> sky: </span><br><span class="line">Err:1 https://security.debian.org/debian-security bookworm-security InRelease</span><br><span class="line">  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 151.101.2.132 443]</span><br><span class="line">Err:2 https://mirrors.tuna.tsinghua.edu.cn/debian bookworm InRelease</span><br><span class="line">  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">Err:3 https://mirrors.tuna.tsinghua.edu.cn/debian bookworm-updates InRelease</span><br><span class="line">  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">Err:4 https://mirrors.tuna.tsinghua.edu.cn/debian bookworm-backports InRelease</span><br><span class="line">  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">Reading package lists... Done</span><br><span class="line">Building dependency tree... Done</span><br><span class="line">Reading state information... Done</span><br><span class="line">All packages are up to <span class="built_in">date</span>.</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/debian/dists/bookworm/InRelease: No system certificates available. Try installing ca-certificates.    </span><br><span class="line">W: https://security.debian.org/debian-security/dists/bookworm-security/InRelease: No system certificates available. Try installing ca-certificates.</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/debian/dists/bookworm-updates/InRelease: No system certificates available. Try installing ca-certificates.</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/debian/dists/bookworm-backports/InRelease: No system certificates available. Try installing ca-certificates.</span><br><span class="line">W: Failed to fetch https://mirrors.tuna.tsinghua.edu.cn/debian/dists/bookworm/InRelease  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">W: Failed to fetch https://mirrors.tuna.tsinghua.edu.cn/debian/dists/bookworm-updates/InRelease  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]    </span><br><span class="line">W: Failed to fetch https://mirrors.tuna.tsinghua.edu.cn/debian/dists/bookworm-backports/InRelease  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]  </span><br><span class="line">W: Failed to fetch https://security.debian.org/debian-security/dists/bookworm-security/InRelease  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 151.101.2.132 443]  </span><br><span class="line">W: Some index files failed to download. They have been ignored, or old ones used instead.</span><br><span class="line"></span><br><span class="line">sky@DESKTOP-IU948AR:~$ <span class="built_in">sudo</span> apt install ca-certificates</span><br><span class="line">Reading package lists... Done</span><br><span class="line">Building dependency tree... Done</span><br><span class="line">Reading state information... Done</span><br><span class="line">Package ca-certificates is not available, but is referred to by another package.</span><br><span class="line">This may mean that the package is missing, has been obsoleted, or</span><br><span class="line">is only available from another <span class="built_in">source</span></span><br><span class="line"></span><br><span class="line">E: Package <span class="string">&#x27;ca-certificates&#x27;</span> has no installation candidate</span><br></pre></td></tr></table></figure></div>
 
-<h1 id="2-配置-Dockerfile"><a href="#2-配置-Dockerfile" class="headerlink" title="2.配置 Dockerfile"></a>2.配置 Dockerfile</h1><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 基础镜像</span></span><br><span class="line">FROM node:latest</span><br><span class="line"></span><br><span class="line"><span class="comment"># 维护者信息</span></span><br><span class="line">MAINTAINER yourname&lt;youremail@gmail.com&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 工作目录</span></span><br><span class="line">WORKDIR /hexo</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置 npm 使用淘宝镜像源</span></span><br><span class="line">RUN npm config <span class="built_in">set</span> registry https://registry.npmmirror.com</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装 Hexo</span></span><br><span class="line">RUN npm install hexo-cli -g</span><br><span class="line">RUN hexo init blog</span><br><span class="line">RUN <span class="built_in">cd</span> blog</span><br><span class="line">RUN npm install</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置git</span></span><br><span class="line">RUN git config --global user.name <span class="string">&quot;loskyertt&quot;</span></span><br><span class="line">RUN git config --global user.email <span class="string">&quot;loskyertt0403@gmail.com&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 映射端口</span></span><br><span class="line">EXPOSE 4000</span><br><span class="line"></span><br><span class="line"><span class="comment"># 运行命令</span></span><br><span class="line">CMD [<span class="string">&quot;/bin/bash&quot;</span>]</span><br></pre></td></tr></table></figure></div>
-
-<p>然后构建镜像（和<code>Dockerfile</code>同目录下）：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker build -t hexo:latest .</span><br></pre></td></tr></table></figure></div>
-
-<p>Docker 的 BuildKit 可以加速构建过程并启用更多的优化选项，在构建镜像时启用 BuildKit：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">DOCKER_BUILDKIT=1 docker build -t hexo:latest .</span><br></pre></td></tr></table></figure></div>
-
-<h1 id="3-更新镜像"><a href="#3-更新镜像" class="headerlink" title="3.更新镜像"></a>3.更新镜像</h1><p>要在已经构建的基础镜像更新镜像，可以使用以下两种方法：</p>
-<h2 id="3-1-方法一：更新现有-Dockerfile-并重建镜像"><a href="#3-1-方法一：更新现有-Dockerfile-并重建镜像" class="headerlink" title="3.1 方法一：更新现有 Dockerfile 并重建镜像"></a>3.1 方法一：更新现有 Dockerfile 并重建镜像</h2><p>更新<code>Dockerfile</code>，然后重新构建镜像。</p>
-<h2 id="3-2-方法二：从已有镜像启动容器并手动添加-Hexo"><a href="#3-2-方法二：从已有镜像启动容器并手动添加-Hexo" class="headerlink" title="3.2 方法二：从已有镜像启动容器并手动添加 Hexo"></a>3.2 方法二：从已有镜像启动容器并手动添加 Hexo</h2><ol>
-<li><strong>启动一个容器</strong></li>
+<p>可以看出更新失败，需要我们安装<code>ca-certificates</code>，但是又无法成功安装<code>ca-certificates</code>。</p>
+<h1 id="2-解决办法"><a href="#2-解决办法" class="headerlink" title="2.解决办法"></a>2.解决办法</h1><p>这个问题的核心是系统无法验证 HTTPS 源的证书，导致无法更新包管理器的索引或安装新软件包。这可能是因为系统缺少必要的 CA 证书或某些配置问题。</p>
+<h2 id="2-1-方式一：手动安装ca-certificates包"><a href="#2-1-方式一：手动安装ca-certificates包" class="headerlink" title="2.1 方式一：手动安装ca-certificates包"></a>2.1 方式一：手动安装<code>ca-certificates</code>包</h2><h3 id="2-1-1-下载-DEB-包"><a href="#2-1-1-下载-DEB-包" class="headerlink" title="2.1.1 下载 DEB 包"></a>2.1.1 下载 DEB 包</h3><ol>
+<li>在另一台可以正常联网的机器上，访问 <a class="link"   href="https://packages.debian.org/" >Debian Packages<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>。</li>
+<li>下载与系统版本匹配的 <code>ca-certificates</code> 包。例如，适用于 Bookworm 的链接可能是：<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://packages.debian.org/bookworm/all/ca-certificates/download</span><br></pre></td></tr></table></figure></div></li>
+<li>使用 USB 或其他方法将下载的 <code>.deb</code> 文件复制到你的系统。</li>
 </ol>
-<p>从已有的基础镜像启动一个交互式容器：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -it hexo:latest /bin/bash</span><br></pre></td></tr></table></figure></div>
+<h3 id="2-1-2-手动安装包"><a href="#2-1-2-手动安装包" class="headerlink" title="2.1.2 手动安装包"></a>2.1.2 手动安装包</h3><p>在目标机器上运行以下命令：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> dpkg -i /path/to/ca-certificates*.deb</span><br><span class="line"><span class="built_in">sudo</span> apt update</span><br></pre></td></tr></table></figure></div>
 
-<ol start="2">
-<li><p><strong>在容器内进行操作</strong></p>
-</li>
-<li><p><strong>提交容器为新镜像</strong></p>
-</li>
-</ol>
-<p>退出容器（<code>exit</code> 命令），然后提交容器为新镜像：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker commit &lt;container_id&gt; hexo:with-hexo</span><br></pre></td></tr></table></figure></div>
+<hr>
+<h3 id="2-2-方式二：临时禁用-HTTPS-验证（推荐）"><a href="#2-2-方式二：临时禁用-HTTPS-验证（推荐）" class="headerlink" title="2.2 方式二：临时禁用 HTTPS 验证（推荐）"></a>2.2 方式二：临时禁用 HTTPS 验证（推荐）</h3><p>可以尝试临时禁用 HTTPS 验证以更新软件源和安装 <code>ca-certificates</code>：</p>
+<p>编辑 <code>/etc/apt/apt.conf.d/99disable-https-check</code> 文件：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nano /etc/apt/apt.conf.d/99disable-https-check</span><br></pre></td></tr></table></figure></div>
 
-<p><code>with-hexo</code>是镜像标签，可以自定义。这里的 <code>&lt;container_id&gt;</code> 是刚刚启动的容器的 ID。可以使用 <code>docker ps -a</code> 命令找到它。<br><strong>注意：</strong> 如果要把挂载的宿主机的文件提交到镜像里，需要提前做一个<code>cp</code>操作，即通过<code>docker cp</code>把宿主计内的文件复制到容器内，然后再提交。</p>
-<h1 id="4-推送与备份镜像"><a href="#4-推送与备份镜像" class="headerlink" title="4.推送与备份镜像"></a>4.推送与备份镜像</h1><h2 id="4-1-推送镜像到-Docker-Hub"><a href="#4-1-推送镜像到-Docker-Hub" class="headerlink" title="4.1 推送镜像到 Docker Hub"></a>4.1 推送镜像到 Docker Hub</h2><ol>
-<li><strong>登录 Docker Hub</strong></li>
-</ol>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker login</span><br></pre></td></tr></table></figure></div>
+<p>添加以下内容：</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">Acquire::https::Verify-Peer &quot;false&quot;;</span><br><span class="line">Acquire::https::Verify-Host &quot;false&quot;;</span><br></pre></td></tr></table></figure></div>
 
-<ol start="2">
-<li><strong>标记镜像</strong></li>
-</ol>
-<p>将镜像标记为你的 Docker Hub 存储库。例如，将 <code>hexo:latest</code> 标记为 <code>yourusername/hexo:latest</code>：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker tag hexo:latest yourusername/hexo:latest</span><br></pre></td></tr></table></figure></div>
+<p>保存后运行以下命令：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt update</span><br><span class="line"><span class="built_in">sudo</span> apt install ca-certificates</span><br></pre></td></tr></table></figure></div>
 
-<ol start="3">
-<li><strong>推送镜像</strong></li>
-</ol>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker push yourusername/hexo:latest</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="4-1-备份镜像到本地"><a href="#4-1-备份镜像到本地" class="headerlink" title="4.1 备份镜像到本地"></a>4.1 备份镜像到本地</h2><ol>
-<li><strong>保存镜像</strong></li>
-</ol>
-<p>使用 <code>docker save</code> 命令将镜像保存到一个 tar 文件。例如，将 <code>hexo:latest</code> 保存到 <code>hexo_latest.tar</code>：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker save -o hexo_latest.tar hexo:latest</span><br></pre></td></tr></table></figure></div>
-
-<ol start="2">
-<li><strong>加载镜像</strong></li>
-</ol>
-<p>以后你可以使用 <code>docker load</code> 命令从 tar 文件加载镜像。例如，从 <code>hexo_latest.tar</code> 加载镜像：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker load -i hexo_latest.tar</span><br></pre></td></tr></table></figure></div>
-
-<h1 id="5-挂载容器文件的注意项"><a href="#5-挂载容器文件的注意项" class="headerlink" title="5.挂载容器文件的注意项"></a>5.挂载容器文件的注意项</h1><p>在构建镜像时，已经生成了<code>/hexo/blog</code>目录，如果直接执行：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -it --name=<span class="string">&quot;my-blog&quot;</span> -p 4000:4000 -v ~/Hexo/hexo:/hexo hexo:latest /bin/bash</span><br></pre></td></tr></table></figure></div>
-
-<p>这回在主机的<code>~/Hexo/hexo</code>目录和容器内的<code>/hexo</code>目录之间创建一个卷映射。这意味着容器内的<code>/hexo</code>目录会被主机上的<code>~/Hexo</code>目录的内容覆盖。如果主机上的<code>~/Hexo</code>目录是空的或不存在，那么容器内的<code>/hexo</code>目录也会是空的。</p>
-<h3 id="5-6-1-解决方法"><a href="#5-6-1-解决方法" class="headerlink" title="5.6.1 解决方法"></a>5.6.1 解决方法</h3><h4 id="方式一、确保主机目录包含内容"><a href="#方式一、确保主机目录包含内容" class="headerlink" title="方式一、确保主机目录包含内容"></a>方式一、确保主机目录包含内容</h4><p>在主机上确保 <code>~/Hexo</code> 目录存在并包含<code>Hexo</code>项目文件。如果目录不存在或为空，可以先在主机上初始化<code>hexo</code>项目：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> -p ~/Hexo/hexo</span><br><span class="line"><span class="built_in">cd</span> ~/Hexo/hexo</span><br><span class="line">npm install hexo-cli -g</span><br><span class="line">hexo init .</span><br><span class="line"><span class="built_in">cd</span> blog</span><br><span class="line">npm install</span><br></pre></td></tr></table></figure></div>
-
-<h4 id="方式二、在容器内初始化-Hexo-项目"><a href="#方式二、在容器内初始化-Hexo-项目" class="headerlink" title="方式二、在容器内初始化 Hexo 项目"></a>方式二、在容器内初始化 Hexo 项目</h4><p>如果希望在容器内初始化 Hexo 项目而不是依赖主机目录，可以先启动一个临时容器，初始化项目，然后将其复制到主机目录：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -it hexo:latest /bin/bash</span><br></pre></td></tr></table></figure></div>
-
-<p>在容器内执行以下命令：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">npm install hexo-cli -g</span><br><span class="line">hexo init /hexo</span><br><span class="line"><span class="built_in">cd</span> /hexo</span><br><span class="line">npm install</span><br></pre></td></tr></table></figure></div>
-
-<p>退出容器（<code>exit</code>），然后将容器内的 <code>/hexo</code> 目录复制到主机：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker <span class="built_in">cp</span> &lt;container_id&gt;:/hexo ~/Hexo</span><br></pre></td></tr></table></figure></div>
-
-<p>这里的 <code>&lt;container_id&gt;</code> 是你刚刚启动的容器的 ID。可以使用 <code>docker ps -a</code> 命令找到它。</p>
-<h1 id="6-最终步骤"><a href="#6-最终步骤" class="headerlink" title="6.最终步骤"></a>6.最终步骤</h1><p>确保主机上的 <code>~/Hexo</code> 目录存在并包含 Hexo 项目文件，然后再次运行 Docker 容器：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -it --name=<span class="string">&quot;my-blog&quot;</span> -p 4000:4000 -v ~/Hexo/hexo:/hexo hexo:latest /bin/bash</span><br></pre></td></tr></table></figure></div>
-
-<p>这时，容器内的 <code>/hexo</code> 目录将包含主机上 <code>~/Hexo/hexo</code> 目录的内容。</p>
-]]></content>
+<p>安装完 <code>ca-certificates</code> 后，删除或注释掉该配置以恢复安全性。</p>
+<p>也可以直接在命令行临时禁用：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">apt -o Acquire::https::Verify-Peer=<span class="literal">false</span> -o Acquire::https::Verify-Host=<span class="literal">false</span> update</span><br></pre></td></tr></table></figure></div>]]></content>
       <tags>
-        <tag>docker</tag>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -1183,11 +1153,41 @@
         <category>科学上网</category>
       </categories>
       <tags>
-        <tag>linux</tag>
         <tag>docker</tag>
+        <tag>linux</tag>
         <tag>proxy</tag>
         <tag>openwrt</tag>
         <tag>虚拟机</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Conda教程</title>
+    <url>/2024/07/19/Conda%E6%95%99%E7%A8%8B/</url>
+    <content><![CDATA[<h1 id="一、conda-指令"><a href="#一、conda-指令" class="headerlink" title="一、conda 指令"></a>一、conda 指令</h1><h2 id="1-1-查看配置"><a href="#1-1-查看配置" class="headerlink" title="1.1 查看配置"></a>1.1 查看配置</h2><div class="code-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="code"><pre><span class="line">conda config --show channels    # 查看镜像源</span><br><span class="line">conda config --show-sources        # 查看配置文件内容</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="1-2-设置代理端口"><a href="#1-2-设置代理端口" class="headerlink" title="1.2 设置代理端口"></a>1.2 设置代理端口</h2><div class="code-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">添加代理地址端口</span></span><br><span class="line">conda config --set proxy_servers.http http://127.0.0.1:10809</span><br><span class="line">conda config --set proxy_servers.https http://127.0.0.1:10809</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">移除代理</span></span><br><span class="line">conda config --remove-key proxy_servers</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="1-3-conda环境"><a href="#1-3-conda环境" class="headerlink" title="1.3 conda环境"></a>1.3 conda环境</h2><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 创建（带名字）</span></span><br><span class="line">conda create -n &lt;conda_name&gt; python=&lt;版本号&gt;</span><br><span class="line"><span class="comment"># 在指定文件路径下创建conda环境</span></span><br><span class="line">conda create --<span class="built_in">yes</span> --prefix /home/sky/桌面/pointTest/.conda python=3.11</span><br><span class="line"></span><br><span class="line"><span class="comment"># 激活conda环境</span></span><br><span class="line">conda activate &lt;conda_name&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 回到base环境</span></span><br><span class="line">conda deactivate</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看有哪些conda环境</span></span><br><span class="line">conda info --envs</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除全部环境</span></span><br><span class="line">conda remove -n env_name --all</span><br><span class="line"><span class="comment"># 删除指定环境</span></span><br><span class="line">conda <span class="built_in">env</span> remove -n env_name</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重命名环境（将 --clone 后面的环境重命名成 -n 后面的名字）</span></span><br><span class="line">conda create -n torch --<span class="built_in">clone</span> py3      <span class="comment"># 将 py3 重命名为 torch</span></span><br></pre></td></tr></table></figure></div>
+<p>注意：<code>--prefix/-p</code>不能与<code>--name/-n</code>同时使用！</p>
+<h2 id="1-4-下载库"><a href="#1-4-下载库" class="headerlink" title="1.4 下载库"></a>1.4 下载库</h2><div class="code-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">从 conda-forge 渠道中提供的包安装</span></span><br><span class="line">conda install -c conda-forge &lt;package_name&gt;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查询 conda-forge 中的包</span></span><br><span class="line">conda search -c conda-forge &lt;package_name&gt;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">安装指定版本的</span></span><br><span class="line">conda install -c conda-forge &lt;package_name&gt;=&lt;版本号&gt;</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="1-4-1-安装GDAL库"><a href="#1-4-1-安装GDAL库" class="headerlink" title="1.4.1 安装GDAL库"></a>1.4.1 安装GDAL库</h3><div class="code-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash"> 安装 gdal 的依赖库 geos 和 proj</span></span><br><span class="line">conda install geos proj</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">安装指定版本GDAL</span></span><br><span class="line">conda install -c conda-forge gdal=3.2.1</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="1-5-迁移-conda-环境"><a href="#1-5-迁移-conda-环境" class="headerlink" title="1.5 迁移 conda 环境"></a>1.5 迁移 conda 环境</h2><p>将要迁移的环境打包</p>
+<div class="code-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="code"><pre><span class="line">conda pack -n 虚拟环境名称 -o environment.tar.gz</span><br></pre></td></tr></table></figure></div>
+
+<p>如果报错：No command ‘conda pack’</p>
+<div class="code-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">尝试使用</span></span><br><span class="line">conda install -c conda-forge conda-pack</span><br></pre></td></tr></table></figure></div>
+
+<p>复制压缩文件到新的电脑环境。进到conda的安装目录：&#x2F;anaconda(或者miniconda)&#x2F;envs&#x2F;</p>
+<div class="code-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">对于 ubuntu 可以通过 whereis conda 查看 conda的安装路径</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="built_in">cd</span> 到 conda 的安装路径</span></span><br><span class="line">mkdir environment</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">解压conda环境：</span></span><br><span class="line">tar -xzvf environment.tar.gz -C  environment</span><br></pre></td></tr></table></figure></div>
+
+<h1 id="二、pip-指令"><a href="#二、pip-指令" class="headerlink" title="二、pip 指令"></a>二、pip 指令</h1><h2 id="2-1-使用临时镜像源下载库"><a href="#2-1-使用临时镜像源下载库" class="headerlink" title="2.1 使用临时镜像源下载库"></a>2.1 使用临时镜像源下载库</h2><div class="code-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="code"><pre><span class="line">pip install &lt;package_name&gt; -i &lt;镜像源url&gt;</span><br></pre></td></tr></table></figure></div>
+
+<h1 id="三、镜像源"><a href="#三、镜像源" class="headerlink" title="三、镜像源"></a>三、镜像源</h1><div class="code-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="code"><pre><span class="line">https://pypi.tuna.tsinghua.edu.cn/simple    # 清华</span><br><span class="line">https://pypi.mirrors.ustc.edu.cn/simple        # 中科大</span><br><span class="line">http://mirrors.aliyun.com/pypi/simple/        # 阿里云</span><br><span class="line">http://pypi.douban.com/simple/            # 豆瓣</span><br></pre></td></tr></table></figure></div>
+]]></content>
+      <tags>
+        <tag>conda</tag>
       </tags>
   </entry>
   <entry>
@@ -2057,87 +2057,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Linux(EndeavourOS) 下给 Steam 设置代理</title>
-    <url>/2024/07/24/Linux-Steam/</url>
-    <content><![CDATA[<h1 id="1-解决"><a href="#1-解决" class="headerlink" title="1.解决"></a>1.解决</h1><ol>
-<li><p>打开 Steam 大屏模式（ <strong>一定是大屏模式！</strong> ）。<br><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://nyalog.oss-cn-hongkong.aliyuncs.com/NyaLog/articles/Steam%20Linux%20%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/Steam-BigScreen-min.png"
-                      alt="大屏模式"
-                ><figcaption>大屏模式</figcaption></figure></p>
-</li>
-<li><p>然后在设置里进入网络设置界面，然后点开填入自己的代理地址和端口。<br><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://nyalog.oss-cn-hongkong.aliyuncs.com/NyaLog/articles/Steam%20Linux%20%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/Steam-proxy-min.png"
-                      alt="设置界面"
-                ><figcaption>设置界面</figcaption></figure></p>
-</li>
-<li><p>设置成功后退出重启 Steam 即可。</p>
-</li>
-</ol>
-]]></content>
-      <tags>
-        <tag>linux</tag>
-        <tag>steam</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Linux 下配置 conda 环境</title>
-    <url>/2024/08/19/Linux-conda/</url>
-    <content><![CDATA[<h1 id="一、miniconda3-配置"><a href="#一、miniconda3-配置" class="headerlink" title="一、miniconda3 配置"></a>一、miniconda3 配置</h1><p><strong>注：</strong> 如果用的是<code>miniforge</code>，操作方式与此类似。</p>
-<h2 id="1-1-把conda集成到zsh终端中"><a href="#1-1-把conda集成到zsh终端中" class="headerlink" title="1.1 把conda集成到zsh终端中"></a>1.1 把<code>conda</code>集成到<code>zsh</code>终端中</h2><h3 id="1-1-1-详细步骤"><a href="#1-1-1-详细步骤" class="headerlink" title="1.1.1 详细步骤"></a>1.1.1 详细步骤</h3><ol>
-<li><strong>添加<code>conda</code>环境变量：</strong></li>
-</ol>
-<p>把这行代码加入到<code>.zshrc</code>中：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">export PATH=/opt/miniconda3/bin:$PATH</span><br></pre></td></tr></table></figure></div>
-
-<p>终端输入这行可以防止conda自动激活环境（建议加上）：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">conda config --<span class="built_in">set</span> auto_activate_base <span class="literal">false</span></span><br></pre></td></tr></table></figure></div>
-
-<ol start="2">
-<li><strong>重新加载 <code>~/.zshrc</code> 文件：</strong></li>
-</ol>
-<p>在终端中运行以下命令重新加载配置文件：</p>
-<div class="code-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">source</span> ~/.zshrc</span><br></pre></td></tr></table></figure></div>
-
-<ol start="3">
-<li><strong>运行 <code>conda init</code>：</strong></li>
-</ol>
-<p>初始化 conda 环境：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 这是conda默认安装的位置</span></span><br><span class="line">/opt/miniconda3/bin/conda init zsh</span><br></pre></td></tr></table></figure></div>
-
-<ol start="4">
-<li><strong>再次重新加载 <code>~/.zshrc</code> 文件：</strong></li>
-</ol>
-<p>再次运行以下命令重新加载配置文件：</p>
-<div class="code-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">source</span> ~/.zshrc</span><br></pre></td></tr></table></figure></div>
-
-<h3 id="1-1-2-验证"><a href="#1-1-2-验证" class="headerlink" title="1.1.2 验证"></a>1.1.2 验证</h3><p>验证 conda 是否配置好：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">conda --version</span><br></pre></td></tr></table></figure></div>
-
-<h3 id="1-1-3-一步到位操作"><a href="#1-1-3-一步到位操作" class="headerlink" title="1.1.3 一步到位操作"></a>1.1.3 一步到位操作</h3><p>可以不用管以上操作，直接把这段复制到<code>.zshrc</code>中，注意安装miniconda的路径：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line"># &gt;&gt;&gt; conda initialize &gt;&gt;&gt;</span><br><span class="line"># !! Contents within this block are managed by &#x27;conda init&#x27; !!</span><br><span class="line">__conda_setup=&quot;$(&#x27;/opt/miniconda3/bin/conda&#x27; &#x27;shell.zsh&#x27; &#x27;hook&#x27; 2&gt; /dev/null)&quot;</span><br><span class="line">if [ $? -eq 0 ]; then</span><br><span class="line">    eval &quot;$__conda_setup&quot;</span><br><span class="line">else</span><br><span class="line">    if [ -f &quot;/opt/miniconda3/etc/profile.d/conda.sh&quot; ]; then</span><br><span class="line">        . &quot;/opt/miniconda3/etc/profile.d/conda.sh&quot;</span><br><span class="line">    else</span><br><span class="line">        export PATH=&quot;/opt/miniconda3/bin:$PATH&quot;</span><br><span class="line">    fi</span><br><span class="line">fi</span><br><span class="line">unset __conda_setup</span><br><span class="line"># &lt;&lt;&lt; conda initialize &lt;&lt;&lt;</span><br><span class="line">export CRYPTOGRAPHY_OPENSSL_NO_LEGACY=1</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="1-2-问题汇总"><a href="#1-2-问题汇总" class="headerlink" title="1.2 问题汇总"></a>1.2 问题汇总</h2><h3 id="1-2-1-OpenSSL-问题"><a href="#1-2-1-OpenSSL-问题" class="headerlink" title="1.2.1  OpenSSL 问题"></a>1.2.1  OpenSSL 问题</h3><p>当运行<code>conda activate base</code>时，可能出现下面问题：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line"> $ conda activate base</span><br><span class="line">Error while loading conda entry point: conda-content-trust (OpenSSL 3.0&#x27;s legacy provider failed to load. This is a fatal error by default, but cryptography supports running without legacy algorithms by setting the environment variable CRYPTOGRAPHY_OPENSSL_NO_LEGACY. If you did not expect this error, you have likely made a mistake with your OpenSSL configuration.)</span><br><span class="line"></span><br><span class="line">CondaError: Run &#x27;conda init&#x27; before &#x27;conda activate&#x27;</span><br></pre></td></tr></table></figure></div>
-
-<p>根据该的错误信息，问题可能与 OpenSSL 版本有关。OpenSSL 3.0 引入了一些变化，可能导致与某些软件包的兼容性问题。在此情况下，设置环境变量<code>CRYPTOGRAPHY_OPENSSL_NO_LEGACY</code>可能会解决问题。</p>
-<ul>
-<li><strong>解决方法：</strong></li>
-</ul>
-<p>编辑 <code>~/.zshrc</code> 文件，添加以下行到 <code>~/.zshrc</code> 文件：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">export CRYPTOGRAPHY_OPENSSL_NO_LEGACY=1</span><br></pre></td></tr></table></figure></div>
-
-<p>保存并退出编辑器，然后执行<code>source ~/.zshrc</code>。</p>
-]]></content>
-      <tags>
-        <tag>conda</tag>
-        <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Linux 环境下配置 Docker</title>
     <url>/2024/07/20/Linux-Docker/</url>
     <content><![CDATA[<h1 id="1、Docker-配置"><a href="#1、Docker-配置" class="headerlink" title="1、Docker 配置"></a>1、Docker 配置</h1><h2 id="1-1-安装-Docker"><a href="#1-1-安装-Docker" class="headerlink" title="1.1 安装 Docker"></a>1.1 安装 Docker</h2><ul>
@@ -2219,8 +2138,89 @@
 <p>命令简化：</p>
 <div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">alias din=&#x27;docker inspect --format=&#x27;&#123;&#123;.HostConfig.NetworkMode&#125;&#125;&#x27;&#x27;</span><br></pre></td></tr></table></figure></div>]]></content>
       <tags>
-        <tag>linux</tag>
         <tag>docker</tag>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux(EndeavourOS) 下给 Steam 设置代理</title>
+    <url>/2024/07/24/Linux-Steam/</url>
+    <content><![CDATA[<h1 id="1-解决"><a href="#1-解决" class="headerlink" title="1.解决"></a>1.解决</h1><ol>
+<li><p>打开 Steam 大屏模式（ <strong>一定是大屏模式！</strong> ）。<br><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://nyalog.oss-cn-hongkong.aliyuncs.com/NyaLog/articles/Steam%20Linux%20%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/Steam-BigScreen-min.png"
+                      alt="大屏模式"
+                ><figcaption>大屏模式</figcaption></figure></p>
+</li>
+<li><p>然后在设置里进入网络设置界面，然后点开填入自己的代理地址和端口。<br><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://nyalog.oss-cn-hongkong.aliyuncs.com/NyaLog/articles/Steam%20Linux%20%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/Steam-proxy-min.png"
+                      alt="设置界面"
+                ><figcaption>设置界面</figcaption></figure></p>
+</li>
+<li><p>设置成功后退出重启 Steam 即可。</p>
+</li>
+</ol>
+]]></content>
+      <tags>
+        <tag>linux</tag>
+        <tag>steam</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux 下配置 conda 环境</title>
+    <url>/2024/08/19/Linux-conda/</url>
+    <content><![CDATA[<h1 id="一、miniconda3-配置"><a href="#一、miniconda3-配置" class="headerlink" title="一、miniconda3 配置"></a>一、miniconda3 配置</h1><p><strong>注：</strong> 如果用的是<code>miniforge</code>，操作方式与此类似。</p>
+<h2 id="1-1-把conda集成到zsh终端中"><a href="#1-1-把conda集成到zsh终端中" class="headerlink" title="1.1 把conda集成到zsh终端中"></a>1.1 把<code>conda</code>集成到<code>zsh</code>终端中</h2><h3 id="1-1-1-详细步骤"><a href="#1-1-1-详细步骤" class="headerlink" title="1.1.1 详细步骤"></a>1.1.1 详细步骤</h3><ol>
+<li><strong>添加<code>conda</code>环境变量：</strong></li>
+</ol>
+<p>把这行代码加入到<code>.zshrc</code>中：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">export PATH=/opt/miniconda3/bin:$PATH</span><br></pre></td></tr></table></figure></div>
+
+<p>终端输入这行可以防止conda自动激活环境（建议加上）：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">conda config --<span class="built_in">set</span> auto_activate_base <span class="literal">false</span></span><br></pre></td></tr></table></figure></div>
+
+<ol start="2">
+<li><strong>重新加载 <code>~/.zshrc</code> 文件：</strong></li>
+</ol>
+<p>在终端中运行以下命令重新加载配置文件：</p>
+<div class="code-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">source</span> ~/.zshrc</span><br></pre></td></tr></table></figure></div>
+
+<ol start="3">
+<li><strong>运行 <code>conda init</code>：</strong></li>
+</ol>
+<p>初始化 conda 环境：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 这是conda默认安装的位置</span></span><br><span class="line">/opt/miniconda3/bin/conda init zsh</span><br></pre></td></tr></table></figure></div>
+
+<ol start="4">
+<li><strong>再次重新加载 <code>~/.zshrc</code> 文件：</strong></li>
+</ol>
+<p>再次运行以下命令重新加载配置文件：</p>
+<div class="code-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">source</span> ~/.zshrc</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="1-1-2-验证"><a href="#1-1-2-验证" class="headerlink" title="1.1.2 验证"></a>1.1.2 验证</h3><p>验证 conda 是否配置好：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">conda --version</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="1-1-3-一步到位操作"><a href="#1-1-3-一步到位操作" class="headerlink" title="1.1.3 一步到位操作"></a>1.1.3 一步到位操作</h3><p>可以不用管以上操作，直接把这段复制到<code>.zshrc</code>中，注意安装miniconda的路径：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line"># &gt;&gt;&gt; conda initialize &gt;&gt;&gt;</span><br><span class="line"># !! Contents within this block are managed by &#x27;conda init&#x27; !!</span><br><span class="line">__conda_setup=&quot;$(&#x27;/opt/miniconda3/bin/conda&#x27; &#x27;shell.zsh&#x27; &#x27;hook&#x27; 2&gt; /dev/null)&quot;</span><br><span class="line">if [ $? -eq 0 ]; then</span><br><span class="line">    eval &quot;$__conda_setup&quot;</span><br><span class="line">else</span><br><span class="line">    if [ -f &quot;/opt/miniconda3/etc/profile.d/conda.sh&quot; ]; then</span><br><span class="line">        . &quot;/opt/miniconda3/etc/profile.d/conda.sh&quot;</span><br><span class="line">    else</span><br><span class="line">        export PATH=&quot;/opt/miniconda3/bin:$PATH&quot;</span><br><span class="line">    fi</span><br><span class="line">fi</span><br><span class="line">unset __conda_setup</span><br><span class="line"># &lt;&lt;&lt; conda initialize &lt;&lt;&lt;</span><br><span class="line">export CRYPTOGRAPHY_OPENSSL_NO_LEGACY=1</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="1-2-问题汇总"><a href="#1-2-问题汇总" class="headerlink" title="1.2 问题汇总"></a>1.2 问题汇总</h2><h3 id="1-2-1-OpenSSL-问题"><a href="#1-2-1-OpenSSL-问题" class="headerlink" title="1.2.1  OpenSSL 问题"></a>1.2.1  OpenSSL 问题</h3><p>当运行<code>conda activate base</code>时，可能出现下面问题：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line"> $ conda activate base</span><br><span class="line">Error while loading conda entry point: conda-content-trust (OpenSSL 3.0&#x27;s legacy provider failed to load. This is a fatal error by default, but cryptography supports running without legacy algorithms by setting the environment variable CRYPTOGRAPHY_OPENSSL_NO_LEGACY. If you did not expect this error, you have likely made a mistake with your OpenSSL configuration.)</span><br><span class="line"></span><br><span class="line">CondaError: Run &#x27;conda init&#x27; before &#x27;conda activate&#x27;</span><br></pre></td></tr></table></figure></div>
+
+<p>根据该的错误信息，问题可能与 OpenSSL 版本有关。OpenSSL 3.0 引入了一些变化，可能导致与某些软件包的兼容性问题。在此情况下，设置环境变量<code>CRYPTOGRAPHY_OPENSSL_NO_LEGACY</code>可能会解决问题。</p>
+<ul>
+<li><strong>解决方法：</strong></li>
+</ul>
+<p>编辑 <code>~/.zshrc</code> 文件，添加以下行到 <code>~/.zshrc</code> 文件：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">export CRYPTOGRAPHY_OPENSSL_NO_LEGACY=1</span><br></pre></td></tr></table></figure></div>
+
+<p>保存并退出编辑器，然后执行<code>source ~/.zshrc</code>。</p>
+]]></content>
+      <tags>
+        <tag>linux</tag>
+        <tag>conda</tag>
       </tags>
   </entry>
   <entry>
@@ -2476,6 +2476,91 @@
       </tags>
   </entry>
   <entry>
+    <title>MiHomo(Clash Meta) 纯内核使用教程</title>
+    <url>/2024/07/25/MiHomo%E6%95%99%E7%A8%8B/</url>
+    <content><![CDATA[<h1 id="1-前言（说明）"><a href="#1-前言（说明）" class="headerlink" title="1.前言（说明）"></a>1.前言（说明）</h1><p>在 <a class="link"   href="https://github.com/" >github<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> 上其实有不少的客户端和服务端的软件，如果不喜欢折腾的话，这篇文章可能不怎么适合你，建议直接使用第三方客户端的代理软件。这篇文章主要是记录自己使用 mihomo 的一些心得，因为强迫症的原因，所以是通过 docker 来部署整个代理服务的。当然，用 docker 部署也是有好处的，配置好后可以连同镜像一起打包备份或者<code>push</code>到 <a class="link"   href="https://hub.docker.com/" >Docker Hub<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> 上，后续电脑环境改变了仍然能使用。</p>
+<h1 id="2-下载必要的文件"><a href="#2-下载必要的文件" class="headerlink" title="2.下载必要的文件"></a>2.下载必要的文件</h1><p>先把存放下载文件的项目文件夹创建好：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> ~/clashmeta &amp;&amp; <span class="built_in">cd</span> clashmeta</span><br></pre></td></tr></table></figure></div>
+<p>后续下载好的文件都放在<code>clashmeta</code>文件夹下。</p>
+<h2 id="2-1-内核"><a href="#2-1-内核" class="headerlink" title="2.1 内核"></a>2.1 内核</h2><p><a class="link"   href="https://github.com/MetaCubeX/mihomo/releases" >稳定版下载地址<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<p>我这里用的是 debian 镜像，所以下载的是这个版本：<br><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s2.loli.net/2024/07/25/n5DSvEiMquTJ7fC.png"
+                      alt="image01.png"
+                ><figcaption>image01.png</figcaption></figure></p>
+<h2 id="2-2-GeoIP-GeoSite-库"><a href="#2-2-GeoIP-GeoSite-库" class="headerlink" title="2.2 GeoIP &amp; GeoSite 库"></a>2.2 GeoIP &amp; GeoSite 库</h2><p><a class="link"   href="https://gcore.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.dat" >GeoIP 库下载<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a><br><a class="link"   href="https://gcore.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geosite.dat" >GeoSite 库下载<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h2 id="2-3-config-yaml-配置文件"><a href="#2-3-config-yaml-配置文件" class="headerlink" title="2.3 config.yaml 配置文件"></a>2.3 config.yaml 配置文件</h2><p><a class="link"   href="https://github.com/loskyertt/clash_meta/blob/master/config.yaml" >config.yaml 下载<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<p>需要把<code>config.yaml</code>这部分内容修改以下：<br><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s2.loli.net/2024/07/25/uwHzqYafTrVlxE2.png"
+                      alt="image02.png"
+                ><figcaption>image02.png</figcaption></figure></p>
+<p>填上自己的机场链接即可。</p>
+<h2 id="2-4-UI-文件"><a href="#2-4-UI-文件" class="headerlink" title="2.4 UI 文件"></a>2.4 UI 文件</h2><p><a class="link"   href="https://github.com/MetaCubeX/metacubexd" >ui 下载<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h1 id="3-拉取镜像"><a href="#3-拉取镜像" class="headerlink" title="3.拉取镜像"></a>3.拉取镜像</h1><p>mihomo 的作者在 Docker Hub 上是有镜像的，但是里面没有说明文档，我在后面进行补充。</p>
+<p>直接拉取最新的稳定版本的 debian 镜像即可：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker pull debian</span><br></pre></td></tr></table></figure></div>
+
+<h1 id="4-开始配置"><a href="#4-开始配置" class="headerlink" title="4.开始配置"></a>4.开始配置</h1><h2 id="4-1-创建容器"><a href="#4-1-创建容器" class="headerlink" title="4.1 创建容器"></a>4.1 创建容器</h2><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -it --name clashmeta -p 7890:7890 -p 9090:9090 -v ~/clashmeta:/root/clashmeta debian:latest /bin/bash</span><br></pre></td></tr></table></figure></div>
+<p>此时直接进入了创建好的容器内部。<br><strong>说明：</strong> 这里的<code>7890</code>端口是代理端口，<code>9090</code>端口是本地网站端口。</p>
+<h2 id="4-2-容器内的操作"><a href="#4-2-容器内的操作" class="headerlink" title="4.2 容器内的操作"></a>4.2 容器内的操作</h2><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /root/clashmeta</span><br></pre></td></tr></table></figure></div>
+
+<p>执行：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">dpkg -i mihomo-linux-amd64-v1.18.6.deb</span><br></pre></td></tr></table></figure></div>
+<p>把<code>mihomo</code>安装到容器内。可以通过<code>which mihomo</code>来查看是否安装成功。</p>
+<p>开启代理，输入：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">mihomo -d ./</span><br></pre></td></tr></table></figure></div>
+<p>然后打开浏览器输入<code>http://127.0.0.1:9090/ui</code>就能进入代理界面。</p>
+<h1 id="5-使用现成的镜像配置"><a href="#5-使用现成的镜像配置" class="headerlink" title="5.使用现成的镜像配置"></a>5.使用现成的镜像配置</h1><p>拉取镜像：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker pull metacubex/mihomo:latest</span><br></pre></td></tr></table></figure></div>
+
+<p>如果当前网络环境不行的话，也可以使用我存放在阿里的镜像：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker pull registry.cn-hangzhou.aliyuncs.com/loskyertt/meta:1.18.8</span><br></pre></td></tr></table></figure></div>
+
+<p>创建卷挂在目录：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker volume create mihomo</span><br></pre></td></tr></table></figure></div>
+
+<p>创建容器实例：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -itd --name=mihomo --restart=always -p7890:7890 -p9090:9090 -v mihomo:/root/.config/mihomo metacubex/mihomo:latest</span><br></pre></td></tr></table></figure></div>
+
+<p>然后把配置文件（<code>config.yaml</code>）和<code>ui</code>文件移到卷挂载目录下：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">mv</span> config.yaml /var/lib/docker/volumes/mihomo/_data/</span><br></pre></td></tr></table></figure></div>
+
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">mv</span> ui /var/lib/docker/volumes/mihomo/_data/</span><br></pre></td></tr></table></figure></div>
+
+<p>重启容器即可：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker restart mihomo</span><br></pre></td></tr></table></figure></div>
+
+<h1 id="6-结果图"><a href="#6-结果图" class="headerlink" title="6.结果图"></a>6.结果图</h1><p><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s2.loli.net/2024/07/25/ulftdepWhZK3YR4.png"
+                      alt="image03.png"
+                ><figcaption>image03.png</figcaption></figure></p>
+<p><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s2.loli.net/2024/07/25/qxW3TZfYP5lBS9p.png"
+                      alt="image04.png"
+                ><figcaption>image04.png</figcaption></figure></p>
+<h1 id="7-注意事项"><a href="#7-注意事项" class="headerlink" title="7.注意事项"></a>7.注意事项</h1><p>如果发现仍然不能科学上网，可以打开“设置”检查下“代理设置”，手动设置代理地址和端口<code>127.0.0.1:7890</code>（火狐浏览器可能需要在内置的浏览器设置中进行配置下）。对于 Windows 用户来说，其实操作逻辑都是一样的（当然也可以不用 docker ），配置完后注意设置防火墙就行。</p>
+<h1 id="8-参考教程"><a href="#8-参考教程" class="headerlink" title="8.参考教程"></a>8.参考教程</h1><ul>
+<li><a class="link"   href="https://www.youtube.com/watch?v=d-2vCYLjXHs&t=23s" >【进阶使用】Clash Meta 纯内核使用教程|多机场融合|规则自动更新|Tun虚拟网卡模式|避免DNS泄露|WebRTC泄露<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>科学上网</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>linux</tag>
+        <tag>proxy</tag>
+        <tag>clash</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Nix 使用教程</title>
     <url>/2024/12/03/Nix%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/</url>
     <content><![CDATA[<h1 id="1-Nix-简述"><a href="#1-Nix-简述" class="headerlink" title="1.Nix 简述"></a>1.Nix 简述</h1><h2 id="1-1-安装方法"><a href="#1-1-安装方法" class="headerlink" title="1.1 安装方法"></a>1.1 安装方法</h2><ol>
@@ -2555,91 +2640,6 @@
       <tags>
         <tag>linux</tag>
         <tag>nix</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>MiHomo(Clash Meta) 纯内核使用教程</title>
-    <url>/2024/07/25/MiHomo%E6%95%99%E7%A8%8B/</url>
-    <content><![CDATA[<h1 id="1-前言（说明）"><a href="#1-前言（说明）" class="headerlink" title="1.前言（说明）"></a>1.前言（说明）</h1><p>在 <a class="link"   href="https://github.com/" >github<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> 上其实有不少的客户端和服务端的软件，如果不喜欢折腾的话，这篇文章可能不怎么适合你，建议直接使用第三方客户端的代理软件。这篇文章主要是记录自己使用 mihomo 的一些心得，因为强迫症的原因，所以是通过 docker 来部署整个代理服务的。当然，用 docker 部署也是有好处的，配置好后可以连同镜像一起打包备份或者<code>push</code>到 <a class="link"   href="https://hub.docker.com/" >Docker Hub<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> 上，后续电脑环境改变了仍然能使用。</p>
-<h1 id="2-下载必要的文件"><a href="#2-下载必要的文件" class="headerlink" title="2.下载必要的文件"></a>2.下载必要的文件</h1><p>先把存放下载文件的项目文件夹创建好：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> ~/clashmeta &amp;&amp; <span class="built_in">cd</span> clashmeta</span><br></pre></td></tr></table></figure></div>
-<p>后续下载好的文件都放在<code>clashmeta</code>文件夹下。</p>
-<h2 id="2-1-内核"><a href="#2-1-内核" class="headerlink" title="2.1 内核"></a>2.1 内核</h2><p><a class="link"   href="https://github.com/MetaCubeX/mihomo/releases" >稳定版下载地址<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
-<p>我这里用的是 debian 镜像，所以下载的是这个版本：<br><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://s2.loli.net/2024/07/25/n5DSvEiMquTJ7fC.png"
-                      alt="image01.png"
-                ><figcaption>image01.png</figcaption></figure></p>
-<h2 id="2-2-GeoIP-GeoSite-库"><a href="#2-2-GeoIP-GeoSite-库" class="headerlink" title="2.2 GeoIP &amp; GeoSite 库"></a>2.2 GeoIP &amp; GeoSite 库</h2><p><a class="link"   href="https://gcore.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.dat" >GeoIP 库下载<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a><br><a class="link"   href="https://gcore.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geosite.dat" >GeoSite 库下载<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
-<h2 id="2-3-config-yaml-配置文件"><a href="#2-3-config-yaml-配置文件" class="headerlink" title="2.3 config.yaml 配置文件"></a>2.3 config.yaml 配置文件</h2><p><a class="link"   href="https://github.com/loskyertt/clash_meta/blob/master/config.yaml" >config.yaml 下载<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
-<p>需要把<code>config.yaml</code>这部分内容修改以下：<br><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://s2.loli.net/2024/07/25/uwHzqYafTrVlxE2.png"
-                      alt="image02.png"
-                ><figcaption>image02.png</figcaption></figure></p>
-<p>填上自己的机场链接即可。</p>
-<h2 id="2-4-UI-文件"><a href="#2-4-UI-文件" class="headerlink" title="2.4 UI 文件"></a>2.4 UI 文件</h2><p><a class="link"   href="https://github.com/MetaCubeX/metacubexd" >ui 下载<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
-<h1 id="3-拉取镜像"><a href="#3-拉取镜像" class="headerlink" title="3.拉取镜像"></a>3.拉取镜像</h1><p>mihomo 的作者在 Docker Hub 上是有镜像的，但是里面没有说明文档，我在后面进行补充。</p>
-<p>直接拉取最新的稳定版本的 debian 镜像即可：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker pull debian</span><br></pre></td></tr></table></figure></div>
-
-<h1 id="4-开始配置"><a href="#4-开始配置" class="headerlink" title="4.开始配置"></a>4.开始配置</h1><h2 id="4-1-创建容器"><a href="#4-1-创建容器" class="headerlink" title="4.1 创建容器"></a>4.1 创建容器</h2><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -it --name clashmeta -p 7890:7890 -p 9090:9090 -v ~/clashmeta:/root/clashmeta debian:latest /bin/bash</span><br></pre></td></tr></table></figure></div>
-<p>此时直接进入了创建好的容器内部。<br><strong>说明：</strong> 这里的<code>7890</code>端口是代理端口，<code>9090</code>端口是本地网站端口。</p>
-<h2 id="4-2-容器内的操作"><a href="#4-2-容器内的操作" class="headerlink" title="4.2 容器内的操作"></a>4.2 容器内的操作</h2><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /root/clashmeta</span><br></pre></td></tr></table></figure></div>
-
-<p>执行：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">dpkg -i mihomo-linux-amd64-v1.18.6.deb</span><br></pre></td></tr></table></figure></div>
-<p>把<code>mihomo</code>安装到容器内。可以通过<code>which mihomo</code>来查看是否安装成功。</p>
-<p>开启代理，输入：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">mihomo -d ./</span><br></pre></td></tr></table></figure></div>
-<p>然后打开浏览器输入<code>http://127.0.0.1:9090/ui</code>就能进入代理界面。</p>
-<h1 id="5-使用现成的镜像配置"><a href="#5-使用现成的镜像配置" class="headerlink" title="5.使用现成的镜像配置"></a>5.使用现成的镜像配置</h1><p>拉取镜像：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker pull metacubex/mihomo:latest</span><br></pre></td></tr></table></figure></div>
-
-<p>如果当前网络环境不行的话，也可以使用我存放在阿里的镜像：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker pull registry.cn-hangzhou.aliyuncs.com/loskyertt/meta:1.18.8</span><br></pre></td></tr></table></figure></div>
-
-<p>创建卷挂在目录：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker volume create mihomo</span><br></pre></td></tr></table></figure></div>
-
-<p>创建容器实例：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -itd --name=mihomo --restart=always -p7890:7890 -p9090:9090 -v mihomo:/root/.config/mihomo metacubex/mihomo:latest</span><br></pre></td></tr></table></figure></div>
-
-<p>然后把配置文件（<code>config.yaml</code>）和<code>ui</code>文件移到卷挂载目录下：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">mv</span> config.yaml /var/lib/docker/volumes/mihomo/_data/</span><br></pre></td></tr></table></figure></div>
-
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">mv</span> ui /var/lib/docker/volumes/mihomo/_data/</span><br></pre></td></tr></table></figure></div>
-
-<p>重启容器即可：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker restart mihomo</span><br></pre></td></tr></table></figure></div>
-
-<h1 id="6-结果图"><a href="#6-结果图" class="headerlink" title="6.结果图"></a>6.结果图</h1><p><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://s2.loli.net/2024/07/25/ulftdepWhZK3YR4.png"
-                      alt="image03.png"
-                ><figcaption>image03.png</figcaption></figure></p>
-<p><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://s2.loli.net/2024/07/25/qxW3TZfYP5lBS9p.png"
-                      alt="image04.png"
-                ><figcaption>image04.png</figcaption></figure></p>
-<h1 id="7-注意事项"><a href="#7-注意事项" class="headerlink" title="7.注意事项"></a>7.注意事项</h1><p>如果发现仍然不能科学上网，可以打开“设置”检查下“代理设置”，手动设置代理地址和端口<code>127.0.0.1:7890</code>（火狐浏览器可能需要在内置的浏览器设置中进行配置下）。对于 Windows 用户来说，其实操作逻辑都是一样的（当然也可以不用 docker ），配置完后注意设置防火墙就行。</p>
-<h1 id="8-参考教程"><a href="#8-参考教程" class="headerlink" title="8.参考教程"></a>8.参考教程</h1><ul>
-<li><a class="link"   href="https://www.youtube.com/watch?v=d-2vCYLjXHs&t=23s" >【进阶使用】Clash Meta 纯内核使用教程|多机场融合|规则自动更新|Tun虚拟网卡模式|避免DNS泄露|WebRTC泄露<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>科学上网</category>
-      </categories>
-      <tags>
-        <tag>linux</tag>
-        <tag>docker</tag>
-        <tag>proxy</tag>
-        <tag>clash</tag>
       </tags>
   </entry>
   <entry>
@@ -3102,8 +3102,8 @@
 <p>然后重启系统即可。</p>
 <h1 id="3-中文空格乱码解决"><a href="#3-中文空格乱码解决" class="headerlink" title="3.中文空格乱码解决"></a>3.中文空格乱码解决</h1><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt-get install fonts-droid-fallback ttf-wqy-zenhei ttf-wqy-microhei fonts-arphic-ukai fonts-arphic-uming</span><br></pre></td></tr></table></figure></div>]]></content>
       <tags>
-        <tag>linux</tag>
         <tag>docker</tag>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -3280,8 +3280,8 @@
 </ul>
 ]]></content>
       <tags>
-        <tag>linux</tag>
         <tag>docker</tag>
+        <tag>linux</tag>
         <tag>WSL</tag>
       </tags>
   </entry>
@@ -3634,6 +3634,47 @@
       </tags>
   </entry>
   <entry>
+    <title>解决 VSCode 下使用 gdb 调试 C++ 出现的问题</title>
+    <url>/2024/11/13/gdb%E9%85%8D%E7%BD%AE/</url>
+    <content><![CDATA[<h1 id="1-问题复现"><a href="#1-问题复现" class="headerlink" title="1.问题复现"></a>1.问题复现</h1><p>如下图所示，这是调试时出现的问题：<br><a href="https://imgse.com/i/pAgMhxf"><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s21.ax1x.com/2024/11/13/pAgMhxf.md.png"
+                      alt="step1"
+                ><figcaption>step1</figcaption></figure></a></p>
+<p><a href="https://imgse.com/i/pAgMHaj"><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s21.ax1x.com/2024/11/13/pAgMHaj.md.png"
+                      alt="step2"
+                ><figcaption>step2</figcaption></figure></a></p>
+<p>从图中可以发现，在进行单步调试时，先进入<code>ostream</code>，但是失败了，因为它找的是错误的路径，这个路径<code>/usr/src/debug/gcc/gcc-build/x86_64-pc-linux-gnu/libstdc++-v3/include</code>根本不存在。</p>
+<h1 id="2-解决办法"><a href="#2-解决办法" class="headerlink" title="2.解决办法"></a>2.解决办法</h1><p>配置<code>~/.gdbinit</code>文件即可。</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">nano ~/.gdbinit</span><br></pre></td></tr></table></figure></div>
+
+<p>加入下面的内容：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">set</span> directories /usr/include/c++/14.2.1</span><br><span class="line"><span class="built_in">set</span> substitute-path /usr/src/debug/gcc/gcc-build/x86_64-pc-linux-gnu/libstdc++-v3/include /usr/include/c++/14.2.1</span><br></pre></td></tr></table></figure></div>
+
+<p>然后就解决了，效果如下：<br><a href="https://imgse.com/i/pAgMXR0"><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s21.ax1x.com/2024/11/13/pAgMXR0.md.png"
+                      alt="step3"
+                ><figcaption>step3</figcaption></figure></a></p>
+<h1 id="3-说明"><a href="#3-说明" class="headerlink" title="3.说明"></a>3.说明</h1><ol>
+<li><p><strong><code>set directories /usr/include/c++/14.2.1</code></strong> ：<br>这个命令告诉 GDB 在 <code>/usr/include/c++/14.2.1</code> 目录下搜索头文件。这个目录通常是系统上安装的 C++ 标准库头文件的位置。当你请求 GDB 显示源代码或者 GDB 需要查找源代码以进行调试时，它会首先查看这个目录。</p>
+</li>
+<li><p><strong><code>set substitute-path /usr/src/debug/gcc/gcc-build/x86_64-pc-linux-gnu/libstdc++-v3/include /usr/include/c++/14.2.1</code></strong> ：<br>这个命令是一个路径替换指令，它将 GDB 查找源代码时遇到的一个路径映射到另一个路径。具体来说，当 GDB 尝试在 <code>/usr/src/debug/gcc/gcc-build/x86_64-pc-linux-gnu/libstdc++-v3/include</code> 目录下查找文件时，它会将其重定向到 <code>/usr/include/c++/14.2.1</code> 目录。这通常用于解决源代码和编译后的二进制文件不在同一位置的问题，或者当你想要 GDB 从不同的位置加载源代码时。</p>
+</li>
+</ol>
+]]></content>
+      <tags>
+        <tag>linux</tag>
+        <tag>c++</tag>
+        <tag>WSL</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>解决 Linux 下使用 matplotlib 中文乱码问题</title>
     <url>/2024/09/14/linux-matplotli%E4%B9%B1%E7%A0%81%E8%A7%A3%E5%86%B3/</url>
     <content><![CDATA[<h1 id="1-出现的问题"><a href="#1-出现的问题" class="headerlink" title="1.出现的问题"></a>1.出现的问题</h1><p>以下面这个代码为例：</p>
@@ -3695,47 +3736,6 @@
         <tag>python</tag>
         <tag>linux</tag>
         <tag>matplotlib</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>解决 VSCode 下使用 gdb 调试 C++ 出现的问题</title>
-    <url>/2024/11/13/gdb%E9%85%8D%E7%BD%AE/</url>
-    <content><![CDATA[<h1 id="1-问题复现"><a href="#1-问题复现" class="headerlink" title="1.问题复现"></a>1.问题复现</h1><p>如下图所示，这是调试时出现的问题：<br><a href="https://imgse.com/i/pAgMhxf"><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://s21.ax1x.com/2024/11/13/pAgMhxf.md.png"
-                      alt="step1"
-                ><figcaption>step1</figcaption></figure></a></p>
-<p><a href="https://imgse.com/i/pAgMHaj"><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://s21.ax1x.com/2024/11/13/pAgMHaj.md.png"
-                      alt="step2"
-                ><figcaption>step2</figcaption></figure></a></p>
-<p>从图中可以发现，在进行单步调试时，先进入<code>ostream</code>，但是失败了，因为它找的是错误的路径，这个路径<code>/usr/src/debug/gcc/gcc-build/x86_64-pc-linux-gnu/libstdc++-v3/include</code>根本不存在。</p>
-<h1 id="2-解决办法"><a href="#2-解决办法" class="headerlink" title="2.解决办法"></a>2.解决办法</h1><p>配置<code>~/.gdbinit</code>文件即可。</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">nano ~/.gdbinit</span><br></pre></td></tr></table></figure></div>
-
-<p>加入下面的内容：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">set</span> directories /usr/include/c++/14.2.1</span><br><span class="line"><span class="built_in">set</span> substitute-path /usr/src/debug/gcc/gcc-build/x86_64-pc-linux-gnu/libstdc++-v3/include /usr/include/c++/14.2.1</span><br></pre></td></tr></table></figure></div>
-
-<p>然后就解决了，效果如下：<br><a href="https://imgse.com/i/pAgMXR0"><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://s21.ax1x.com/2024/11/13/pAgMXR0.md.png"
-                      alt="step3"
-                ><figcaption>step3</figcaption></figure></a></p>
-<h1 id="3-说明"><a href="#3-说明" class="headerlink" title="3.说明"></a>3.说明</h1><ol>
-<li><p><strong><code>set directories /usr/include/c++/14.2.1</code></strong> ：<br>这个命令告诉 GDB 在 <code>/usr/include/c++/14.2.1</code> 目录下搜索头文件。这个目录通常是系统上安装的 C++ 标准库头文件的位置。当你请求 GDB 显示源代码或者 GDB 需要查找源代码以进行调试时，它会首先查看这个目录。</p>
-</li>
-<li><p><strong><code>set substitute-path /usr/src/debug/gcc/gcc-build/x86_64-pc-linux-gnu/libstdc++-v3/include /usr/include/c++/14.2.1</code></strong> ：<br>这个命令是一个路径替换指令，它将 GDB 查找源代码时遇到的一个路径映射到另一个路径。具体来说，当 GDB 尝试在 <code>/usr/src/debug/gcc/gcc-build/x86_64-pc-linux-gnu/libstdc++-v3/include</code> 目录下查找文件时，它会将其重定向到 <code>/usr/include/c++/14.2.1</code> 目录。这通常用于解决源代码和编译后的二进制文件不在同一位置的问题，或者当你想要 GDB 从不同的位置加载源代码时。</p>
-</li>
-</ol>
-]]></content>
-      <tags>
-        <tag>linux</tag>
-        <tag>c++</tag>
-        <tag>WSL</tag>
       </tags>
   </entry>
   <entry>
@@ -4136,6 +4136,31 @@
 <p>好像可以添加<code>exec startplasma-wayland</code>来使得启动的会话窗口是<code>wayland</code>，但是没成功。</p>
 <p>然后启动<code>plasma</code>：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">startx</span><br></pre></td></tr></table></figure></div>]]></content>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux 如何安装 qtile 平铺窗口</title>
+    <url>/2024/12/14/%E5%AE%89%E8%A3%85qtile/</url>
+    <content><![CDATA[<h1 id="1-安装-qtile"><a href="#1-安装-qtile" class="headerlink" title="1.安装 qtile"></a>1.安装 qtile</h1><ol>
+<li><p>安装<code>qtile</code>：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S arcolinux-qtile-distrotube-git</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>拉取<code>arco-qtile</code>仓库：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/arcolinuxd/arco-qtile.git</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>依次执行里面的脚本（下面这个是美化脚本）：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">./100-display-manager-and-desktop.sh</span><br></pre></td></tr></table></figure></div></li>
+</ol>
+<p>其它脚本按需选择执行，然后重启系统即可。</p>
+<p>效果图如下：<br><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s2.loli.net/2024/12/14/wKk2ijJC79qxm8h.png"
+                      alt="PixPin_2024-12-14_21-10-14.png"
+                ><figcaption>PixPin_2024-12-14_21-10-14.png</figcaption></figure></p>
+]]></content>
       <tags>
         <tag>linux</tag>
       </tags>
