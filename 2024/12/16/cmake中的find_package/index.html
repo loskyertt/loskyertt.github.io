@@ -13,7 +13,7 @@
     
     <!--- Seo Part-->
     
-    <link rel="canonical" href="http://example.com/page/3/"/>
+    <link rel="canonical" href="http://example.com/2024/12/16/cmake中的find_package/"/>
     <meta name="robots" content="index,follow">
     <meta name="googlebot" content="index,follow">
     <meta name="revisit-after" content="1 days">
@@ -22,16 +22,20 @@
     
         
         <meta name="description" content="your_description">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/page/3/index.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="谈谈 CMake 中的 find_package">
+<meta property="og:url" content="http://example.com/2024/12/16/cmake%E4%B8%AD%E7%9A%84find_package/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="your_description">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://example.com/page/3/your_image_path">
+<meta property="og:image" content="http://example.com/2024/12/16/cmake%E4%B8%AD%E7%9A%84find_package/your_image_path">
+<meta property="article:published_time" content="2024-12-16T13:13:17.000Z">
+<meta property="article:modified_time" content="2024-12-16T08:02:27.808Z">
 <meta property="article:author" content="John Doe">
+<meta property="article:tag" content="c++">
+<meta property="article:tag" content="cmake">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/page/3/your_image_path">
+<meta name="twitter:image" content="http://example.com/2024/12/16/cmake%E4%B8%AD%E7%9A%84find_package/your_image_path">
     
     
     <!--- Icon Part-->
@@ -43,7 +47,7 @@
     
     <title>
         
-            sky&#39;s blog - Redefine Your Hexo Journey.
+            谈谈 CMake 中的 find_package | sky&#39;s blog
         
     </title>
 
@@ -272,41 +276,6 @@
 <main class="page-container" id="swup">
 
 	
-	<style>
-    .home-article-item,
-    .sidebar-links,
-    .sidebar-content,
-    a.page-number,
-    a.extend,
-    .sidebar-links .links:hover,
-    .right-bottom-tools,
-    footer.footer {
-        background-color: var(--background-color-transparent-80) !important;
-    }
-    .right-bottom-tools:hover,
-    a.page-number:hover,
-    a.extend:hover {
-        background-color: var(--primary-color) !important;
-    }
-    .site-info,
-    .home-article-sticky-label {
-        background-color: var(--background-color-transparent-15) !important;
-    }
-    .home-article-sticky-label {
-        backdrop-filter: none !important;
-    }
-    .home-banner-background {
-        filter: blur(15px);
-    }
-</style>
-
-<div class="home-banner-background transition-fade fixed top-0 left-0 w-screen h-screen scale-125 sm:scale-110 box-border will-change-transform bg-cover">
-    <img src="/images/wallhaven-wqery6-light.webp" alt="home-banner-background" class="w-full h-full object-cover dark:hidden">
-    <img src="/images/wallhaven-wqery6-dark.webp" alt="home-banner-background" class="w-full h-full object-cover hidden dark:block">
-</div>
-
-
-	
 
 	<div class="main-content-container flex flex-col justify-between min-h-dvh">
 		<div class="main-content-header">
@@ -315,9 +284,9 @@
         <div class="left">
             
             <a class="logo-title" href="/">
-                <h1>
+                
                 sky&#39;s blog
-                </h1>
+                
             </a>
         </div>
 
@@ -331,7 +300,7 @@
 
                             <li class="navbar-item">
                                 <!-- Menu -->
-                                <a class="active"
+                                <a class=""
                                    href="/"
                                         >
                                     <i class="fa-regular fa-house fa-fw"></i>
@@ -406,7 +375,7 @@
 
                     <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
                         
-                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
                            href="/"
                         >
                             <span>
@@ -491,748 +460,339 @@
 
 		<div class="main-content-body transition-fade-up">
 			
-			<div class="home-sidebar-container">
-    <div class="sticky-container sticky">
-        
-        
-            
-            <div class="sidebar-content" >
-                <div class="avatar flex justify-center">
-    <img src="/images/me.jpg">
-</div>
-                <div class="author flex flex-col justify-center my-2.5 mx-0">
-    <div class="name">loskyertt</div>
-    
-        <div class="label">Unknown</div>
-    
-</div>
-                <div class="statistics flex justify-around my-2.5">
-    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
-        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">17</div>
-        <div class="label text-third-text-color text-sm">Tags</div>
-    </a>
-    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
-        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">5</div>
-        <div class="label text-third-text-color text-sm">Categories</div>
-    </a>
-    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
-        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">55</div>
-        <div class="label text-third-text-color text-sm">Posts</div>
-    </a>
-</div>
-            </div>
-        
-
-    </div>
-</div>
-
-			
 
 			<div class="main-content">
-				<div class="home-content-container">
-    <ul class="home-article-list">
-        
-            <li class="home-article-item">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
 
-                
+		<div class="article-title relative w-full">
+			
+			<div class="w-full flex items-center pt-6 justify-start">
+				<h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">谈谈 CMake 中的 find_package</h1>
+			</div>
+			
+		</div>
 
-                
-
-                
-                <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
-                    <h3 class="home-article-title">
-                        <a href="/2024/10/18/06Python%E7%88%AC%E8%99%AB/">
-                            Python 爬虫教程 06
-                        </a>
-                    </h3>
-
-                    <div class="home-article-content markdown-body">
-                        
-                            <p>网页图片的爬取及本地保存</p>
-
-                        
-                    </div>
-
-                    <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fa-solid fa-calendars"></i>&nbsp;
-            <span class="home-article-date" data-date="Fri Oct 18 2024 16:38:02 GMT+0000">
-                
-                    2024-10-18
-                
-            </span>
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] flex-shrink-0 rounded-medium border border-border-color p-[1px]">
+				<img src="/images/me.jpg">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">loskyertt</span>
+					
+					<span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Unknown</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2024-12-16 13:13:17</span>
+        <span class="mobile">2024-12-16 13:13:17</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2024-12-16 08:02:27</span>
+            <span class="mobile">2024-12-16 08:02:27</span>
+            <span class="hover-info">Updated</span>
         </span>
-        
-            <span class="home-article-category">
-                <i class="fa-solid fa-folders"></i>&nbsp;
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
             <ul>
                 
                 
                     
                         
                         <li>
-                            <a href="/categories/Python%E7%88%AC%E8%99%AB/">Python爬虫</a>&nbsp;
+                            <a href="/categories/C/">C++</a>&nbsp;
                         </li>
                     
                     
                 
             </ul>
         </span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fa-solid fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/python/">python</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2024/10/18/06Python%E7%88%AC%E8%99%AB/">Read more<span class="seo-reader-text">Python 爬虫教程 06</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
-</div>
-
-                </div>
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                
-
-                
-                <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
-                    <h3 class="home-article-title">
-                        <a href="/2024/10/17/%E6%90%AD%E5%BB%BA%E4%BB%A3%E7%90%86%E6%B1%A0/">
-                            搭建代理池
-                        </a>
-                    </h3>
-
-                    <div class="home-article-content markdown-body">
-                        
-                            <p>通过 docker 搭建一个免费的代理池，爬虫可用</p>
-
-                        
-                    </div>
-
-                    <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fa-solid fa-calendars"></i>&nbsp;
-            <span class="home-article-date" data-date="Thu Oct 17 2024 20:53:49 GMT+0000">
-                
-                    2024-10-17
-                
-            </span>
-        </span>
-        
-            <span class="home-article-category">
-                <i class="fa-solid fa-folders"></i>&nbsp;
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
             <ul>
                 
+                    <li>
+                        <a href="/tags/c/">c++</a>&nbsp;
+                    </li>
                 
-                    
-                        
-                        <li>
-                            <a href="/categories/Python%E6%8A%80%E5%B7%A7/">Python技巧</a>&nbsp;
-                        </li>
-                    
-                    
-                
-            </ul>
-        </span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fa-solid fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/python/">python</a>&nbsp;
-                        </li>
-                    
-                        <li>
-                            | 
-                            <a href="/tags/docker/">docker</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2024/10/17/%E6%90%AD%E5%BB%BA%E4%BB%A3%E7%90%86%E6%B1%A0/">Read more<span class="seo-reader-text">搭建代理池</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
-</div>
-
-                </div>
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                
-
-                
-                <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
-                    <h3 class="home-article-title">
-                        <a href="/2024/10/17/05Python%E7%88%AC%E8%99%AB/">
-                            Python 爬虫教程 05
-                        </a>
-                    </h3>
-
-                    <div class="home-article-content markdown-body">
-                        
-                            <p>分页参数分析及翻页爬取</p>
-
-                        
-                    </div>
-
-                    <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fa-solid fa-calendars"></i>&nbsp;
-            <span class="home-article-date" data-date="Thu Oct 17 2024 17:31:52 GMT+0000">
-                
-                    2024-10-17
-                
-            </span>
-        </span>
-        
-            <span class="home-article-category">
-                <i class="fa-solid fa-folders"></i>&nbsp;
-            <ul>
-                
-                
-                    
-                        
-                        <li>
-                            <a href="/categories/Python%E7%88%AC%E8%99%AB/">Python爬虫</a>&nbsp;
-                        </li>
-                    
-                    
+                    <li>
+                        | <a href="/tags/cmake/">cmake</a>&nbsp;
+                    </li>
                 
             </ul>
         </span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fa-solid fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/python/">python</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
+    
 
-    <a href="/2024/10/17/05Python%E7%88%AC%E8%99%AB/">Read more<span class="seo-reader-text">Python 爬虫教程 05</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>844 Words</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>3 Mins</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
 </div>
 
-                </div>
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<h1 id="1-find-package-说明"><a href="#1-find-package-说明" class="headerlink" title="1.find_package 说明"></a>1.find_package 说明</h1><p><code>find_package</code> 是 CMake 中用于 <strong>查找外部库或包</strong> 的命令。它的主要作用是帮助 CMake 找到第三方库、工具或模块，并导入它们所需的信息（如库路径、头文件路径、链接依赖关系等），以便项目可以顺利进行编译和链接。</p>
+<h2 id="1-1-工作原理"><a href="#1-1-工作原理" class="headerlink" title="1.1 工作原理"></a>1.1 工作原理</h2><p><code>find_package</code> 会在系统指定的路径中查找某个包，并加载与该包相关的信息。可以通过下面这种方式查看系统路径：</p>
+<div class="code-container" data-rel="Cmake"><figure class="iseeu highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">foreach</span>(path <span class="variable">$&#123;CMAKE_SYSTEM_PREFIX_PATH&#125;</span>)</span><br><span class="line">  <span class="keyword">message</span>(STATUS <span class="string">&quot;$&#123;path&#125;&quot;</span>)</span><br><span class="line"><span class="keyword">endforeach</span>()</span><br></pre></td></tr></table></figure></div>
+
+<p>会输出：</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">-- /usr/local</span><br><span class="line">-- /usr</span><br><span class="line">-- /</span><br><span class="line">-- /usr</span><br><span class="line">-- /usr/local</span><br><span class="line">-- /usr/X11R6</span><br><span class="line">-- /usr/pkg</span><br><span class="line">-- /opt</span><br></pre></td></tr></table></figure></div>
+
+<p>查找包时，它主要依赖以下机制：</p>
+<ol>
+<li><strong>查找路径</strong><br>CMake 会按顺序查找以下路径来寻找包：<ol>
+<li>用户指定的路径：通过 <code>CMAKE_PREFIX_PATH</code> 或 <code>PATHS</code> 参数指定的路径。</li>
+<li>默认路径：</li>
+</ol>
+<ul>
+<li>系统路径。</li>
+<li>环境变量，如 <code>CMAKE_MODULE_PATH</code> 和 <code>CMAKE_FIND_ROOT_PATH</code>。</li>
+</ul>
+<ol start="3">
+<li>CMake 模块路径：CMake 内置的模块搜索路径。</li>
+<li>自定义的查找脚本：</li>
+</ol>
+<ul>
+<li>自定义的 <code>&lt;package&gt;Config.cmake</code> 文件。</li>
+<li><code>Find&lt;Package&gt;.cmake</code> 模块文件。</li>
+</ul>
+</li>
+</ol>
+<p>CMake 按照这些路径的顺序进行搜索，找到第一个匹配的结果即停止。</p>
+<ol start="2">
+<li><p><strong>工作模式</strong><br><code>find_package</code> 有两种主要工作模式：</p>
+<ol>
+<li><p>Config 模式（配置文件模式）<br>查找 <code>&lt;Package&gt;Config.cmake</code> 或 <code>&lt;lowercase-package&gt;-config.cmake</code> 文件。该模式通常用于现代 CMake 兼容的库或第三方项目，它们会生成配置文件供 CMake 使用。</p>
+</li>
+<li><p>Module 模式（模块文件模式）<br>查找 <code>Find&lt;Package&gt;.cmake</code> 文件。此模式通常用于 CMake 自带的模块文件或用户定义的模块文件。</p>
+</li>
+</ol>
+</li>
+<li><p><strong>工作流程</strong><br>当你调用 <code>find_package(&lt;Package&gt; REQUIRED)</code> 时：</p>
+<ol>
+<li>首先查找 <code>&lt;Package&gt;Config.cmake</code> 配置文件。</li>
+<li>如果找不到，再查找 <code>Find&lt;Package&gt;.cmake</code> 模块文件。</li>
+<li>成功找到后，CMake 会设置一系列变量（如 <code>&lt;Package&gt;_INCLUDE_DIRS</code>、<code>&lt;Package&gt;_LIBRARIES</code> 等），这些变量可以在后续的 <code>target_include_directories</code> 和 <code>target_link_libraries</code> 中使用。</li>
+<li>如果添加 <code>REQUIRED</code> 选项但未找到包，CMake 将报错。</li>
+</ol>
+</li>
+</ol>
+<h2 id="1-2-基本语法"><a href="#1-2-基本语法" class="headerlink" title="1.2 基本语法"></a>1.2 基本语法</h2><div class="code-container" data-rel="Cmake"><figure class="iseeu highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">find_package</span>(&lt;PackageName&gt; [version] [EXACT] [QUIET] [REQUIRED] [MODULE])</span><br></pre></td></tr></table></figure></div>
+
+<p>参数说明：</p>
+<ol>
+<li><code>&lt;PackageName&gt;</code>：要查找的包名。</li>
+<li><code>[version]</code>：指定包的版本号，例如 <code>1.2.3</code>。</li>
+<li><code>EXACT</code>：要求找到的版本必须完全匹配指定的版本号。</li>
+<li><code>QUIET</code>：找到包时不输出查找过程的日志信息。</li>
+<li><code>REQUIRED</code>：如果未找到包，CMake 将终止配置并报错。</li>
+<li><code>MODULE</code>：强制 CMake 只查找 <code>Find&lt;Package&gt;.cmake</code> 模块文件，而不查找 <code>&lt;Package&gt;Config.cmake</code>。</li>
+</ol>
+<h2 id="1-3-使用-find-package-的结果"><a href="#1-3-使用-find-package-的结果" class="headerlink" title="1.3 使用 find_package 的结果"></a>1.3 使用 find_package 的结果</h2><p><code>find_package</code> 成功找到包后，通常会设置一些变量，用户可以使用这些变量来链接库、包含头文件等。</p>
+<p>常见的变量包括：</p>
+<ul>
+<li><code>&lt;Package&gt;_FOUND</code>：是否找到包，值为 <code>TRUE</code> 或 <code>FALSE</code>。</li>
+<li><code>&lt;Package&gt;_INCLUDE_DIRS</code>：包的头文件目录。</li>
+<li><code>&lt;Package&gt;_LIBRARIES</code>：包的库文件路径。</li>
+<li><code>&lt;Package&gt;_VERSION</code>：找到的包的版本号。</li>
+</ul>
+<hr>
+<h1 id="2-注意点"><a href="#2-注意点" class="headerlink" title="2.注意点"></a>2.注意点</h1><p>在 CMake 中，<code>find_package</code> 对包名是 <strong>大小写敏感</strong> 的，包名必须与库提供的 <code>&lt;Package&gt;Config.cmake</code> 文件名、模块文件名（如 <code>Find&lt;Package&gt;.cmake</code>）中的定义 <strong>完全匹配</strong> 。</p>
+<p>在不确定大小写时，可以通过查找库的 <strong>CMake 配置文件</strong> 方式来确定，通常位于库的安装路径下：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find /usr /opt -name <span class="string">&quot;*Config.cmake&quot;</span></span><br></pre></td></tr></table></figure></div>
+<p>例如，找到 <code>/usr/lib/cmake/Qt5/Qt5Config.cmake</code>，说明包名是 <code>Qt5</code>。</p>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> 谈谈 CMake 中的 find_package</li>
+        <li><strong>Author:</strong> loskyertt</li>
+        <li><strong>Created at
+                :</strong> 2024-12-16 13:13:17</li>
+        
+            <li>
+                <strong>Updated at
+                    :</strong> 2024-12-16 08:02:27
             </li>
         
-            <li class="home-article-item">
+        <li>
+            <strong>Link:</strong> https://redefine.ohevan.com/2024/12/16/cmake中的find_package/
+        </li>
+        <li>
+            <strong>
+                License:
+            </strong>
+            
 
-                
-
-                
-
-                
-                <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
-                    <h3 class="home-article-title">
-                        <a href="/2024/10/17/04Python%E7%88%AC%E8%99%AB/">
-                            Python 爬虫教程 04
-                        </a>
-                    </h3>
-
-                    <div class="home-article-content markdown-body">
-                        
-                            <p>lxml 库进阶使用</p>
-
-                        
-                    </div>
-
-                    <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fa-solid fa-calendars"></i>&nbsp;
-            <span class="home-article-date" data-date="Thu Oct 17 2024 17:04:34 GMT+0000">
-                
-                    2024-10-17
-                
-            </span>
-        </span>
-        
-            <span class="home-article-category">
-                <i class="fa-solid fa-folders"></i>&nbsp;
-            <ul>
-                
-                
-                    
-                        
-                        <li>
-                            <a href="/categories/Python%E7%88%AC%E8%99%AB/">Python爬虫</a>&nbsp;
-                        </li>
-                    
-                    
-                
-            </ul>
-        </span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fa-solid fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/python/">python</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2024/10/17/04Python%E7%88%AC%E8%99%AB/">Read more<span class="seo-reader-text">Python 爬虫教程 04</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
-</div>
-
-                </div>
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                
-
-                
-                <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
-                    <h3 class="home-article-title">
-                        <a href="/2024/10/17/03Python%E7%88%AC%E8%99%AB/">
-                            Python 爬虫教程 03
-                        </a>
-                    </h3>
-
-                    <div class="home-article-content markdown-body">
-                        
-                            <p>http 请求分析及头构造使用</p>
-
-                        
-                    </div>
-
-                    <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fa-solid fa-calendars"></i>&nbsp;
-            <span class="home-article-date" data-date="Thu Oct 17 2024 16:51:40 GMT+0000">
-                
-                    2024-10-17
-                
-            </span>
-        </span>
-        
-            <span class="home-article-category">
-                <i class="fa-solid fa-folders"></i>&nbsp;
-            <ul>
-                
-                
-                    
-                        
-                        <li>
-                            <a href="/categories/Python%E7%88%AC%E8%99%AB/">Python爬虫</a>&nbsp;
-                        </li>
-                    
-                    
-                
-            </ul>
-        </span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fa-solid fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/python/">python</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2024/10/17/03Python%E7%88%AC%E8%99%AB/">Read more<span class="seo-reader-text">Python 爬虫教程 03</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
-</div>
-
-                </div>
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                
-
-                
-                <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
-                    <h3 class="home-article-title">
-                        <a href="/2024/10/17/02Python%E7%88%AC%E8%99%AB/">
-                            Python 爬虫教程 02
-                        </a>
-                    </h3>
-
-                    <div class="home-article-content markdown-body">
-                        
-                            <p>requests 库机器 lxml 入门</p>
-
-                        
-                    </div>
-
-                    <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fa-solid fa-calendars"></i>&nbsp;
-            <span class="home-article-date" data-date="Thu Oct 17 2024 14:41:00 GMT+0000">
-                
-                    2024-10-17
-                
-            </span>
-        </span>
-        
-            <span class="home-article-category">
-                <i class="fa-solid fa-folders"></i>&nbsp;
-            <ul>
-                
-                
-                    
-                        
-                        <li>
-                            <a href="/categories/Python%E7%88%AC%E8%99%AB/">Python爬虫</a>&nbsp;
-                        </li>
-                    
-                    
-                
-            </ul>
-        </span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fa-solid fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/python/">python</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2024/10/17/02Python%E7%88%AC%E8%99%AB/">Read more<span class="seo-reader-text">Python 爬虫教程 02</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
-</div>
-
-                </div>
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                
-
-                
-                <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
-                    <h3 class="home-article-title">
-                        <a href="/2024/09/21/Python-%E8%8E%B7%E5%8F%96%E4%BB%A3%E7%90%86ip/">
-                            Python 获取当前代理 IP
-                        </a>
-                    </h3>
-
-                    <div class="home-article-content markdown-body">
-                        
-                            <p>主要用于在爬虫中进行 IP 切换</p>
-
-                        
-                    </div>
-
-                    <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fa-solid fa-calendars"></i>&nbsp;
-            <span class="home-article-date" data-date="Sat Sep 21 2024 15:57:38 GMT+0000">
-                
-                    2024-09-21
-                
-            </span>
-        </span>
-        
-            <span class="home-article-category">
-                <i class="fa-solid fa-folders"></i>&nbsp;
-            <ul>
-                
-                
-                    
-                        
-                        <li>
-                            <a href="/categories/Python%E6%8A%80%E5%B7%A7/">Python技巧</a>&nbsp;
-                        </li>
-                    
-                    
-                
-            </ul>
-        </span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fa-solid fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/python/">python</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2024/09/21/Python-%E8%8E%B7%E5%8F%96%E4%BB%A3%E7%90%86ip/">Read more<span class="seo-reader-text">Python 获取当前代理 IP</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
-</div>
-
-                </div>
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                
-
-                
-                <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
-                    <h3 class="home-article-title">
-                        <a href="/2024/09/17/01Python%E7%88%AC%E8%99%AB/">
-                            Python 爬虫教程 01
-                        </a>
-                    </h3>
-
-                    <div class="home-article-content markdown-body">
-                        
-                            <p>初始爬虫，爬虫的基础教程</p>
-
-                        
-                    </div>
-
-                    <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fa-solid fa-calendars"></i>&nbsp;
-            <span class="home-article-date" data-date="Tue Sep 17 2024 12:25:45 GMT+0000">
-                
-                    2024-09-17
-                
-            </span>
-        </span>
-        
-            <span class="home-article-category">
-                <i class="fa-solid fa-folders"></i>&nbsp;
-            <ul>
-                
-                
-                    
-                        
-                        <li>
-                            <a href="/categories/Python%E7%88%AC%E8%99%AB/">Python爬虫</a>&nbsp;
-                        </li>
-                    
-                    
-                
-            </ul>
-        </span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fa-solid fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/python/">python</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2024/09/17/01Python%E7%88%AC%E8%99%AB/">Read more<span class="seo-reader-text">Python 爬虫教程 01</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
-</div>
-
-                </div>
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                
-
-                
-                <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
-                    <h3 class="home-article-title">
-                        <a href="/2024/09/16/Python-%E5%A4%9A%E8%BF%9B%E7%A8%8B%E5%92%8C%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B/">
-                            Python 下的多进程和多线程编程
-                        </a>
-                    </h3>
-
-                    <div class="home-article-content markdown-body">
-                        
-                        
-                    </div>
-
-                    <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fa-solid fa-calendars"></i>&nbsp;
-            <span class="home-article-date" data-date="Mon Sep 16 2024 20:38:40 GMT+0000">
-                
-                    2024-09-16
-                
-            </span>
-        </span>
-        
-            <span class="home-article-category">
-                <i class="fa-solid fa-folders"></i>&nbsp;
-            <ul>
-                
-                
-                    
-                        
-                        <li>
-                            <a href="/categories/Python%E6%8A%80%E5%B7%A7/">Python技巧</a>&nbsp;
-                        </li>
-                    
-                    
-                
-            </ul>
-        </span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fa-solid fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/python/">python</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2024/09/16/Python-%E5%A4%9A%E8%BF%9B%E7%A8%8B%E5%92%8C%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B/">Read more<span class="seo-reader-text">Python 下的多进程和多线程编程</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
-</div>
-
-                </div>
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                
-
-                
-                <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
-                    <h3 class="home-article-title">
-                        <a href="/2024/09/14/linux-matplotli%E4%B9%B1%E7%A0%81%E8%A7%A3%E5%86%B3/">
-                            解决 Linux 下使用 matplotlib 中文乱码问题
-                        </a>
-                    </h3>
-
-                    <div class="home-article-content markdown-body">
-                        
-                        
-                    </div>
-
-                    <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fa-solid fa-calendars"></i>&nbsp;
-            <span class="home-article-date" data-date="Sat Sep 14 2024 15:01:53 GMT+0000">
-                
-                    2024-09-14
-                
-            </span>
-        </span>
-        
-            <span class="home-article-category">
-                <i class="fa-solid fa-folders"></i>&nbsp;
-            <ul>
-                
-                
-                    
-                        
-                        <li>
-                            <a href="/categories/Python%E6%8A%80%E5%B7%A7/">Python技巧</a>&nbsp;
-                        </li>
-                    
-                    
-                
-            </ul>
-        </span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fa-solid fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/python/">python</a>&nbsp;
-                        </li>
-                    
-                        <li>
-                            | 
-                            <a href="/tags/linux/">linux</a>&nbsp;
-                        </li>
-                    
-                        <li>
-                            | 
-                            <a href="/tags/matplotlib/">matplotlib</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2024/09/14/linux-matplotli%E4%B9%B1%E7%A0%81%E8%A7%A3%E5%86%B3/">Read more<span class="seo-reader-text">解决 Linux 下使用 matplotlib 中文乱码问题</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
-</div>
-
-                </div>
-            </li>
-        
+            
+                This work is licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a>.
+            
+        </li>
     </ul>
-
-    <div class="home-paginator px-7 py-5">
-        <div class="paginator">
-	<a class="extend prev" rel="prev" href="/page/2/"><i class="fa-regular fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/4/"><i class="fa-regular fa-angle-right"></i></a>
 </div>
-  
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/c/">#c++</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/cmake/">#cmake</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+  <div class="recommended-article px-2 sm:px-6 md:px-8">
+   <div class="recommended-desktop">
+    <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>推荐阅读</span>
     </div>
+    <div class="recommended-article-group"><a class="recommended-article-item" href="/2024/11/29/cmake基础教程/" title="CMake 基础教程" rel="bookmark">
+  <img src="/images/wallhaven-wqery6-light.webp" alt="CMake 基础教程" class="!max-w-none">
+  <span class="title">CMake 基础教程</span>
+</a><a class="recommended-article-item" href="/2024/12/10/Linux指令/" title="Linux 常用指令汇总" rel="bookmark">
+  <img src="/images/wallhaven-wqery6-light.webp" alt="Linux 常用指令汇总" class="!max-w-none">
+  <span class="title">Linux 常用指令汇总</span>
+</a><a class="recommended-article-item" href="/2024/12/11/Qt和VScode配置/" title="VSCode 配置 C++ Qt 开发环境" rel="bookmark">
+  <img src="/images/wallhaven-wqery6-light.webp" alt="VSCode 配置 C++ Qt 开发环境" class="!max-w-none">
+  <span class="title">VSCode 配置 C++ Qt 开发环境</span>
+</a></div>
+   </div>
+   <div class="recommended-mobile">
+   <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>推荐阅读</span>
+   </div>
+   <div class="recommended-article-group"><a class="recommended-article-item" href="/2024/11/29/cmake基础教程/" title="CMake 基础教程" rel="bookmark">
+  <img src="/images/wallhaven-wqery6-light.webp" alt="CMake 基础教程" class="!max-w-none">
+  <span class="title">CMake 基础教程</span>
+</a><a class="recommended-article-item" href="/2024/12/10/Linux指令/" title="Linux 常用指令汇总" rel="bookmark">
+  <img src="/images/wallhaven-wqery6-light.webp" alt="Linux 常用指令汇总" class="!max-w-none">
+  <span class="title">Linux 常用指令汇总</span>
+</a></div>
+   </div>
+  </div>
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/2024/12/14/%E5%AE%89%E8%A3%85qtile/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item">Linux 如何安装 qtile 平铺窗口</span>
+						<span class="post-nav-item">Next posts</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        Comments
+    </div>
+    
+
+        
+            
+    <div id="waline"></div>
+    <script type="module" data-swup-reload-script>
+      import { init } from '/js/libs/waline.mjs';
+
+      function loadWaline() {
+        init({
+          el: '#waline',
+          serverURL: 'https://example.example.com',
+          lang: 'zh-CN',
+          dark: 'body[class~="dark-mode"]',
+          reaction: false,
+          requiredMeta: ['nick', 'mail'],
+          emoji: [],
+          recaptchaV3Key: "wasd",
+          
+        });
+      }
+
+      if (typeof swup !== 'undefined') {
+        loadWaline();
+      } else {
+        window.addEventListener('DOMContentLoaded', loadWaline);
+      }
+    </script>
+
+
+
+        
+    
 </div>
 
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">On this page</div>
+		<div class="page-title">谈谈 CMake 中的 find_package</div>
+		<ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-find-package-%E8%AF%B4%E6%98%8E"><span class="nav-text">1.find_package 说明</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="nav-text">1.1 工作原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95"><span class="nav-text">1.2 基本语法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-%E4%BD%BF%E7%94%A8-find-package-%E7%9A%84%E7%BB%93%E6%9E%9C"><span class="nav-text">1.3 使用 find_package 的结果</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E6%B3%A8%E6%84%8F%E7%82%B9"><span class="nav-text">2.注意点</span></a></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
 			</div>
 
 			
@@ -1314,6 +874,26 @@
 		</div>
 	</div>
 
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
 	
 
 	<div class="right-side-tools-container">

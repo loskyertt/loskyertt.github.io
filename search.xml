@@ -425,6 +425,27 @@
       </tags>
   </entry>
   <entry>
+    <title>Python 爬虫教程 03</title>
+    <url>/2024/10/17/03Python%E7%88%AC%E8%99%AB/</url>
+    <content><![CDATA[<h1 id="1-无请求头访问"><a href="#1-无请求头访问" class="headerlink" title="1.无请求头访问"></a>1.无请求头访问</h1><p>如果不构建请求头，直接向目标网站发送请求：</p>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;https://spiderbuf.cn/playground/s02&quot;</span></span><br><span class="line"></span><br><span class="line">html = requests.get(url=url).text</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/02course/02.html&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">f.write(html)</span><br><span class="line">f.close()</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(html)</span><br><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/02course/data02.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    tds = tr.xpath(<span class="string">&#x27;./td&#x27;</span>)</span><br><span class="line">    s = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> td <span class="keyword">in</span> tds:</span><br><span class="line">        <span class="comment"># print(td.text)</span></span><br><span class="line">        s = s + <span class="built_in">str</span>(td.text) + <span class="string">&#x27; | &#x27;</span></span><br><span class="line">    <span class="built_in">print</span>(s)</span><br><span class="line">    <span class="keyword">if</span> s!= <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        f.write(s + <span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
+
+<p>输出结果：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">&lt;!DOCTYPE HTML PUBLIC &quot;-//IETF//DTD HTML 2.0//EN&quot;&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;&lt;title&gt;403 Forbidden&lt;/title&gt;&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;center&gt;&lt;h1&gt;403 Forbidden&lt;/h1&gt;&lt;/center&gt;</span><br><span class="line">&lt;hr&gt;&lt;center&gt;tengine&lt;/center&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></div>
+<p>很容易被网站检测到是爬虫。</p>
+<h1 id="2-添加请求头"><a href="#2-添加请求头" class="headerlink" title="2.添加请求头"></a>2.添加请求头</h1><p>所以基本上在发送请求之前都会封装一个<code>http</code>请求的头部信息：</p>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">html = requests.get(url=url, headers=headers).text</span><br></pre></td></tr></table></figure></div>
+
+<p>有时候还需要往里面填入<code>Cookie</code>。甚至为了防止被检测到是爬虫，需要更换<code>User-Agent</code>，比如用火狐浏览器的等，或者浏览器不同版本的，这在网上可以查询到。</p>
+]]></content>
+      <categories>
+        <category>Python爬虫</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Python 爬虫教程 04</title>
     <url>/2024/10/17/04Python%E7%88%AC%E8%99%AB/</url>
     <content><![CDATA[<h1 id="1-测试案例"><a href="#1-测试案例" class="headerlink" title="1.测试案例"></a>1.测试案例</h1><div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;https://spiderbuf.cn/playground/s03&quot;</span></span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">html = requests.get(url=url, headers=headers).text</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/03course/03.html&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">f.write(html)</span><br><span class="line">f.close()</span><br><span class="line"></span><br><span class="line"><span class="comment"># print(html)</span></span><br><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/03course/data03.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    tds = tr.xpath(<span class="string">&#x27;./td&#x27;</span>)</span><br><span class="line">    s = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> td <span class="keyword">in</span> tds:</span><br><span class="line">        s = s + <span class="built_in">str</span>(td.text) + <span class="string">&#x27; | &#x27;</span></span><br><span class="line">    <span class="built_in">print</span>(s)</span><br><span class="line">    <span class="keyword">if</span> s!= <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        f.write(s + <span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
@@ -443,27 +464,6 @@
 <p>这里有一个简单的方法，把解析部分的代码改成这样：</p>
 <div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/03course/data03.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    tds = tr.xpath(<span class="string">&#x27;./td&#x27;</span>)</span><br><span class="line">    s = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> td <span class="keyword">in</span> tds:</span><br><span class="line">        s = s + <span class="built_in">str</span>(td.xpath(<span class="string">&#x27;string(.)&#x27;</span>)) + <span class="string">&#x27;|&#x27;</span>        <span class="comment"># 修改过后的解析操作</span></span><br><span class="line">    <span class="built_in">print</span>(s)</span><br><span class="line">    <span class="keyword">if</span> s!= <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        f.write(s + <span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
 <p>这种方式可以获取元素及其所有子元素的完整文本，而不仅仅是直接子节点的文本。<code>.</code>表示当前节点，这里就表示把当前节点的所有文本内容（包括子节点中的文本）提取出来。</p>
-]]></content>
-      <categories>
-        <category>Python爬虫</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Python 爬虫教程 03</title>
-    <url>/2024/10/17/03Python%E7%88%AC%E8%99%AB/</url>
-    <content><![CDATA[<h1 id="1-无请求头访问"><a href="#1-无请求头访问" class="headerlink" title="1.无请求头访问"></a>1.无请求头访问</h1><p>如果不构建请求头，直接向目标网站发送请求：</p>
-<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;https://spiderbuf.cn/playground/s02&quot;</span></span><br><span class="line"></span><br><span class="line">html = requests.get(url=url).text</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/02course/02.html&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">f.write(html)</span><br><span class="line">f.close()</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(html)</span><br><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/02course/data02.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    tds = tr.xpath(<span class="string">&#x27;./td&#x27;</span>)</span><br><span class="line">    s = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> td <span class="keyword">in</span> tds:</span><br><span class="line">        <span class="comment"># print(td.text)</span></span><br><span class="line">        s = s + <span class="built_in">str</span>(td.text) + <span class="string">&#x27; | &#x27;</span></span><br><span class="line">    <span class="built_in">print</span>(s)</span><br><span class="line">    <span class="keyword">if</span> s!= <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        f.write(s + <span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
-
-<p>输出结果：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">&lt;!DOCTYPE HTML PUBLIC &quot;-//IETF//DTD HTML 2.0//EN&quot;&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;&lt;title&gt;403 Forbidden&lt;/title&gt;&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;center&gt;&lt;h1&gt;403 Forbidden&lt;/h1&gt;&lt;/center&gt;</span><br><span class="line">&lt;hr&gt;&lt;center&gt;tengine&lt;/center&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></div>
-<p>很容易被网站检测到是爬虫。</p>
-<h1 id="2-添加请求头"><a href="#2-添加请求头" class="headerlink" title="2.添加请求头"></a>2.添加请求头</h1><p>所以基本上在发送请求之前都会封装一个<code>http</code>请求的头部信息：</p>
-<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">html = requests.get(url=url, headers=headers).text</span><br></pre></td></tr></table></figure></div>
-
-<p>有时候还需要往里面填入<code>Cookie</code>。甚至为了防止被检测到是爬虫，需要更换<code>User-Agent</code>，比如用火狐浏览器的等，或者浏览器不同版本的，这在网上可以查询到。</p>
 ]]></content>
       <categories>
         <category>Python爬虫</category>
@@ -681,6 +681,71 @@
       </tags>
   </entry>
   <entry>
+    <title>Conda教程</title>
+    <url>/2024/07/19/Conda%E6%95%99%E7%A8%8B/</url>
+    <content><![CDATA[<h1 id="一、conda-指令"><a href="#一、conda-指令" class="headerlink" title="一、conda 指令"></a>一、conda 指令</h1><h2 id="1-1-查看配置"><a href="#1-1-查看配置" class="headerlink" title="1.1 查看配置"></a>1.1 查看配置</h2><div class="code-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="code"><pre><span class="line">conda config --show channels    # 查看镜像源</span><br><span class="line">conda config --show-sources        # 查看配置文件内容</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="1-2-设置代理端口"><a href="#1-2-设置代理端口" class="headerlink" title="1.2 设置代理端口"></a>1.2 设置代理端口</h2><div class="code-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">添加代理地址端口</span></span><br><span class="line">conda config --set proxy_servers.http http://127.0.0.1:10809</span><br><span class="line">conda config --set proxy_servers.https http://127.0.0.1:10809</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">移除代理</span></span><br><span class="line">conda config --remove-key proxy_servers</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="1-3-conda环境"><a href="#1-3-conda环境" class="headerlink" title="1.3 conda环境"></a>1.3 conda环境</h2><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 创建（带名字）</span></span><br><span class="line">conda create -n &lt;conda_name&gt; python=&lt;版本号&gt;</span><br><span class="line"><span class="comment"># 在指定文件路径下创建conda环境</span></span><br><span class="line">conda create --<span class="built_in">yes</span> --prefix /home/sky/桌面/pointTest/.conda python=3.11</span><br><span class="line"></span><br><span class="line"><span class="comment"># 激活conda环境</span></span><br><span class="line">conda activate &lt;conda_name&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 回到base环境</span></span><br><span class="line">conda deactivate</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看有哪些conda环境</span></span><br><span class="line">conda info --envs</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除全部环境</span></span><br><span class="line">conda remove -n env_name --all</span><br><span class="line"><span class="comment"># 删除指定环境</span></span><br><span class="line">conda <span class="built_in">env</span> remove -n env_name</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重命名环境（将 --clone 后面的环境重命名成 -n 后面的名字）</span></span><br><span class="line">conda create -n torch --<span class="built_in">clone</span> py3      <span class="comment"># 将 py3 重命名为 torch</span></span><br></pre></td></tr></table></figure></div>
+<p>注意：<code>--prefix/-p</code>不能与<code>--name/-n</code>同时使用！</p>
+<h2 id="1-4-下载库"><a href="#1-4-下载库" class="headerlink" title="1.4 下载库"></a>1.4 下载库</h2><div class="code-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">从 conda-forge 渠道中提供的包安装</span></span><br><span class="line">conda install -c conda-forge &lt;package_name&gt;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查询 conda-forge 中的包</span></span><br><span class="line">conda search -c conda-forge &lt;package_name&gt;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">安装指定版本的</span></span><br><span class="line">conda install -c conda-forge &lt;package_name&gt;=&lt;版本号&gt;</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="1-4-1-安装GDAL库"><a href="#1-4-1-安装GDAL库" class="headerlink" title="1.4.1 安装GDAL库"></a>1.4.1 安装GDAL库</h3><div class="code-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash"> 安装 gdal 的依赖库 geos 和 proj</span></span><br><span class="line">conda install geos proj</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">安装指定版本GDAL</span></span><br><span class="line">conda install -c conda-forge gdal=3.2.1</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="1-5-迁移-conda-环境"><a href="#1-5-迁移-conda-环境" class="headerlink" title="1.5 迁移 conda 环境"></a>1.5 迁移 conda 环境</h2><p>将要迁移的环境打包</p>
+<div class="code-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="code"><pre><span class="line">conda pack -n 虚拟环境名称 -o environment.tar.gz</span><br></pre></td></tr></table></figure></div>
+
+<p>如果报错：No command ‘conda pack’</p>
+<div class="code-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">尝试使用</span></span><br><span class="line">conda install -c conda-forge conda-pack</span><br></pre></td></tr></table></figure></div>
+
+<p>复制压缩文件到新的电脑环境。进到conda的安装目录：&#x2F;anaconda(或者miniconda)&#x2F;envs&#x2F;</p>
+<div class="code-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">对于 ubuntu 可以通过 whereis conda 查看 conda的安装路径</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="built_in">cd</span> 到 conda 的安装路径</span></span><br><span class="line">mkdir environment</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">解压conda环境：</span></span><br><span class="line">tar -xzvf environment.tar.gz -C  environment</span><br></pre></td></tr></table></figure></div>
+
+<h1 id="二、pip-指令"><a href="#二、pip-指令" class="headerlink" title="二、pip 指令"></a>二、pip 指令</h1><h2 id="2-1-使用临时镜像源下载库"><a href="#2-1-使用临时镜像源下载库" class="headerlink" title="2.1 使用临时镜像源下载库"></a>2.1 使用临时镜像源下载库</h2><div class="code-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="code"><pre><span class="line">pip install &lt;package_name&gt; -i &lt;镜像源url&gt;</span><br></pre></td></tr></table></figure></div>
+
+<h1 id="三、镜像源"><a href="#三、镜像源" class="headerlink" title="三、镜像源"></a>三、镜像源</h1><div class="code-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="code"><pre><span class="line">https://pypi.tuna.tsinghua.edu.cn/simple    # 清华</span><br><span class="line">https://pypi.mirrors.ustc.edu.cn/simple        # 中科大</span><br><span class="line">http://mirrors.aliyun.com/pypi/simple/        # 阿里云</span><br><span class="line">http://pypi.douban.com/simple/            # 豆瓣</span><br></pre></td></tr></table></figure></div>
+]]></content>
+      <tags>
+        <tag>conda</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>解决 Debian 系统下，软件包更新和软件下载速度慢的问题</title>
+    <url>/2024/12/03/Debian%E9%95%9C%E5%83%8F%E6%BA%90/</url>
+    <content><![CDATA[<h1 id="1-问题复现"><a href="#1-问题复现" class="headerlink" title="1.问题复现"></a>1.问题复现</h1><p>在安装后 Debian 系统后，一般第一步都是执行<code>sudo apt update</code>，此时用的是自带的官方镜像源，速度很慢，所以我们会选择切换为国内的镜像源，这里以清华镜像源为例，默认已经配置好了清华镜像源。</p>
+<p>在执行更新时：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">sky@DESKTOP-IU948AR:~$ <span class="built_in">sudo</span> apt update</span><br><span class="line">[<span class="built_in">sudo</span>] password <span class="keyword">for</span> sky: </span><br><span class="line">Err:1 https://security.debian.org/debian-security bookworm-security InRelease</span><br><span class="line">  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 151.101.2.132 443]</span><br><span class="line">Err:2 https://mirrors.tuna.tsinghua.edu.cn/debian bookworm InRelease</span><br><span class="line">  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">Err:3 https://mirrors.tuna.tsinghua.edu.cn/debian bookworm-updates InRelease</span><br><span class="line">  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">Err:4 https://mirrors.tuna.tsinghua.edu.cn/debian bookworm-backports InRelease</span><br><span class="line">  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">Reading package lists... Done</span><br><span class="line">Building dependency tree... Done</span><br><span class="line">Reading state information... Done</span><br><span class="line">All packages are up to <span class="built_in">date</span>.</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/debian/dists/bookworm/InRelease: No system certificates available. Try installing ca-certificates.    </span><br><span class="line">W: https://security.debian.org/debian-security/dists/bookworm-security/InRelease: No system certificates available. Try installing ca-certificates.</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/debian/dists/bookworm-updates/InRelease: No system certificates available. Try installing ca-certificates.</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/debian/dists/bookworm-backports/InRelease: No system certificates available. Try installing ca-certificates.</span><br><span class="line">W: Failed to fetch https://mirrors.tuna.tsinghua.edu.cn/debian/dists/bookworm/InRelease  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">W: Failed to fetch https://mirrors.tuna.tsinghua.edu.cn/debian/dists/bookworm-updates/InRelease  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]    </span><br><span class="line">W: Failed to fetch https://mirrors.tuna.tsinghua.edu.cn/debian/dists/bookworm-backports/InRelease  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]  </span><br><span class="line">W: Failed to fetch https://security.debian.org/debian-security/dists/bookworm-security/InRelease  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 151.101.2.132 443]  </span><br><span class="line">W: Some index files failed to download. They have been ignored, or old ones used instead.</span><br><span class="line"></span><br><span class="line">sky@DESKTOP-IU948AR:~$ <span class="built_in">sudo</span> apt install ca-certificates</span><br><span class="line">Reading package lists... Done</span><br><span class="line">Building dependency tree... Done</span><br><span class="line">Reading state information... Done</span><br><span class="line">Package ca-certificates is not available, but is referred to by another package.</span><br><span class="line">This may mean that the package is missing, has been obsoleted, or</span><br><span class="line">is only available from another <span class="built_in">source</span></span><br><span class="line"></span><br><span class="line">E: Package <span class="string">&#x27;ca-certificates&#x27;</span> has no installation candidate</span><br></pre></td></tr></table></figure></div>
+
+<p>可以看出更新失败，需要我们安装<code>ca-certificates</code>，但是又无法成功安装<code>ca-certificates</code>。</p>
+<h1 id="2-解决办法"><a href="#2-解决办法" class="headerlink" title="2.解决办法"></a>2.解决办法</h1><p>这个问题的核心是系统无法验证 HTTPS 源的证书，导致无法更新包管理器的索引或安装新软件包。这可能是因为系统缺少必要的 CA 证书或某些配置问题。</p>
+<h2 id="2-1-方式一：手动安装ca-certificates包"><a href="#2-1-方式一：手动安装ca-certificates包" class="headerlink" title="2.1 方式一：手动安装ca-certificates包"></a>2.1 方式一：手动安装<code>ca-certificates</code>包</h2><h3 id="2-1-1-下载-DEB-包"><a href="#2-1-1-下载-DEB-包" class="headerlink" title="2.1.1 下载 DEB 包"></a>2.1.1 下载 DEB 包</h3><ol>
+<li>在另一台可以正常联网的机器上，访问 <a class="link"   href="https://packages.debian.org/" >Debian Packages<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>。</li>
+<li>下载与系统版本匹配的 <code>ca-certificates</code> 包。例如，适用于 Bookworm 的链接可能是：<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://packages.debian.org/bookworm/all/ca-certificates/download</span><br></pre></td></tr></table></figure></div></li>
+<li>使用 USB 或其他方法将下载的 <code>.deb</code> 文件复制到你的系统。</li>
+</ol>
+<h3 id="2-1-2-手动安装包"><a href="#2-1-2-手动安装包" class="headerlink" title="2.1.2 手动安装包"></a>2.1.2 手动安装包</h3><p>在目标机器上运行以下命令：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> dpkg -i /path/to/ca-certificates*.deb</span><br><span class="line"><span class="built_in">sudo</span> apt update</span><br></pre></td></tr></table></figure></div>
+
+<hr>
+<h3 id="2-2-方式二：临时禁用-HTTPS-验证（推荐）"><a href="#2-2-方式二：临时禁用-HTTPS-验证（推荐）" class="headerlink" title="2.2 方式二：临时禁用 HTTPS 验证（推荐）"></a>2.2 方式二：临时禁用 HTTPS 验证（推荐）</h3><p>可以尝试临时禁用 HTTPS 验证以更新软件源和安装 <code>ca-certificates</code>：</p>
+<p>编辑 <code>/etc/apt/apt.conf.d/99disable-https-check</code> 文件：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nano /etc/apt/apt.conf.d/99disable-https-check</span><br></pre></td></tr></table></figure></div>
+
+<p>添加以下内容：</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">Acquire::https::Verify-Peer &quot;false&quot;;</span><br><span class="line">Acquire::https::Verify-Host &quot;false&quot;;</span><br></pre></td></tr></table></figure></div>
+
+<p>保存后运行以下命令：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt update</span><br><span class="line"><span class="built_in">sudo</span> apt install ca-certificates</span><br></pre></td></tr></table></figure></div>
+
+<p>安装完 <code>ca-certificates</code> 后，删除或注释掉该配置以恢复安全性。</p>
+<p>也可以直接在命令行临时禁用：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">apt -o Acquire::https::Verify-Peer=<span class="literal">false</span> -o Acquire::https::Verify-Host=<span class="literal">false</span> update</span><br></pre></td></tr></table></figure></div>]]></content>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>通过Docker搭建Hexo博客</title>
     <url>/2024/07/24/Docker-Hexo/</url>
     <content><![CDATA[<h1 id="1-创建项目文件夹"><a href="#1-创建项目文件夹" class="headerlink" title="1.创建项目文件夹"></a>1.创建项目文件夹</h1><p>创建博客的工作</p>
@@ -847,41 +912,6 @@
 <div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker inspect &lt;容器名/容器ID/镜像名/镜像ID&gt;</span><br></pre></td></tr></table></figure></div>]]></content>
       <tags>
         <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>解决 Debian 系统下，软件包更新和软件下载速度慢的问题</title>
-    <url>/2024/12/03/Debian%E9%95%9C%E5%83%8F%E6%BA%90/</url>
-    <content><![CDATA[<h1 id="1-问题复现"><a href="#1-问题复现" class="headerlink" title="1.问题复现"></a>1.问题复现</h1><p>在安装后 Debian 系统后，一般第一步都是执行<code>sudo apt update</code>，此时用的是自带的官方镜像源，速度很慢，所以我们会选择切换为国内的镜像源，这里以清华镜像源为例，默认已经配置好了清华镜像源。</p>
-<p>在执行更新时：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">sky@DESKTOP-IU948AR:~$ <span class="built_in">sudo</span> apt update</span><br><span class="line">[<span class="built_in">sudo</span>] password <span class="keyword">for</span> sky: </span><br><span class="line">Err:1 https://security.debian.org/debian-security bookworm-security InRelease</span><br><span class="line">  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 151.101.2.132 443]</span><br><span class="line">Err:2 https://mirrors.tuna.tsinghua.edu.cn/debian bookworm InRelease</span><br><span class="line">  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">Err:3 https://mirrors.tuna.tsinghua.edu.cn/debian bookworm-updates InRelease</span><br><span class="line">  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">Err:4 https://mirrors.tuna.tsinghua.edu.cn/debian bookworm-backports InRelease</span><br><span class="line">  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">Reading package lists... Done</span><br><span class="line">Building dependency tree... Done</span><br><span class="line">Reading state information... Done</span><br><span class="line">All packages are up to <span class="built_in">date</span>.</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/debian/dists/bookworm/InRelease: No system certificates available. Try installing ca-certificates.    </span><br><span class="line">W: https://security.debian.org/debian-security/dists/bookworm-security/InRelease: No system certificates available. Try installing ca-certificates.</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/debian/dists/bookworm-updates/InRelease: No system certificates available. Try installing ca-certificates.</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/debian/dists/bookworm-backports/InRelease: No system certificates available. Try installing ca-certificates.</span><br><span class="line">W: Failed to fetch https://mirrors.tuna.tsinghua.edu.cn/debian/dists/bookworm/InRelease  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">W: Failed to fetch https://mirrors.tuna.tsinghua.edu.cn/debian/dists/bookworm-updates/InRelease  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]    </span><br><span class="line">W: Failed to fetch https://mirrors.tuna.tsinghua.edu.cn/debian/dists/bookworm-backports/InRelease  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]  </span><br><span class="line">W: Failed to fetch https://security.debian.org/debian-security/dists/bookworm-security/InRelease  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 151.101.2.132 443]  </span><br><span class="line">W: Some index files failed to download. They have been ignored, or old ones used instead.</span><br><span class="line"></span><br><span class="line">sky@DESKTOP-IU948AR:~$ <span class="built_in">sudo</span> apt install ca-certificates</span><br><span class="line">Reading package lists... Done</span><br><span class="line">Building dependency tree... Done</span><br><span class="line">Reading state information... Done</span><br><span class="line">Package ca-certificates is not available, but is referred to by another package.</span><br><span class="line">This may mean that the package is missing, has been obsoleted, or</span><br><span class="line">is only available from another <span class="built_in">source</span></span><br><span class="line"></span><br><span class="line">E: Package <span class="string">&#x27;ca-certificates&#x27;</span> has no installation candidate</span><br></pre></td></tr></table></figure></div>
-
-<p>可以看出更新失败，需要我们安装<code>ca-certificates</code>，但是又无法成功安装<code>ca-certificates</code>。</p>
-<h1 id="2-解决办法"><a href="#2-解决办法" class="headerlink" title="2.解决办法"></a>2.解决办法</h1><p>这个问题的核心是系统无法验证 HTTPS 源的证书，导致无法更新包管理器的索引或安装新软件包。这可能是因为系统缺少必要的 CA 证书或某些配置问题。</p>
-<h2 id="2-1-方式一：手动安装ca-certificates包"><a href="#2-1-方式一：手动安装ca-certificates包" class="headerlink" title="2.1 方式一：手动安装ca-certificates包"></a>2.1 方式一：手动安装<code>ca-certificates</code>包</h2><h3 id="2-1-1-下载-DEB-包"><a href="#2-1-1-下载-DEB-包" class="headerlink" title="2.1.1 下载 DEB 包"></a>2.1.1 下载 DEB 包</h3><ol>
-<li>在另一台可以正常联网的机器上，访问 <a class="link"   href="https://packages.debian.org/" >Debian Packages<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>。</li>
-<li>下载与系统版本匹配的 <code>ca-certificates</code> 包。例如，适用于 Bookworm 的链接可能是：<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://packages.debian.org/bookworm/all/ca-certificates/download</span><br></pre></td></tr></table></figure></div></li>
-<li>使用 USB 或其他方法将下载的 <code>.deb</code> 文件复制到你的系统。</li>
-</ol>
-<h3 id="2-1-2-手动安装包"><a href="#2-1-2-手动安装包" class="headerlink" title="2.1.2 手动安装包"></a>2.1.2 手动安装包</h3><p>在目标机器上运行以下命令：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> dpkg -i /path/to/ca-certificates*.deb</span><br><span class="line"><span class="built_in">sudo</span> apt update</span><br></pre></td></tr></table></figure></div>
-
-<hr>
-<h3 id="2-2-方式二：临时禁用-HTTPS-验证（推荐）"><a href="#2-2-方式二：临时禁用-HTTPS-验证（推荐）" class="headerlink" title="2.2 方式二：临时禁用 HTTPS 验证（推荐）"></a>2.2 方式二：临时禁用 HTTPS 验证（推荐）</h3><p>可以尝试临时禁用 HTTPS 验证以更新软件源和安装 <code>ca-certificates</code>：</p>
-<p>编辑 <code>/etc/apt/apt.conf.d/99disable-https-check</code> 文件：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nano /etc/apt/apt.conf.d/99disable-https-check</span><br></pre></td></tr></table></figure></div>
-
-<p>添加以下内容：</p>
-<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">Acquire::https::Verify-Peer &quot;false&quot;;</span><br><span class="line">Acquire::https::Verify-Host &quot;false&quot;;</span><br></pre></td></tr></table></figure></div>
-
-<p>保存后运行以下命令：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt update</span><br><span class="line"><span class="built_in">sudo</span> apt install ca-certificates</span><br></pre></td></tr></table></figure></div>
-
-<p>安装完 <code>ca-certificates</code> 后，删除或注释掉该配置以恢复安全性。</p>
-<p>也可以直接在命令行临时禁用：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">apt -o Acquire::https::Verify-Peer=<span class="literal">false</span> -o Acquire::https::Verify-Host=<span class="literal">false</span> update</span><br></pre></td></tr></table></figure></div>]]></content>
-      <tags>
-        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -1153,41 +1183,11 @@
         <category>科学上网</category>
       </categories>
       <tags>
-        <tag>docker</tag>
         <tag>linux</tag>
+        <tag>docker</tag>
         <tag>proxy</tag>
         <tag>openwrt</tag>
         <tag>虚拟机</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Conda教程</title>
-    <url>/2024/07/19/Conda%E6%95%99%E7%A8%8B/</url>
-    <content><![CDATA[<h1 id="一、conda-指令"><a href="#一、conda-指令" class="headerlink" title="一、conda 指令"></a>一、conda 指令</h1><h2 id="1-1-查看配置"><a href="#1-1-查看配置" class="headerlink" title="1.1 查看配置"></a>1.1 查看配置</h2><div class="code-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="code"><pre><span class="line">conda config --show channels    # 查看镜像源</span><br><span class="line">conda config --show-sources        # 查看配置文件内容</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="1-2-设置代理端口"><a href="#1-2-设置代理端口" class="headerlink" title="1.2 设置代理端口"></a>1.2 设置代理端口</h2><div class="code-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">添加代理地址端口</span></span><br><span class="line">conda config --set proxy_servers.http http://127.0.0.1:10809</span><br><span class="line">conda config --set proxy_servers.https http://127.0.0.1:10809</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">移除代理</span></span><br><span class="line">conda config --remove-key proxy_servers</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="1-3-conda环境"><a href="#1-3-conda环境" class="headerlink" title="1.3 conda环境"></a>1.3 conda环境</h2><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 创建（带名字）</span></span><br><span class="line">conda create -n &lt;conda_name&gt; python=&lt;版本号&gt;</span><br><span class="line"><span class="comment"># 在指定文件路径下创建conda环境</span></span><br><span class="line">conda create --<span class="built_in">yes</span> --prefix /home/sky/桌面/pointTest/.conda python=3.11</span><br><span class="line"></span><br><span class="line"><span class="comment"># 激活conda环境</span></span><br><span class="line">conda activate &lt;conda_name&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 回到base环境</span></span><br><span class="line">conda deactivate</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看有哪些conda环境</span></span><br><span class="line">conda info --envs</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除全部环境</span></span><br><span class="line">conda remove -n env_name --all</span><br><span class="line"><span class="comment"># 删除指定环境</span></span><br><span class="line">conda <span class="built_in">env</span> remove -n env_name</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重命名环境（将 --clone 后面的环境重命名成 -n 后面的名字）</span></span><br><span class="line">conda create -n torch --<span class="built_in">clone</span> py3      <span class="comment"># 将 py3 重命名为 torch</span></span><br></pre></td></tr></table></figure></div>
-<p>注意：<code>--prefix/-p</code>不能与<code>--name/-n</code>同时使用！</p>
-<h2 id="1-4-下载库"><a href="#1-4-下载库" class="headerlink" title="1.4 下载库"></a>1.4 下载库</h2><div class="code-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">从 conda-forge 渠道中提供的包安装</span></span><br><span class="line">conda install -c conda-forge &lt;package_name&gt;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查询 conda-forge 中的包</span></span><br><span class="line">conda search -c conda-forge &lt;package_name&gt;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">安装指定版本的</span></span><br><span class="line">conda install -c conda-forge &lt;package_name&gt;=&lt;版本号&gt;</span><br></pre></td></tr></table></figure></div>
-
-<h3 id="1-4-1-安装GDAL库"><a href="#1-4-1-安装GDAL库" class="headerlink" title="1.4.1 安装GDAL库"></a>1.4.1 安装GDAL库</h3><div class="code-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash"> 安装 gdal 的依赖库 geos 和 proj</span></span><br><span class="line">conda install geos proj</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">安装指定版本GDAL</span></span><br><span class="line">conda install -c conda-forge gdal=3.2.1</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="1-5-迁移-conda-环境"><a href="#1-5-迁移-conda-环境" class="headerlink" title="1.5 迁移 conda 环境"></a>1.5 迁移 conda 环境</h2><p>将要迁移的环境打包</p>
-<div class="code-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="code"><pre><span class="line">conda pack -n 虚拟环境名称 -o environment.tar.gz</span><br></pre></td></tr></table></figure></div>
-
-<p>如果报错：No command ‘conda pack’</p>
-<div class="code-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">尝试使用</span></span><br><span class="line">conda install -c conda-forge conda-pack</span><br></pre></td></tr></table></figure></div>
-
-<p>复制压缩文件到新的电脑环境。进到conda的安装目录：&#x2F;anaconda(或者miniconda)&#x2F;envs&#x2F;</p>
-<div class="code-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">对于 ubuntu 可以通过 whereis conda 查看 conda的安装路径</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="built_in">cd</span> 到 conda 的安装路径</span></span><br><span class="line">mkdir environment</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">解压conda环境：</span></span><br><span class="line">tar -xzvf environment.tar.gz -C  environment</span><br></pre></td></tr></table></figure></div>
-
-<h1 id="二、pip-指令"><a href="#二、pip-指令" class="headerlink" title="二、pip 指令"></a>二、pip 指令</h1><h2 id="2-1-使用临时镜像源下载库"><a href="#2-1-使用临时镜像源下载库" class="headerlink" title="2.1 使用临时镜像源下载库"></a>2.1 使用临时镜像源下载库</h2><div class="code-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="code"><pre><span class="line">pip install &lt;package_name&gt; -i &lt;镜像源url&gt;</span><br></pre></td></tr></table></figure></div>
-
-<h1 id="三、镜像源"><a href="#三、镜像源" class="headerlink" title="三、镜像源"></a>三、镜像源</h1><div class="code-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="code"><pre><span class="line">https://pypi.tuna.tsinghua.edu.cn/simple    # 清华</span><br><span class="line">https://pypi.mirrors.ustc.edu.cn/simple        # 中科大</span><br><span class="line">http://mirrors.aliyun.com/pypi/simple/        # 阿里云</span><br><span class="line">http://pypi.douban.com/simple/            # 豆瓣</span><br></pre></td></tr></table></figure></div>
-]]></content>
-      <tags>
-        <tag>conda</tag>
       </tags>
   </entry>
   <entry>
@@ -2138,8 +2138,8 @@
 <p>命令简化：</p>
 <div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">alias din=&#x27;docker inspect --format=&#x27;&#123;&#123;.HostConfig.NetworkMode&#125;&#125;&#x27;&#x27;</span><br></pre></td></tr></table></figure></div>]]></content>
       <tags>
-        <tag>docker</tag>
         <tag>linux</tag>
+        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -2219,8 +2219,8 @@
 <p>保存并退出编辑器，然后执行<code>source ~/.zshrc</code>。</p>
 ]]></content>
       <tags>
-        <tag>linux</tag>
         <tag>conda</tag>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -2554,8 +2554,8 @@
         <category>科学上网</category>
       </categories>
       <tags>
-        <tag>docker</tag>
         <tag>linux</tag>
+        <tag>docker</tag>
         <tag>proxy</tag>
         <tag>clash</tag>
       </tags>
@@ -3102,8 +3102,8 @@
 <p>然后重启系统即可。</p>
 <h1 id="3-中文空格乱码解决"><a href="#3-中文空格乱码解决" class="headerlink" title="3.中文空格乱码解决"></a>3.中文空格乱码解决</h1><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt-get install fonts-droid-fallback ttf-wqy-zenhei ttf-wqy-microhei fonts-arphic-ukai fonts-arphic-uming</span><br></pre></td></tr></table></figure></div>]]></content>
       <tags>
-        <tag>docker</tag>
         <tag>linux</tag>
+        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -3280,8 +3280,8 @@
 </ul>
 ]]></content>
       <tags>
-        <tag>docker</tag>
         <tag>linux</tag>
+        <tag>docker</tag>
         <tag>WSL</tag>
       </tags>
   </entry>
@@ -3433,6 +3433,88 @@
         <tag>linux</tag>
         <tag>ssh</tag>
         <tag>内网穿透</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>谈谈 CMake 中的 find_package</title>
+    <url>/2024/12/16/cmake%E4%B8%AD%E7%9A%84find_package/</url>
+    <content><![CDATA[<h1 id="1-find-package-说明"><a href="#1-find-package-说明" class="headerlink" title="1.find_package 说明"></a>1.find_package 说明</h1><p><code>find_package</code> 是 CMake 中用于 <strong>查找外部库或包</strong> 的命令。它的主要作用是帮助 CMake 找到第三方库、工具或模块，并导入它们所需的信息（如库路径、头文件路径、链接依赖关系等），以便项目可以顺利进行编译和链接。</p>
+<h2 id="1-1-工作原理"><a href="#1-1-工作原理" class="headerlink" title="1.1 工作原理"></a>1.1 工作原理</h2><p><code>find_package</code> 会在系统指定的路径中查找某个包，并加载与该包相关的信息。可以通过下面这种方式查看系统路径：</p>
+<div class="code-container" data-rel="Cmake"><figure class="iseeu highlight cmake"><table><tr><td class="code"><pre><span class="line"><span class="keyword">foreach</span>(path <span class="variable">$&#123;CMAKE_SYSTEM_PREFIX_PATH&#125;</span>)</span><br><span class="line">  <span class="keyword">message</span>(STATUS <span class="string">&quot;$&#123;path&#125;&quot;</span>)</span><br><span class="line"><span class="keyword">endforeach</span>()</span><br></pre></td></tr></table></figure></div>
+
+<p>会输出：</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">-- /usr/local</span><br><span class="line">-- /usr</span><br><span class="line">-- /</span><br><span class="line">-- /usr</span><br><span class="line">-- /usr/local</span><br><span class="line">-- /usr/X11R6</span><br><span class="line">-- /usr/pkg</span><br><span class="line">-- /opt</span><br></pre></td></tr></table></figure></div>
+
+<p>查找包时，它主要依赖以下机制：</p>
+<ol>
+<li><strong>查找路径</strong><br>CMake 会按顺序查找以下路径来寻找包：<ol>
+<li>用户指定的路径：通过 <code>CMAKE_PREFIX_PATH</code> 或 <code>PATHS</code> 参数指定的路径。</li>
+<li>默认路径：</li>
+</ol>
+<ul>
+<li>系统路径。</li>
+<li>环境变量，如 <code>CMAKE_MODULE_PATH</code> 和 <code>CMAKE_FIND_ROOT_PATH</code>。</li>
+</ul>
+<ol start="3">
+<li>CMake 模块路径：CMake 内置的模块搜索路径。</li>
+<li>自定义的查找脚本：</li>
+</ol>
+<ul>
+<li>自定义的 <code>&lt;package&gt;Config.cmake</code> 文件。</li>
+<li><code>Find&lt;Package&gt;.cmake</code> 模块文件。</li>
+</ul>
+</li>
+</ol>
+<p>CMake 按照这些路径的顺序进行搜索，找到第一个匹配的结果即停止。</p>
+<ol start="2">
+<li><p><strong>工作模式</strong><br><code>find_package</code> 有两种主要工作模式：</p>
+<ol>
+<li><p>Config 模式（配置文件模式）<br>查找 <code>&lt;Package&gt;Config.cmake</code> 或 <code>&lt;lowercase-package&gt;-config.cmake</code> 文件。该模式通常用于现代 CMake 兼容的库或第三方项目，它们会生成配置文件供 CMake 使用。</p>
+</li>
+<li><p>Module 模式（模块文件模式）<br>查找 <code>Find&lt;Package&gt;.cmake</code> 文件。此模式通常用于 CMake 自带的模块文件或用户定义的模块文件。</p>
+</li>
+</ol>
+</li>
+<li><p><strong>工作流程</strong><br>当你调用 <code>find_package(&lt;Package&gt; REQUIRED)</code> 时：</p>
+<ol>
+<li>首先查找 <code>&lt;Package&gt;Config.cmake</code> 配置文件。</li>
+<li>如果找不到，再查找 <code>Find&lt;Package&gt;.cmake</code> 模块文件。</li>
+<li>成功找到后，CMake 会设置一系列变量（如 <code>&lt;Package&gt;_INCLUDE_DIRS</code>、<code>&lt;Package&gt;_LIBRARIES</code> 等），这些变量可以在后续的 <code>target_include_directories</code> 和 <code>target_link_libraries</code> 中使用。</li>
+<li>如果添加 <code>REQUIRED</code> 选项但未找到包，CMake 将报错。</li>
+</ol>
+</li>
+</ol>
+<h2 id="1-2-基本语法"><a href="#1-2-基本语法" class="headerlink" title="1.2 基本语法"></a>1.2 基本语法</h2><div class="code-container" data-rel="Cmake"><figure class="iseeu highlight cmake"><table><tr><td class="code"><pre><span class="line"><span class="keyword">find_package</span>(&lt;PackageName&gt; [version] [EXACT] [QUIET] [REQUIRED] [MODULE])</span><br></pre></td></tr></table></figure></div>
+
+<p>参数说明：</p>
+<ol>
+<li><code>&lt;PackageName&gt;</code>：要查找的包名。</li>
+<li><code>[version]</code>：指定包的版本号，例如 <code>1.2.3</code>。</li>
+<li><code>EXACT</code>：要求找到的版本必须完全匹配指定的版本号。</li>
+<li><code>QUIET</code>：找到包时不输出查找过程的日志信息。</li>
+<li><code>REQUIRED</code>：如果未找到包，CMake 将终止配置并报错。</li>
+<li><code>MODULE</code>：强制 CMake 只查找 <code>Find&lt;Package&gt;.cmake</code> 模块文件，而不查找 <code>&lt;Package&gt;Config.cmake</code>。</li>
+</ol>
+<h2 id="1-3-使用-find-package-的结果"><a href="#1-3-使用-find-package-的结果" class="headerlink" title="1.3 使用 find_package 的结果"></a>1.3 使用 find_package 的结果</h2><p><code>find_package</code> 成功找到包后，通常会设置一些变量，用户可以使用这些变量来链接库、包含头文件等。</p>
+<p>常见的变量包括：</p>
+<ul>
+<li><code>&lt;Package&gt;_FOUND</code>：是否找到包，值为 <code>TRUE</code> 或 <code>FALSE</code>。</li>
+<li><code>&lt;Package&gt;_INCLUDE_DIRS</code>：包的头文件目录。</li>
+<li><code>&lt;Package&gt;_LIBRARIES</code>：包的库文件路径。</li>
+<li><code>&lt;Package&gt;_VERSION</code>：找到的包的版本号。</li>
+</ul>
+<hr>
+<h1 id="2-注意点"><a href="#2-注意点" class="headerlink" title="2.注意点"></a>2.注意点</h1><p>在 CMake 中，<code>find_package</code> 对包名是 <strong>大小写敏感</strong> 的，包名必须与库提供的 <code>&lt;Package&gt;Config.cmake</code> 文件名、模块文件名（如 <code>Find&lt;Package&gt;.cmake</code>）中的定义 <strong>完全匹配</strong> 。</p>
+<p>在不确定大小写时，可以通过查找库的 <strong>CMake 配置文件</strong> 方式来确定，通常位于库的安装路径下：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">find /usr /opt -name <span class="string">&quot;*Config.cmake&quot;</span></span><br></pre></td></tr></table></figure></div>
+<p>例如，找到 <code>/usr/lib/cmake/Qt5/Qt5Config.cmake</code>，说明包名是 <code>Qt5</code>。</p>
+]]></content>
+      <categories>
+        <category>C++</category>
+      </categories>
+      <tags>
+        <tag>c++</tag>
+        <tag>cmake</tag>
       </tags>
   </entry>
   <entry>
