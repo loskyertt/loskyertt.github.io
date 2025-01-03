@@ -711,6 +711,33 @@
       </tags>
   </entry>
   <entry>
+    <title>解决 Debian 下中文乱码问题</title>
+    <url>/2025/01/03/Debian%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/</url>
+    <content><![CDATA[<h1 id="1-安装语言包"><a href="#1-安装语言包" class="headerlink" title="1.安装语言包"></a>1.安装语言包</h1><p>首先需要安装<code>locales</code>这个软件包：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">apt install locales</span><br></pre></td></tr></table></figure></div>
+
+<p>然后执行下面命令并配置语言环境：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">dpkg-reconfigure locales</span><br></pre></td></tr></table></figure></div>
+
+<h1 id="2-修改配置"><a href="#2-修改配置" class="headerlink" title="2.修改配置"></a>2.修改配置</h1><p>修改<code>~/.bashrc</code>文件：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">nano ~/.bashrc</span><br></pre></td></tr></table></figure></div>
+
+<p>添加：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">export LANG=zh_CN.UTF-8</span><br><span class="line">export LANGUAGE=zh_CN:zh</span><br><span class="line">export LC_ALL=zh_CN.UTF-8</span><br></pre></td></tr></table></figure></div>
+
+<p>然后执行：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">source</span> ~/.bashrc</span><br></pre></td></tr></table></figure></div>
+
+<h1 id="3-参考链接"><a href="#3-参考链接" class="headerlink" title="3.参考链接"></a>3.参考链接</h1><ul>
+<li><a class="link"   href="https://developer.aliyun.com/article/1143167" >Debian配置系统中文语言及环境<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+</ul>
+]]></content>
+      <tags>
+        <tag>linux</tag>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>解决 Debian 系统下，软件包更新和软件下载速度慢的问题</title>
     <url>/2024/12/03/Debian%E9%95%9C%E5%83%8F%E6%BA%90/</url>
     <content><![CDATA[<h1 id="1-问题复现"><a href="#1-问题复现" class="headerlink" title="1.问题复现"></a>1.问题复现</h1><p>在安装后 Debian 系统后，一般第一步都是执行<code>sudo apt update</code>，此时用的是自带的官方镜像源，速度很慢，所以我们会选择切换为国内的镜像源，这里以清华镜像源为例，默认已经配置好了清华镜像源。</p>
@@ -1782,6 +1809,41 @@
       </tags>
   </entry>
   <entry>
+    <title>Linux 和 Windows 双系统下的 grub 引导修复</title>
+    <url>/2024/10/28/Grub%E5%BC%95%E5%AF%BC%E4%BF%AE%E5%A4%8D/</url>
+    <content><![CDATA[<h1 id="1-出现的问题"><a href="#1-出现的问题" class="headerlink" title="1.出现的问题"></a>1.出现的问题</h1><p>如下图所示：<br><a href="https://imgse.com/i/pA05Jit"><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s21.ax1x.com/2024/10/28/pA05Jit.jpg"
+                      alt="引导出错.jpg"
+                ><figcaption>引导出错.jpg</figcaption></figure></a><br>提示找不到<code>/efi/Microsoft/Boot/bootmgfw.efi</code>，<code>no such device: 4458-2764</code>。后面这一串数据其实是<code>Windows</code>引导分区的<code>UUID</code>。一般情况下是因为重装系统，导致<code>UUID</code>改变了，但是 Linux 下的 Grub 引导并没有进行修改，这时候是需要手动修改的。</p>
+<h1 id="2-解决方案"><a href="#2-解决方案" class="headerlink" title="2.解决方案"></a>2.解决方案</h1><p>首先需要知道 Windows 的引导分区是否存在：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">lsblk</span><br></pre></td></tr></table></figure></div>
+<p>或者使用：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> fdisk -l</span><br></pre></td></tr></table></figure></div>
+<p>显示的信息更详细。</p>
+<p>输出：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">NAME        MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS</span><br><span class="line">nvme1n1     259:0    0 476.9G  0 disk </span><br><span class="line">├─nvme1n1p1 259:1    0   300M  0 part </span><br><span class="line">├─nvme1n1p2 259:2    0    16M  0 part </span><br><span class="line">├─nvme1n1p3 259:3    0   100G  0 part </span><br><span class="line">└─nvme1n1p4 259:4    0 376.6G  0 part </span><br><span class="line">nvme0n1     259:5    0 238.5G  0 disk </span><br><span class="line">├─nvme0n1p1 259:6    0   301M  0 part /boot/efi</span><br><span class="line">└─nvme0n1p2 259:7    0 238.2G  0 part /</span><br></pre></td></tr></table></figure></div>
+<p>根据自己电脑磁盘情况查找，我的是<code>nvme1n1p1</code>（一般都是<code>300M</code>的那个分区）。然后记住这个分区名。</p>
+<p>查看分区<code>UUID</code>：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> blkid /dev/nvme1n1p1</span><br></pre></td></tr></table></figure></div>
+
+<p>输出：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">/dev/nvme1n1p1: UUID=&quot;9252-7D2A&quot; BLOCK_SIZE=&quot;512&quot; TYPE=&quot;vfat&quot; PARTLABEL=&quot;EFI system partition&quot; PARTUUID=&quot;c9ce23fc-7bde-40a9-8cce-8da0df9079cb&quot;</span><br></pre></td></tr></table></figure></div>
+
+<p>把这个<code>UUID</code>记下，我的这里是<code>9252-7D2A</code>。</p>
+<p>打开并编辑<code>/boot/grub/grub.cfg</code>文件：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nano /boot/grub/grub.cfg</span><br></pre></td></tr></table></figure></div>
+
+<p>找到这样的一个内容：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">menuentry &#x27;Windows Boot Manager (on /dev/nvme0n1p1)&#x27; --class windows --class os $menuentry_id_option &#x27;osprober-efi-4458-2764&gt;</span><br><span class="line">        insmod part_gpt</span><br><span class="line">        insmod fat</span><br><span class="line">        search --no-floppy --fs-uuid --set=root 9252-7D2A</span><br><span class="line">        chainloader /efi/Microsoft/Boot/bootmgfw.efi</span><br></pre></td></tr></table></figure></div>
+<p>把<code>--set=root</code>后面的<code>UUID</code>改为你自己电脑的，然后重启电脑就行了。</p>
+]]></content>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Git教程</title>
     <url>/2024/07/19/Git%E6%95%99%E7%A8%8B/</url>
     <content><![CDATA[<h1 id="一、-SSH-连接"><a href="#一、-SSH-连接" class="headerlink" title="一、 SSH 连接"></a>一、 SSH 连接</h1><p>需要提前安装好<code>OpenSSH</code>:</p>
@@ -1857,41 +1919,6 @@
       <tags>
         <tag>linux</tag>
         <tag>git</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Linux 和 Windows 双系统下的 grub 引导修复</title>
-    <url>/2024/10/28/Grub%E5%BC%95%E5%AF%BC%E4%BF%AE%E5%A4%8D/</url>
-    <content><![CDATA[<h1 id="1-出现的问题"><a href="#1-出现的问题" class="headerlink" title="1.出现的问题"></a>1.出现的问题</h1><p>如下图所示：<br><a href="https://imgse.com/i/pA05Jit"><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://s21.ax1x.com/2024/10/28/pA05Jit.jpg"
-                      alt="引导出错.jpg"
-                ><figcaption>引导出错.jpg</figcaption></figure></a><br>提示找不到<code>/efi/Microsoft/Boot/bootmgfw.efi</code>，<code>no such device: 4458-2764</code>。后面这一串数据其实是<code>Windows</code>引导分区的<code>UUID</code>。一般情况下是因为重装系统，导致<code>UUID</code>改变了，但是 Linux 下的 Grub 引导并没有进行修改，这时候是需要手动修改的。</p>
-<h1 id="2-解决方案"><a href="#2-解决方案" class="headerlink" title="2.解决方案"></a>2.解决方案</h1><p>首先需要知道 Windows 的引导分区是否存在：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">lsblk</span><br></pre></td></tr></table></figure></div>
-<p>或者使用：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> fdisk -l</span><br></pre></td></tr></table></figure></div>
-<p>显示的信息更详细。</p>
-<p>输出：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">NAME        MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS</span><br><span class="line">nvme1n1     259:0    0 476.9G  0 disk </span><br><span class="line">├─nvme1n1p1 259:1    0   300M  0 part </span><br><span class="line">├─nvme1n1p2 259:2    0    16M  0 part </span><br><span class="line">├─nvme1n1p3 259:3    0   100G  0 part </span><br><span class="line">└─nvme1n1p4 259:4    0 376.6G  0 part </span><br><span class="line">nvme0n1     259:5    0 238.5G  0 disk </span><br><span class="line">├─nvme0n1p1 259:6    0   301M  0 part /boot/efi</span><br><span class="line">└─nvme0n1p2 259:7    0 238.2G  0 part /</span><br></pre></td></tr></table></figure></div>
-<p>根据自己电脑磁盘情况查找，我的是<code>nvme1n1p1</code>（一般都是<code>300M</code>的那个分区）。然后记住这个分区名。</p>
-<p>查看分区<code>UUID</code>：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> blkid /dev/nvme1n1p1</span><br></pre></td></tr></table></figure></div>
-
-<p>输出：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">/dev/nvme1n1p1: UUID=&quot;9252-7D2A&quot; BLOCK_SIZE=&quot;512&quot; TYPE=&quot;vfat&quot; PARTLABEL=&quot;EFI system partition&quot; PARTUUID=&quot;c9ce23fc-7bde-40a9-8cce-8da0df9079cb&quot;</span><br></pre></td></tr></table></figure></div>
-
-<p>把这个<code>UUID</code>记下，我的这里是<code>9252-7D2A</code>。</p>
-<p>打开并编辑<code>/boot/grub/grub.cfg</code>文件：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nano /boot/grub/grub.cfg</span><br></pre></td></tr></table></figure></div>
-
-<p>找到这样的一个内容：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">menuentry &#x27;Windows Boot Manager (on /dev/nvme0n1p1)&#x27; --class windows --class os $menuentry_id_option &#x27;osprober-efi-4458-2764&gt;</span><br><span class="line">        insmod part_gpt</span><br><span class="line">        insmod fat</span><br><span class="line">        search --no-floppy --fs-uuid --set=root 9252-7D2A</span><br><span class="line">        chainloader /efi/Microsoft/Boot/bootmgfw.efi</span><br></pre></td></tr></table></figure></div>
-<p>把<code>--set=root</code>后面的<code>UUID</code>改为你自己电脑的，然后重启电脑就行了。</p>
-]]></content>
-      <tags>
-        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -3286,107 +3313,6 @@
       </tags>
   </entry>
   <entry>
-    <title>WSL2 的使用教程</title>
-    <url>/2024/11/12/WSL2%E6%95%99%E7%A8%8B/</url>
-    <content><![CDATA[<h1 id="1-安装和升级-WSL2"><a href="#1-安装和升级-WSL2" class="headerlink" title="1.安装和升级 WSL2"></a>1.安装和升级 WSL2</h1><h2 id="1-1-安装前的准备"><a href="#1-1-安装前的准备" class="headerlink" title="1.1 安装前的准备"></a>1.1 安装前的准备</h2><p>首先需要在<code>控制面板 -&gt; 程序 -&gt; 启用或关闭Windows功能</code>处开启<code>Hyper-V</code>和<code>适用于Windows的Linux子系统</code>，然后重启电脑即可。默认有2个版本，1和2，1是使用和主机相同的 IP 地址；2是更加独立的 Linux 子系统，有单独的 IP 地址，通过 Windows 主机访问互联网，建议安装2，可以用<code>systemd</code>。如果安装2还需要安装一个软件：<a class="link"   href="https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi" >wsl_update_x64<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>,该软件来自于<a class="link"   href="https://learn.microsoft.com/zh-cn/windows/wsl/install-manual#step-4---download-the-linux-kernel-update-package" >Windows 官网<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>。</p>
-<h2 id="1-2-升级-WSL2"><a href="#1-2-升级-WSL2" class="headerlink" title="1.2 升级 WSL2"></a>1.2 升级 WSL2</h2><p>设置默认版本：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl --set-default-version 2</span><br></pre></td></tr></table></figure></div>
-
-<p>更新版本：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl --update</span><br></pre></td></tr></table></figure></div>
-<p>这种方式大概率会卡住，建议离线下载安装：<a class="link"   href="https://github.com/microsoft/WSL" >microsoft&#x2F;WSL<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>，下载好后直接双击安装即可。</p>
-<p>验证是否安装成功：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl --version</span><br></pre></td></tr></table></figure></div>
-<p>输入这行指令有这样的输出，表示安装成功：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">WSL 版本： 2.3.24.0</span><br><span class="line">内核版本： 5.15.153.1-2</span><br><span class="line">WSLg 版本： 1.0.65</span><br><span class="line">MSRDC 版本： 1.2.5620</span><br><span class="line">Direct3D 版本： 1.611.1-81528511</span><br><span class="line">DXCore 版本： 10.0.26100.1-240331-1435.ge-release</span><br><span class="line">Windows 版本： 10.0.19045.2673</span><br></pre></td></tr></table></figure></div>
-
-
-<h1 id="2-WSL-的指令"><a href="#2-WSL-的指令" class="headerlink" title="2.WSL 的指令"></a>2.WSL 的指令</h1><h1 id="2-1-常用指令"><a href="#2-1-常用指令" class="headerlink" title="2.1 常用指令"></a>2.1 常用指令</h1><ul>
-<li><p>搜索可安装版本</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl --list --online</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>安装指定的版本</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl --install -d Ubuntu</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>查看安装的版本信息</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl -l -v</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>关闭 wsl</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl --shutdown</span><br></pre></td></tr></table></figure></div></li>
-</ul>
-<h2 id="2-2-备份与还原"><a href="#2-2-备份与还原" class="headerlink" title="2.2 备份与还原"></a>2.2 备份与还原</h2><p>下面的一系列操作以发行版<code>Ubuntu-22.04</code>为例。</p>
-<ul>
-<li><p>停止指定的 WSL</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl -t Ubuntu-22.04</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>开启指定的 WSL</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl -d Ubuntu-22.04</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>导出（备份）WSL 子系统（需要先停止 WSL 子系统）</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl --<span class="built_in">export</span> Ubuntu-22.04 D:\Ubuntu-22.04.tar</span><br></pre></td></tr></table></figure></div>
-<p><code>D:\Ubuntu-22.04.tar</code>是导出的路径。</p>
-</li>
-<li><p>卸载 WSL 子系统</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl --unregister Ubuntu-22.04</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>导入（还原）WSL 子系统</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl --import Ubuntu-22.04 D:\WSL D:\Ubuntu-22.04.tar</span><br></pre></td></tr></table></figure></div>
-<p><code>D:\WSL</code>是导入路径，<code>D:\Ubuntu-22.04.tar</code>是前面备份子系统的路径。</p>
-</li>
-</ul>
-<p>还原后的子系统一般默认是<code>root</code>用户，需要修改为其它用户。只要修改<code>/etc/wsl.conf</code>配置文件即可，如下：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">nano /etc/wsl.conf</span><br></pre></td></tr></table></figure></div>
-<p>加入下面的内容：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">[user]</span><br><span class="line">default=用户名</span><br></pre></td></tr></table></figure></div>
-<p>然后按前面的方法进行重启 WSL 子系统即可。</p>
-<h1 id="3-WSL-的配置"><a href="#3-WSL-的配置" class="headerlink" title="3.WSL 的配置"></a>3.WSL 的配置</h1><h2 id="3-1-启用-systemd"><a href="#3-1-启用-systemd" class="headerlink" title="3.1 启用 systemd"></a>3.1 启用 systemd</h2><p>编辑<code>/etc/wsl.conf</code>配置文件。</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">nano /etc/wsl.conf</span><br></pre></td></tr></table></figure></div>
-
-<p>在文件中添加下面的内容：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">[boot]</span><br><span class="line">systemd=true</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="3-2-更换内核"><a href="#3-2-更换内核" class="headerlink" title="3.2 更换内核"></a>3.2 更换内核</h2><p>在 Windows 下的资源管理器中的地址栏输入<code>%UserProfile%</code>，然后按回车。在里面新建一个<code>.wslconfig</code>文件（如果没有的话）。在文件中天下下面的内容：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">[wsl2]</span><br><span class="line">kernel=e:\\wsl2linuxkernel\\bzImage</span><br></pre></td></tr></table></figure></div>
-<p>这里的<code>e:\\wsl2linuxkernel\\bzImage</code>是内核路径，可以自己编译内核，手动编译内核参考官方仓库：<a class="link"   href="https://github.com/microsoft/WSL2-Linux-Kernel" >microsoft&#x2F;WSL2-Linux-Kernel<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>。也可以用仓库里线现成的：<a class="link"   href="https://github.com/Nevuly/WSL2-Linux-Kernel-Rolling" >Nevuly&#x2F;WSL2-Linux-Kernel-Rolling<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>。</p>
-<h1 id="4-释放-WSL-占用的磁盘空间"><a href="#4-释放-WSL-占用的磁盘空间" class="headerlink" title="4.释放 WSL 占用的磁盘空间"></a>4.释放 WSL 占用的磁盘空间</h1><p>有时后会发现，你在 WSL 中删掉了一些文件，但是磁盘剩余空间并没有增加。这是因为 WSL 的磁盘是动态扩容的，但不会自动释放。</p>
-<ol>
-<li><p>关闭 WSL 中的 Linux 发行版：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl --shutdown</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>在<code>powershell</code>或者<code>cmd</code>中运行管理计算机的驱动器的 DiskPart 命令：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">diskpart</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>选择虚拟磁盘文件（根据自己实际情况填写路径）：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> vdisk file=<span class="string">&quot;D:\WSL\Ubuntu24.04\ext4.vhdx&quot;</span></span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>只读，附加<code>vhdx</code>磁盘镜像文件：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">attach vdisk <span class="built_in">readonly</span></span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>压缩 vhdx 磁盘镜像文件：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">compact vdisk</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>分离<code>vhdx</code>磁盘镜像文件：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">detach vdisk</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>退出</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure></div>
-<p>或者按住<code>ctrl+c</code>。</p>
-</li>
-</ol>
-<h1 id="5-参考链接"><a href="#5-参考链接" class="headerlink" title="5.参考链接"></a>5.参考链接</h1><ul>
-<li><a class="link"   href="https://xujinzh.github.io/2023/08/04/windows-wsl-install/index.html" >Windows 安装 Linux 子系统 wsl<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
-<li><a class="link"   href="https://www.cnblogs.com/Chary/p/18011740" >wsl2子系统的备份和还原<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
-<li><a class="link"   href="https://blog.azurezeng.com/wsl2-arch-docker-configuration/" >WSL2 Arch+Docker个人配置过程和踩坑记录，以及一些建议<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
-<li><a class="link"   href="https://nxdong.com/wsl-update-kernel/" >wsl2编译升级linux内核<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
-<li><a class="link"   href="https://blog.csdn.net/qq_23865133/article/details/141642123" >在WSL2中删除文件后，磁盘空间未释放怎么办<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
-</ul>
-]]></content>
-      <tags>
-        <tag>linux</tag>
-        <tag>WSL</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Zerotier 使用教程</title>
     <url>/2024/08/18/Zerotier%E6%95%99%E7%A8%8B/</url>
     <content><![CDATA[<h1 id="1-登录或注册-Zerotier-官网帐号"><a href="#1-登录或注册-Zerotier-官网帐号" class="headerlink" title="1.登录或注册 Zerotier 官网帐号"></a>1.登录或注册 Zerotier 官网帐号</h1><p><a class="link"   href="https://www.zerotier.com/" >官网地址<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
@@ -3518,6 +3444,107 @@
       </tags>
   </entry>
   <entry>
+    <title>WSL2 的使用教程</title>
+    <url>/2024/11/12/WSL2%E6%95%99%E7%A8%8B/</url>
+    <content><![CDATA[<h1 id="1-安装和升级-WSL2"><a href="#1-安装和升级-WSL2" class="headerlink" title="1.安装和升级 WSL2"></a>1.安装和升级 WSL2</h1><h2 id="1-1-安装前的准备"><a href="#1-1-安装前的准备" class="headerlink" title="1.1 安装前的准备"></a>1.1 安装前的准备</h2><p>首先需要在<code>控制面板 -&gt; 程序 -&gt; 启用或关闭Windows功能</code>处开启<code>Hyper-V</code>和<code>适用于Windows的Linux子系统</code>，然后重启电脑即可。默认有2个版本，1和2，1是使用和主机相同的 IP 地址；2是更加独立的 Linux 子系统，有单独的 IP 地址，通过 Windows 主机访问互联网，建议安装2，可以用<code>systemd</code>。如果安装2还需要安装一个软件：<a class="link"   href="https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi" >wsl_update_x64<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>,该软件来自于<a class="link"   href="https://learn.microsoft.com/zh-cn/windows/wsl/install-manual#step-4---download-the-linux-kernel-update-package" >Windows 官网<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>。</p>
+<h2 id="1-2-升级-WSL2"><a href="#1-2-升级-WSL2" class="headerlink" title="1.2 升级 WSL2"></a>1.2 升级 WSL2</h2><p>设置默认版本：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl --set-default-version 2</span><br></pre></td></tr></table></figure></div>
+
+<p>更新版本：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl --update</span><br></pre></td></tr></table></figure></div>
+<p>这种方式大概率会卡住，建议离线下载安装：<a class="link"   href="https://github.com/microsoft/WSL" >microsoft&#x2F;WSL<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>，下载好后直接双击安装即可。</p>
+<p>验证是否安装成功：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl --version</span><br></pre></td></tr></table></figure></div>
+<p>输入这行指令有这样的输出，表示安装成功：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">WSL 版本： 2.3.24.0</span><br><span class="line">内核版本： 5.15.153.1-2</span><br><span class="line">WSLg 版本： 1.0.65</span><br><span class="line">MSRDC 版本： 1.2.5620</span><br><span class="line">Direct3D 版本： 1.611.1-81528511</span><br><span class="line">DXCore 版本： 10.0.26100.1-240331-1435.ge-release</span><br><span class="line">Windows 版本： 10.0.19045.2673</span><br></pre></td></tr></table></figure></div>
+
+
+<h1 id="2-WSL-的指令"><a href="#2-WSL-的指令" class="headerlink" title="2.WSL 的指令"></a>2.WSL 的指令</h1><h1 id="2-1-常用指令"><a href="#2-1-常用指令" class="headerlink" title="2.1 常用指令"></a>2.1 常用指令</h1><ul>
+<li><p>搜索可安装版本</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl --list --online</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>安装指定的版本</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl --install -d Ubuntu</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>查看安装的版本信息</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl -l -v</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>关闭 wsl</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl --shutdown</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<h2 id="2-2-备份与还原"><a href="#2-2-备份与还原" class="headerlink" title="2.2 备份与还原"></a>2.2 备份与还原</h2><p>下面的一系列操作以发行版<code>Ubuntu-22.04</code>为例。</p>
+<ul>
+<li><p>停止指定的 WSL</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl -t Ubuntu-22.04</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>开启指定的 WSL</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl -d Ubuntu-22.04</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>导出（备份）WSL 子系统（需要先停止 WSL 子系统）</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl --<span class="built_in">export</span> Ubuntu-22.04 D:\Ubuntu-22.04.tar</span><br></pre></td></tr></table></figure></div>
+<p><code>D:\Ubuntu-22.04.tar</code>是导出的路径。</p>
+</li>
+<li><p>卸载 WSL 子系统</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl --unregister Ubuntu-22.04</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>导入（还原）WSL 子系统</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl --import Ubuntu-22.04 D:\WSL D:\Ubuntu-22.04.tar</span><br></pre></td></tr></table></figure></div>
+<p><code>D:\WSL</code>是导入路径，<code>D:\Ubuntu-22.04.tar</code>是前面备份子系统的路径。</p>
+</li>
+</ul>
+<p>还原后的子系统一般默认是<code>root</code>用户，需要修改为其它用户。只要修改<code>/etc/wsl.conf</code>配置文件即可，如下：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">nano /etc/wsl.conf</span><br></pre></td></tr></table></figure></div>
+<p>加入下面的内容：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">[user]</span><br><span class="line">default=用户名</span><br></pre></td></tr></table></figure></div>
+<p>然后按前面的方法进行重启 WSL 子系统即可。</p>
+<h1 id="3-WSL-的配置"><a href="#3-WSL-的配置" class="headerlink" title="3.WSL 的配置"></a>3.WSL 的配置</h1><h2 id="3-1-启用-systemd"><a href="#3-1-启用-systemd" class="headerlink" title="3.1 启用 systemd"></a>3.1 启用 systemd</h2><p>编辑<code>/etc/wsl.conf</code>配置文件。</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">nano /etc/wsl.conf</span><br></pre></td></tr></table></figure></div>
+
+<p>在文件中添加下面的内容：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">[boot]</span><br><span class="line">systemd=true</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="3-2-更换内核"><a href="#3-2-更换内核" class="headerlink" title="3.2 更换内核"></a>3.2 更换内核</h2><p>在 Windows 下的资源管理器中的地址栏输入<code>%UserProfile%</code>，然后按回车。在里面新建一个<code>.wslconfig</code>文件（如果没有的话）。在文件中天下下面的内容：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">[wsl2]</span><br><span class="line">kernel=e:\\wsl2linuxkernel\\bzImage</span><br></pre></td></tr></table></figure></div>
+<p>这里的<code>e:\\wsl2linuxkernel\\bzImage</code>是内核路径，可以自己编译内核，手动编译内核参考官方仓库：<a class="link"   href="https://github.com/microsoft/WSL2-Linux-Kernel" >microsoft&#x2F;WSL2-Linux-Kernel<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>。也可以用仓库里线现成的：<a class="link"   href="https://github.com/Nevuly/WSL2-Linux-Kernel-Rolling" >Nevuly&#x2F;WSL2-Linux-Kernel-Rolling<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>。</p>
+<h1 id="4-释放-WSL-占用的磁盘空间"><a href="#4-释放-WSL-占用的磁盘空间" class="headerlink" title="4.释放 WSL 占用的磁盘空间"></a>4.释放 WSL 占用的磁盘空间</h1><p>有时后会发现，你在 WSL 中删掉了一些文件，但是磁盘剩余空间并没有增加。这是因为 WSL 的磁盘是动态扩容的，但不会自动释放。</p>
+<ol>
+<li><p>关闭 WSL 中的 Linux 发行版：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl --shutdown</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>在<code>powershell</code>或者<code>cmd</code>中运行管理计算机的驱动器的 DiskPart 命令：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">diskpart</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>选择虚拟磁盘文件（根据自己实际情况填写路径）：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> vdisk file=<span class="string">&quot;D:\WSL\Ubuntu24.04\ext4.vhdx&quot;</span></span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>只读，附加<code>vhdx</code>磁盘镜像文件：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">attach vdisk <span class="built_in">readonly</span></span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>压缩 vhdx 磁盘镜像文件：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">compact vdisk</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>分离<code>vhdx</code>磁盘镜像文件：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">detach vdisk</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>退出</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure></div>
+<p>或者按住<code>ctrl+c</code>。</p>
+</li>
+</ol>
+<h1 id="5-参考链接"><a href="#5-参考链接" class="headerlink" title="5.参考链接"></a>5.参考链接</h1><ul>
+<li><a class="link"   href="https://xujinzh.github.io/2023/08/04/windows-wsl-install/index.html" >Windows 安装 Linux 子系统 wsl<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link"   href="https://www.cnblogs.com/Chary/p/18011740" >wsl2子系统的备份和还原<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link"   href="https://blog.azurezeng.com/wsl2-arch-docker-configuration/" >WSL2 Arch+Docker个人配置过程和踩坑记录，以及一些建议<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link"   href="https://nxdong.com/wsl-update-kernel/" >wsl2编译升级linux内核<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link"   href="https://blog.csdn.net/qq_23865133/article/details/141642123" >在WSL2中删除文件后，磁盘空间未释放怎么办<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+</ul>
+]]></content>
+      <tags>
+        <tag>linux</tag>
+        <tag>WSL</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>CMake 基础教程</title>
     <url>/2024/11/29/cmake%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/</url>
     <content><![CDATA[<h1 id="1-构建指令"><a href="#1-构建指令" class="headerlink" title="1.构建指令"></a>1.构建指令</h1><p>现代<code>CMake</code>提供了更方便的<code>-B</code>和<code>--build</code>指令，不同平台，统一命令！</p>
@@ -3571,11 +3598,13 @@
 <p>也可以在命令行阶段指定：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">cmake -B build -G Ninja -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++</span><br></pre></td></tr></table></figure></div>
 
-<h1 id="4-查找第三方库（以-Qt-为例）"><a href="#4-查找第三方库（以-Qt-为例）" class="headerlink" title="4.查找第三方库（以 Qt 为例）"></a>4.查找第三方库（以 Qt 为例）</h1><h2 id="4-1-set-CMAKE-PREFIX-PATH"><a href="#4-1-set-CMAKE-PREFIX-PATH" class="headerlink" title="4.1 set(CMAKE_PREFIX_PATH &quot;...&quot;)"></a>4.1 <code>set(CMAKE_PREFIX_PATH &quot;...&quot;)</code></h2><ul>
+<h1 id="4-查找第三方库（非默认路径）"><a href="#4-查找第三方库（非默认路径）" class="headerlink" title="4.查找第三方库（非默认路径）"></a>4.查找第三方库（非默认路径）</h1><p>有时安装的第三方库没有安装在系统环境变量路径，此时需要手动添加。</p>
+<h2 id="4-1-set-CMAKE-PREFIX-PATH"><a href="#4-1-set-CMAKE-PREFIX-PATH" class="headerlink" title="4.1 set(CMAKE_PREFIX_PATH &quot;...&quot;)"></a>4.1 <code>set(CMAKE_PREFIX_PATH &quot;...&quot;)</code></h2><ul>
 <li><p><strong>作用：</strong><br>设置一个搜索路径列表，供 CMake 的 <code>find_package()</code> 和其他查找命令使用。  </p>
 <ul>
 <li>CMake 会在指定的路径下，递归搜索各种配置文件（如 <code>*.cmake</code>）。</li>
 <li>它是一个通用的全局路径变量，不仅适用于 Qt，还适用于其他外部库。</li>
+<li><em><strong>完全控制搜索路径，不使用默认路径，也就是说会覆盖默认的<code>CMAKE_PREFIX_PATH</code>。</strong></em></li>
 </ul>
 </li>
 <li><p><strong>适用场景：</strong><br>当你需要 CMake 查找多个不同的外部库或模块，并希望统一管理搜索路径时，使用 <code>CMAKE_PREFIX_PATH</code> 是最佳选择。</p>
@@ -3593,9 +3622,17 @@
 </li>
 </ul>
 <p>示例：</p>
-<div class="code-container" data-rel="Cmake"><figure class="iseeu highlight cmake"><table><tr><td class="code"><pre><span class="line"><span class="keyword">set</span>(CMAKE_PREFIX_PATH <span class="string">&quot;/opt/Qt/6.8.0/gcc_64&quot;</span>)</span><br><span class="line"><span class="keyword">find_package</span>(Qt6 REQUIRED COMPONENTS Widgets)</span><br></pre></td></tr></table></figure></div>
-<p>这里会在 <code>/opt/Qt/6.8.0/gcc_64</code> 下递归寻找 <code>lib/cmake/Qt6/Qt6Config.cmake</code> 或其他类似的配置文件。</p>
-<h2 id="4-2-set-Qt-dir"><a href="#4-2-set-Qt-dir" class="headerlink" title="4.2 set(Qt_dir &quot;...&quot;)"></a>4.2 <code>set(Qt_dir &quot;...&quot;)</code></h2><ul>
+<div class="code-container" data-rel="Cmake"><figure class="iseeu highlight cmake"><table><tr><td class="code"><pre><span class="line"><span class="keyword">set</span>(CMAKE_PREFIX_PATH <span class="string">&quot;/opt/Qt/6.8.0/gcc_64/lib/cmake/Qt6/&quot;</span>)</span><br><span class="line"><span class="keyword">find_package</span>(Qt6 REQUIRED COMPONENTS Widgets Core)</span><br></pre></td></tr></table></figure></div>
+<p>这里会在 <code>/opt/Qt/6.8.0/gcc_64/lib/cmake/Qt6/</code> 下寻找 <code>Qt6Config.cmake</code> 配置文件。</p>
+<p>可以同时添加多条路径：<code>set(CMAKE_PREFIX_PATH &quot;/opt/custom_lib1;/opt/custom_lib2&quot;)</code>。</p>
+<h2 id="4-2-list-APPEND-（推荐）"><a href="#4-2-list-APPEND-（推荐）" class="headerlink" title="4.2 list(APPEND ...)（推荐）"></a>4.2 <code>list(APPEND ...)</code>（推荐）</h2><p><strong>作用：</strong> 该命令的目的是将一个新的路径添加到 CMake 的 CMAKE_PREFIX_PATH 变量，让 CMake 在该路径下查找依赖库（find_package 查找时会用到）。通过<code>list(APPEND ...)</code>，可以在<code>CMAKE_PREFIX_PATH</code>变量的末尾添加新的路径。</p>
+<p>示例：</p>
+<div class="code-container" data-rel="Cmake"><figure class="iseeu highlight cmake"><table><tr><td class="code"><pre><span class="line"><span class="keyword">list</span>(APPEND CMAKE_PREFIX_PATH /opt/Qt/<span class="number">6.8</span>.<span class="number">0</span>/gcc_64/lib/cmake/Qt6/)</span><br><span class="line"><span class="keyword">find_package</span>(Qt6 REQUIRED COMPONENTS Widgets Core)</span><br></pre></td></tr></table></figure></div>
+
+<p>可以同时添加多个路径：</p>
+<div class="code-container" data-rel="Cmake"><figure class="iseeu highlight cmake"><table><tr><td class="code"><pre><span class="line"><span class="keyword">list</span>(APPEND CMAKE_PREFIX_PATH </span><br><span class="line">    <span class="variable">$&#123;CMAKE_SOURCE_DIR&#125;</span>/<span class="keyword">install</span>/boost_1_82_0 </span><br><span class="line">    <span class="variable">$&#123;CMAKE_SOURCE_DIR&#125;</span>/<span class="keyword">install</span>/pcl_1_14 </span><br><span class="line">    <span class="variable">$&#123;CMAKE_SOURCE_DIR&#125;</span>/<span class="keyword">install</span>/qt6</span><br><span class="line">)</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="4-3-set-Qt-dir"><a href="#4-3-set-Qt-dir" class="headerlink" title="4.3 set(Qt_dir &quot;...&quot;)"></a>4.3 <code>set(Qt_dir &quot;...&quot;)</code></h2><ul>
 <li><p><strong>作用：</strong><br>这是一个项目自定义变量（<code>Qt_dir</code> 的名字是随意的），用于直接指向 Qt 的具体路径（通常是 <code>Qt6Config.cmake</code> 所在的目录）。</p>
 <ul>
 <li>CMake 本身对 <code>Qt_dir</code> 变量没有特殊处理。</li>
@@ -3617,38 +3654,7 @@
 </li>
 </ul>
 <p>示例：</p>
-<div class="code-container" data-rel="Cmake"><figure class="iseeu highlight cmake"><table><tr><td class="code"><pre><span class="line"><span class="keyword">set</span>(Qt_dir /opt/Qt/<span class="number">6.8</span>.<span class="number">0</span>/gcc_64/lib/cmake/Qt6)</span><br><span class="line"><span class="keyword">find_package</span>(Qt6 REQUIRED COMPONENTS Widgets HINTS <span class="variable">$&#123;Qt_dir&#125;</span>)</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="4-3-总结对比"><a href="#4-3-总结对比" class="headerlink" title="4.3 总结对比"></a>4.3 总结对比</h2><table>
-<thead>
-<tr>
-<th><strong>属性</strong></th>
-<th><strong><code>CMAKE_PREFIX_PATH</code></strong></th>
-<th><strong><code>Qt_dir</code></strong></th>
-</tr>
-</thead>
-<tbody><tr>
-<td><strong>作用范围</strong></td>
-<td>全局作用于所有 <code>find_package</code> 调用</td>
-<td>仅作用于手动指定的 <code>find_package</code></td>
-</tr>
-<tr>
-<td><strong>使用场景</strong></td>
-<td>管理多个依赖库的路径</td>
-<td>精确指定单个库的路径</td>
-</tr>
-<tr>
-<td><strong>灵活性</strong></td>
-<td>自动化程度高，路径可递归搜索</td>
-<td>需要显式控制，灵活性高</td>
-</tr>
-<tr>
-<td><strong>典型用法</strong></td>
-<td>为整个项目设置通用的依赖路径</td>
-<td>指定特殊或非标准路径</td>
-</tr>
-</tbody></table>
-]]></content>
+<div class="code-container" data-rel="Cmake"><figure class="iseeu highlight cmake"><table><tr><td class="code"><pre><span class="line"><span class="keyword">set</span>(Qt_dir /opt/Qt/<span class="number">6.8</span>.<span class="number">0</span>/gcc_64/lib/cmake/Qt6)</span><br><span class="line"><span class="keyword">find_package</span>(Qt6 REQUIRED COMPONENTS Widgets HINTS <span class="variable">$&#123;Qt_dir&#125;</span>)</span><br></pre></td></tr></table></figure></div>]]></content>
       <categories>
         <category>C++</category>
       </categories>
@@ -4280,7 +4286,50 @@
       </tags>
   </entry>
   <entry>
-    <title>如何手动编译 PCL 库</title>
+    <title>编译 ElaWidgetTools 库</title>
+    <url>/2025/01/03/%E7%BC%96%E8%AF%91ElaWidgetTools/</url>
+    <content><![CDATA[<h1 id="1-库下载"><a href="#1-库下载" class="headerlink" title="1.库下载"></a>1.库下载</h1><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/Liniyous/ElaWidgetTools.git</span><br></pre></td></tr></table></figure></div>
+
+<h1 id="2-编译库"><a href="#2-编译库" class="headerlink" title="2.编译库"></a>2.编译库</h1><h2 id="2-1-修改点"><a href="#2-1-修改点" class="headerlink" title="2.1 修改点"></a>2.1 修改点</h2><p>主要修改的点是<code>./CMakeLists.txt</code>、<code>./src/CMakeLists.txt</code>和<code>./example/CMakeLists.txt</code>。</p>
+<ul>
+<li>修改<code>./src/CMakeLists.txt</code>中的安装路径：<br>原来的：<div class="code-container" data-rel="Cmake"><figure class="iseeu highlight cmake"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SET</span>(CMAKE_INSTALL_PREFIX <span class="variable">$&#123;CMAKE_SOURCE_DIR&#125;</span>/<span class="keyword">install</span> CACHE PATH <span class="string">&quot;Installation path&quot;</span> FORCE)</span><br></pre></td></tr></table></figure></div>
+改为：<div class="code-container" data-rel="Cmake"><figure class="iseeu highlight cmake"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SET</span>(CMAKE_INSTALL_PREFIX /opt/ElaWidgetTools CACHE PATH <span class="string">&quot;Installation path&quot;</span> FORCE)</span><br></pre></td></tr></table></figure></div>
+当然，这部分其实可以不改，我是习惯把第三方库安装<code>/opt</code>目录下，这样可以用<code>find_package</code>直接找到。</li>
+</ul>
+<p>原来的：</p>
+<div class="code-container" data-rel="Cmake"><figure class="iseeu highlight cmake"><table><tr><td class="code"><pre><span class="line">configure_package_config_file(</span><br><span class="line">    <span class="variable">$&#123;PROJECT_SOURCE_DIR&#125;</span>/<span class="variable">$&#123;EXPORT_NAME&#125;</span>Config.cmake.in</span><br><span class="line">    <span class="variable">$&#123;PROJECT_BINARY_DIR&#125;</span>/<span class="variable">$&#123;EXPORT_NAME&#125;</span>Config.cmake</span><br><span class="line">    INSTALL_DESTINATION lib/cmake</span><br><span class="line">    PATH_VARS INCLUDE_DIRS LIBRARIES LIB_DIR</span><br><span class="line">    INSTALL_PREFIX <span class="variable">$&#123;CMAKE_INSTALL_PREFIX&#125;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">install</span>(</span><br><span class="line">    FILES <span class="variable">$&#123;PROJECT_BINARY_DIR&#125;</span>/<span class="variable">$&#123;EXPORT_NAME&#125;</span>Config.cmake <span class="variable">$&#123;PROJECT_BINARY_DIR&#125;</span>/<span class="variable">$&#123;EXPORT_NAME&#125;</span>ConfigVersion.cmake DESTINATION lib/cmake</span><br><span class="line">)</span><br></pre></td></tr></table></figure></div>
+<p>改为：</p>
+<div class="code-container" data-rel="Cmake"><figure class="iseeu highlight cmake"><table><tr><td class="code"><pre><span class="line">configure_package_config_file(</span><br><span class="line">    <span class="variable">$&#123;PROJECT_SOURCE_DIR&#125;</span>/<span class="variable">$&#123;EXPORT_NAME&#125;</span>Config.cmake.in</span><br><span class="line">    <span class="variable">$&#123;PROJECT_BINARY_DIR&#125;</span>/<span class="variable">$&#123;EXPORT_NAME&#125;</span>Config.cmake</span><br><span class="line">    INSTALL_DESTINATION lib/cmake/<span class="variable">$&#123;EXPORT_NAME&#125;</span> <span class="comment"># 修改这里</span></span><br><span class="line">    PATH_VARS INCLUDE_DIRS LIBRARIES LIB_DIR</span><br><span class="line">    INSTALL_PREFIX <span class="variable">$&#123;CMAKE_INSTALL_PREFIX&#125;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">install</span>(</span><br><span class="line">    FILES <span class="variable">$&#123;PROJECT_BINARY_DIR&#125;</span>/<span class="variable">$&#123;EXPORT_NAME&#125;</span>Config.cmake <span class="variable">$&#123;PROJECT_BINARY_DIR&#125;</span>/<span class="variable">$&#123;EXPORT_NAME&#125;</span>ConfigVersion.cmake DESTINATION lib/cmake/<span class="variable">$&#123;EXPORT_NAME&#125;</span> <span class="comment"># 修改这里</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure></div>
+
+<p>然后就可以开始编译并安装了。</p>
+<h2 id="2-2-编译测试案例"><a href="#2-2-编译测试案例" class="headerlink" title="2.2 编译测试案例"></a>2.2 编译测试案例</h2><ul>
+<li><p>修改<code>./CMakeLists.txt</code>：<br>添加：</p>
+<div class="code-container" data-rel="Cmake"><figure class="iseeu highlight cmake"><table><tr><td class="code"><pre><span class="line"><span class="keyword">set</span>(BUILD_ELAWIDGETTOOLS_EXAMPLE <span class="keyword">TRUE</span>)</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>修改<code>./example/CMakeLists.txt</code>：<br>注释掉下面这行：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># list(APPEND CMAKE_PREFIX_PATH $&#123;CMAKE_SOURCE_DIR&#125;/install/lib/cmake/)</span></span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<h1 id="3-使用示例"><a href="#3-使用示例" class="headerlink" title="3.使用示例"></a>3.使用示例</h1><p><code>CMakeLists.txt</code>中查找<code>ElaWidgetTools</code>库编写：</p>
+<div class="code-container" data-rel="Cmake"><figure class="iseeu highlight cmake"><table><tr><td class="code"><pre><span class="line"><span class="keyword">find_package</span>(ElaWidgetTools REQUIRED)</span><br><span class="line"></span><br><span class="line"><span class="keyword">message</span>(STATUS <span class="string">&quot;ElaWidgetTools include dirs: $&#123;ELAWIDGETTOOLS_INCLUDE_DIRS&#125;&quot;</span>)</span><br><span class="line"><span class="keyword">message</span>(STATUS <span class="string">&quot;ElaWidgetTools libraries: $&#123;ELAWIDGETTOOLS_LIBRARIES&#125;&quot;</span>)</span><br><span class="line"><span class="keyword">message</span>(STATUS <span class="string">&quot;ElaWidgetTools library dirs: $&#123;ELAWIDGETTOOLS_LIBRARY_DIRS&#125;&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">target_include_directories</span>(<span class="keyword">test</span>.out PUBLIC</span><br><span class="line">    <span class="variable">$&#123;ELAWIDGETTOOLS_INCLUDE_DIRS&#125;</span></span><br><span class="line">    <span class="comment"># ExamplePage</span></span><br><span class="line">    <span class="comment"># ModelView</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">target_link_directories</span>(<span class="keyword">test</span>.out PUBLIC</span><br><span class="line">    <span class="variable">$&#123;ELAWIDGETTOOLS_LIBRARY_DIRS&#125;</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">target_link_libraries</span>(<span class="keyword">test</span>.out PRIVATE</span><br><span class="line">    <span class="variable">$&#123;ELAWIDGETTOOLS_LIBRARIES&#125;</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure></div>
+<p><strong>注意：</strong> <code>target_link_directories</code>是必需的，当<code>ElaWidgetTools</code>库文件所在的目录不在系统默认路径或未被<code>find_package</code>自动添加时。这一步骤告诉链接器正确的库文件路径，是解决链接失败的关键。主要原因是<code>ElaWidgetTools</code> 没有正确安装到<code>CMAKE_INSTALL_PREFIX</code>或其路径未被标准化造成的。一般比较正规的标准库（比如<code>Qt</code>、<code>PCL</code>、<code>OpenCV</code>）是不需要额外写<code>target_link_directories</code>的，因为链接器路径会自动设置。</p>
+<p>不添加的话就会报这种错误：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">/usr/sbin/ld: cannot find -lElaWidgetTools: No such file or directory</span><br><span class="line">clang++: error: linker <span class="built_in">command</span> failed with <span class="built_in">exit</span> code 1 (use -v to see invocation)</span><br></pre></td></tr></table></figure></div>
+<p>遇到相似的错误可以试着采用这种方式来解决下。</p>
+<p>当然，也可以写成：</p>
+<div class="code-container" data-rel="Cmake"><figure class="iseeu highlight cmake"><table><tr><td class="code"><pre><span class="line"><span class="keyword">find_package</span>(ElaWidgetTools REQUIRED)</span><br><span class="line"></span><br><span class="line"><span class="keyword">target_include_directories</span>(<span class="keyword">test</span>.out PUBLIC</span><br><span class="line">    <span class="variable">$&#123;ELAWIDGETTOOLS_INCLUDE_DIRS&#125;</span></span><br><span class="line">    <span class="comment"># ExamplePage</span></span><br><span class="line">    <span class="comment"># ModelView</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">target_link_libraries</span>(<span class="keyword">test</span>.out PRIVATE</span><br><span class="line">    <span class="variable">$&#123;ELAWIDGETTOOLS_LIBRARY_DIRS&#125;</span>/libElaWidgetTools.so</span><br><span class="line">)</span><br></pre></td></tr></table></figure></div>
+
+<p>测试代码：</p>
+<div class="code-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;ElaApplication.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;ElaWindow.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;QApplication&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span>* argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">QApplication <span class="title">app</span><span class="params">(argc, argv)</span></span>;</span><br><span class="line"></span><br><span class="line">    ElaApplication::<span class="built_in">getInstance</span>()-&gt;<span class="built_in">init</span>();</span><br><span class="line">    ElaWindow w;</span><br><span class="line">    w.<span class="built_in">show</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> app.<span class="built_in">exec</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>]]></content>
+      <categories>
+        <category>C++</category>
+      </categories>
+      <tags>
+        <tag>c++</tag>
+        <tag>cmake</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>编译 PCL 库</title>
     <url>/2024/12/04/%E7%BC%96%E8%AF%91pcl/</url>
     <content><![CDATA[<h1 id="1-环境说明"><a href="#1-环境说明" class="headerlink" title="1.环境说明"></a>1.环境说明</h1><p>编译环境是 Docker 的 Ubuntu 镜像所运行的容器实例，版本是<code>&quot;DockerVersion&quot;: &quot;24.0.7&quot;</code>。运行好容器后，第一部还是要配置好镜像源（或网络代理），然后更新软件仓库。</p>
 <h1 id="2-安装编译工具和依赖"><a href="#2-安装编译工具和依赖" class="headerlink" title="2.安装编译工具和依赖"></a>2.安装编译工具和依赖</h1><p>创建安装脚本：</p>
@@ -4309,18 +4358,14 @@
 <ol start="2">
 <li><strong>方式二：安装到指定目录</strong></li>
 </ol>
-<p>比如要安装到<code>/root/pcl_1.14/</code>目录下：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> /root/pcl_1.14</span><br></pre></td></tr></table></figure></div>
+<p>比如要安装到<code>/opt/pcl_1.14/</code>目录下：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> /opt/pcl_1.14</span><br></pre></td></tr></table></figure></div>
 
 <p>开始编译：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> pcl</span><br><span class="line"></span><br><span class="line"><span class="built_in">mkdir</span> build</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> build</span><br><span class="line"></span><br><span class="line">cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/root/pcl_1.14</span><br><span class="line"></span><br><span class="line">make -j8</span><br><span class="line"></span><br><span class="line">make install</span><br></pre></td></tr></table></figure></div>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> pcl</span><br><span class="line"></span><br><span class="line"><span class="built_in">mkdir</span> build</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> build</span><br><span class="line"></span><br><span class="line">cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/opt/pcl_1.14</span><br><span class="line"></span><br><span class="line">make -j8</span><br><span class="line"></span><br><span class="line">make install</span><br></pre></td></tr></table></figure></div>
 
-<p>这种方式会把<code>pcl</code>安装到<code>/root/pcl_1.14</code>下，<code>pcl_1.14</code>下的文件结构是这样的：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">.</span><br><span class="line">├── bin</span><br><span class="line">├── include</span><br><span class="line">├── lib</span><br><span class="line">└── share</span><br><span class="line"></span><br><span class="line">5 directories, 0 files</span><br></pre></td></tr></table></figure></div>
-
-<p>如果是安装到指定的目录，在配置<code>CMakeLists.txt</code>时，略有不同：</p>
-<div class="code-container" data-rel="Cmake"><figure class="iseeu highlight cmake"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 设置 PCL 的安装目录（这个路径包含 PCL 的 CMake 配置文件）</span></span><br><span class="line"><span class="keyword">set</span>(PCL_DIR <span class="string">&quot;/root/pcl_1.14/share/pcl-1.14&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查找 PCL 包</span></span><br><span class="line"><span class="keyword">find_package</span>(PCL REQUIRED)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置编译选项</span></span><br><span class="line"><span class="keyword">include_directories</span>(<span class="variable">$&#123;PCL_INCLUDE_DIRS&#125;</span>)</span><br><span class="line"><span class="keyword">link_directories</span>(<span class="variable">$&#123;PCL_LIBRARY_DIRS&#125;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加可执行文件</span></span><br><span class="line"><span class="keyword">add_executable</span>(your_project main.cpp)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 链接 PCL 库</span></span><br><span class="line"><span class="keyword">target_link_libraries</span>(your_project <span class="variable">$&#123;PCL_LIBRARIES&#125;</span>)</span><br></pre></td></tr></table></figure></div>
-]]></content>
+<p>这种方式会把<code>pcl</code>安装到<code>/opt/pcl_1.14</code>下，<code>pcl_1.14</code>下的文件结构是这样的：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">.</span><br><span class="line">├── bin</span><br><span class="line">├── include</span><br><span class="line">├── lib</span><br><span class="line">└── share</span><br><span class="line"></span><br><span class="line">5 directories, 0 files</span><br></pre></td></tr></table></figure></div>]]></content>
       <categories>
         <category>C++</category>
       </categories>
