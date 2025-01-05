@@ -1,6 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Python 爬虫教程 02</title>
+    <url>/2024/10/17/02Python%E7%88%AC%E8%99%AB/</url>
+    <content><![CDATA[<h1 id="1-测试网址"><a href="#1-测试网址" class="headerlink" title="1.测试网址"></a>1.测试网址</h1><p><a class="link"   href="https://www.spiderbuf.cn/list" >测试网站<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h1 id="2-编写代码"><a href="#2-编写代码" class="headerlink" title="2.编写代码"></a>2.编写代码</h1><h2 id="2-1-代码示例"><a href="#2-1-代码示例" class="headerlink" title="2.1 代码示例"></a>2.1 代码示例</h2><div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;https://spiderbuf.cn/playground/s01&quot;</span></span><br><span class="line"></span><br><span class="line">html = requests.get(url=url).text</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/01course/01.html&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">f.write(html)</span><br><span class="line">f.close()</span><br><span class="line"></span><br><span class="line"><span class="comment"># print(html)</span></span><br><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/01course/data01.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    tds = tr.xpath(<span class="string">&#x27;./td&#x27;</span>)</span><br><span class="line">    s = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> td <span class="keyword">in</span> tds:</span><br><span class="line">        <span class="comment"># 这里加 str 是为了防止 &lt;td&gt;&lt;/td&gt; 之间是空数据</span></span><br><span class="line">        s = s + <span class="built_in">str</span>(td.text) + <span class="string">&#x27; | &#x27;</span></span><br><span class="line">    <span class="built_in">print</span>(s)</span><br><span class="line">    <span class="comment"># 保存解析到的数据到本地</span></span><br><span class="line">    <span class="keyword">if</span> s!= <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        f.write(s + <span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
+
+<p>在很多时候，建议先把请求到的网页内容保存到本地（如上面代码所示），因为有时候解析数据无法一次性解析成功，那就会再向网页发送请求，这样不断的去访问服务器，就容易被服务器检测到是爬虫。</p>
+<h1 id="3-lxml-基础使用"><a href="#3-lxml-基础使用" class="headerlink" title="3.lxml 基础使用"></a>3.lxml 基础使用</h1><h2 id="3-1-XPath-基本语法"><a href="#3-1-XPath-基本语法" class="headerlink" title="3.1 XPath 基本语法"></a>3.1 XPath 基本语法</h2><ul>
+<li><code>/</code>：从根节点选择。根节点是一个 XML 或 HTML 文档的最顶层节点，所有其他元素都是它的子节点。</li>
+<li><code>//</code>：选择文档中的所有符合条件的节点，不论它们在文档的什么位置。</li>
+<li><code>.</code>：当前节点。</li>
+<li><code>..</code>：父节点。</li>
+<li><code>@</code>：选择属性。</li>
+<li><code>[ ]</code>：筛选器，添加条件。</li>
+<li><code>text()</code>：选择文本节点。</li>
+</ul>
+<h2 id="3-2-示例说明"><a href="#3-2-示例说明" class="headerlink" title="3.2 示例说明"></a>3.2 示例说明</h2><p>假设有如下 HTML 结构，<code>&lt;html&gt;</code>是根节点：</p>
+<div class="code-container" data-rel="Html"><figure class="iseeu highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">table</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">&quot;status&quot;</span>&gt;</span>在线<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span>&gt;</span>123<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">&quot;status&quot;</span>&gt;</span>离线<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span>&gt;</span>456<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">&quot;status&quot;</span>&gt;</span>在线<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span>&gt;</span>789<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></div>
+
+<h2 id="3-3-使用-XPath-提取数据"><a href="#3-3-使用-XPath-提取数据" class="headerlink" title="3.3 使用 XPath 提取数据"></a>3.3 使用 XPath 提取数据</h2><ol>
+<li><strong>提取所有行的 <code>&lt;td&gt;</code> 内容：</strong></li>
+</ol>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
+
+<p><code>//tr</code> 表示选择文档中所有的 <code>&lt;tr&gt;</code> 节点，不论它们在文档的哪个层级。</p>
+<ol start="2">
+<li><strong>提取某个特定列的数据：</strong></li>
+</ol>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">status_list = root.xpath(<span class="string">&#x27;//td[@class=&quot;status&quot;]/text()&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(status_list)</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li><code>//td[@class=&quot;status&quot;]</code>：选择所有 class 为 “status” 的 <code>&lt;td&gt;</code> 节点。</li>
+<li><code>/text()</code>：选择这些节点的文本内容。</li>
+</ul>
+<p><strong>结果：</strong></p>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">[<span class="string">&#x27;在线&#x27;</span>, <span class="string">&#x27;离线&#x27;</span>, <span class="string">&#x27;在线&#x27;</span>]</span><br></pre></td></tr></table></figure></div>
+
+<ol start="3">
+<li><strong>结合 <code>for</code> 循环逐行提取多个列的内容：</strong></li>
+</ol>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    status = tr.xpath(<span class="string">&#x27;./td[@class=&quot;status&quot;]/text()&#x27;</span>)[<span class="number">0</span>]  <span class="comment"># 获取状态</span></span><br><span class="line">    number = tr.xpath(<span class="string">&#x27;./td[2]/text()&#x27;</span>)[<span class="number">0</span>]  <span class="comment"># 获取数字</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;状态: <span class="subst">&#123;status&#125;</span>, 数字: <span class="subst">&#123;number&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li><code>./td[@class=&quot;status&quot;]/text()</code>：从当前行的 <code>&lt;td&gt;</code> 中选择 class 为 “status” 的列。</li>
+<li><code>./td[2]/text()</code>：选择当前行的第二个 <code>&lt;td&gt;</code> 节点的文本内容。</li>
+</ul>
+<p><strong>输出：</strong></p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">状态: 在线, 数字: 123</span><br><span class="line">状态: 离线, 数字: 456</span><br><span class="line">状态: 在线, 数字: 789</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="3-4-XPath-实用技巧"><a href="#3-4-XPath-实用技巧" class="headerlink" title="3.4 XPath 实用技巧"></a>3.4 XPath 实用技巧</h2><ol>
+<li><p><strong>使用属性选择节点：</strong></p>
+<ul>
+<li><code>//td[@class=&quot;status&quot;]</code> 选择所有 class 为 “status” 的 <code>&lt;td&gt;</code>。</li>
+<li><code>//a[@href]</code> 选择带有 <code>href</code> 属性的所有 <code>&lt;a&gt;</code> 标签。</li>
+</ul>
+</li>
+<li><p><strong>使用索引选择特定节点：</strong></p>
+<ul>
+<li><code>//tr[1]</code> 选择第一个 <code>&lt;tr&gt;</code> 节点。</li>
+<li><code>//td[2]</code> 选择当前 <code>&lt;tr&gt;</code> 中的第二个 <code>&lt;td&gt;</code> 节点。</li>
+</ul>
+</li>
+<li><p><strong>选择文本和属性：</strong></p>
+<ul>
+<li><code>//td/text()</code> 选择 <code>&lt;td&gt;</code> 内的文本。</li>
+<li><code>//a/@href</code> 选择所有 <code>&lt;a&gt;</code> 标签的 <code>href</code> 属性。</li>
+</ul>
+</li>
+<li><p><strong>条件筛选：</strong></p>
+<ul>
+<li><code>//tr[td[1]=&quot;在线&quot;]</code> 选择第一列文本为“在线”的行。</li>
+</ul>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>Python爬虫</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Python 爬虫教程 01</title>
     <url>/2024/09/17/01Python%E7%88%AC%E8%99%AB/</url>
     <content><![CDATA[<h1 id="1-浏览器"><a href="#1-浏览器" class="headerlink" title="1.浏览器"></a>1.浏览器</h1><h2 id="1-1-获取页面信息"><a href="#1-1-获取页面信息" class="headerlink" title="1.1 获取页面信息"></a>1.1 获取页面信息</h2><p>进入要爬取的页面，按<code>F12</code>进入开发者模式：<br><figure class="image-caption"><img  
@@ -333,88 +415,6 @@
 </li>
 <li><p><strong>替换字符串中的数字：</strong></p>
 <div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">text = <span class="string">&quot;My phone number is 12345&quot;</span></span><br><span class="line">result = re.sub(<span class="string">r&#x27;\d+&#x27;</span>, <span class="string">&#x27;#####&#x27;</span>, text)</span><br><span class="line"><span class="built_in">print</span>(result)  <span class="comment"># 输出: &quot;My phone number is #####&quot;</span></span><br></pre></td></tr></table></figure></div></li>
-</ol>
-]]></content>
-      <categories>
-        <category>Python爬虫</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Python 爬虫教程 02</title>
-    <url>/2024/10/17/02Python%E7%88%AC%E8%99%AB/</url>
-    <content><![CDATA[<h1 id="1-测试网址"><a href="#1-测试网址" class="headerlink" title="1.测试网址"></a>1.测试网址</h1><p><a class="link"   href="https://www.spiderbuf.cn/list" >测试网站<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
-<h1 id="2-编写代码"><a href="#2-编写代码" class="headerlink" title="2.编写代码"></a>2.编写代码</h1><h2 id="2-1-代码示例"><a href="#2-1-代码示例" class="headerlink" title="2.1 代码示例"></a>2.1 代码示例</h2><div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;https://spiderbuf.cn/playground/s01&quot;</span></span><br><span class="line"></span><br><span class="line">html = requests.get(url=url).text</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/01course/01.html&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">f.write(html)</span><br><span class="line">f.close()</span><br><span class="line"></span><br><span class="line"><span class="comment"># print(html)</span></span><br><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/01course/data01.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    tds = tr.xpath(<span class="string">&#x27;./td&#x27;</span>)</span><br><span class="line">    s = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> td <span class="keyword">in</span> tds:</span><br><span class="line">        <span class="comment"># 这里加 str 是为了防止 &lt;td&gt;&lt;/td&gt; 之间是空数据</span></span><br><span class="line">        s = s + <span class="built_in">str</span>(td.text) + <span class="string">&#x27; | &#x27;</span></span><br><span class="line">    <span class="built_in">print</span>(s)</span><br><span class="line">    <span class="comment"># 保存解析到的数据到本地</span></span><br><span class="line">    <span class="keyword">if</span> s!= <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        f.write(s + <span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
-
-<p>在很多时候，建议先把请求到的网页内容保存到本地（如上面代码所示），因为有时候解析数据无法一次性解析成功，那就会再向网页发送请求，这样不断的去访问服务器，就容易被服务器检测到是爬虫。</p>
-<h1 id="3-lxml-基础使用"><a href="#3-lxml-基础使用" class="headerlink" title="3.lxml 基础使用"></a>3.lxml 基础使用</h1><h2 id="3-1-XPath-基本语法"><a href="#3-1-XPath-基本语法" class="headerlink" title="3.1 XPath 基本语法"></a>3.1 XPath 基本语法</h2><ul>
-<li><code>/</code>：从根节点选择。根节点是一个 XML 或 HTML 文档的最顶层节点，所有其他元素都是它的子节点。</li>
-<li><code>//</code>：选择文档中的所有符合条件的节点，不论它们在文档的什么位置。</li>
-<li><code>.</code>：当前节点。</li>
-<li><code>..</code>：父节点。</li>
-<li><code>@</code>：选择属性。</li>
-<li><code>[ ]</code>：筛选器，添加条件。</li>
-<li><code>text()</code>：选择文本节点。</li>
-</ul>
-<h2 id="3-2-示例说明"><a href="#3-2-示例说明" class="headerlink" title="3.2 示例说明"></a>3.2 示例说明</h2><p>假设有如下 HTML 结构，<code>&lt;html&gt;</code>是根节点：</p>
-<div class="code-container" data-rel="Html"><figure class="iseeu highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">table</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">&quot;status&quot;</span>&gt;</span>在线<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span>&gt;</span>123<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">&quot;status&quot;</span>&gt;</span>离线<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span>&gt;</span>456<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">&quot;status&quot;</span>&gt;</span>在线<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span>&gt;</span>789<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></div>
-
-<h2 id="3-3-使用-XPath-提取数据"><a href="#3-3-使用-XPath-提取数据" class="headerlink" title="3.3 使用 XPath 提取数据"></a>3.3 使用 XPath 提取数据</h2><ol>
-<li><strong>提取所有行的 <code>&lt;td&gt;</code> 内容：</strong></li>
-</ol>
-<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
-
-<p><code>//tr</code> 表示选择文档中所有的 <code>&lt;tr&gt;</code> 节点，不论它们在文档的哪个层级。</p>
-<ol start="2">
-<li><strong>提取某个特定列的数据：</strong></li>
-</ol>
-<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">status_list = root.xpath(<span class="string">&#x27;//td[@class=&quot;status&quot;]/text()&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(status_list)</span><br></pre></td></tr></table></figure></div>
-
-<ul>
-<li><code>//td[@class=&quot;status&quot;]</code>：选择所有 class 为 “status” 的 <code>&lt;td&gt;</code> 节点。</li>
-<li><code>/text()</code>：选择这些节点的文本内容。</li>
-</ul>
-<p><strong>结果：</strong></p>
-<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">[<span class="string">&#x27;在线&#x27;</span>, <span class="string">&#x27;离线&#x27;</span>, <span class="string">&#x27;在线&#x27;</span>]</span><br></pre></td></tr></table></figure></div>
-
-<ol start="3">
-<li><strong>结合 <code>for</code> 循环逐行提取多个列的内容：</strong></li>
-</ol>
-<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    status = tr.xpath(<span class="string">&#x27;./td[@class=&quot;status&quot;]/text()&#x27;</span>)[<span class="number">0</span>]  <span class="comment"># 获取状态</span></span><br><span class="line">    number = tr.xpath(<span class="string">&#x27;./td[2]/text()&#x27;</span>)[<span class="number">0</span>]  <span class="comment"># 获取数字</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;状态: <span class="subst">&#123;status&#125;</span>, 数字: <span class="subst">&#123;number&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure></div>
-
-<ul>
-<li><code>./td[@class=&quot;status&quot;]/text()</code>：从当前行的 <code>&lt;td&gt;</code> 中选择 class 为 “status” 的列。</li>
-<li><code>./td[2]/text()</code>：选择当前行的第二个 <code>&lt;td&gt;</code> 节点的文本内容。</li>
-</ul>
-<p><strong>输出：</strong></p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">状态: 在线, 数字: 123</span><br><span class="line">状态: 离线, 数字: 456</span><br><span class="line">状态: 在线, 数字: 789</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="3-4-XPath-实用技巧"><a href="#3-4-XPath-实用技巧" class="headerlink" title="3.4 XPath 实用技巧"></a>3.4 XPath 实用技巧</h2><ol>
-<li><p><strong>使用属性选择节点：</strong></p>
-<ul>
-<li><code>//td[@class=&quot;status&quot;]</code> 选择所有 class 为 “status” 的 <code>&lt;td&gt;</code>。</li>
-<li><code>//a[@href]</code> 选择带有 <code>href</code> 属性的所有 <code>&lt;a&gt;</code> 标签。</li>
-</ul>
-</li>
-<li><p><strong>使用索引选择特定节点：</strong></p>
-<ul>
-<li><code>//tr[1]</code> 选择第一个 <code>&lt;tr&gt;</code> 节点。</li>
-<li><code>//td[2]</code> 选择当前 <code>&lt;tr&gt;</code> 中的第二个 <code>&lt;td&gt;</code> 节点。</li>
-</ul>
-</li>
-<li><p><strong>选择文本和属性：</strong></p>
-<ul>
-<li><code>//td/text()</code> 选择 <code>&lt;td&gt;</code> 内的文本。</li>
-<li><code>//a/@href</code> 选择所有 <code>&lt;a&gt;</code> 标签的 <code>href</code> 属性。</li>
-</ul>
-</li>
-<li><p><strong>条件筛选：</strong></p>
-<ul>
-<li><code>//tr[td[1]=&quot;在线&quot;]</code> 选择第一列文本为“在线”的行。</li>
-</ul>
-</li>
 </ol>
 ]]></content>
       <categories>
@@ -942,6 +942,21 @@
       </tags>
   </entry>
   <entry>
+    <title>Dockerfile 教程</title>
+    <url>/2024/09/03/Dockerfile%E6%95%99%E7%A8%8B/</url>
+    <content><![CDATA[<h1 id="1-代理配置"><a href="#1-代理配置" class="headerlink" title="1.代理配置"></a>1.代理配置</h1><p>有时侯在构建镜像时，需要执行一些下载操作，没有配置国内镜像源的话，下载速度可能会很慢甚至出错，所以需要在 Dockerfile 中配置代理。</p>
+<p>在 Dockerfile 中加上：</p>
+<div class="code-container" data-rel="Dockerfile"><figure class="iseeu highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="keyword">ENV</span> http_proxy=http://your-proxy-address:port/</span><br><span class="line"><span class="keyword">ENV</span> https_proxy=http://your-proxy-address:port/</span><br></pre></td></tr></table></figure></div>
+
+<p><code>http_proxy</code>和<code>https_proxy</code>：这两个环境变量分别用于<code>HTTP</code>和<code>HTTPS</code>的代理服务器地址。你需要将<code>your-proxy-address:port</code>替换为宿主机在当前网络下的 IP 地址和代理端口。注意这里是宿主机的实际<code>IP</code>地址，不是本地回环（<code>loop</code>）地址。同过<code>ifconfig</code>或者<code>ip a</code>查看。</p>
+<p>这属于是 docker 的环境变量设置，环境变量通常不会自动写入容器中的配置文件，如<code>.bashrc</code>或<code>/etc/environment</code>，但它们会在容器启动时自动加载。</p>
+]]></content>
+      <tags>
+        <tag>docker</tag>
+        <tag>proxy</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Openwrt 在 Docker 下运行并作为旁路由</title>
     <url>/2024/07/30/Docker-Openwrt/</url>
     <content><![CDATA[<h1 id="1-前言"><a href="#1-前言" class="headerlink" title="1.前言"></a>1.前言</h1><p>这几天想试着玩一下<code>Openwrt</code>来作旁路由，但是又没有软路由固件，后来考虑到<code>Openwrt</code>也是基于 Linux 的，那么在 Docker Hub 上应该有其对应的镜像吧，然后查了下果真有。于是有了后续的操作 … …</p>
@@ -1215,21 +1230,6 @@
         <tag>proxy</tag>
         <tag>openwrt</tag>
         <tag>虚拟机</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Dockerfile 教程</title>
-    <url>/2024/09/03/Dockerfile%E6%95%99%E7%A8%8B/</url>
-    <content><![CDATA[<h1 id="1-代理配置"><a href="#1-代理配置" class="headerlink" title="1.代理配置"></a>1.代理配置</h1><p>有时侯在构建镜像时，需要执行一些下载操作，没有配置国内镜像源的话，下载速度可能会很慢甚至出错，所以需要在 Dockerfile 中配置代理。</p>
-<p>在 Dockerfile 中加上：</p>
-<div class="code-container" data-rel="Dockerfile"><figure class="iseeu highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="keyword">ENV</span> http_proxy=http://your-proxy-address:port/</span><br><span class="line"><span class="keyword">ENV</span> https_proxy=http://your-proxy-address:port/</span><br></pre></td></tr></table></figure></div>
-
-<p><code>http_proxy</code>和<code>https_proxy</code>：这两个环境变量分别用于<code>HTTP</code>和<code>HTTPS</code>的代理服务器地址。你需要将<code>your-proxy-address:port</code>替换为宿主机在当前网络下的 IP 地址和代理端口。注意这里是宿主机的实际<code>IP</code>地址，不是本地回环（<code>loop</code>）地址。同过<code>ifconfig</code>或者<code>ip a</code>查看。</p>
-<p>这属于是 docker 的环境变量设置，环境变量通常不会自动写入容器中的配置文件，如<code>.bashrc</code>或<code>/etc/environment</code>，但它们会在容器启动时自动加载。</p>
-]]></content>
-      <tags>
-        <tag>docker</tag>
-        <tag>proxy</tag>
       </tags>
   </entry>
   <entry>
@@ -1809,41 +1809,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Linux 和 Windows 双系统下的 grub 引导修复</title>
-    <url>/2024/10/28/Grub%E5%BC%95%E5%AF%BC%E4%BF%AE%E5%A4%8D/</url>
-    <content><![CDATA[<h1 id="1-出现的问题"><a href="#1-出现的问题" class="headerlink" title="1.出现的问题"></a>1.出现的问题</h1><p>如下图所示：<br><a href="https://imgse.com/i/pA05Jit"><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://s21.ax1x.com/2024/10/28/pA05Jit.jpg"
-                      alt="引导出错.jpg"
-                ><figcaption>引导出错.jpg</figcaption></figure></a><br>提示找不到<code>/efi/Microsoft/Boot/bootmgfw.efi</code>，<code>no such device: 4458-2764</code>。后面这一串数据其实是<code>Windows</code>引导分区的<code>UUID</code>。一般情况下是因为重装系统，导致<code>UUID</code>改变了，但是 Linux 下的 Grub 引导并没有进行修改，这时候是需要手动修改的。</p>
-<h1 id="2-解决方案"><a href="#2-解决方案" class="headerlink" title="2.解决方案"></a>2.解决方案</h1><p>首先需要知道 Windows 的引导分区是否存在：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">lsblk</span><br></pre></td></tr></table></figure></div>
-<p>或者使用：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> fdisk -l</span><br></pre></td></tr></table></figure></div>
-<p>显示的信息更详细。</p>
-<p>输出：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">NAME        MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS</span><br><span class="line">nvme1n1     259:0    0 476.9G  0 disk </span><br><span class="line">├─nvme1n1p1 259:1    0   300M  0 part </span><br><span class="line">├─nvme1n1p2 259:2    0    16M  0 part </span><br><span class="line">├─nvme1n1p3 259:3    0   100G  0 part </span><br><span class="line">└─nvme1n1p4 259:4    0 376.6G  0 part </span><br><span class="line">nvme0n1     259:5    0 238.5G  0 disk </span><br><span class="line">├─nvme0n1p1 259:6    0   301M  0 part /boot/efi</span><br><span class="line">└─nvme0n1p2 259:7    0 238.2G  0 part /</span><br></pre></td></tr></table></figure></div>
-<p>根据自己电脑磁盘情况查找，我的是<code>nvme1n1p1</code>（一般都是<code>300M</code>的那个分区）。然后记住这个分区名。</p>
-<p>查看分区<code>UUID</code>：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> blkid /dev/nvme1n1p1</span><br></pre></td></tr></table></figure></div>
-
-<p>输出：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">/dev/nvme1n1p1: UUID=&quot;9252-7D2A&quot; BLOCK_SIZE=&quot;512&quot; TYPE=&quot;vfat&quot; PARTLABEL=&quot;EFI system partition&quot; PARTUUID=&quot;c9ce23fc-7bde-40a9-8cce-8da0df9079cb&quot;</span><br></pre></td></tr></table></figure></div>
-
-<p>把这个<code>UUID</code>记下，我的这里是<code>9252-7D2A</code>。</p>
-<p>打开并编辑<code>/boot/grub/grub.cfg</code>文件：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nano /boot/grub/grub.cfg</span><br></pre></td></tr></table></figure></div>
-
-<p>找到这样的一个内容：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">menuentry &#x27;Windows Boot Manager (on /dev/nvme0n1p1)&#x27; --class windows --class os $menuentry_id_option &#x27;osprober-efi-4458-2764&gt;</span><br><span class="line">        insmod part_gpt</span><br><span class="line">        insmod fat</span><br><span class="line">        search --no-floppy --fs-uuid --set=root 9252-7D2A</span><br><span class="line">        chainloader /efi/Microsoft/Boot/bootmgfw.efi</span><br></pre></td></tr></table></figure></div>
-<p>把<code>--set=root</code>后面的<code>UUID</code>改为你自己电脑的，然后重启电脑就行了。</p>
-]]></content>
-      <tags>
-        <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Git教程</title>
     <url>/2024/07/19/Git%E6%95%99%E7%A8%8B/</url>
     <content><![CDATA[<h1 id="一、-SSH-连接"><a href="#一、-SSH-连接" class="headerlink" title="一、 SSH 连接"></a>一、 SSH 连接</h1><p>需要提前安装好<code>OpenSSH</code>:</p>
@@ -1919,6 +1884,41 @@
       <tags>
         <tag>linux</tag>
         <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux 和 Windows 双系统下的 grub 引导修复</title>
+    <url>/2024/10/28/Grub%E5%BC%95%E5%AF%BC%E4%BF%AE%E5%A4%8D/</url>
+    <content><![CDATA[<h1 id="1-出现的问题"><a href="#1-出现的问题" class="headerlink" title="1.出现的问题"></a>1.出现的问题</h1><p>如下图所示：<br><a href="https://imgse.com/i/pA05Jit"><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s21.ax1x.com/2024/10/28/pA05Jit.jpg"
+                      alt="引导出错.jpg"
+                ><figcaption>引导出错.jpg</figcaption></figure></a><br>提示找不到<code>/efi/Microsoft/Boot/bootmgfw.efi</code>，<code>no such device: 4458-2764</code>。后面这一串数据其实是<code>Windows</code>引导分区的<code>UUID</code>。一般情况下是因为重装系统，导致<code>UUID</code>改变了，但是 Linux 下的 Grub 引导并没有进行修改，这时候是需要手动修改的。</p>
+<h1 id="2-解决方案"><a href="#2-解决方案" class="headerlink" title="2.解决方案"></a>2.解决方案</h1><p>首先需要知道 Windows 的引导分区是否存在：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">lsblk</span><br></pre></td></tr></table></figure></div>
+<p>或者使用：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> fdisk -l</span><br></pre></td></tr></table></figure></div>
+<p>显示的信息更详细。</p>
+<p>输出：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">NAME        MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS</span><br><span class="line">nvme1n1     259:0    0 476.9G  0 disk </span><br><span class="line">├─nvme1n1p1 259:1    0   300M  0 part </span><br><span class="line">├─nvme1n1p2 259:2    0    16M  0 part </span><br><span class="line">├─nvme1n1p3 259:3    0   100G  0 part </span><br><span class="line">└─nvme1n1p4 259:4    0 376.6G  0 part </span><br><span class="line">nvme0n1     259:5    0 238.5G  0 disk </span><br><span class="line">├─nvme0n1p1 259:6    0   301M  0 part /boot/efi</span><br><span class="line">└─nvme0n1p2 259:7    0 238.2G  0 part /</span><br></pre></td></tr></table></figure></div>
+<p>根据自己电脑磁盘情况查找，我的是<code>nvme1n1p1</code>（一般都是<code>300M</code>的那个分区）。然后记住这个分区名。</p>
+<p>查看分区<code>UUID</code>：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> blkid /dev/nvme1n1p1</span><br></pre></td></tr></table></figure></div>
+
+<p>输出：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">/dev/nvme1n1p1: UUID=&quot;9252-7D2A&quot; BLOCK_SIZE=&quot;512&quot; TYPE=&quot;vfat&quot; PARTLABEL=&quot;EFI system partition&quot; PARTUUID=&quot;c9ce23fc-7bde-40a9-8cce-8da0df9079cb&quot;</span><br></pre></td></tr></table></figure></div>
+
+<p>把这个<code>UUID</code>记下，我的这里是<code>9252-7D2A</code>。</p>
+<p>打开并编辑<code>/boot/grub/grub.cfg</code>文件：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nano /boot/grub/grub.cfg</span><br></pre></td></tr></table></figure></div>
+
+<p>找到这样的一个内容：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">menuentry &#x27;Windows Boot Manager (on /dev/nvme0n1p1)&#x27; --class windows --class os $menuentry_id_option &#x27;osprober-efi-4458-2764&gt;</span><br><span class="line">        insmod part_gpt</span><br><span class="line">        insmod fat</span><br><span class="line">        search --no-floppy --fs-uuid --set=root 9252-7D2A</span><br><span class="line">        chainloader /efi/Microsoft/Boot/bootmgfw.efi</span><br></pre></td></tr></table></figure></div>
+<p>把<code>--set=root</code>后面的<code>UUID</code>改为你自己电脑的，然后重启电脑就行了。</p>
+]]></content>
+      <tags>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -2722,6 +2722,36 @@
       </tags>
   </entry>
   <entry>
+    <title>Python 获取当前代理 IP</title>
+    <url>/2024/09/21/Python-%E8%8E%B7%E5%8F%96%E4%BB%A3%E7%90%86ip/</url>
+    <content><![CDATA[<h1 id="1-Linux-下查看当前代理-IP"><a href="#1-Linux-下查看当前代理-IP" class="headerlink" title="1.Linux 下查看当前代理 IP"></a>1.Linux 下查看当前代理 IP</h1><h2 id="1-1-通过命令行查看当前的外部-IP"><a href="#1-1-通过命令行查看当前的外部-IP" class="headerlink" title="1.1 通过命令行查看当前的外部 IP"></a>1.1 通过命令行查看当前的外部 IP</h2><p>使用 <code>curl</code> 命令向外部网站请求，来查看当前代理访问的外部IP地址：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">curl -x http://localhost:port https://api.ipify.org</span><br></pre></td></tr></table></figure></div>
+
+<p>或使用 <code>ifconfig.me</code> 服务：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">curl -x http://localhost:port http://ifconfig.me</span><br></pre></td></tr></table></figure></div>
+
+<p>这里 <code>localhost:port</code> 是你本地当前代理运行的地址和端口。</p>
+<p>如果你的代理使用的是 <code>socks</code> 协议，可以这样：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">curl --socks5 localhost:port https://api.ipify.org</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="1-2-通过浏览器插件或在线服务"><a href="#1-2-通过浏览器插件或在线服务" class="headerlink" title="1.2 通过浏览器插件或在线服务"></a>1.2 通过浏览器插件或在线服务</h2><p>你可以使用浏览器访问以下在线服务来查看当前外部 IP：</p>
+<ul>
+<li><a class="link"   href="https://www.whatismyip.com/" >What Is My IP<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link"   href="https://ipinfo.io/" >IPinfo.io<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+</ul>
+<p>这些网站可以直接显示你当前使用的公网IP地址。如果你使用代理，显示的会是代理服务器的IP。</p>
+<h1 id="2-Python-获取当前代理-IP"><a href="#2-Python-获取当前代理-IP" class="headerlink" title="2. Python 获取当前代理 IP"></a>2. Python 获取当前代理 IP</h1><div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line"><span class="comment"># 代理地址，设置为你本地代理的地址和端口</span></span><br><span class="line">proxy = &#123;</span><br><span class="line">    <span class="comment"># 记得改成自己的端口号</span></span><br><span class="line">    <span class="string">&#x27;http&#x27;</span>: <span class="string">&#x27;http://localhost:7890&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;https&#x27;</span>: <span class="string">&#x27;http://localhost:7890&#x27;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 访问外部API，获取代理IP</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    response = requests.get(<span class="string">&#x27;http://api.ipify.org&#x27;</span>, proxies=proxy)</span><br><span class="line">    current_ip = response.text</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;Current proxy IP: <span class="subst">&#123;current_ip&#125;</span>&quot;</span>)</span><br><span class="line"><span class="keyword">except</span> requests.RequestException <span class="keyword">as</span> e:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;Error retrieving IP: <span class="subst">&#123;e&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 正则表达式提取代理IP和端口</span></span><br><span class="line">proxy_address = proxy[<span class="string">&#x27;http&#x27;</span>]</span><br><span class="line"><span class="keyword">match</span> = re.<span class="keyword">match</span>(<span class="string">r&#x27;http://([^\:]+):(\d+)&#x27;</span>, proxy_address)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">match</span>:</span><br><span class="line">    ip = <span class="keyword">match</span>.group(<span class="number">1</span>)  <span class="comment"># 提取IP地址</span></span><br><span class="line">    port = <span class="keyword">match</span>.group(<span class="number">2</span>)  <span class="comment"># 提取端口号</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;IP: <span class="subst">&#123;ip&#125;</span>, Port: <span class="subst">&#123;port&#125;</span>&quot;</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Invalid proxy format&quot;</span>)</span><br></pre></td></tr></table></figure></div>
+
+<p>如果是在 Docker 容器中运行这段代码，记得把<code>localhost</code>改为自己宿主机的<code>ip</code>地址。</p>
+]]></content>
+      <categories>
+        <category>Python技巧</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Python 下的多进程和多线程编程</title>
     <url>/2024/09/16/Python-%E5%A4%9A%E8%BF%9B%E7%A8%8B%E5%92%8C%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B/</url>
     <content><![CDATA[<h1 id="1-多进程"><a href="#1-多进程" class="headerlink" title="1.多进程"></a>1.多进程</h1><h2 id="1-1-使用多进程完成任务"><a href="#1-1-使用多进程完成任务" class="headerlink" title="1. 1 使用多进程完成任务"></a>1. 1 使用多进程完成任务</h2><p>用到的包：<code>multiprocessing</code>，以下面的代码为例：</p>
@@ -2871,36 +2901,6 @@
 </ul>
 </li>
 </ul>
-]]></content>
-      <categories>
-        <category>Python技巧</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Python 获取当前代理 IP</title>
-    <url>/2024/09/21/Python-%E8%8E%B7%E5%8F%96%E4%BB%A3%E7%90%86ip/</url>
-    <content><![CDATA[<h1 id="1-Linux-下查看当前代理-IP"><a href="#1-Linux-下查看当前代理-IP" class="headerlink" title="1.Linux 下查看当前代理 IP"></a>1.Linux 下查看当前代理 IP</h1><h2 id="1-1-通过命令行查看当前的外部-IP"><a href="#1-1-通过命令行查看当前的外部-IP" class="headerlink" title="1.1 通过命令行查看当前的外部 IP"></a>1.1 通过命令行查看当前的外部 IP</h2><p>使用 <code>curl</code> 命令向外部网站请求，来查看当前代理访问的外部IP地址：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">curl -x http://localhost:port https://api.ipify.org</span><br></pre></td></tr></table></figure></div>
-
-<p>或使用 <code>ifconfig.me</code> 服务：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">curl -x http://localhost:port http://ifconfig.me</span><br></pre></td></tr></table></figure></div>
-
-<p>这里 <code>localhost:port</code> 是你本地当前代理运行的地址和端口。</p>
-<p>如果你的代理使用的是 <code>socks</code> 协议，可以这样：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">curl --socks5 localhost:port https://api.ipify.org</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="1-2-通过浏览器插件或在线服务"><a href="#1-2-通过浏览器插件或在线服务" class="headerlink" title="1.2 通过浏览器插件或在线服务"></a>1.2 通过浏览器插件或在线服务</h2><p>你可以使用浏览器访问以下在线服务来查看当前外部 IP：</p>
-<ul>
-<li><a class="link"   href="https://www.whatismyip.com/" >What Is My IP<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
-<li><a class="link"   href="https://ipinfo.io/" >IPinfo.io<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
-</ul>
-<p>这些网站可以直接显示你当前使用的公网IP地址。如果你使用代理，显示的会是代理服务器的IP。</p>
-<h1 id="2-Python-获取当前代理-IP"><a href="#2-Python-获取当前代理-IP" class="headerlink" title="2. Python 获取当前代理 IP"></a>2. Python 获取当前代理 IP</h1><div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line"><span class="comment"># 代理地址，设置为你本地代理的地址和端口</span></span><br><span class="line">proxy = &#123;</span><br><span class="line">    <span class="comment"># 记得改成自己的端口号</span></span><br><span class="line">    <span class="string">&#x27;http&#x27;</span>: <span class="string">&#x27;http://localhost:7890&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;https&#x27;</span>: <span class="string">&#x27;http://localhost:7890&#x27;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 访问外部API，获取代理IP</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    response = requests.get(<span class="string">&#x27;http://api.ipify.org&#x27;</span>, proxies=proxy)</span><br><span class="line">    current_ip = response.text</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;Current proxy IP: <span class="subst">&#123;current_ip&#125;</span>&quot;</span>)</span><br><span class="line"><span class="keyword">except</span> requests.RequestException <span class="keyword">as</span> e:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;Error retrieving IP: <span class="subst">&#123;e&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 正则表达式提取代理IP和端口</span></span><br><span class="line">proxy_address = proxy[<span class="string">&#x27;http&#x27;</span>]</span><br><span class="line"><span class="keyword">match</span> = re.<span class="keyword">match</span>(<span class="string">r&#x27;http://([^\:]+):(\d+)&#x27;</span>, proxy_address)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">match</span>:</span><br><span class="line">    ip = <span class="keyword">match</span>.group(<span class="number">1</span>)  <span class="comment"># 提取IP地址</span></span><br><span class="line">    port = <span class="keyword">match</span>.group(<span class="number">2</span>)  <span class="comment"># 提取端口号</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;IP: <span class="subst">&#123;ip&#125;</span>, Port: <span class="subst">&#123;port&#125;</span>&quot;</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Invalid proxy format&quot;</span>)</span><br></pre></td></tr></table></figure></div>
-
-<p>如果是在 Docker 容器中运行这段代码，记得把<code>localhost</code>改为自己宿主机的<code>ip</code>地址。</p>
 ]]></content>
       <categories>
         <category>Python技巧</category>
@@ -3134,28 +3134,6 @@
       </tags>
   </entry>
   <entry>
-    <title>解决 Ubuntu 系统下，软件包更新和软件下载速度慢的问题</title>
-    <url>/2024/12/07/Ubuntu%E9%95%9C%E5%83%8F%E6%BA%90/</url>
-    <content><![CDATA[<h1 id="1-问题复现"><a href="#1-问题复现" class="headerlink" title="1.问题复现"></a>1.问题复现</h1><p>在安装后 Debian 系统后，一般第一步都是执行<code>sudo apt update</code>，此时用的是自带的官方镜像源，速度很慢，所以我们会选择切换为国内的镜像源，这里以清华镜像源为例，默认已经配置好了清华镜像源。</p>
-<p>在执行更新时：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">root@5395055d0589:/# apt update</span><br><span class="line">Ign:1 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble InRelease</span><br><span class="line">Ign:2 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-updates InRelease                                </span><br><span class="line">Ign:3 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-backports InRelease                              </span><br><span class="line">Get:4 http://security.ubuntu.com/ubuntu noble-security InRelease [126 kB]                                </span><br><span class="line">Get:5 http://archive.ubuntu.com/ubuntu noble InRelease [256 kB]                                          </span><br><span class="line">Ign:1 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble InRelease </span><br><span class="line">Ign:2 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-updates InRelease</span><br><span class="line">Ign:3 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-backports InRelease</span><br><span class="line">Get:6 http://security.ubuntu.com/ubuntu noble-security/multiverse amd64 Packages [15.3 kB]</span><br><span class="line">Get:7 http://security.ubuntu.com/ubuntu noble-security/universe amd64 Packages [726 kB]</span><br><span class="line">Get:8 http://security.ubuntu.com/ubuntu noble-security/main amd64 Packages [627 kB]</span><br><span class="line">Get:9 http://security.ubuntu.com/ubuntu noble-security/restricted amd64 Packages [607 kB]</span><br><span class="line">Ign:1 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble InRelease                       </span><br><span class="line">Ign:2 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-updates InRelease</span><br><span class="line">Ign:3 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-backports InRelease</span><br><span class="line">Get:10 http://archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]                                                                                                                          </span><br><span class="line">Err:1 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble InRelease                                                                                                                                 </span><br><span class="line">  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">Err:2 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-updates InRelease                                                                                                                         </span><br><span class="line">  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">Err:3 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-backports InRelease                                                                                                                       </span><br><span class="line">  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">Get:11 http://archive.ubuntu.com/ubuntu noble-backports InRelease [126 kB]                                                                                                                        </span><br><span class="line">Get:12 http://archive.ubuntu.com/ubuntu noble/main amd64 Packages [1808 kB]                                                                                                                       </span><br><span class="line">Get:13 http://archive.ubuntu.com/ubuntu noble/restricted amd64 Packages [117 kB]                                                                                                                  </span><br><span class="line">Get:14 http://archive.ubuntu.com/ubuntu noble/universe amd64 Packages [19.3 MB]                                                                                                                   </span><br><span class="line">38% [14 Packages 3024 kB/19.3 MB 16%]                                                                                                                                           75.6 kB/s 4min 12s^C</span><br></pre></td></tr></table></figure></div>
-
-<h1 id="2-解决办法"><a href="#2-解决办法" class="headerlink" title="2.解决办法"></a>2.解决办法</h1><p>可以看到，当清华镜像源证书验证失败时，会尝试从<code>/etc/apt/sources.list.d/ubuntu.sources</code>这里的官方镜像源下载更新，但是下载速度特别慢，所以我通常会禁用这个。</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mv</span> /etc/apt/sources.list.d/ubuntu.sources /etc/apt/sources.list.d/ubuntu.sources.bak</span><br></pre></td></tr></table></figure></div>
-
-<p>然后更新的时候临时禁用证书验证：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">apt-get -o Acquire::https::Verify-Peer=<span class="literal">false</span> -o Acquire::https::Verify-Host=<span class="literal">false</span> update</span><br></pre></td></tr></table></figure></div>
-
-<p>更新完毕后，可能在安装<code>ca-certificates</code>还会出现这样的问题：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">root@5395055d0589:/# apt install ca-certificates</span><br><span class="line">Reading package lists... Done</span><br><span class="line">Building dependency tree... Done</span><br><span class="line">Reading state information... Done</span><br><span class="line">The following additional packages will be installed:</span><br><span class="line">  openssl</span><br><span class="line">The following NEW packages will be installed:</span><br><span class="line">  ca-certificates openssl</span><br><span class="line">0 upgraded, 2 newly installed, 0 to remove and 0 not upgraded.</span><br><span class="line">Need to get 1162 kB of archives.</span><br><span class="line">After this operation, 2326 kB of additional disk space will be used.</span><br><span class="line">Do you want to <span class="built_in">continue</span>? [Y/n] y</span><br><span class="line">Ign:1 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-updates/main amd64 openssl amd64 3.0.13-0ubuntu3.4</span><br><span class="line">Ign:2 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble/main amd64 ca-certificates all 20240203</span><br><span class="line">Ign:1 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-updates/main amd64 openssl amd64 3.0.13-0ubuntu3.4</span><br><span class="line">Ign:2 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble/main amd64 ca-certificates all 20240203</span><br><span class="line">Ign:1 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-updates/main amd64 openssl amd64 3.0.13-0ubuntu3.4</span><br><span class="line">Ign:2 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble/main amd64 ca-certificates all 20240203</span><br><span class="line">Err:1 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-updates/main amd64 openssl amd64 3.0.13-0ubuntu3.4</span><br><span class="line">  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">Err:2 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble/main amd64 ca-certificates all 20240203</span><br><span class="line">  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/o/openssl/openssl_3.0.13-0ubuntu3.4_amd64.deb: No system certificates available. Try installing ca-certificates.</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/c/ca-certificates/ca-certificates_20240203_all.deb: No system certificates available. Try installing ca-certificates.</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/o/openssl/openssl_3.0.13-0ubuntu3.4_amd64.deb: No system certificates available. Try installing ca-certificates.</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/c/ca-certificates/ca-certificates_20240203_all.deb: No system certificates available. Try installing ca-certificates.</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/o/openssl/openssl_3.0.13-0ubuntu3.4_amd64.deb: No system certificates available. Try installing ca-certificates.</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/c/ca-certificates/ca-certificates_20240203_all.deb: No system certificates available. Try installing ca-certificates.</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/o/openssl/openssl_3.0.13-0ubuntu3.4_amd64.deb: No system certificates available. Try installing ca-certificates.</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/c/ca-certificates/ca-certificates_20240203_all.deb: No system certificates available. Try installing ca-certificates.</span><br><span class="line">E: Failed to fetch https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/o/openssl/openssl_3.0.13-0ubuntu3.4_amd64.deb  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">E: Failed to fetch https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/c/ca-certificates/ca-certificates_20240203_all.deb  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">E: Unable to fetch some archives, maybe run apt-get update or try with --fix-missing?</span><br></pre></td></tr></table></figure></div>
-<p>从错误信息来看，<code>apt</code>在尝试从清华镜像站下载<code>ca-certificates</code>和<code>openssl</code>时仍然遇到了证书验证失败的问题。这可能是由于现有的<code>ca-certificates</code>软件包本身损坏或缺失导致的。</p>
-<p>因此可以在下载时临时禁用证书验证：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">apt-get -o Acquire::https::Verify-Peer=<span class="literal">false</span> -o Acquire::https::Verify-Host=<span class="literal">false</span> install ca-certificates openssl</span><br></pre></td></tr></table></figure></div>]]></content>
-      <tags>
-        <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>VirtualBox 实现主机与虚拟机（CachyOS）传文件</title>
     <url>/2024/08/01/VirtualBox%E4%B8%BB%E6%9C%BA%E4%B8%8E%E8%99%9A%E6%8B%9F%E6%9C%BA%E9%97%B4%E4%BC%A0%E6%96%87%E4%BB%B6/</url>
     <content><![CDATA[<h1 id="1-VirtualBox-中实现主机与虚拟机之间传输文件"><a href="#1-VirtualBox-中实现主机与虚拟机之间传输文件" class="headerlink" title="1.VirtualBox 中实现主机与虚拟机之间传输文件"></a>1.VirtualBox 中实现主机与虚拟机之间传输文件</h1><h2 id="1-1-VirtualBox-中的设置"><a href="#1-1-VirtualBox-中的设置" class="headerlink" title="1.1 VirtualBox 中的设置"></a>1.1 VirtualBox 中的设置</h2><p>如图所示：</p>
@@ -3181,6 +3159,28 @@
 <p>将主机的那个共享目录挂载到<code>~/share</code>文件夹下：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> mount -t vboxsf CachyOS_share ~/share/</span><br></pre></td></tr></table></figure></div>
 ]]></content>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>解决 Ubuntu 系统下，软件包更新和软件下载速度慢的问题</title>
+    <url>/2024/12/07/Ubuntu%E9%95%9C%E5%83%8F%E6%BA%90/</url>
+    <content><![CDATA[<h1 id="1-问题复现"><a href="#1-问题复现" class="headerlink" title="1.问题复现"></a>1.问题复现</h1><p>在安装后 Debian 系统后，一般第一步都是执行<code>sudo apt update</code>，此时用的是自带的官方镜像源，速度很慢，所以我们会选择切换为国内的镜像源，这里以清华镜像源为例，默认已经配置好了清华镜像源。</p>
+<p>在执行更新时：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">root@5395055d0589:/# apt update</span><br><span class="line">Ign:1 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble InRelease</span><br><span class="line">Ign:2 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-updates InRelease                                </span><br><span class="line">Ign:3 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-backports InRelease                              </span><br><span class="line">Get:4 http://security.ubuntu.com/ubuntu noble-security InRelease [126 kB]                                </span><br><span class="line">Get:5 http://archive.ubuntu.com/ubuntu noble InRelease [256 kB]                                          </span><br><span class="line">Ign:1 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble InRelease </span><br><span class="line">Ign:2 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-updates InRelease</span><br><span class="line">Ign:3 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-backports InRelease</span><br><span class="line">Get:6 http://security.ubuntu.com/ubuntu noble-security/multiverse amd64 Packages [15.3 kB]</span><br><span class="line">Get:7 http://security.ubuntu.com/ubuntu noble-security/universe amd64 Packages [726 kB]</span><br><span class="line">Get:8 http://security.ubuntu.com/ubuntu noble-security/main amd64 Packages [627 kB]</span><br><span class="line">Get:9 http://security.ubuntu.com/ubuntu noble-security/restricted amd64 Packages [607 kB]</span><br><span class="line">Ign:1 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble InRelease                       </span><br><span class="line">Ign:2 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-updates InRelease</span><br><span class="line">Ign:3 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-backports InRelease</span><br><span class="line">Get:10 http://archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]                                                                                                                          </span><br><span class="line">Err:1 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble InRelease                                                                                                                                 </span><br><span class="line">  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">Err:2 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-updates InRelease                                                                                                                         </span><br><span class="line">  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">Err:3 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-backports InRelease                                                                                                                       </span><br><span class="line">  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">Get:11 http://archive.ubuntu.com/ubuntu noble-backports InRelease [126 kB]                                                                                                                        </span><br><span class="line">Get:12 http://archive.ubuntu.com/ubuntu noble/main amd64 Packages [1808 kB]                                                                                                                       </span><br><span class="line">Get:13 http://archive.ubuntu.com/ubuntu noble/restricted amd64 Packages [117 kB]                                                                                                                  </span><br><span class="line">Get:14 http://archive.ubuntu.com/ubuntu noble/universe amd64 Packages [19.3 MB]                                                                                                                   </span><br><span class="line">38% [14 Packages 3024 kB/19.3 MB 16%]                                                                                                                                           75.6 kB/s 4min 12s^C</span><br></pre></td></tr></table></figure></div>
+
+<h1 id="2-解决办法"><a href="#2-解决办法" class="headerlink" title="2.解决办法"></a>2.解决办法</h1><p>可以看到，当清华镜像源证书验证失败时，会尝试从<code>/etc/apt/sources.list.d/ubuntu.sources</code>这里的官方镜像源下载更新，但是下载速度特别慢，所以我通常会禁用这个。</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mv</span> /etc/apt/sources.list.d/ubuntu.sources /etc/apt/sources.list.d/ubuntu.sources.bak</span><br></pre></td></tr></table></figure></div>
+
+<p>然后更新的时候临时禁用证书验证：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">apt-get -o Acquire::https::Verify-Peer=<span class="literal">false</span> -o Acquire::https::Verify-Host=<span class="literal">false</span> update</span><br></pre></td></tr></table></figure></div>
+
+<p>更新完毕后，可能在安装<code>ca-certificates</code>还会出现这样的问题：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">root@5395055d0589:/# apt install ca-certificates</span><br><span class="line">Reading package lists... Done</span><br><span class="line">Building dependency tree... Done</span><br><span class="line">Reading state information... Done</span><br><span class="line">The following additional packages will be installed:</span><br><span class="line">  openssl</span><br><span class="line">The following NEW packages will be installed:</span><br><span class="line">  ca-certificates openssl</span><br><span class="line">0 upgraded, 2 newly installed, 0 to remove and 0 not upgraded.</span><br><span class="line">Need to get 1162 kB of archives.</span><br><span class="line">After this operation, 2326 kB of additional disk space will be used.</span><br><span class="line">Do you want to <span class="built_in">continue</span>? [Y/n] y</span><br><span class="line">Ign:1 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-updates/main amd64 openssl amd64 3.0.13-0ubuntu3.4</span><br><span class="line">Ign:2 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble/main amd64 ca-certificates all 20240203</span><br><span class="line">Ign:1 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-updates/main amd64 openssl amd64 3.0.13-0ubuntu3.4</span><br><span class="line">Ign:2 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble/main amd64 ca-certificates all 20240203</span><br><span class="line">Ign:1 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-updates/main amd64 openssl amd64 3.0.13-0ubuntu3.4</span><br><span class="line">Ign:2 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble/main amd64 ca-certificates all 20240203</span><br><span class="line">Err:1 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-updates/main amd64 openssl amd64 3.0.13-0ubuntu3.4</span><br><span class="line">  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">Err:2 https://mirrors.tuna.tsinghua.edu.cn/ubuntu noble/main amd64 ca-certificates all 20240203</span><br><span class="line">  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/o/openssl/openssl_3.0.13-0ubuntu3.4_amd64.deb: No system certificates available. Try installing ca-certificates.</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/c/ca-certificates/ca-certificates_20240203_all.deb: No system certificates available. Try installing ca-certificates.</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/o/openssl/openssl_3.0.13-0ubuntu3.4_amd64.deb: No system certificates available. Try installing ca-certificates.</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/c/ca-certificates/ca-certificates_20240203_all.deb: No system certificates available. Try installing ca-certificates.</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/o/openssl/openssl_3.0.13-0ubuntu3.4_amd64.deb: No system certificates available. Try installing ca-certificates.</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/c/ca-certificates/ca-certificates_20240203_all.deb: No system certificates available. Try installing ca-certificates.</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/o/openssl/openssl_3.0.13-0ubuntu3.4_amd64.deb: No system certificates available. Try installing ca-certificates.</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/c/ca-certificates/ca-certificates_20240203_all.deb: No system certificates available. Try installing ca-certificates.</span><br><span class="line">E: Failed to fetch https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/o/openssl/openssl_3.0.13-0ubuntu3.4_amd64.deb  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">E: Failed to fetch https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/c/ca-certificates/ca-certificates_20240203_all.deb  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">E: Unable to fetch some archives, maybe run apt-get update or try with --fix-missing?</span><br></pre></td></tr></table></figure></div>
+<p>从错误信息来看，<code>apt</code>在尝试从清华镜像站下载<code>ca-certificates</code>和<code>openssl</code>时仍然遇到了证书验证失败的问题。这可能是由于现有的<code>ca-certificates</code>软件包本身损坏或缺失导致的。</p>
+<p>因此可以在下载时临时禁用证书验证：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">apt-get -o Acquire::https::Verify-Peer=<span class="literal">false</span> -o Acquire::https::Verify-Host=<span class="literal">false</span> install ca-certificates openssl</span><br></pre></td></tr></table></figure></div>]]></content>
       <tags>
         <tag>linux</tag>
       </tags>
@@ -3309,6 +3309,107 @@
       <tags>
         <tag>linux</tag>
         <tag>docker</tag>
+        <tag>WSL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>WSL2 的使用教程</title>
+    <url>/2024/11/12/WSL2%E6%95%99%E7%A8%8B/</url>
+    <content><![CDATA[<h1 id="1-安装和升级-WSL2"><a href="#1-安装和升级-WSL2" class="headerlink" title="1.安装和升级 WSL2"></a>1.安装和升级 WSL2</h1><h2 id="1-1-安装前的准备"><a href="#1-1-安装前的准备" class="headerlink" title="1.1 安装前的准备"></a>1.1 安装前的准备</h2><p>首先需要在<code>控制面板 -&gt; 程序 -&gt; 启用或关闭Windows功能</code>处开启<code>Hyper-V</code>和<code>适用于Windows的Linux子系统</code>，然后重启电脑即可。默认有2个版本，1和2，1是使用和主机相同的 IP 地址；2是更加独立的 Linux 子系统，有单独的 IP 地址，通过 Windows 主机访问互联网，建议安装2，可以用<code>systemd</code>。如果安装2还需要安装一个软件：<a class="link"   href="https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi" >wsl_update_x64<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>,该软件来自于<a class="link"   href="https://learn.microsoft.com/zh-cn/windows/wsl/install-manual#step-4---download-the-linux-kernel-update-package" >Windows 官网<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>。</p>
+<h2 id="1-2-升级-WSL2"><a href="#1-2-升级-WSL2" class="headerlink" title="1.2 升级 WSL2"></a>1.2 升级 WSL2</h2><p>设置默认版本：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl --set-default-version 2</span><br></pre></td></tr></table></figure></div>
+
+<p>更新版本：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl --update</span><br></pre></td></tr></table></figure></div>
+<p>这种方式大概率会卡住，建议离线下载安装：<a class="link"   href="https://github.com/microsoft/WSL" >microsoft&#x2F;WSL<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>，下载好后直接双击安装即可。</p>
+<p>验证是否安装成功：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl --version</span><br></pre></td></tr></table></figure></div>
+<p>输入这行指令有这样的输出，表示安装成功：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">WSL 版本： 2.3.24.0</span><br><span class="line">内核版本： 5.15.153.1-2</span><br><span class="line">WSLg 版本： 1.0.65</span><br><span class="line">MSRDC 版本： 1.2.5620</span><br><span class="line">Direct3D 版本： 1.611.1-81528511</span><br><span class="line">DXCore 版本： 10.0.26100.1-240331-1435.ge-release</span><br><span class="line">Windows 版本： 10.0.19045.2673</span><br></pre></td></tr></table></figure></div>
+
+
+<h1 id="2-WSL-的指令"><a href="#2-WSL-的指令" class="headerlink" title="2.WSL 的指令"></a>2.WSL 的指令</h1><h1 id="2-1-常用指令"><a href="#2-1-常用指令" class="headerlink" title="2.1 常用指令"></a>2.1 常用指令</h1><ul>
+<li><p>搜索可安装版本</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl --list --online</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>安装指定的版本</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl --install -d Ubuntu</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>查看安装的版本信息</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl -l -v</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>关闭 wsl</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl --shutdown</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<h2 id="2-2-备份与还原"><a href="#2-2-备份与还原" class="headerlink" title="2.2 备份与还原"></a>2.2 备份与还原</h2><p>下面的一系列操作以发行版<code>Ubuntu-22.04</code>为例。</p>
+<ul>
+<li><p>停止指定的 WSL</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl -t Ubuntu-22.04</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>开启指定的 WSL</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl -d Ubuntu-22.04</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>导出（备份）WSL 子系统（需要先停止 WSL 子系统）</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl --<span class="built_in">export</span> Ubuntu-22.04 D:\Ubuntu-22.04.tar</span><br></pre></td></tr></table></figure></div>
+<p><code>D:\Ubuntu-22.04.tar</code>是导出的路径。</p>
+</li>
+<li><p>卸载 WSL 子系统</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl --unregister Ubuntu-22.04</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>导入（还原）WSL 子系统</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl --import Ubuntu-22.04 D:\WSL D:\Ubuntu-22.04.tar</span><br></pre></td></tr></table></figure></div>
+<p><code>D:\WSL</code>是导入路径，<code>D:\Ubuntu-22.04.tar</code>是前面备份子系统的路径。</p>
+</li>
+</ul>
+<p>还原后的子系统一般默认是<code>root</code>用户，需要修改为其它用户。只要修改<code>/etc/wsl.conf</code>配置文件即可，如下：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">nano /etc/wsl.conf</span><br></pre></td></tr></table></figure></div>
+<p>加入下面的内容：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">[user]</span><br><span class="line">default=用户名</span><br></pre></td></tr></table></figure></div>
+<p>然后按前面的方法进行重启 WSL 子系统即可。</p>
+<h1 id="3-WSL-的配置"><a href="#3-WSL-的配置" class="headerlink" title="3.WSL 的配置"></a>3.WSL 的配置</h1><h2 id="3-1-启用-systemd"><a href="#3-1-启用-systemd" class="headerlink" title="3.1 启用 systemd"></a>3.1 启用 systemd</h2><p>编辑<code>/etc/wsl.conf</code>配置文件。</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">nano /etc/wsl.conf</span><br></pre></td></tr></table></figure></div>
+
+<p>在文件中添加下面的内容：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">[boot]</span><br><span class="line">systemd=true</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="3-2-更换内核"><a href="#3-2-更换内核" class="headerlink" title="3.2 更换内核"></a>3.2 更换内核</h2><p>在 Windows 下的资源管理器中的地址栏输入<code>%UserProfile%</code>，然后按回车。在里面新建一个<code>.wslconfig</code>文件（如果没有的话）。在文件中天下下面的内容：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">[wsl2]</span><br><span class="line">kernel=e:\\wsl2linuxkernel\\bzImage</span><br></pre></td></tr></table></figure></div>
+<p>这里的<code>e:\\wsl2linuxkernel\\bzImage</code>是内核路径，可以自己编译内核，手动编译内核参考官方仓库：<a class="link"   href="https://github.com/microsoft/WSL2-Linux-Kernel" >microsoft&#x2F;WSL2-Linux-Kernel<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>。也可以用仓库里线现成的：<a class="link"   href="https://github.com/Nevuly/WSL2-Linux-Kernel-Rolling" >Nevuly&#x2F;WSL2-Linux-Kernel-Rolling<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>。</p>
+<h1 id="4-释放-WSL-占用的磁盘空间"><a href="#4-释放-WSL-占用的磁盘空间" class="headerlink" title="4.释放 WSL 占用的磁盘空间"></a>4.释放 WSL 占用的磁盘空间</h1><p>有时后会发现，你在 WSL 中删掉了一些文件，但是磁盘剩余空间并没有增加。这是因为 WSL 的磁盘是动态扩容的，但不会自动释放。</p>
+<ol>
+<li><p>关闭 WSL 中的 Linux 发行版：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl --shutdown</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>在<code>powershell</code>或者<code>cmd</code>中运行管理计算机的驱动器的 DiskPart 命令：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">diskpart</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>选择虚拟磁盘文件（根据自己实际情况填写路径）：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> vdisk file=<span class="string">&quot;D:\WSL\Ubuntu24.04\ext4.vhdx&quot;</span></span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>只读，附加<code>vhdx</code>磁盘镜像文件：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">attach vdisk <span class="built_in">readonly</span></span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>压缩 vhdx 磁盘镜像文件：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">compact vdisk</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>分离<code>vhdx</code>磁盘镜像文件：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">detach vdisk</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>退出</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure></div>
+<p>或者按住<code>ctrl+c</code>。</p>
+</li>
+</ol>
+<h1 id="5-参考链接"><a href="#5-参考链接" class="headerlink" title="5.参考链接"></a>5.参考链接</h1><ul>
+<li><a class="link"   href="https://xujinzh.github.io/2023/08/04/windows-wsl-install/index.html" >Windows 安装 Linux 子系统 wsl<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link"   href="https://www.cnblogs.com/Chary/p/18011740" >wsl2子系统的备份和还原<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link"   href="https://blog.azurezeng.com/wsl2-arch-docker-configuration/" >WSL2 Arch+Docker个人配置过程和踩坑记录，以及一些建议<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link"   href="https://nxdong.com/wsl-update-kernel/" >wsl2编译升级linux内核<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link"   href="https://blog.csdn.net/qq_23865133/article/details/141642123" >在WSL2中删除文件后，磁盘空间未释放怎么办<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+</ul>
+]]></content>
+      <tags>
+        <tag>linux</tag>
         <tag>WSL</tag>
       </tags>
   </entry>
@@ -3444,104 +3545,61 @@
       </tags>
   </entry>
   <entry>
-    <title>WSL2 的使用教程</title>
-    <url>/2024/11/12/WSL2%E6%95%99%E7%A8%8B/</url>
-    <content><![CDATA[<h1 id="1-安装和升级-WSL2"><a href="#1-安装和升级-WSL2" class="headerlink" title="1.安装和升级 WSL2"></a>1.安装和升级 WSL2</h1><h2 id="1-1-安装前的准备"><a href="#1-1-安装前的准备" class="headerlink" title="1.1 安装前的准备"></a>1.1 安装前的准备</h2><p>首先需要在<code>控制面板 -&gt; 程序 -&gt; 启用或关闭Windows功能</code>处开启<code>Hyper-V</code>和<code>适用于Windows的Linux子系统</code>，然后重启电脑即可。默认有2个版本，1和2，1是使用和主机相同的 IP 地址；2是更加独立的 Linux 子系统，有单独的 IP 地址，通过 Windows 主机访问互联网，建议安装2，可以用<code>systemd</code>。如果安装2还需要安装一个软件：<a class="link"   href="https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi" >wsl_update_x64<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>,该软件来自于<a class="link"   href="https://learn.microsoft.com/zh-cn/windows/wsl/install-manual#step-4---download-the-linux-kernel-update-package" >Windows 官网<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>。</p>
-<h2 id="1-2-升级-WSL2"><a href="#1-2-升级-WSL2" class="headerlink" title="1.2 升级 WSL2"></a>1.2 升级 WSL2</h2><p>设置默认版本：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl --set-default-version 2</span><br></pre></td></tr></table></figure></div>
+    <title>firewall 的常用指令</title>
+    <url>/2024/09/11/firewall%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/</url>
+    <content><![CDATA[<h1 id="1-检查-firewall"><a href="#1-检查-firewall" class="headerlink" title="1.检查 firewall"></a>1.检查 firewall</h1><p>是否安装：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">which</span> firewalld</span><br></pre></td></tr></table></figure></div>
 
-<p>更新版本：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl --update</span><br></pre></td></tr></table></figure></div>
-<p>这种方式大概率会卡住，建议离线下载安装：<a class="link"   href="https://github.com/microsoft/WSL" >microsoft&#x2F;WSL<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>，下载好后直接双击安装即可。</p>
-<p>验证是否安装成功：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl --version</span><br></pre></td></tr></table></figure></div>
-<p>输入这行指令有这样的输出，表示安装成功：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">WSL 版本： 2.3.24.0</span><br><span class="line">内核版本： 5.15.153.1-2</span><br><span class="line">WSLg 版本： 1.0.65</span><br><span class="line">MSRDC 版本： 1.2.5620</span><br><span class="line">Direct3D 版本： 1.611.1-81528511</span><br><span class="line">DXCore 版本： 10.0.26100.1-240331-1435.ge-release</span><br><span class="line">Windows 版本： 10.0.19045.2673</span><br></pre></td></tr></table></figure></div>
+<p>是否启动：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status firewalld</span><br></pre></td></tr></table></figure></div>
 
-
-<h1 id="2-WSL-的指令"><a href="#2-WSL-的指令" class="headerlink" title="2.WSL 的指令"></a>2.WSL 的指令</h1><h1 id="2-1-常用指令"><a href="#2-1-常用指令" class="headerlink" title="2.1 常用指令"></a>2.1 常用指令</h1><ul>
-<li><p>搜索可安装版本</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl --list --online</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>安装指定的版本</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl --install -d Ubuntu</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>查看安装的版本信息</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl -l -v</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>关闭 wsl</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl --shutdown</span><br></pre></td></tr></table></figure></div></li>
+<h1 id="2-TCP-和-UDP"><a href="#2-TCP-和-UDP" class="headerlink" title="2.TCP 和 UDP"></a>2.TCP 和 UDP</h1><p>这几种协议都是网络协议中的重要组成部分，各自有不同的功能和用途。以下是对每种协议的详细解释：</p>
+<h2 id="1-TCP（传输控制协议）"><a href="#1-TCP（传输控制协议）" class="headerlink" title="1. TCP（传输控制协议）"></a>1. TCP（传输控制协议）</h2><ul>
+<li><strong>定义</strong> ：TCP（Transmission Control Protocol）是一个面向连接的、可靠的传输协议，位于传输层（OSI模型的第四层）。</li>
+<li><strong>用途</strong> ：用于在网络上可靠地传输数据，确保数据包的顺序、完整性和无错误传输。常见的应用包括网页浏览（HTTP&#x2F;HTTPS）、电子邮件（SMTP&#x2F;IMAP&#x2F;POP3）、文件传输（FTP）等。</li>
+<li><strong>特点</strong> ：<ul>
+<li>需要建立连接（三次握手）。</li>
+<li>提供数据完整性、顺序保证和错误检测。</li>
+<li>支持流量控制和拥塞控制。</li>
 </ul>
-<h2 id="2-2-备份与还原"><a href="#2-2-备份与还原" class="headerlink" title="2.2 备份与还原"></a>2.2 备份与还原</h2><p>下面的一系列操作以发行版<code>Ubuntu-22.04</code>为例。</p>
+</li>
+</ul>
+<h2 id="2-UDP（用户数据报协议）"><a href="#2-UDP（用户数据报协议）" class="headerlink" title="2. UDP（用户数据报协议）"></a>2. UDP（用户数据报协议）</h2><ul>
+<li><strong>定义</strong> ：UDP（User Datagram Protocol）是一个无连接的、轻量级的传输协议，也位于传输层。</li>
+<li><strong>用途</strong> ：用于快速传输数据，但不保证数据的可靠性和顺序。常见的应用包括视频流、实时语音通信（VoIP）、在线游戏等。</li>
+<li><strong>特点</strong> ：<ul>
+<li>不需要建立连接。</li>
+<li>不保证数据包的顺序和完整性。</li>
+<li>速度快，开销小。</li>
+</ul>
+</li>
+</ul>
+<h1 id="3-常用指令"><a href="#3-常用指令" class="headerlink" title="3.常用指令"></a>3.常用指令</h1><h2 id="3-1-基本指令"><a href="#3-1-基本指令" class="headerlink" title="3.1 基本指令"></a>3.1 基本指令</h2><ul>
+<li><p>列出所有配置：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> firewall-cmd --list-all</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>重载设置（在添加新配置后需要做，以使配置生效）：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> firewall-cmd --reload</span><br></pre></td></tr></table></figure></div></li>
+<li><p>列出所有开放的端口：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> firewall-cmd --zone=public --list-ports</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<h2 id="3-2-端口设置"><a href="#3-2-端口设置" class="headerlink" title="3.2 端口设置"></a>3.2 端口设置</h2><ul>
+<li>开放端口<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">firewall-cmd --add-port=80/tcp &lt;--zone=public&gt; &lt;--permanent&gt;</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<p><code>--zone=public</code>参数：指定区域。<br><code>--permanent</code>参数：可以实现永久开放该端口，重启后仍然生效。不加的话就是临时端口。</p>
 <ul>
-<li><p>停止指定的 WSL</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl -t Ubuntu-22.04</span><br></pre></td></tr></table></figure></div>
+<li><p>查看所有可用区域：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">firewall-cmd --get-zones</span><br></pre></td></tr></table></figure></div>
 </li>
-<li><p>开启指定的 WSL</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl -d Ubuntu-22.04</span><br></pre></td></tr></table></figure></div>
+<li><p>查看当前默认区域：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">firewall-cmd --get-default-zone</span><br></pre></td></tr></table></figure></div>
 </li>
-<li><p>导出（备份）WSL 子系统（需要先停止 WSL 子系统）</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl --<span class="built_in">export</span> Ubuntu-22.04 D:\Ubuntu-22.04.tar</span><br></pre></td></tr></table></figure></div>
-<p><code>D:\Ubuntu-22.04.tar</code>是导出的路径。</p>
-</li>
-<li><p>卸载 WSL 子系统</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl --unregister Ubuntu-22.04</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>导入（还原）WSL 子系统</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl --import Ubuntu-22.04 D:\WSL D:\Ubuntu-22.04.tar</span><br></pre></td></tr></table></figure></div>
-<p><code>D:\WSL</code>是导入路径，<code>D:\Ubuntu-22.04.tar</code>是前面备份子系统的路径。</p>
-</li>
-</ul>
-<p>还原后的子系统一般默认是<code>root</code>用户，需要修改为其它用户。只要修改<code>/etc/wsl.conf</code>配置文件即可，如下：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">nano /etc/wsl.conf</span><br></pre></td></tr></table></figure></div>
-<p>加入下面的内容：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">[user]</span><br><span class="line">default=用户名</span><br></pre></td></tr></table></figure></div>
-<p>然后按前面的方法进行重启 WSL 子系统即可。</p>
-<h1 id="3-WSL-的配置"><a href="#3-WSL-的配置" class="headerlink" title="3.WSL 的配置"></a>3.WSL 的配置</h1><h2 id="3-1-启用-systemd"><a href="#3-1-启用-systemd" class="headerlink" title="3.1 启用 systemd"></a>3.1 启用 systemd</h2><p>编辑<code>/etc/wsl.conf</code>配置文件。</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">nano /etc/wsl.conf</span><br></pre></td></tr></table></figure></div>
-
-<p>在文件中添加下面的内容：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">[boot]</span><br><span class="line">systemd=true</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="3-2-更换内核"><a href="#3-2-更换内核" class="headerlink" title="3.2 更换内核"></a>3.2 更换内核</h2><p>在 Windows 下的资源管理器中的地址栏输入<code>%UserProfile%</code>，然后按回车。在里面新建一个<code>.wslconfig</code>文件（如果没有的话）。在文件中天下下面的内容：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">[wsl2]</span><br><span class="line">kernel=e:\\wsl2linuxkernel\\bzImage</span><br></pre></td></tr></table></figure></div>
-<p>这里的<code>e:\\wsl2linuxkernel\\bzImage</code>是内核路径，可以自己编译内核，手动编译内核参考官方仓库：<a class="link"   href="https://github.com/microsoft/WSL2-Linux-Kernel" >microsoft&#x2F;WSL2-Linux-Kernel<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>。也可以用仓库里线现成的：<a class="link"   href="https://github.com/Nevuly/WSL2-Linux-Kernel-Rolling" >Nevuly&#x2F;WSL2-Linux-Kernel-Rolling<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>。</p>
-<h1 id="4-释放-WSL-占用的磁盘空间"><a href="#4-释放-WSL-占用的磁盘空间" class="headerlink" title="4.释放 WSL 占用的磁盘空间"></a>4.释放 WSL 占用的磁盘空间</h1><p>有时后会发现，你在 WSL 中删掉了一些文件，但是磁盘剩余空间并没有增加。这是因为 WSL 的磁盘是动态扩容的，但不会自动释放。</p>
-<ol>
-<li><p>关闭 WSL 中的 Linux 发行版：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl --shutdown</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>在<code>powershell</code>或者<code>cmd</code>中运行管理计算机的驱动器的 DiskPart 命令：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">diskpart</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>选择虚拟磁盘文件（根据自己实际情况填写路径）：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> vdisk file=<span class="string">&quot;D:\WSL\Ubuntu24.04\ext4.vhdx&quot;</span></span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>只读，附加<code>vhdx</code>磁盘镜像文件：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">attach vdisk <span class="built_in">readonly</span></span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>压缩 vhdx 磁盘镜像文件：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">compact vdisk</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>分离<code>vhdx</code>磁盘镜像文件：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">detach vdisk</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>退出</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure></div>
-<p>或者按住<code>ctrl+c</code>。</p>
-</li>
-</ol>
-<h1 id="5-参考链接"><a href="#5-参考链接" class="headerlink" title="5.参考链接"></a>5.参考链接</h1><ul>
-<li><a class="link"   href="https://xujinzh.github.io/2023/08/04/windows-wsl-install/index.html" >Windows 安装 Linux 子系统 wsl<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
-<li><a class="link"   href="https://www.cnblogs.com/Chary/p/18011740" >wsl2子系统的备份和还原<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
-<li><a class="link"   href="https://blog.azurezeng.com/wsl2-arch-docker-configuration/" >WSL2 Arch+Docker个人配置过程和踩坑记录，以及一些建议<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
-<li><a class="link"   href="https://nxdong.com/wsl-update-kernel/" >wsl2编译升级linux内核<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
-<li><a class="link"   href="https://blog.csdn.net/qq_23865133/article/details/141642123" >在WSL2中删除文件后，磁盘空间未释放怎么办<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><p>删除端口：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> firewall-cmd --remove-port=80/tcp &lt;--zone=public&gt; &lt;--permanent&gt;</span><br></pre></td></tr></table></figure></div></li>
 </ul>
 ]]></content>
       <tags>
         <tag>linux</tag>
-        <tag>WSL</tag>
       </tags>
   </entry>
   <entry>
@@ -3664,64 +3722,6 @@
       </tags>
   </entry>
   <entry>
-    <title>firewall 的常用指令</title>
-    <url>/2024/09/11/firewall%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/</url>
-    <content><![CDATA[<h1 id="1-检查-firewall"><a href="#1-检查-firewall" class="headerlink" title="1.检查 firewall"></a>1.检查 firewall</h1><p>是否安装：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">which</span> firewalld</span><br></pre></td></tr></table></figure></div>
-
-<p>是否启动：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status firewalld</span><br></pre></td></tr></table></figure></div>
-
-<h1 id="2-TCP-和-UDP"><a href="#2-TCP-和-UDP" class="headerlink" title="2.TCP 和 UDP"></a>2.TCP 和 UDP</h1><p>这几种协议都是网络协议中的重要组成部分，各自有不同的功能和用途。以下是对每种协议的详细解释：</p>
-<h2 id="1-TCP（传输控制协议）"><a href="#1-TCP（传输控制协议）" class="headerlink" title="1. TCP（传输控制协议）"></a>1. TCP（传输控制协议）</h2><ul>
-<li><strong>定义</strong> ：TCP（Transmission Control Protocol）是一个面向连接的、可靠的传输协议，位于传输层（OSI模型的第四层）。</li>
-<li><strong>用途</strong> ：用于在网络上可靠地传输数据，确保数据包的顺序、完整性和无错误传输。常见的应用包括网页浏览（HTTP&#x2F;HTTPS）、电子邮件（SMTP&#x2F;IMAP&#x2F;POP3）、文件传输（FTP）等。</li>
-<li><strong>特点</strong> ：<ul>
-<li>需要建立连接（三次握手）。</li>
-<li>提供数据完整性、顺序保证和错误检测。</li>
-<li>支持流量控制和拥塞控制。</li>
-</ul>
-</li>
-</ul>
-<h2 id="2-UDP（用户数据报协议）"><a href="#2-UDP（用户数据报协议）" class="headerlink" title="2. UDP（用户数据报协议）"></a>2. UDP（用户数据报协议）</h2><ul>
-<li><strong>定义</strong> ：UDP（User Datagram Protocol）是一个无连接的、轻量级的传输协议，也位于传输层。</li>
-<li><strong>用途</strong> ：用于快速传输数据，但不保证数据的可靠性和顺序。常见的应用包括视频流、实时语音通信（VoIP）、在线游戏等。</li>
-<li><strong>特点</strong> ：<ul>
-<li>不需要建立连接。</li>
-<li>不保证数据包的顺序和完整性。</li>
-<li>速度快，开销小。</li>
-</ul>
-</li>
-</ul>
-<h1 id="3-常用指令"><a href="#3-常用指令" class="headerlink" title="3.常用指令"></a>3.常用指令</h1><h2 id="3-1-基本指令"><a href="#3-1-基本指令" class="headerlink" title="3.1 基本指令"></a>3.1 基本指令</h2><ul>
-<li><p>列出所有配置：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> firewall-cmd --list-all</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>重载设置（在添加新配置后需要做，以使配置生效）：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> firewall-cmd --reload</span><br></pre></td></tr></table></figure></div></li>
-<li><p>列出所有开放的端口：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> firewall-cmd --zone=public --list-ports</span><br></pre></td></tr></table></figure></div></li>
-</ul>
-<h2 id="3-2-端口设置"><a href="#3-2-端口设置" class="headerlink" title="3.2 端口设置"></a>3.2 端口设置</h2><ul>
-<li>开放端口<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">firewall-cmd --add-port=80/tcp &lt;--zone=public&gt; &lt;--permanent&gt;</span><br></pre></td></tr></table></figure></div></li>
-</ul>
-<p><code>--zone=public</code>参数：指定区域。<br><code>--permanent</code>参数：可以实现永久开放该端口，重启后仍然生效。不加的话就是临时端口。</p>
-<ul>
-<li><p>查看所有可用区域：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">firewall-cmd --get-zones</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>查看当前默认区域：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">firewall-cmd --get-default-zone</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>删除端口：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> firewall-cmd --remove-port=80/tcp &lt;--zone=public&gt; &lt;--permanent&gt;</span><br></pre></td></tr></table></figure></div></li>
-</ul>
-]]></content>
-      <tags>
-        <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>解决 VSCode 下使用 gdb 调试 C++ 出现的问题</title>
     <url>/2024/11/13/gdb%E9%85%8D%E7%BD%AE/</url>
     <content><![CDATA[<h1 id="1-问题复现"><a href="#1-问题复现" class="headerlink" title="1.问题复现"></a>1.问题复现</h1><p>如下图所示，这是调试时出现的问题：<br><a href="https://imgse.com/i/pAgMhxf"><figure class="image-caption"><img  
@@ -3775,15 +3775,17 @@
                      data-src="https://s21.ax1x.com/2024/09/14/pAuEYVI.png"
                       alt="乱码.png"
                 ><figcaption>乱码.png</figcaption></figure></a></p>
-<h1 id="2-解决方法"><a href="#2-解决方法" class="headerlink" title="2.解决方法"></a>2.解决方法</h1><h2 id="2-1-下载字体"><a href="#2-1-下载字体" class="headerlink" title="2.1 下载字体"></a>2.1 下载字体</h2><p>网上常用的中文字体是<code>SimHei</code>，<a class="link"   href="https://github.com/StellarCN/scp_zh/blob/master/fonts/SimHei.ttf" >下载地址<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
-<h2 id="2-2-查找存放字体的文件夹"><a href="#2-2-查找存放字体的文件夹" class="headerlink" title="2.2 查找存放字体的文件夹"></a>2.2 查找存放字体的文件夹</h2><div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib</span><br><span class="line"> </span><br><span class="line"><span class="built_in">print</span>(matplotlib.matplotlib_fname())   <span class="comment"># 查找字体路径</span></span><br></pre></td></tr></table></figure></div>
+<h1 id="2-解决方法"><a href="#2-解决方法" class="headerlink" title="2.解决方法"></a>2.解决方法</h1><p>首先需要下载字体，网上常用的中文字体是<code>SimHei</code>，<a class="link"   href="https://github.com/StellarCN/scp_zh/blob/master/fonts/SimHei.ttf" >下载地址<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h2 id="2-1-方式一：直接在代码中引入"><a href="#2-1-方式一：直接在代码中引入" class="headerlink" title="2.1 方式一：直接在代码中引入"></a>2.1 方式一：直接在代码中引入</h2><div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.font_manager <span class="keyword">as</span> fm</span><br><span class="line"></span><br><span class="line">font_path = <span class="string">&quot;/home/sky/下载/SimHei.ttf&quot;</span>  <span class="comment"># 设置字体路径</span></span><br><span class="line">my_font = fm.FontProperties(fname=font_path)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 手动注册字体</span></span><br><span class="line">fm.fontManager.addfont(font_path)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取字体名称</span></span><br><span class="line">font_name = my_font.get_name()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;真实字体名称: <span class="subst">&#123;font_name&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置 Matplotlib 识别该字体</span></span><br><span class="line">plt.rcParams[<span class="string">&quot;font.sans-serif&quot;</span>] = [font_name]</span><br><span class="line">plt.rcParams[<span class="string">&quot;axes.unicode_minus&quot;</span>] = <span class="literal">False</span>  <span class="comment"># 解决负号显示问题</span></span><br></pre></td></tr></table></figure></div>
+
+<h2 id="2-2-方式二：修改配置文件"><a href="#2-2-方式二：修改配置文件" class="headerlink" title="2.2 方式二：修改配置文件"></a>2.2 方式二：修改配置文件</h2><ol>
+<li><strong>查找存放字体的文件夹</strong></li>
+</ol>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib</span><br><span class="line"> </span><br><span class="line"><span class="built_in">print</span>(matplotlib.matplotlib_fname())   <span class="comment"># 查找字体路径</span></span><br></pre></td></tr></table></figure></div>
 <p>运行这段代码会打印出字体存放路径，如：</p>
 <div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">/home/sky/miniconda3/envs/test/lib/python3.12/site-packages/matplotlib/mpl-data/matplotlibrc</span><br></pre></td></tr></table></figure></div>
-<p>删掉<code>matplotlibrc</code>这部分后然后进入目录下：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /home/sky/miniconda3/envs/test/lib/python3.12/site-packages/matplotlib/mpl-data/</span><br></pre></td></tr></table></figure></div>
-
-<p>然后进入存放字体的目录：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> fonts/ttf </span><br></pre></td></tr></table></figure></div>
+<p><code>matplotlibrc</code>是配置文件，一会儿要修改的。然后进入存放字体的目录下：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /home/sky/miniconda3/envs/test/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf</span><br></pre></td></tr></table></figure></div>
 
 <p>把下载好的字体文件<code>SimHei.ttf</code>复制到<code>ttf</code>目录下：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cp</span> ~/下载/SimHei.ttf .  </span><br></pre></td></tr></table></figure></div>
@@ -3791,13 +3793,24 @@
 <p>然后回到<code>mpl-data</code>目录下，修改<code>matplotlibrc</code>文件：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">nano matplotlibrc</span><br></pre></td></tr></table></figure></div>
 
-<p>找到<code>font.serif</code>，<code>font.sans-serif</code>所在位置，如下如所示。在冒号后面加入<code>SimHei</code>，保存退出：<br><a href="https://imgse.com/i/pAuJFz9"><figure class="image-caption"><img  
+<p>找到<code>font.serif</code>，<code>font.sans-serif</code>所在位置，如下如所示。在冒号后面加入<code>SimHei</code>，保存退出：</p>
+<ul>
+<li><p>原来的：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">#font.serif:      DejaVu Serif, Bitstream Vera Serif, Computer Modern Roman, New Century Schoolbook, Century Schoolbook L, Utopia, ITC Bookman, Bookman, Nimbus Roman No9 L, Times New Roman, Times, Palatino, Charter, serif</span><br><span class="line">#font.sans-serif: DejaVu Sans, Bitstream Vera Sans, Computer Modern Sans Serif, Lucida Grande, Verdana, Geneva, Lucid, Arial, Helvetica, Avant Garde, sans-serif</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>修改后的：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">#font.serif:      SimHei, DejaVu Serif, Bitstream Vera Serif, Computer Modern Roman, New Century Schoolbook, Century Schoolbook L, Utopia, ITC Bookman, Bookman, Nimbus Roman No9 L, Times New Roman, Times, Palatino, Charter, serif</span><br><span class="line">#font.sans-serif: SimHei, DejaVu Sans, Bitstream Vera Sans, Computer Modern Sans Serif, Lucida Grande, Verdana, Geneva, Lucid, Arial, Helvetica, Avant Garde, sans-serif</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<p><a href="https://imgse.com/i/pAuJFz9"><figure class="image-caption"><img  
                      lazyload
                      src="/images/loading.svg"
                      data-src="https://s21.ax1x.com/2024/09/15/pAuJFz9.md.png"
-                      alt="修改的地方"
-                ><figcaption>修改的地方</figcaption></figure></a></p>
-<h2 id="2-3-清理缓存"><a href="#2-3-清理缓存" class="headerlink" title="2.3 清理缓存"></a>2.3 清理缓存</h2><p>查找缓存位置：</p>
+                      alt="修改示意图"
+                ><figcaption>修改示意图</figcaption></figure></a></p>
+<ol start="2">
+<li><strong>清理缓存</strong></li>
+</ol>
+<p>查找缓存位置：</p>
 <div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib    </span><br><span class="line"><span class="built_in">print</span>(matplotlib.get_cachedir())</span><br></pre></td></tr></table></figure></div>
 
 <p>把缓存文件删除即可：</p>

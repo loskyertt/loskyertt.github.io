@@ -30,7 +30,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://example.com/2024/09/14/linux-matplotli%E4%B9%B1%E7%A0%81%E8%A7%A3%E5%86%B3/your_image_path">
 <meta property="article:published_time" content="2024-09-14T15:01:53.000Z">
-<meta property="article:modified_time" content="2024-11-13T03:07:10.570Z">
+<meta property="article:modified_time" content="2025-01-05T06:26:00.670Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="python">
 <meta property="article:tag" content="linux">
@@ -497,8 +497,8 @@
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2024-11-13 03:07:10</span>
-            <span class="mobile">2024-11-13 03:07:10</span>
+            <span class="desktop">2025-01-05 06:26</span>
+            <span class="mobile">2025-01-05 06:26</span>
             <span class="hover-info">Updated</span>
         </span>
     
@@ -544,12 +544,12 @@
     
     
         <span class="article-wordcount article-meta-item">
-            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>405 Words</span>
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>632 Words</span>
         </span>
     
     
         <span class="article-min2read article-meta-item">
-            <i class="fa-regular fa-clock"></i>&nbsp;<span>1 Mins</span>
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>2 Mins</span>
         </span>
     
     
@@ -578,15 +578,17 @@
                      data-src="https://s21.ax1x.com/2024/09/14/pAuEYVI.png"
                       alt="乱码.png"
                 ><figcaption>乱码.png</figcaption></figure></a></p>
-<h1 id="2-解决方法"><a href="#2-解决方法" class="headerlink" title="2.解决方法"></a>2.解决方法</h1><h2 id="2-1-下载字体"><a href="#2-1-下载字体" class="headerlink" title="2.1 下载字体"></a>2.1 下载字体</h2><p>网上常用的中文字体是<code>SimHei</code>，<a class="link"   target="_blank" rel="noopener" href="https://github.com/StellarCN/scp_zh/blob/master/fonts/SimHei.ttf" >下载地址<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
-<h2 id="2-2-查找存放字体的文件夹"><a href="#2-2-查找存放字体的文件夹" class="headerlink" title="2.2 查找存放字体的文件夹"></a>2.2 查找存放字体的文件夹</h2><div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib</span><br><span class="line"> </span><br><span class="line"><span class="built_in">print</span>(matplotlib.matplotlib_fname())   <span class="comment"># 查找字体路径</span></span><br></pre></td></tr></table></figure></div>
+<h1 id="2-解决方法"><a href="#2-解决方法" class="headerlink" title="2.解决方法"></a>2.解决方法</h1><p>首先需要下载字体，网上常用的中文字体是<code>SimHei</code>，<a class="link"   target="_blank" rel="noopener" href="https://github.com/StellarCN/scp_zh/blob/master/fonts/SimHei.ttf" >下载地址<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h2 id="2-1-方式一：直接在代码中引入"><a href="#2-1-方式一：直接在代码中引入" class="headerlink" title="2.1 方式一：直接在代码中引入"></a>2.1 方式一：直接在代码中引入</h2><div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.font_manager <span class="keyword">as</span> fm</span><br><span class="line"></span><br><span class="line">font_path = <span class="string">&quot;/home/sky/下载/SimHei.ttf&quot;</span>  <span class="comment"># 设置字体路径</span></span><br><span class="line">my_font = fm.FontProperties(fname=font_path)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 手动注册字体</span></span><br><span class="line">fm.fontManager.addfont(font_path)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取字体名称</span></span><br><span class="line">font_name = my_font.get_name()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;真实字体名称: <span class="subst">&#123;font_name&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置 Matplotlib 识别该字体</span></span><br><span class="line">plt.rcParams[<span class="string">&quot;font.sans-serif&quot;</span>] = [font_name]</span><br><span class="line">plt.rcParams[<span class="string">&quot;axes.unicode_minus&quot;</span>] = <span class="literal">False</span>  <span class="comment"># 解决负号显示问题</span></span><br></pre></td></tr></table></figure></div>
+
+<h2 id="2-2-方式二：修改配置文件"><a href="#2-2-方式二：修改配置文件" class="headerlink" title="2.2 方式二：修改配置文件"></a>2.2 方式二：修改配置文件</h2><ol>
+<li><strong>查找存放字体的文件夹</strong></li>
+</ol>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib</span><br><span class="line"> </span><br><span class="line"><span class="built_in">print</span>(matplotlib.matplotlib_fname())   <span class="comment"># 查找字体路径</span></span><br></pre></td></tr></table></figure></div>
 <p>运行这段代码会打印出字体存放路径，如：</p>
 <div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/home/sky/miniconda3/envs/test/lib/python3.12/site-packages/matplotlib/mpl-data/matplotlibrc</span><br></pre></td></tr></table></figure></div>
-<p>删掉<code>matplotlibrc</code>这部分后然后进入目录下：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /home/sky/miniconda3/envs/test/lib/python3.12/site-packages/matplotlib/mpl-data/</span><br></pre></td></tr></table></figure></div>
-
-<p>然后进入存放字体的目录：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> fonts/ttf </span><br></pre></td></tr></table></figure></div>
+<p><code>matplotlibrc</code>是配置文件，一会儿要修改的。然后进入存放字体的目录下：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /home/sky/miniconda3/envs/test/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf</span><br></pre></td></tr></table></figure></div>
 
 <p>把下载好的字体文件<code>SimHei.ttf</code>复制到<code>ttf</code>目录下：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cp</span> ~/下载/SimHei.ttf .  </span><br></pre></td></tr></table></figure></div>
@@ -594,13 +596,24 @@
 <p>然后回到<code>mpl-data</code>目录下，修改<code>matplotlibrc</code>文件：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nano matplotlibrc</span><br></pre></td></tr></table></figure></div>
 
-<p>找到<code>font.serif</code>，<code>font.sans-serif</code>所在位置，如下如所示。在冒号后面加入<code>SimHei</code>，保存退出：<br><a target="_blank" rel="noopener" href="https://imgse.com/i/pAuJFz9"><figure class="image-caption"><img  
+<p>找到<code>font.serif</code>，<code>font.sans-serif</code>所在位置，如下如所示。在冒号后面加入<code>SimHei</code>，保存退出：</p>
+<ul>
+<li><p>原来的：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#font.serif:      DejaVu Serif, Bitstream Vera Serif, Computer Modern Roman, New Century Schoolbook, Century Schoolbook L, Utopia, ITC Bookman, Bookman, Nimbus Roman No9 L, Times New Roman, Times, Palatino, Charter, serif</span><br><span class="line">#font.sans-serif: DejaVu Sans, Bitstream Vera Sans, Computer Modern Sans Serif, Lucida Grande, Verdana, Geneva, Lucid, Arial, Helvetica, Avant Garde, sans-serif</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>修改后的：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#font.serif:      SimHei, DejaVu Serif, Bitstream Vera Serif, Computer Modern Roman, New Century Schoolbook, Century Schoolbook L, Utopia, ITC Bookman, Bookman, Nimbus Roman No9 L, Times New Roman, Times, Palatino, Charter, serif</span><br><span class="line">#font.sans-serif: SimHei, DejaVu Sans, Bitstream Vera Sans, Computer Modern Sans Serif, Lucida Grande, Verdana, Geneva, Lucid, Arial, Helvetica, Avant Garde, sans-serif</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://imgse.com/i/pAuJFz9"><figure class="image-caption"><img  
                      lazyload
                      src="/images/loading.svg"
                      data-src="https://s21.ax1x.com/2024/09/15/pAuJFz9.md.png"
-                      alt="修改的地方"
-                ><figcaption>修改的地方</figcaption></figure></a></p>
-<h2 id="2-3-清理缓存"><a href="#2-3-清理缓存" class="headerlink" title="2.3 清理缓存"></a>2.3 清理缓存</h2><p>查找缓存位置：</p>
+                      alt="修改示意图"
+                ><figcaption>修改示意图</figcaption></figure></a></p>
+<ol start="2">
+<li><strong>清理缓存</strong></li>
+</ol>
+<p>查找缓存位置：</p>
 <div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib    </span><br><span class="line"><span class="built_in">print</span>(matplotlib.get_cachedir())</span><br></pre></td></tr></table></figure></div>
 
 <p>把缓存文件删除即可：</p>
@@ -633,7 +646,7 @@
         
             <li>
                 <strong>Updated at
-                    :</strong> 2024-11-13 03:07:10
+                    :</strong> 2025-01-05 06:26:00
             </li>
         
         <li>
@@ -685,9 +698,9 @@
 </a><a class="recommended-article-item" href="/2025/01/03/Debian中文乱码/" title="解决 Debian 下中文乱码问题" rel="bookmark">
   <img src="/images/wallhaven-wqery6-light.webp" alt="解决 Debian 下中文乱码问题" class="!max-w-none">
   <span class="title">解决 Debian 下中文乱码问题</span>
-</a><a class="recommended-article-item" href="/2024/11/30/Ubuntu中文乱码/" title="解决 Ubuntu 下中文乱码问题" rel="bookmark">
-  <img src="/images/wallhaven-wqery6-light.webp" alt="解决 Ubuntu 下中文乱码问题" class="!max-w-none">
-  <span class="title">解决 Ubuntu 下中文乱码问题</span>
+</a><a class="recommended-article-item" href="/2024/10/17/04Python爬虫/" title="Python 爬虫教程 04" rel="bookmark">
+  <img src="/images/wallhaven-wqery6-light.webp" alt="Python 爬虫教程 04" class="!max-w-none">
+  <span class="title">Python 爬虫教程 04</span>
 </a></div>
    </div>
    <div class="recommended-mobile">
@@ -788,7 +801,7 @@
 	<div class="post-toc">
 		<div class="toc-title">On this page</div>
 		<div class="page-title">解决 Linux 下使用 matplotlib 中文乱码问题</div>
-		<ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E5%87%BA%E7%8E%B0%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-text">1.出现的问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95"><span class="nav-text">2.解决方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-%E4%B8%8B%E8%BD%BD%E5%AD%97%E4%BD%93"><span class="nav-text">2.1 下载字体</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-%E6%9F%A5%E6%89%BE%E5%AD%98%E6%94%BE%E5%AD%97%E4%BD%93%E7%9A%84%E6%96%87%E4%BB%B6%E5%A4%B9"><span class="nav-text">2.2 查找存放字体的文件夹</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-%E6%B8%85%E7%90%86%E7%BC%93%E5%AD%98"><span class="nav-text">2.3 清理缓存</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E8%A7%A3%E5%86%B3%E7%A4%BA%E4%BE%8B"><span class="nav-text">3.解决示例</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-%E5%8F%82%E8%80%83%E6%95%99%E7%A8%8B"><span class="nav-text">3.1 参考教程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-%E8%B4%9F%E5%8F%B7%E4%B9%B1%E7%A0%81%E8%A7%A3%E5%86%B3"><span class="nav-text">4.负号乱码解决</span></a></li></ol>
+		<ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E5%87%BA%E7%8E%B0%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-text">1.出现的问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95"><span class="nav-text">2.解决方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-%E6%96%B9%E5%BC%8F%E4%B8%80%EF%BC%9A%E7%9B%B4%E6%8E%A5%E5%9C%A8%E4%BB%A3%E7%A0%81%E4%B8%AD%E5%BC%95%E5%85%A5"><span class="nav-text">2.1 方式一：直接在代码中引入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-%E6%96%B9%E5%BC%8F%E4%BA%8C%EF%BC%9A%E4%BF%AE%E6%94%B9%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-text">2.2 方式二：修改配置文件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E8%A7%A3%E5%86%B3%E7%A4%BA%E4%BE%8B"><span class="nav-text">3.解决示例</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-%E5%8F%82%E8%80%83%E6%95%99%E7%A8%8B"><span class="nav-text">3.1 参考教程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-%E8%B4%9F%E5%8F%B7%E4%B9%B1%E7%A0%81%E8%A7%A3%E5%86%B3"><span class="nav-text">4.负号乱码解决</span></a></li></ol>
 
 	</div>
 </div>
@@ -819,7 +832,7 @@
                     </span>
                     
                         <span>
-                            50.3k words in total
+                            50.5k words in total
                         </span>
                     
                 </p>
