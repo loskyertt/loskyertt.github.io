@@ -1,6 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Python 爬虫教程 02</title>
+    <url>/2024/10/17/02Python%E7%88%AC%E8%99%AB/</url>
+    <content><![CDATA[<h1 id="1-测试网址"><a href="#1-测试网址" class="headerlink" title="1.测试网址"></a>1.测试网址</h1><p><a class="link"   href="https://www.spiderbuf.cn/list" >测试网站<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h1 id="2-编写代码"><a href="#2-编写代码" class="headerlink" title="2.编写代码"></a>2.编写代码</h1><h2 id="2-1-代码示例"><a href="#2-1-代码示例" class="headerlink" title="2.1 代码示例"></a>2.1 代码示例</h2><div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;https://spiderbuf.cn/playground/s01&quot;</span></span><br><span class="line"></span><br><span class="line">html = requests.get(url=url).text</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/01course/01.html&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">f.write(html)</span><br><span class="line">f.close()</span><br><span class="line"></span><br><span class="line"><span class="comment"># print(html)</span></span><br><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/01course/data01.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    tds = tr.xpath(<span class="string">&#x27;./td&#x27;</span>)</span><br><span class="line">    s = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> td <span class="keyword">in</span> tds:</span><br><span class="line">        <span class="comment"># 这里加 str 是为了防止 &lt;td&gt;&lt;/td&gt; 之间是空数据</span></span><br><span class="line">        s = s + <span class="built_in">str</span>(td.text) + <span class="string">&#x27; | &#x27;</span></span><br><span class="line">    <span class="built_in">print</span>(s)</span><br><span class="line">    <span class="comment"># 保存解析到的数据到本地</span></span><br><span class="line">    <span class="keyword">if</span> s!= <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        f.write(s + <span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
+
+<p>在很多时候，建议先把请求到的网页内容保存到本地（如上面代码所示），因为有时候解析数据无法一次性解析成功，那就会再向网页发送请求，这样不断的去访问服务器，就容易被服务器检测到是爬虫。</p>
+<h1 id="3-lxml-基础使用"><a href="#3-lxml-基础使用" class="headerlink" title="3.lxml 基础使用"></a>3.lxml 基础使用</h1><h2 id="3-1-XPath-基本语法"><a href="#3-1-XPath-基本语法" class="headerlink" title="3.1 XPath 基本语法"></a>3.1 XPath 基本语法</h2><ul>
+<li><code>/</code>：从根节点选择。根节点是一个 XML 或 HTML 文档的最顶层节点，所有其他元素都是它的子节点。</li>
+<li><code>//</code>：选择文档中的所有符合条件的节点，不论它们在文档的什么位置。</li>
+<li><code>.</code>：当前节点。</li>
+<li><code>..</code>：父节点。</li>
+<li><code>@</code>：选择属性。</li>
+<li><code>[ ]</code>：筛选器，添加条件。</li>
+<li><code>text()</code>：选择文本节点。</li>
+</ul>
+<h2 id="3-2-示例说明"><a href="#3-2-示例说明" class="headerlink" title="3.2 示例说明"></a>3.2 示例说明</h2><p>假设有如下 HTML 结构，<code>&lt;html&gt;</code>是根节点：</p>
+<div class="code-container" data-rel="Html"><figure class="iseeu highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">table</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">&quot;status&quot;</span>&gt;</span>在线<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span>&gt;</span>123<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">&quot;status&quot;</span>&gt;</span>离线<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span>&gt;</span>456<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">&quot;status&quot;</span>&gt;</span>在线<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span>&gt;</span>789<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></div>
+
+<h2 id="3-3-使用-XPath-提取数据"><a href="#3-3-使用-XPath-提取数据" class="headerlink" title="3.3 使用 XPath 提取数据"></a>3.3 使用 XPath 提取数据</h2><ol>
+<li><strong>提取所有行的 <code>&lt;td&gt;</code> 内容：</strong></li>
+</ol>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
+
+<p><code>//tr</code> 表示选择文档中所有的 <code>&lt;tr&gt;</code> 节点，不论它们在文档的哪个层级。</p>
+<ol start="2">
+<li><strong>提取某个特定列的数据：</strong></li>
+</ol>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">status_list = root.xpath(<span class="string">&#x27;//td[@class=&quot;status&quot;]/text()&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(status_list)</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li><code>//td[@class=&quot;status&quot;]</code>：选择所有 class 为 “status” 的 <code>&lt;td&gt;</code> 节点。</li>
+<li><code>/text()</code>：选择这些节点的文本内容。</li>
+</ul>
+<p><strong>结果：</strong></p>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">[<span class="string">&#x27;在线&#x27;</span>, <span class="string">&#x27;离线&#x27;</span>, <span class="string">&#x27;在线&#x27;</span>]</span><br></pre></td></tr></table></figure></div>
+
+<ol start="3">
+<li><strong>结合 <code>for</code> 循环逐行提取多个列的内容：</strong></li>
+</ol>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    status = tr.xpath(<span class="string">&#x27;./td[@class=&quot;status&quot;]/text()&#x27;</span>)[<span class="number">0</span>]  <span class="comment"># 获取状态</span></span><br><span class="line">    number = tr.xpath(<span class="string">&#x27;./td[2]/text()&#x27;</span>)[<span class="number">0</span>]  <span class="comment"># 获取数字</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;状态: <span class="subst">&#123;status&#125;</span>, 数字: <span class="subst">&#123;number&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li><code>./td[@class=&quot;status&quot;]/text()</code>：从当前行的 <code>&lt;td&gt;</code> 中选择 class 为 “status” 的列。</li>
+<li><code>./td[2]/text()</code>：选择当前行的第二个 <code>&lt;td&gt;</code> 节点的文本内容。</li>
+</ul>
+<p><strong>输出：</strong></p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">状态: 在线, 数字: 123</span><br><span class="line">状态: 离线, 数字: 456</span><br><span class="line">状态: 在线, 数字: 789</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="3-4-XPath-实用技巧"><a href="#3-4-XPath-实用技巧" class="headerlink" title="3.4 XPath 实用技巧"></a>3.4 XPath 实用技巧</h2><ol>
+<li><p><strong>使用属性选择节点：</strong></p>
+<ul>
+<li><code>//td[@class=&quot;status&quot;]</code> 选择所有 class 为 “status” 的 <code>&lt;td&gt;</code>。</li>
+<li><code>//a[@href]</code> 选择带有 <code>href</code> 属性的所有 <code>&lt;a&gt;</code> 标签。</li>
+</ul>
+</li>
+<li><p><strong>使用索引选择特定节点：</strong></p>
+<ul>
+<li><code>//tr[1]</code> 选择第一个 <code>&lt;tr&gt;</code> 节点。</li>
+<li><code>//td[2]</code> 选择当前 <code>&lt;tr&gt;</code> 中的第二个 <code>&lt;td&gt;</code> 节点。</li>
+</ul>
+</li>
+<li><p><strong>选择文本和属性：</strong></p>
+<ul>
+<li><code>//td/text()</code> 选择 <code>&lt;td&gt;</code> 内的文本。</li>
+<li><code>//a/@href</code> 选择所有 <code>&lt;a&gt;</code> 标签的 <code>href</code> 属性。</li>
+</ul>
+</li>
+<li><p><strong>条件筛选：</strong></p>
+<ul>
+<li><code>//tr[td[1]=&quot;在线&quot;]</code> 选择第一列文本为“在线”的行。</li>
+</ul>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>Python爬虫</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Python 爬虫教程 01</title>
     <url>/2024/09/17/01Python%E7%88%AC%E8%99%AB/</url>
     <content><![CDATA[<h1 id="1-浏览器"><a href="#1-浏览器" class="headerlink" title="1.浏览器"></a>1.浏览器</h1><h2 id="1-1-获取页面信息"><a href="#1-1-获取页面信息" class="headerlink" title="1.1 获取页面信息"></a>1.1 获取页面信息</h2><p>进入要爬取的页面，按<code>F12</code>进入开发者模式：<br><figure class="image-caption"><img  
@@ -364,88 +446,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Python 爬虫教程 02</title>
-    <url>/2024/10/17/02Python%E7%88%AC%E8%99%AB/</url>
-    <content><![CDATA[<h1 id="1-测试网址"><a href="#1-测试网址" class="headerlink" title="1.测试网址"></a>1.测试网址</h1><p><a class="link"   href="https://www.spiderbuf.cn/list" >测试网站<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
-<h1 id="2-编写代码"><a href="#2-编写代码" class="headerlink" title="2.编写代码"></a>2.编写代码</h1><h2 id="2-1-代码示例"><a href="#2-1-代码示例" class="headerlink" title="2.1 代码示例"></a>2.1 代码示例</h2><div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;https://spiderbuf.cn/playground/s01&quot;</span></span><br><span class="line"></span><br><span class="line">html = requests.get(url=url).text</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/01course/01.html&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">f.write(html)</span><br><span class="line">f.close()</span><br><span class="line"></span><br><span class="line"><span class="comment"># print(html)</span></span><br><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/01course/data01.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    tds = tr.xpath(<span class="string">&#x27;./td&#x27;</span>)</span><br><span class="line">    s = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> td <span class="keyword">in</span> tds:</span><br><span class="line">        <span class="comment"># 这里加 str 是为了防止 &lt;td&gt;&lt;/td&gt; 之间是空数据</span></span><br><span class="line">        s = s + <span class="built_in">str</span>(td.text) + <span class="string">&#x27; | &#x27;</span></span><br><span class="line">    <span class="built_in">print</span>(s)</span><br><span class="line">    <span class="comment"># 保存解析到的数据到本地</span></span><br><span class="line">    <span class="keyword">if</span> s!= <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        f.write(s + <span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
-
-<p>在很多时候，建议先把请求到的网页内容保存到本地（如上面代码所示），因为有时候解析数据无法一次性解析成功，那就会再向网页发送请求，这样不断的去访问服务器，就容易被服务器检测到是爬虫。</p>
-<h1 id="3-lxml-基础使用"><a href="#3-lxml-基础使用" class="headerlink" title="3.lxml 基础使用"></a>3.lxml 基础使用</h1><h2 id="3-1-XPath-基本语法"><a href="#3-1-XPath-基本语法" class="headerlink" title="3.1 XPath 基本语法"></a>3.1 XPath 基本语法</h2><ul>
-<li><code>/</code>：从根节点选择。根节点是一个 XML 或 HTML 文档的最顶层节点，所有其他元素都是它的子节点。</li>
-<li><code>//</code>：选择文档中的所有符合条件的节点，不论它们在文档的什么位置。</li>
-<li><code>.</code>：当前节点。</li>
-<li><code>..</code>：父节点。</li>
-<li><code>@</code>：选择属性。</li>
-<li><code>[ ]</code>：筛选器，添加条件。</li>
-<li><code>text()</code>：选择文本节点。</li>
-</ul>
-<h2 id="3-2-示例说明"><a href="#3-2-示例说明" class="headerlink" title="3.2 示例说明"></a>3.2 示例说明</h2><p>假设有如下 HTML 结构，<code>&lt;html&gt;</code>是根节点：</p>
-<div class="code-container" data-rel="Html"><figure class="iseeu highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">table</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">&quot;status&quot;</span>&gt;</span>在线<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span>&gt;</span>123<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">&quot;status&quot;</span>&gt;</span>离线<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span>&gt;</span>456<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">&quot;status&quot;</span>&gt;</span>在线<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span>&gt;</span>789<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></div>
-
-<h2 id="3-3-使用-XPath-提取数据"><a href="#3-3-使用-XPath-提取数据" class="headerlink" title="3.3 使用 XPath 提取数据"></a>3.3 使用 XPath 提取数据</h2><ol>
-<li><strong>提取所有行的 <code>&lt;td&gt;</code> 内容：</strong></li>
-</ol>
-<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
-
-<p><code>//tr</code> 表示选择文档中所有的 <code>&lt;tr&gt;</code> 节点，不论它们在文档的哪个层级。</p>
-<ol start="2">
-<li><strong>提取某个特定列的数据：</strong></li>
-</ol>
-<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">status_list = root.xpath(<span class="string">&#x27;//td[@class=&quot;status&quot;]/text()&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(status_list)</span><br></pre></td></tr></table></figure></div>
-
-<ul>
-<li><code>//td[@class=&quot;status&quot;]</code>：选择所有 class 为 “status” 的 <code>&lt;td&gt;</code> 节点。</li>
-<li><code>/text()</code>：选择这些节点的文本内容。</li>
-</ul>
-<p><strong>结果：</strong></p>
-<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">[<span class="string">&#x27;在线&#x27;</span>, <span class="string">&#x27;离线&#x27;</span>, <span class="string">&#x27;在线&#x27;</span>]</span><br></pre></td></tr></table></figure></div>
-
-<ol start="3">
-<li><strong>结合 <code>for</code> 循环逐行提取多个列的内容：</strong></li>
-</ol>
-<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    status = tr.xpath(<span class="string">&#x27;./td[@class=&quot;status&quot;]/text()&#x27;</span>)[<span class="number">0</span>]  <span class="comment"># 获取状态</span></span><br><span class="line">    number = tr.xpath(<span class="string">&#x27;./td[2]/text()&#x27;</span>)[<span class="number">0</span>]  <span class="comment"># 获取数字</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;状态: <span class="subst">&#123;status&#125;</span>, 数字: <span class="subst">&#123;number&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure></div>
-
-<ul>
-<li><code>./td[@class=&quot;status&quot;]/text()</code>：从当前行的 <code>&lt;td&gt;</code> 中选择 class 为 “status” 的列。</li>
-<li><code>./td[2]/text()</code>：选择当前行的第二个 <code>&lt;td&gt;</code> 节点的文本内容。</li>
-</ul>
-<p><strong>输出：</strong></p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">状态: 在线, 数字: 123</span><br><span class="line">状态: 离线, 数字: 456</span><br><span class="line">状态: 在线, 数字: 789</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="3-4-XPath-实用技巧"><a href="#3-4-XPath-实用技巧" class="headerlink" title="3.4 XPath 实用技巧"></a>3.4 XPath 实用技巧</h2><ol>
-<li><p><strong>使用属性选择节点：</strong></p>
-<ul>
-<li><code>//td[@class=&quot;status&quot;]</code> 选择所有 class 为 “status” 的 <code>&lt;td&gt;</code>。</li>
-<li><code>//a[@href]</code> 选择带有 <code>href</code> 属性的所有 <code>&lt;a&gt;</code> 标签。</li>
-</ul>
-</li>
-<li><p><strong>使用索引选择特定节点：</strong></p>
-<ul>
-<li><code>//tr[1]</code> 选择第一个 <code>&lt;tr&gt;</code> 节点。</li>
-<li><code>//td[2]</code> 选择当前 <code>&lt;tr&gt;</code> 中的第二个 <code>&lt;td&gt;</code> 节点。</li>
-</ul>
-</li>
-<li><p><strong>选择文本和属性：</strong></p>
-<ul>
-<li><code>//td/text()</code> 选择 <code>&lt;td&gt;</code> 内的文本。</li>
-<li><code>//a/@href</code> 选择所有 <code>&lt;a&gt;</code> 标签的 <code>href</code> 属性。</li>
-</ul>
-</li>
-<li><p><strong>条件筛选：</strong></p>
-<ul>
-<li><code>//tr[td[1]=&quot;在线&quot;]</code> 选择第一列文本为“在线”的行。</li>
-</ul>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>Python爬虫</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Python 爬虫教程 04</title>
     <url>/2024/10/17/04Python%E7%88%AC%E8%99%AB/</url>
     <content><![CDATA[<h1 id="1-测试案例"><a href="#1-测试案例" class="headerlink" title="1.测试案例"></a>1.测试案例</h1><div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;https://spiderbuf.cn/playground/s03&quot;</span></span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">html = requests.get(url=url, headers=headers).text</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/03course/03.html&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">f.write(html)</span><br><span class="line">f.close()</span><br><span class="line"></span><br><span class="line"><span class="comment"># print(html)</span></span><br><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/03course/data03.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    tds = tr.xpath(<span class="string">&#x27;./td&#x27;</span>)</span><br><span class="line">    s = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> td <span class="keyword">in</span> tds:</span><br><span class="line">        s = s + <span class="built_in">str</span>(td.text) + <span class="string">&#x27; | &#x27;</span></span><br><span class="line">    <span class="built_in">print</span>(s)</span><br><span class="line">    <span class="keyword">if</span> s!= <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        f.write(s + <span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
@@ -681,33 +681,6 @@
       </tags>
   </entry>
   <entry>
-    <title>解决 Debian 下中文乱码问题</title>
-    <url>/2025/01/03/Debian%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/</url>
-    <content><![CDATA[<h1 id="1-安装语言包"><a href="#1-安装语言包" class="headerlink" title="1.安装语言包"></a>1.安装语言包</h1><p>首先需要安装<code>locales</code>这个软件包：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">apt install locales</span><br></pre></td></tr></table></figure></div>
-
-<p>然后执行下面命令并配置语言环境：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">dpkg-reconfigure locales</span><br></pre></td></tr></table></figure></div>
-
-<h1 id="2-修改配置"><a href="#2-修改配置" class="headerlink" title="2.修改配置"></a>2.修改配置</h1><p>修改<code>~/.bashrc</code>文件：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">nano ~/.bashrc</span><br></pre></td></tr></table></figure></div>
-
-<p>添加：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">export LANG=zh_CN.UTF-8</span><br><span class="line">export LANGUAGE=zh_CN:zh</span><br><span class="line">export LC_ALL=zh_CN.UTF-8</span><br></pre></td></tr></table></figure></div>
-
-<p>然后执行：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">source</span> ~/.bashrc</span><br></pre></td></tr></table></figure></div>
-
-<h1 id="3-参考链接"><a href="#3-参考链接" class="headerlink" title="3.参考链接"></a>3.参考链接</h1><ul>
-<li><a class="link"   href="https://developer.aliyun.com/article/1143167" >Debian配置系统中文语言及环境<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
-</ul>
-]]></content>
-      <tags>
-        <tag>linux</tag>
-        <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Conda教程</title>
     <url>/2024/07/19/Conda%E6%95%99%E7%A8%8B/</url>
     <content><![CDATA[<h1 id="一、conda-指令"><a href="#一、conda-指令" class="headerlink" title="一、conda 指令"></a>一、conda 指令</h1><h2 id="1-1-查看配置"><a href="#1-1-查看配置" class="headerlink" title="1.1 查看配置"></a>1.1 查看配置</h2><div class="code-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="code"><pre><span class="line">conda config --show channels    # 查看镜像源</span><br><span class="line">conda config --show-sources        # 查看配置文件内容</span><br></pre></td></tr></table></figure></div>
@@ -735,6 +708,68 @@
 ]]></content>
       <tags>
         <tag>conda</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>解决 Debian 下中文乱码问题</title>
+    <url>/2025/01/03/Debian%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/</url>
+    <content><![CDATA[<h1 id="1-安装语言包"><a href="#1-安装语言包" class="headerlink" title="1.安装语言包"></a>1.安装语言包</h1><p>首先需要安装<code>locales</code>这个软件包：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">apt install locales</span><br></pre></td></tr></table></figure></div>
+
+<p>然后执行下面命令并配置语言环境：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">dpkg-reconfigure locales</span><br></pre></td></tr></table></figure></div>
+
+<h1 id="2-修改配置"><a href="#2-修改配置" class="headerlink" title="2.修改配置"></a>2.修改配置</h1><p>修改<code>~/.bashrc</code>文件：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">nano ~/.bashrc</span><br></pre></td></tr></table></figure></div>
+
+<p>添加：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">export LANG=zh_CN.UTF-8</span><br><span class="line">export LANGUAGE=zh_CN:zh</span><br><span class="line">export LC_ALL=zh_CN.UTF-8</span><br></pre></td></tr></table></figure></div>
+
+<p>然后执行：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">source</span> ~/.bashrc</span><br></pre></td></tr></table></figure></div>
+
+<h1 id="3-参考链接"><a href="#3-参考链接" class="headerlink" title="3.参考链接"></a>3.参考链接</h1><ul>
+<li><a class="link"   href="https://developer.aliyun.com/article/1143167" >Debian配置系统中文语言及环境<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+</ul>
+]]></content>
+      <tags>
+        <tag>linux</tag>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>解决 Debian 系统下，软件包更新和软件下载速度慢的问题</title>
+    <url>/2024/12/03/Debian%E9%95%9C%E5%83%8F%E6%BA%90/</url>
+    <content><![CDATA[<h1 id="1-问题复现"><a href="#1-问题复现" class="headerlink" title="1.问题复现"></a>1.问题复现</h1><p>在安装后 Debian 系统后，一般第一步都是执行<code>sudo apt update</code>，此时用的是自带的官方镜像源，速度很慢，所以我们会选择切换为国内的镜像源，这里以清华镜像源为例，默认已经配置好了清华镜像源。</p>
+<p>在执行更新时：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">sky@DESKTOP-IU948AR:~$ <span class="built_in">sudo</span> apt update</span><br><span class="line">[<span class="built_in">sudo</span>] password <span class="keyword">for</span> sky: </span><br><span class="line">Err:1 https://security.debian.org/debian-security bookworm-security InRelease</span><br><span class="line">  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 151.101.2.132 443]</span><br><span class="line">Err:2 https://mirrors.tuna.tsinghua.edu.cn/debian bookworm InRelease</span><br><span class="line">  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">Err:3 https://mirrors.tuna.tsinghua.edu.cn/debian bookworm-updates InRelease</span><br><span class="line">  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">Err:4 https://mirrors.tuna.tsinghua.edu.cn/debian bookworm-backports InRelease</span><br><span class="line">  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">Reading package lists... Done</span><br><span class="line">Building dependency tree... Done</span><br><span class="line">Reading state information... Done</span><br><span class="line">All packages are up to <span class="built_in">date</span>.</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/debian/dists/bookworm/InRelease: No system certificates available. Try installing ca-certificates.    </span><br><span class="line">W: https://security.debian.org/debian-security/dists/bookworm-security/InRelease: No system certificates available. Try installing ca-certificates.</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/debian/dists/bookworm-updates/InRelease: No system certificates available. Try installing ca-certificates.</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/debian/dists/bookworm-backports/InRelease: No system certificates available. Try installing ca-certificates.</span><br><span class="line">W: Failed to fetch https://mirrors.tuna.tsinghua.edu.cn/debian/dists/bookworm/InRelease  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">W: Failed to fetch https://mirrors.tuna.tsinghua.edu.cn/debian/dists/bookworm-updates/InRelease  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]    </span><br><span class="line">W: Failed to fetch https://mirrors.tuna.tsinghua.edu.cn/debian/dists/bookworm-backports/InRelease  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]  </span><br><span class="line">W: Failed to fetch https://security.debian.org/debian-security/dists/bookworm-security/InRelease  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 151.101.2.132 443]  </span><br><span class="line">W: Some index files failed to download. They have been ignored, or old ones used instead.</span><br><span class="line"></span><br><span class="line">sky@DESKTOP-IU948AR:~$ <span class="built_in">sudo</span> apt install ca-certificates</span><br><span class="line">Reading package lists... Done</span><br><span class="line">Building dependency tree... Done</span><br><span class="line">Reading state information... Done</span><br><span class="line">Package ca-certificates is not available, but is referred to by another package.</span><br><span class="line">This may mean that the package is missing, has been obsoleted, or</span><br><span class="line">is only available from another <span class="built_in">source</span></span><br><span class="line"></span><br><span class="line">E: Package <span class="string">&#x27;ca-certificates&#x27;</span> has no installation candidate</span><br></pre></td></tr></table></figure></div>
+
+<p>可以看出更新失败，需要我们安装<code>ca-certificates</code>，但是又无法成功安装<code>ca-certificates</code>。</p>
+<h1 id="2-解决办法"><a href="#2-解决办法" class="headerlink" title="2.解决办法"></a>2.解决办法</h1><p>这个问题的核心是系统无法验证 HTTPS 源的证书，导致无法更新包管理器的索引或安装新软件包。这可能是因为系统缺少必要的 CA 证书或某些配置问题。</p>
+<h2 id="2-1-方式一：手动安装ca-certificates包"><a href="#2-1-方式一：手动安装ca-certificates包" class="headerlink" title="2.1 方式一：手动安装ca-certificates包"></a>2.1 方式一：手动安装<code>ca-certificates</code>包</h2><h3 id="2-1-1-下载-DEB-包"><a href="#2-1-1-下载-DEB-包" class="headerlink" title="2.1.1 下载 DEB 包"></a>2.1.1 下载 DEB 包</h3><ol>
+<li>在另一台可以正常联网的机器上，访问 <a class="link"   href="https://packages.debian.org/" >Debian Packages<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>。</li>
+<li>下载与系统版本匹配的 <code>ca-certificates</code> 包。例如，适用于 Bookworm 的链接可能是：<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://packages.debian.org/bookworm/all/ca-certificates/download</span><br></pre></td></tr></table></figure></div></li>
+<li>使用 USB 或其他方法将下载的 <code>.deb</code> 文件复制到你的系统。</li>
+</ol>
+<h3 id="2-1-2-手动安装包"><a href="#2-1-2-手动安装包" class="headerlink" title="2.1.2 手动安装包"></a>2.1.2 手动安装包</h3><p>在目标机器上运行以下命令：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> dpkg -i /path/to/ca-certificates*.deb</span><br><span class="line"><span class="built_in">sudo</span> apt update</span><br></pre></td></tr></table></figure></div>
+
+<hr>
+<h3 id="2-2-方式二：临时禁用-HTTPS-验证（推荐）"><a href="#2-2-方式二：临时禁用-HTTPS-验证（推荐）" class="headerlink" title="2.2 方式二：临时禁用 HTTPS 验证（推荐）"></a>2.2 方式二：临时禁用 HTTPS 验证（推荐）</h3><p>可以尝试临时禁用 HTTPS 验证以更新软件源和安装 <code>ca-certificates</code>：</p>
+<p>编辑 <code>/etc/apt/apt.conf.d/99disable-https-check</code> 文件：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nano /etc/apt/apt.conf.d/99disable-https-check</span><br></pre></td></tr></table></figure></div>
+
+<p>添加以下内容：</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">Acquire::https::Verify-Peer &quot;false&quot;;</span><br><span class="line">Acquire::https::Verify-Host &quot;false&quot;;</span><br></pre></td></tr></table></figure></div>
+
+<p>保存后运行以下命令：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt update</span><br><span class="line"><span class="built_in">sudo</span> apt install ca-certificates</span><br></pre></td></tr></table></figure></div>
+
+<p>安装完 <code>ca-certificates</code> 后，删除或注释掉该配置以恢复安全性。</p>
+<p>也可以直接在命令行临时禁用：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">apt -o Acquire::https::Verify-Peer=<span class="literal">false</span> -o Acquire::https::Verify-Host=<span class="literal">false</span> update</span><br></pre></td></tr></table></figure></div>]]></content>
+      <tags>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -821,41 +856,6 @@
 ]]></content>
       <tags>
         <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>解决 Debian 系统下，软件包更新和软件下载速度慢的问题</title>
-    <url>/2024/12/03/Debian%E9%95%9C%E5%83%8F%E6%BA%90/</url>
-    <content><![CDATA[<h1 id="1-问题复现"><a href="#1-问题复现" class="headerlink" title="1.问题复现"></a>1.问题复现</h1><p>在安装后 Debian 系统后，一般第一步都是执行<code>sudo apt update</code>，此时用的是自带的官方镜像源，速度很慢，所以我们会选择切换为国内的镜像源，这里以清华镜像源为例，默认已经配置好了清华镜像源。</p>
-<p>在执行更新时：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">sky@DESKTOP-IU948AR:~$ <span class="built_in">sudo</span> apt update</span><br><span class="line">[<span class="built_in">sudo</span>] password <span class="keyword">for</span> sky: </span><br><span class="line">Err:1 https://security.debian.org/debian-security bookworm-security InRelease</span><br><span class="line">  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 151.101.2.132 443]</span><br><span class="line">Err:2 https://mirrors.tuna.tsinghua.edu.cn/debian bookworm InRelease</span><br><span class="line">  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">Err:3 https://mirrors.tuna.tsinghua.edu.cn/debian bookworm-updates InRelease</span><br><span class="line">  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">Err:4 https://mirrors.tuna.tsinghua.edu.cn/debian bookworm-backports InRelease</span><br><span class="line">  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">Reading package lists... Done</span><br><span class="line">Building dependency tree... Done</span><br><span class="line">Reading state information... Done</span><br><span class="line">All packages are up to <span class="built_in">date</span>.</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/debian/dists/bookworm/InRelease: No system certificates available. Try installing ca-certificates.    </span><br><span class="line">W: https://security.debian.org/debian-security/dists/bookworm-security/InRelease: No system certificates available. Try installing ca-certificates.</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/debian/dists/bookworm-updates/InRelease: No system certificates available. Try installing ca-certificates.</span><br><span class="line">W: https://mirrors.tuna.tsinghua.edu.cn/debian/dists/bookworm-backports/InRelease: No system certificates available. Try installing ca-certificates.</span><br><span class="line">W: Failed to fetch https://mirrors.tuna.tsinghua.edu.cn/debian/dists/bookworm/InRelease  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]</span><br><span class="line">W: Failed to fetch https://mirrors.tuna.tsinghua.edu.cn/debian/dists/bookworm-updates/InRelease  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]    </span><br><span class="line">W: Failed to fetch https://mirrors.tuna.tsinghua.edu.cn/debian/dists/bookworm-backports/InRelease  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 101.6.15.130 443]  </span><br><span class="line">W: Failed to fetch https://security.debian.org/debian-security/dists/bookworm-security/InRelease  Certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.  Could not handshake: Error <span class="keyword">in</span> the certificate verification. [IP: 151.101.2.132 443]  </span><br><span class="line">W: Some index files failed to download. They have been ignored, or old ones used instead.</span><br><span class="line"></span><br><span class="line">sky@DESKTOP-IU948AR:~$ <span class="built_in">sudo</span> apt install ca-certificates</span><br><span class="line">Reading package lists... Done</span><br><span class="line">Building dependency tree... Done</span><br><span class="line">Reading state information... Done</span><br><span class="line">Package ca-certificates is not available, but is referred to by another package.</span><br><span class="line">This may mean that the package is missing, has been obsoleted, or</span><br><span class="line">is only available from another <span class="built_in">source</span></span><br><span class="line"></span><br><span class="line">E: Package <span class="string">&#x27;ca-certificates&#x27;</span> has no installation candidate</span><br></pre></td></tr></table></figure></div>
-
-<p>可以看出更新失败，需要我们安装<code>ca-certificates</code>，但是又无法成功安装<code>ca-certificates</code>。</p>
-<h1 id="2-解决办法"><a href="#2-解决办法" class="headerlink" title="2.解决办法"></a>2.解决办法</h1><p>这个问题的核心是系统无法验证 HTTPS 源的证书，导致无法更新包管理器的索引或安装新软件包。这可能是因为系统缺少必要的 CA 证书或某些配置问题。</p>
-<h2 id="2-1-方式一：手动安装ca-certificates包"><a href="#2-1-方式一：手动安装ca-certificates包" class="headerlink" title="2.1 方式一：手动安装ca-certificates包"></a>2.1 方式一：手动安装<code>ca-certificates</code>包</h2><h3 id="2-1-1-下载-DEB-包"><a href="#2-1-1-下载-DEB-包" class="headerlink" title="2.1.1 下载 DEB 包"></a>2.1.1 下载 DEB 包</h3><ol>
-<li>在另一台可以正常联网的机器上，访问 <a class="link"   href="https://packages.debian.org/" >Debian Packages<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>。</li>
-<li>下载与系统版本匹配的 <code>ca-certificates</code> 包。例如，适用于 Bookworm 的链接可能是：<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://packages.debian.org/bookworm/all/ca-certificates/download</span><br></pre></td></tr></table></figure></div></li>
-<li>使用 USB 或其他方法将下载的 <code>.deb</code> 文件复制到你的系统。</li>
-</ol>
-<h3 id="2-1-2-手动安装包"><a href="#2-1-2-手动安装包" class="headerlink" title="2.1.2 手动安装包"></a>2.1.2 手动安装包</h3><p>在目标机器上运行以下命令：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> dpkg -i /path/to/ca-certificates*.deb</span><br><span class="line"><span class="built_in">sudo</span> apt update</span><br></pre></td></tr></table></figure></div>
-
-<hr>
-<h3 id="2-2-方式二：临时禁用-HTTPS-验证（推荐）"><a href="#2-2-方式二：临时禁用-HTTPS-验证（推荐）" class="headerlink" title="2.2 方式二：临时禁用 HTTPS 验证（推荐）"></a>2.2 方式二：临时禁用 HTTPS 验证（推荐）</h3><p>可以尝试临时禁用 HTTPS 验证以更新软件源和安装 <code>ca-certificates</code>：</p>
-<p>编辑 <code>/etc/apt/apt.conf.d/99disable-https-check</code> 文件：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nano /etc/apt/apt.conf.d/99disable-https-check</span><br></pre></td></tr></table></figure></div>
-
-<p>添加以下内容：</p>
-<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">Acquire::https::Verify-Peer &quot;false&quot;;</span><br><span class="line">Acquire::https::Verify-Host &quot;false&quot;;</span><br></pre></td></tr></table></figure></div>
-
-<p>保存后运行以下命令：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt update</span><br><span class="line"><span class="built_in">sudo</span> apt install ca-certificates</span><br></pre></td></tr></table></figure></div>
-
-<p>安装完 <code>ca-certificates</code> 后，删除或注释掉该配置以恢复安全性。</p>
-<p>也可以直接在命令行临时禁用：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">apt -o Acquire::https::Verify-Peer=<span class="literal">false</span> -o Acquire::https::Verify-Host=<span class="literal">false</span> update</span><br></pre></td></tr></table></figure></div>]]></content>
-      <tags>
-        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -2084,33 +2084,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Linux(EndeavourOS) 下给 Steam 设置代理</title>
-    <url>/2024/07/24/Linux-Steam/</url>
-    <content><![CDATA[<h1 id="1-解决"><a href="#1-解决" class="headerlink" title="1.解决"></a>1.解决</h1><ol>
-<li><p>打开 Steam 大屏模式（ <strong>一定是大屏模式！</strong> ）。<br><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://nyalog.oss-cn-hongkong.aliyuncs.com/NyaLog/articles/Steam%20Linux%20%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/Steam-BigScreen-min.png"
-                      alt="大屏模式"
-                ><figcaption>大屏模式</figcaption></figure></p>
-</li>
-<li><p>然后在设置里进入网络设置界面，然后点开填入自己的代理地址和端口。<br><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://nyalog.oss-cn-hongkong.aliyuncs.com/NyaLog/articles/Steam%20Linux%20%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/Steam-proxy-min.png"
-                      alt="设置界面"
-                ><figcaption>设置界面</figcaption></figure></p>
-</li>
-<li><p>设置成功后退出重启 Steam 即可。</p>
-</li>
-</ol>
-]]></content>
-      <tags>
-        <tag>linux</tag>
-        <tag>steam</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Linux 环境下配置 Docker</title>
     <url>/2024/07/20/Linux-Docker/</url>
     <content><![CDATA[<h1 id="1、Docker-配置"><a href="#1、Docker-配置" class="headerlink" title="1、Docker 配置"></a>1、Docker 配置</h1><h2 id="1-1-安装-Docker"><a href="#1-1-安装-Docker" class="headerlink" title="1.1 安装 Docker"></a>1.1 安装 Docker</h2><ul>
@@ -2197,6 +2170,33 @@
       </tags>
   </entry>
   <entry>
+    <title>Linux(EndeavourOS) 下给 Steam 设置代理</title>
+    <url>/2024/07/24/Linux-Steam/</url>
+    <content><![CDATA[<h1 id="1-解决"><a href="#1-解决" class="headerlink" title="1.解决"></a>1.解决</h1><ol>
+<li><p>打开 Steam 大屏模式（ <strong>一定是大屏模式！</strong> ）。<br><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://nyalog.oss-cn-hongkong.aliyuncs.com/NyaLog/articles/Steam%20Linux%20%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/Steam-BigScreen-min.png"
+                      alt="大屏模式"
+                ><figcaption>大屏模式</figcaption></figure></p>
+</li>
+<li><p>然后在设置里进入网络设置界面，然后点开填入自己的代理地址和端口。<br><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://nyalog.oss-cn-hongkong.aliyuncs.com/NyaLog/articles/Steam%20Linux%20%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/Steam-proxy-min.png"
+                      alt="设置界面"
+                ><figcaption>设置界面</figcaption></figure></p>
+</li>
+<li><p>设置成功后退出重启 Steam 即可。</p>
+</li>
+</ol>
+]]></content>
+      <tags>
+        <tag>linux</tag>
+        <tag>steam</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Linux 下配置 conda 环境</title>
     <url>/2024/08/19/Linux-conda/</url>
     <content><![CDATA[<h1 id="一、miniconda3-配置"><a href="#一、miniconda3-配置" class="headerlink" title="一、miniconda3 配置"></a>一、miniconda3 配置</h1><p><strong>注：</strong> 如果用的是<code>miniforge</code>，操作方式与此类似。</p>
@@ -2246,8 +2246,8 @@
 <p>保存并退出编辑器，然后执行<code>source ~/.zshrc</code>。</p>
 ]]></content>
       <tags>
-        <tag>linux</tag>
         <tag>conda</tag>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -2748,30 +2748,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Proxy Settings</title>
-    <url>/2024/07/19/Proxy-Settings/</url>
-    <content><![CDATA[<h1 id="一、代理软件配置"><a href="#一、代理软件配置" class="headerlink" title="一、代理软件配置"></a>一、代理软件配置</h1><h2 id="1-1-speedTest"><a href="#1-1-speedTest" class="headerlink" title="1.1 speedTest"></a>1.1 speedTest</h2><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 日本</span></span><br><span class="line">https://185-140-53-2.lg.looking.house/1000.mb</span><br><span class="line"><span class="comment"># 新加坡</span></span><br><span class="line">https://23-27-101-2.lg.looking.house/100.mb</span><br><span class="line"></span><br><span class="line">https://speed.cloudflare.com/__down?bytes=10000000</span><br><span class="line">https://speed.cloudflare.com/__down?bytes=50000000</span><br><span class="line">https://speed.cloudflare.com/__down?bytes=100000000</span><br><span class="line">https://speed.cloudflare.com/__down?bytes=200000000</span><br><span class="line"></span><br><span class="line"><span class="comment"># 老版测速</span></span><br><span class="line">http://cachefly.cachefly.net/10mb.<span class="built_in">test</span></span><br><span class="line">http://cachefly.cachefly.net/50mb.<span class="built_in">test</span></span><br><span class="line">http://cachefly.cachefly.net/100mb.<span class="built_in">test</span></span><br></pre></td></tr></table></figure></div>
-
-<h2 id="1-2-speedurl"><a href="#1-2-speedurl" class="headerlink" title="1.2 speedurl"></a>1.2 speedurl</h2><div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://www.google.com/generate_204</span><br><span class="line"></span><br><span class="line">http://cp.cloudflare.com/</span><br><span class="line"></span><br><span class="line">http://connectivitycheck.gstatic.com/generate_204</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="1-3-DNS选项"><a href="#1-3-DNS选项" class="headerlink" title="1.3 DNS选项"></a>1.3 DNS选项</h2><ul>
-<li><strong>远程DNS</strong></li>
-</ul>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">udp://1.1.1.1</span><br><span class="line"></span><br><span class="line">https://dns.google/dns-query</span><br></pre></td></tr></table></figure></div>
-
-<ul>
-<li><strong>直连DNS</strong></li>
-</ul>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">114.114.114.114</span><br><span class="line"></span><br><span class="line">https://doh.pub/dns-query</span><br></pre></td></tr></table></figure></div>
-]]></content>
-      <categories>
-        <category>科学上网</category>
-      </categories>
-      <tags>
-        <tag>proxy</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Win10 SSH 服务配置</title>
     <url>/2024/07/30/Openssh%E9%85%8D%E7%BD%AE/</url>
     <content><![CDATA[<h1 id="1-Windows-10-下安装-SSH-服务（Openssh）"><a href="#1-Windows-10-下安装-SSH-服务（Openssh）" class="headerlink" title="1.Windows 10 下安装 SSH 服务（Openssh）"></a>1.Windows 10 下安装 SSH 服务（Openssh）</h1><h2 id="1-1-下载"><a href="#1-1-下载" class="headerlink" title="1.1 下载"></a>1.1 下载</h2><p><a href="https://github.com/PowerShell/Win32-OpenSSH"> <strong>Openssh 下载地址</strong> </a></p>
@@ -2797,6 +2773,30 @@
       <tags>
         <tag>linux</tag>
         <tag>ssh</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Proxy Settings</title>
+    <url>/2024/07/19/Proxy-Settings/</url>
+    <content><![CDATA[<h1 id="一、代理软件配置"><a href="#一、代理软件配置" class="headerlink" title="一、代理软件配置"></a>一、代理软件配置</h1><h2 id="1-1-speedTest"><a href="#1-1-speedTest" class="headerlink" title="1.1 speedTest"></a>1.1 speedTest</h2><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 日本</span></span><br><span class="line">https://185-140-53-2.lg.looking.house/1000.mb</span><br><span class="line"><span class="comment"># 新加坡</span></span><br><span class="line">https://23-27-101-2.lg.looking.house/100.mb</span><br><span class="line"></span><br><span class="line">https://speed.cloudflare.com/__down?bytes=10000000</span><br><span class="line">https://speed.cloudflare.com/__down?bytes=50000000</span><br><span class="line">https://speed.cloudflare.com/__down?bytes=100000000</span><br><span class="line">https://speed.cloudflare.com/__down?bytes=200000000</span><br><span class="line"></span><br><span class="line"><span class="comment"># 老版测速</span></span><br><span class="line">http://cachefly.cachefly.net/10mb.<span class="built_in">test</span></span><br><span class="line">http://cachefly.cachefly.net/50mb.<span class="built_in">test</span></span><br><span class="line">http://cachefly.cachefly.net/100mb.<span class="built_in">test</span></span><br></pre></td></tr></table></figure></div>
+
+<h2 id="1-2-speedurl"><a href="#1-2-speedurl" class="headerlink" title="1.2 speedurl"></a>1.2 speedurl</h2><div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://www.google.com/generate_204</span><br><span class="line"></span><br><span class="line">http://cp.cloudflare.com/</span><br><span class="line"></span><br><span class="line">http://connectivitycheck.gstatic.com/generate_204</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="1-3-DNS选项"><a href="#1-3-DNS选项" class="headerlink" title="1.3 DNS选项"></a>1.3 DNS选项</h2><ul>
+<li><strong>远程DNS</strong></li>
+</ul>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">udp://1.1.1.1</span><br><span class="line"></span><br><span class="line">https://dns.google/dns-query</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li><strong>直连DNS</strong></li>
+</ul>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">114.114.114.114</span><br><span class="line"></span><br><span class="line">https://doh.pub/dns-query</span><br></pre></td></tr></table></figure></div>
+]]></content>
+      <categories>
+        <category>科学上网</category>
+      </categories>
+      <tags>
+        <tag>proxy</tag>
       </tags>
   </entry>
   <entry>
@@ -3422,10 +3422,7 @@
 <h2 id="2-2-备份与还原"><a href="#2-2-备份与还原" class="headerlink" title="2.2 备份与还原"></a>2.2 备份与还原</h2><p>下面的一系列操作以发行版<code>Ubuntu-22.04</code>为例。</p>
 <ul>
 <li><p>停止指定的 WSL</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl -t Ubuntu-22.04</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>开启指定的 WSL</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl -d Ubuntu-22.04</span><br></pre></td></tr></table></figure></div>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl --shutdown</span><br></pre></td></tr></table></figure></div>
 </li>
 <li><p>导出（备份）WSL 子系统（需要先停止 WSL 子系统）</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl --<span class="built_in">export</span> Ubuntu-22.04 D:\Ubuntu-22.04.tar</span><br></pre></td></tr></table></figure></div>
@@ -3439,7 +3436,7 @@
 <p><code>D:\WSL</code>是导入路径，<code>D:\Ubuntu-22.04.tar</code>是前面备份子系统的路径。</p>
 </li>
 </ul>
-<p>还原后的子系统一般默认是<code>root</code>用户，需要修改为其它用户。只要修改<code>/etc/wsl.conf</code>配置文件即可，如下：</p>
+<p>还原后的子系统一般默认是<code>root</code>用户，需要修改为其它用户。只要修改还原后的 Linux 子系统中的<code>/etc/wsl.conf</code>配置文件即可，如下：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">nano /etc/wsl.conf</span><br></pre></td></tr></table></figure></div>
 <p>加入下面的内容：</p>
 <div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">[user]</span><br><span class="line">default=用户名</span><br></pre></td></tr></table></figure></div>
@@ -3454,7 +3451,7 @@
 <div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">[wsl2]</span><br><span class="line">kernel=e:\\wsl2linuxkernel\\bzImage</span><br></pre></td></tr></table></figure></div>
 <p>这里的<code>e:\\wsl2linuxkernel\\bzImage</code>是内核路径，可以自己编译内核，手动编译内核参考官方仓库：<a class="link"   href="https://github.com/microsoft/WSL2-Linux-Kernel" >microsoft&#x2F;WSL2-Linux-Kernel<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>。也可以用仓库里线现成的：<a class="link"   href="https://github.com/Nevuly/WSL2-Linux-Kernel-Rolling" >Nevuly&#x2F;WSL2-Linux-Kernel-Rolling<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>。</p>
 <h1 id="4-释放-WSL-占用的磁盘空间"><a href="#4-释放-WSL-占用的磁盘空间" class="headerlink" title="4.释放 WSL 占用的磁盘空间"></a>4.释放 WSL 占用的磁盘空间</h1><p>有时后会发现，你在 WSL 中删掉了一些文件，但是磁盘剩余空间并没有增加。这是因为 WSL 的磁盘是动态扩容的，但不会自动释放。</p>
-<ol>
+<h2 id="4-1-操作步骤"><a href="#4-1-操作步骤" class="headerlink" title="4.1 操作步骤"></a>4.1 操作步骤</h2><ol>
 <li><p>关闭 WSL 中的 Linux 发行版：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">wsl --shutdown</span><br></pre></td></tr></table></figure></div>
 </li>
@@ -3477,6 +3474,42 @@
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure></div>
 <p>或者按住<code>ctrl+c</code>。</p>
 </li>
+</ol>
+<h2 id="4-2-可能出现的问题"><a href="#4-2-可能出现的问题" class="headerlink" title="4.2 可能出现的问题"></a>4.2 可能出现的问题</h2><div class="code-container" data-rel="Powershell"><figure class="iseeu highlight powershell"><table><tr><td class="code"><pre><span class="line">DISKPART&gt; <span class="built_in">select</span> vdisk file=<span class="string">&quot;D:\WSL\Arch\ext4.vhdx&quot;</span></span><br><span class="line"></span><br><span class="line">DiskPart 已成功选择虚拟磁盘文件。</span><br><span class="line"></span><br><span class="line">DISKPART&gt; compact vdisk</span><br><span class="line"></span><br><span class="line">DiskPart 遇到错误: 由于虚拟磁盘系统限制，无法完成请求的操作。虚拟硬盘文件必须是未压缩和未加密的文件，并且不能是稀疏文件 。</span><br><span class="line">有关详细信息，请参阅系统事件日志。</span><br></pre></td></tr></table></figure></div>
+<p>这说明<code>ext4.vhdx</code>文件可能是 压缩的(<code>compressed</code>)、加密的(<code>encrypted</code>)或稀疏的(<code>sparse</code>)，而<code>diskpart</code>要求它是一个普通的未压缩、未加密的 VHDX 文件。因此，<code>compact vdisk</code>失败了。</p>
+<p>所以需要 <strong>移除压缩、加密和稀疏文件属性</strong> ，然后再尝试<code>compact vdisk</code>。</p>
+<h2 id="4-3-解决方法"><a href="#4-3-解决方法" class="headerlink" title="4.3 解决方法"></a>4.3 解决方法</h2><ol>
+<li><strong>检查 VHDX 文件属性</strong><br>执行以下命令来检查 <code>ext4.vhdx</code> 是否是 <strong>稀疏文件、压缩文件或加密文件</strong> ：</li>
+</ol>
+<p>检查文件是否被稀疏文件：</p>
+<div class="code-container" data-rel="Powershell"><figure class="iseeu highlight powershell"><table><tr><td class="code"><pre><span class="line">fsutil sparse queryflag <span class="string">&quot;D:\WSL\Arch\ext4.vhdx&quot;</span></span><br></pre></td></tr></table></figure></div>
+<p>如果输出：</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">文件 D:\WSL\Arch\ext4.vhdx 是稀疏文件</span><br></pre></td></tr></table></figure></div>
+<p>那么该文件是稀疏文件，需要去掉稀疏标志。</p>
+<p>检查文件是否被 NTFS 压缩：</p>
+<div class="code-container" data-rel="Powershell"><figure class="iseeu highlight powershell"><table><tr><td class="code"><pre><span class="line">compact /q <span class="string">&quot;D:\WSL\Arch\ext4.vhdx&quot;</span></span><br></pre></td></tr></table></figure></div>
+<p>如果输出类似：</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">1 个文件总计 10 GB</span><br><span class="line">8 GB 已压缩</span><br></pre></td></tr></table></figure></div>
+<p>说明该文件已被压缩，需要取消压缩。</p>
+<p>检查文件是否被加密：</p>
+<div class="code-container" data-rel="Powershell"><figure class="iseeu highlight powershell"><table><tr><td class="code"><pre><span class="line">cipher /c <span class="string">&quot;D:\WSL\Arch\ext4.vhdx&quot;</span></span><br></pre></td></tr></table></figure></div>
+<p>如果输出类似：</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">E  D:\WSL\Arch\ext4.vhdx</span><br></pre></td></tr></table></figure></div>
+<p>说明该文件被加密，需要解密。</p>
+<ol start="2">
+<li><strong>解除压缩、加密和稀疏属性</strong><br>执行以下命令，确保 VHDX 文件是普通文件：</li>
+</ol>
+<p>取消稀疏文件标志：</p>
+<div class="code-container" data-rel="Powershell"><figure class="iseeu highlight powershell"><table><tr><td class="code"><pre><span class="line">fsutil sparse setflag <span class="string">&quot;D:\WSL\Arch\ext4.vhdx&quot;</span> <span class="number">0</span>  </span><br></pre></td></tr></table></figure></div>
+
+<p>取消 NTFS 压缩：</p>
+<div class="code-container" data-rel="Powershell"><figure class="iseeu highlight powershell"><table><tr><td class="code"><pre><span class="line">compact /u /q <span class="string">&quot;D:\WSL\Arch\ext4.vhdx&quot;</span></span><br></pre></td></tr></table></figure></div>
+
+<p>取消加密：</p>
+<div class="code-container" data-rel="Powershell"><figure class="iseeu highlight powershell"><table><tr><td class="code"><pre><span class="line">cipher /d <span class="string">&quot;D:\WSL\Arch\ext4.vhdx&quot;</span></span><br></pre></td></tr></table></figure></div>
+
+<ol start="3">
+<li><strong>再次尝试挂载并压缩 VHDX</strong><br>执行：<div class="code-container" data-rel="Powershell"><figure class="iseeu highlight powershell"><table><tr><td class="code"><pre><span class="line">diskpart</span><br><span class="line"><span class="built_in">select</span> vdisk file=<span class="string">&quot;D:\WSL\Arch\ext4.vhdx&quot;</span></span><br><span class="line">attach vdisk</span><br><span class="line">compact vdisk</span><br><span class="line">detach vdisk</span><br><span class="line"><span class="keyword">exit</span></span><br></pre></td></tr></table></figure></div></li>
 </ol>
 <h1 id="5-参考链接"><a href="#5-参考链接" class="headerlink" title="5.参考链接"></a>5.参考链接</h1><ul>
 <li><a class="link"   href="https://xujinzh.github.io/2023/08/04/windows-wsl-install/index.html" >Windows 安装 Linux 子系统 wsl<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>

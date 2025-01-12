@@ -30,7 +30,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://example.com/2024/11/12/WSL2%E6%95%99%E7%A8%8B/your_image_path">
 <meta property="article:published_time" content="2024-11-12T21:16:31.000Z">
-<meta property="article:modified_time" content="2024-11-27T05:00:48.490Z">
+<meta property="article:modified_time" content="2025-01-12T05:32:48.865Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="linux">
 <meta property="article:tag" content="WSL">
@@ -496,8 +496,8 @@
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2024-11-27 05:48</span>
-            <span class="mobile">2024-11-27 05:48</span>
+            <span class="desktop">2025-01-12 05:32:48</span>
+            <span class="mobile">2025-01-12 05:32:48</span>
             <span class="hover-info">Updated</span>
         </span>
     
@@ -523,12 +523,12 @@
     
     
         <span class="article-wordcount article-meta-item">
-            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>920 Words</span>
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>1.4k Words</span>
         </span>
     
     
         <span class="article-min2read article-meta-item">
-            <i class="fa-regular fa-clock"></i>&nbsp;<span>3 Mins</span>
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>5 Mins</span>
         </span>
     
     
@@ -576,10 +576,7 @@
 <h2 id="2-2-备份与还原"><a href="#2-2-备份与还原" class="headerlink" title="2.2 备份与还原"></a>2.2 备份与还原</h2><p>下面的一系列操作以发行版<code>Ubuntu-22.04</code>为例。</p>
 <ul>
 <li><p>停止指定的 WSL</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wsl -t Ubuntu-22.04</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>开启指定的 WSL</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wsl -d Ubuntu-22.04</span><br></pre></td></tr></table></figure></div>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wsl --shutdown</span><br></pre></td></tr></table></figure></div>
 </li>
 <li><p>导出（备份）WSL 子系统（需要先停止 WSL 子系统）</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wsl --<span class="built_in">export</span> Ubuntu-22.04 D:\Ubuntu-22.04.tar</span><br></pre></td></tr></table></figure></div>
@@ -593,7 +590,7 @@
 <p><code>D:\WSL</code>是导入路径，<code>D:\Ubuntu-22.04.tar</code>是前面备份子系统的路径。</p>
 </li>
 </ul>
-<p>还原后的子系统一般默认是<code>root</code>用户，需要修改为其它用户。只要修改<code>/etc/wsl.conf</code>配置文件即可，如下：</p>
+<p>还原后的子系统一般默认是<code>root</code>用户，需要修改为其它用户。只要修改还原后的 Linux 子系统中的<code>/etc/wsl.conf</code>配置文件即可，如下：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nano /etc/wsl.conf</span><br></pre></td></tr></table></figure></div>
 <p>加入下面的内容：</p>
 <div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[user]</span><br><span class="line">default=用户名</span><br></pre></td></tr></table></figure></div>
@@ -608,7 +605,7 @@
 <div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[wsl2]</span><br><span class="line">kernel=e:\\wsl2linuxkernel\\bzImage</span><br></pre></td></tr></table></figure></div>
 <p>这里的<code>e:\\wsl2linuxkernel\\bzImage</code>是内核路径，可以自己编译内核，手动编译内核参考官方仓库：<a class="link"   target="_blank" rel="noopener" href="https://github.com/microsoft/WSL2-Linux-Kernel" >microsoft&#x2F;WSL2-Linux-Kernel<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>。也可以用仓库里线现成的：<a class="link"   target="_blank" rel="noopener" href="https://github.com/Nevuly/WSL2-Linux-Kernel-Rolling" >Nevuly&#x2F;WSL2-Linux-Kernel-Rolling<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>。</p>
 <h1 id="4-释放-WSL-占用的磁盘空间"><a href="#4-释放-WSL-占用的磁盘空间" class="headerlink" title="4.释放 WSL 占用的磁盘空间"></a>4.释放 WSL 占用的磁盘空间</h1><p>有时后会发现，你在 WSL 中删掉了一些文件，但是磁盘剩余空间并没有增加。这是因为 WSL 的磁盘是动态扩容的，但不会自动释放。</p>
-<ol>
+<h2 id="4-1-操作步骤"><a href="#4-1-操作步骤" class="headerlink" title="4.1 操作步骤"></a>4.1 操作步骤</h2><ol>
 <li><p>关闭 WSL 中的 Linux 发行版：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wsl --shutdown</span><br></pre></td></tr></table></figure></div>
 </li>
@@ -632,6 +629,42 @@
 <p>或者按住<code>ctrl+c</code>。</p>
 </li>
 </ol>
+<h2 id="4-2-可能出现的问题"><a href="#4-2-可能出现的问题" class="headerlink" title="4.2 可能出现的问题"></a>4.2 可能出现的问题</h2><div class="code-container" data-rel="Powershell"><figure class="iseeu highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">DISKPART&gt; <span class="built_in">select</span> vdisk file=<span class="string">&quot;D:\WSL\Arch\ext4.vhdx&quot;</span></span><br><span class="line"></span><br><span class="line">DiskPart 已成功选择虚拟磁盘文件。</span><br><span class="line"></span><br><span class="line">DISKPART&gt; compact vdisk</span><br><span class="line"></span><br><span class="line">DiskPart 遇到错误: 由于虚拟磁盘系统限制，无法完成请求的操作。虚拟硬盘文件必须是未压缩和未加密的文件，并且不能是稀疏文件 。</span><br><span class="line">有关详细信息，请参阅系统事件日志。</span><br></pre></td></tr></table></figure></div>
+<p>这说明<code>ext4.vhdx</code>文件可能是 压缩的(<code>compressed</code>)、加密的(<code>encrypted</code>)或稀疏的(<code>sparse</code>)，而<code>diskpart</code>要求它是一个普通的未压缩、未加密的 VHDX 文件。因此，<code>compact vdisk</code>失败了。</p>
+<p>所以需要 <strong>移除压缩、加密和稀疏文件属性</strong> ，然后再尝试<code>compact vdisk</code>。</p>
+<h2 id="4-3-解决方法"><a href="#4-3-解决方法" class="headerlink" title="4.3 解决方法"></a>4.3 解决方法</h2><ol>
+<li><strong>检查 VHDX 文件属性</strong><br>执行以下命令来检查 <code>ext4.vhdx</code> 是否是 <strong>稀疏文件、压缩文件或加密文件</strong> ：</li>
+</ol>
+<p>检查文件是否被稀疏文件：</p>
+<div class="code-container" data-rel="Powershell"><figure class="iseeu highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fsutil sparse queryflag <span class="string">&quot;D:\WSL\Arch\ext4.vhdx&quot;</span></span><br></pre></td></tr></table></figure></div>
+<p>如果输出：</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">文件 D:\WSL\Arch\ext4.vhdx 是稀疏文件</span><br></pre></td></tr></table></figure></div>
+<p>那么该文件是稀疏文件，需要去掉稀疏标志。</p>
+<p>检查文件是否被 NTFS 压缩：</p>
+<div class="code-container" data-rel="Powershell"><figure class="iseeu highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">compact /q <span class="string">&quot;D:\WSL\Arch\ext4.vhdx&quot;</span></span><br></pre></td></tr></table></figure></div>
+<p>如果输出类似：</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1 个文件总计 10 GB</span><br><span class="line">8 GB 已压缩</span><br></pre></td></tr></table></figure></div>
+<p>说明该文件已被压缩，需要取消压缩。</p>
+<p>检查文件是否被加密：</p>
+<div class="code-container" data-rel="Powershell"><figure class="iseeu highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cipher /c <span class="string">&quot;D:\WSL\Arch\ext4.vhdx&quot;</span></span><br></pre></td></tr></table></figure></div>
+<p>如果输出类似：</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">E  D:\WSL\Arch\ext4.vhdx</span><br></pre></td></tr></table></figure></div>
+<p>说明该文件被加密，需要解密。</p>
+<ol start="2">
+<li><strong>解除压缩、加密和稀疏属性</strong><br>执行以下命令，确保 VHDX 文件是普通文件：</li>
+</ol>
+<p>取消稀疏文件标志：</p>
+<div class="code-container" data-rel="Powershell"><figure class="iseeu highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fsutil sparse setflag <span class="string">&quot;D:\WSL\Arch\ext4.vhdx&quot;</span> <span class="number">0</span>  </span><br></pre></td></tr></table></figure></div>
+
+<p>取消 NTFS 压缩：</p>
+<div class="code-container" data-rel="Powershell"><figure class="iseeu highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">compact /u /q <span class="string">&quot;D:\WSL\Arch\ext4.vhdx&quot;</span></span><br></pre></td></tr></table></figure></div>
+
+<p>取消加密：</p>
+<div class="code-container" data-rel="Powershell"><figure class="iseeu highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cipher /d <span class="string">&quot;D:\WSL\Arch\ext4.vhdx&quot;</span></span><br></pre></td></tr></table></figure></div>
+
+<ol start="3">
+<li><strong>再次尝试挂载并压缩 VHDX</strong><br>执行：<div class="code-container" data-rel="Powershell"><figure class="iseeu highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">diskpart</span><br><span class="line"><span class="built_in">select</span> vdisk file=<span class="string">&quot;D:\WSL\Arch\ext4.vhdx&quot;</span></span><br><span class="line">attach vdisk</span><br><span class="line">compact vdisk</span><br><span class="line">detach vdisk</span><br><span class="line"><span class="keyword">exit</span></span><br></pre></td></tr></table></figure></div></li>
+</ol>
 <h1 id="5-参考链接"><a href="#5-参考链接" class="headerlink" title="5.参考链接"></a>5.参考链接</h1><ul>
 <li><a class="link"   target="_blank" rel="noopener" href="https://xujinzh.github.io/2023/08/04/windows-wsl-install/index.html" >Windows 安装 Linux 子系统 wsl<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
 <li><a class="link"   target="_blank" rel="noopener" href="https://www.cnblogs.com/Chary/p/18011740" >wsl2子系统的备份和还原<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
@@ -653,7 +686,7 @@
         
             <li>
                 <strong>Updated at
-                    :</strong> 2024-11-27 05:00:48
+                    :</strong> 2025-01-12 05:32:48
             </li>
         
         <li>
@@ -701,9 +734,9 @@
 </a><a class="recommended-article-item" href="/2024/11/27/WSL-容器GUI/" title="WSL2 和 Docker 容器中运行 GUI 程序" rel="bookmark">
   <img src="/images/wallhaven-wqery6-light.webp" alt="WSL2 和 Docker 容器中运行 GUI 程序" class="!max-w-none">
   <span class="title">WSL2 和 Docker 容器中运行 GUI 程序</span>
-</a><a class="recommended-article-item" href="/2024/11/13/gdb配置/" title="解决 VSCode 下使用 gdb 调试 C++ 出现的问题" rel="bookmark">
-  <img src="/images/wallhaven-wqery6-light.webp" alt="解决 VSCode 下使用 gdb 调试 C++ 出现的问题" class="!max-w-none">
-  <span class="title">解决 VSCode 下使用 gdb 调试 C++ 出现的问题</span>
+</a><a class="recommended-article-item" href="/2024/12/10/Linux指令/" title="Linux 常用指令汇总" rel="bookmark">
+  <img src="/images/wallhaven-wqery6-light.webp" alt="Linux 常用指令汇总" class="!max-w-none">
+  <span class="title">Linux 常用指令汇总</span>
 </a></div>
    </div>
    <div class="recommended-mobile">
@@ -804,7 +837,7 @@
 	<div class="post-toc">
 		<div class="toc-title">On this page</div>
 		<div class="page-title">WSL2 的使用教程</div>
-		<ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E5%AE%89%E8%A3%85%E5%92%8C%E5%8D%87%E7%BA%A7-WSL2"><span class="nav-text">1.安装和升级 WSL2</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-%E5%AE%89%E8%A3%85%E5%89%8D%E7%9A%84%E5%87%86%E5%A4%87"><span class="nav-text">1.1 安装前的准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-%E5%8D%87%E7%BA%A7-WSL2"><span class="nav-text">1.2 升级 WSL2</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-WSL-%E7%9A%84%E6%8C%87%E4%BB%A4"><span class="nav-text">2.WSL 的指令</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-1-%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4"><span class="nav-text">2.1 常用指令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-%E5%A4%87%E4%BB%BD%E4%B8%8E%E8%BF%98%E5%8E%9F"><span class="nav-text">2.2 备份与还原</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-WSL-%E7%9A%84%E9%85%8D%E7%BD%AE"><span class="nav-text">3.WSL 的配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-%E5%90%AF%E7%94%A8-systemd"><span class="nav-text">3.1 启用 systemd</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-%E6%9B%B4%E6%8D%A2%E5%86%85%E6%A0%B8"><span class="nav-text">3.2 更换内核</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-%E9%87%8A%E6%94%BE-WSL-%E5%8D%A0%E7%94%A8%E7%9A%84%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4"><span class="nav-text">4.释放 WSL 占用的磁盘空间</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="nav-text">5.参考链接</span></a></li></ol>
+		<ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E5%AE%89%E8%A3%85%E5%92%8C%E5%8D%87%E7%BA%A7-WSL2"><span class="nav-text">1.安装和升级 WSL2</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-%E5%AE%89%E8%A3%85%E5%89%8D%E7%9A%84%E5%87%86%E5%A4%87"><span class="nav-text">1.1 安装前的准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-%E5%8D%87%E7%BA%A7-WSL2"><span class="nav-text">1.2 升级 WSL2</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-WSL-%E7%9A%84%E6%8C%87%E4%BB%A4"><span class="nav-text">2.WSL 的指令</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-1-%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4"><span class="nav-text">2.1 常用指令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-%E5%A4%87%E4%BB%BD%E4%B8%8E%E8%BF%98%E5%8E%9F"><span class="nav-text">2.2 备份与还原</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-WSL-%E7%9A%84%E9%85%8D%E7%BD%AE"><span class="nav-text">3.WSL 的配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-%E5%90%AF%E7%94%A8-systemd"><span class="nav-text">3.1 启用 systemd</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-%E6%9B%B4%E6%8D%A2%E5%86%85%E6%A0%B8"><span class="nav-text">3.2 更换内核</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-%E9%87%8A%E6%94%BE-WSL-%E5%8D%A0%E7%94%A8%E7%9A%84%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4"><span class="nav-text">4.释放 WSL 占用的磁盘空间</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-%E6%93%8D%E4%BD%9C%E6%AD%A5%E9%AA%A4"><span class="nav-text">4.1 操作步骤</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-%E5%8F%AF%E8%83%BD%E5%87%BA%E7%8E%B0%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-text">4.2 可能出现的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95"><span class="nav-text">4.3 解决方法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="nav-text">5.参考链接</span></a></li></ol>
 
 	</div>
 </div>
@@ -835,7 +868,7 @@
                     </span>
                     
                         <span>
-                            51.3k words in total
+                            51.8k words in total
                         </span>
                     
                 </p>
