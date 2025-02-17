@@ -30,7 +30,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://example.com/2024/08/19/Linux-conda/your_image_path">
 <meta property="article:published_time" content="2024-08-19T16:21:15.000Z">
-<meta property="article:modified_time" content="2024-11-13T03:07:10.000Z">
+<meta property="article:modified_time" content="2025-02-17T04:36:55.115Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="conda">
 <meta property="article:tag" content="linux">
@@ -437,15 +437,15 @@
 
         <div class="statistics flex justify-around my-2.5">
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
-        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">17</div>
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">18</div>
         <div class="label text-third-text-color text-sm">Tags</div>
     </a>
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
-        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">5</div>
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">6</div>
         <div class="label text-third-text-color text-sm">Categories</div>
     </a>
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
-        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">59</div>
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">60</div>
         <div class="label text-third-text-color text-sm">Posts</div>
     </a>
 </div>
@@ -496,8 +496,8 @@
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2024-11-13 03:07:10</span>
-            <span class="mobile">2024-11-13 03:07:10</span>
+            <span class="desktop">2025-02-17 04:36:55</span>
+            <span class="mobile">2025-02-17 04:36:55</span>
             <span class="hover-info">Updated</span>
         </span>
     
@@ -523,12 +523,12 @@
     
     
         <span class="article-wordcount article-meta-item">
-            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>503 Words</span>
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>686 Words</span>
         </span>
     
     
         <span class="article-min2read article-meta-item">
-            <i class="fa-regular fa-clock"></i>&nbsp;<span>2 Mins</span>
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>3 Mins</span>
         </span>
     
     
@@ -547,8 +547,21 @@
 
 
 		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
-			<h1 id="一、miniconda3-配置"><a href="#一、miniconda3-配置" class="headerlink" title="一、miniconda3 配置"></a>一、miniconda3 配置</h1><p><strong>注：</strong> 如果用的是<code>miniforge</code>，操作方式与此类似。</p>
-<h2 id="1-1-把conda集成到zsh终端中"><a href="#1-1-把conda集成到zsh终端中" class="headerlink" title="1.1 把conda集成到zsh终端中"></a>1.1 把<code>conda</code>集成到<code>zsh</code>终端中</h2><h3 id="1-1-1-详细步骤"><a href="#1-1-1-详细步骤" class="headerlink" title="1.1.1 详细步骤"></a>1.1.1 详细步骤</h3><ol>
+			<h1 id="一、安装"><a href="#一、安装" class="headerlink" title="一、安装"></a>一、安装</h1><p>下载最新版<code>miniconda3</code>：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 下载适用于 Linux 的 Miniconda 安装包（根据你系统的架构选择 64-bit 或 32-bit）</span></span><br><span class="line">wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh</span><br></pre></td></tr></table></figure></div>
+
+<p>下载完成后，通过以下命令启动安装：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 赋予安装脚本执行权限</span></span><br><span class="line"><span class="built_in">chmod</span> +x Miniconda3-latest-Linux-x86_64.sh</span><br><span class="line"></span><br><span class="line"><span class="comment"># 执行安装脚本</span></span><br><span class="line">./Miniconda3-latest-Linux-x86_64.sh</span><br></pre></td></tr></table></figure></div>
+
+<p>对于<code>miniforge</code>，下载：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 如果是 x86_64 架构（大多数 PC）</span></span><br><span class="line">wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果是 ARM64 架构（比如 Raspberry Pi）</span></span><br><span class="line">wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-aarch64.sh</span><br></pre></td></tr></table></figure></div>
+
+<p>下载完成后，运行以下命令安装：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 赋予安装脚本执行权限</span></span><br><span class="line"><span class="built_in">chmod</span> +x Miniforge3-Linux-*.sh</span><br><span class="line"></span><br><span class="line"><span class="comment"># 执行安装脚本</span></span><br><span class="line">./Miniforge3-Linux-*.sh</span><br></pre></td></tr></table></figure></div>
+
+
+<h1 id="二、miniconda3-配置"><a href="#二、miniconda3-配置" class="headerlink" title="二、miniconda3 配置"></a>二、miniconda3 配置</h1><p><strong>注：</strong> 如果用的是<code>miniforge</code>，操作方式与此类似。</p>
+<h2 id="2-1-把conda集成到zsh终端中"><a href="#2-1-把conda集成到zsh终端中" class="headerlink" title="2.1 把conda集成到zsh终端中"></a>2.1 把<code>conda</code>集成到<code>zsh</code>终端中</h2><h3 id="2-1-1-详细步骤"><a href="#2-1-1-详细步骤" class="headerlink" title="2.1.1 详细步骤"></a>2.1.1 详细步骤</h3><ol>
 <li><strong>添加<code>conda</code>环境变量：</strong></li>
 </ol>
 <p>把这行代码加入到<code>.zshrc</code>中：</p>
@@ -575,13 +588,13 @@
 <p>再次运行以下命令重新加载配置文件：</p>
 <div class="code-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> ~/.zshrc</span><br></pre></td></tr></table></figure></div>
 
-<h3 id="1-1-2-验证"><a href="#1-1-2-验证" class="headerlink" title="1.1.2 验证"></a>1.1.2 验证</h3><p>验证 conda 是否配置好：</p>
+<h3 id="2-1-2-验证"><a href="#2-1-2-验证" class="headerlink" title="2.1.2 验证"></a>2.1.2 验证</h3><p>验证 conda 是否配置好：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda --version</span><br></pre></td></tr></table></figure></div>
 
-<h3 id="1-1-3-一步到位操作"><a href="#1-1-3-一步到位操作" class="headerlink" title="1.1.3 一步到位操作"></a>1.1.3 一步到位操作</h3><p>可以不用管以上操作，直接把这段复制到<code>.zshrc</code>中，注意安装miniconda的路径：</p>
+<h3 id="2-1-3-一步到位操作"><a href="#2-1-3-一步到位操作" class="headerlink" title="2.1.3 一步到位操作"></a>2.1.3 一步到位操作</h3><p>可以不用管以上操作，直接把这段复制到<code>.zshrc</code>中，注意安装miniconda的路径：</p>
 <div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"># &gt;&gt;&gt; conda initialize &gt;&gt;&gt;</span><br><span class="line"># !! Contents within this block are managed by &#x27;conda init&#x27; !!</span><br><span class="line">__conda_setup=&quot;$(&#x27;/opt/miniconda3/bin/conda&#x27; &#x27;shell.zsh&#x27; &#x27;hook&#x27; 2&gt; /dev/null)&quot;</span><br><span class="line">if [ $? -eq 0 ]; then</span><br><span class="line">    eval &quot;$__conda_setup&quot;</span><br><span class="line">else</span><br><span class="line">    if [ -f &quot;/opt/miniconda3/etc/profile.d/conda.sh&quot; ]; then</span><br><span class="line">        . &quot;/opt/miniconda3/etc/profile.d/conda.sh&quot;</span><br><span class="line">    else</span><br><span class="line">        export PATH=&quot;/opt/miniconda3/bin:$PATH&quot;</span><br><span class="line">    fi</span><br><span class="line">fi</span><br><span class="line">unset __conda_setup</span><br><span class="line"># &lt;&lt;&lt; conda initialize &lt;&lt;&lt;</span><br><span class="line">export CRYPTOGRAPHY_OPENSSL_NO_LEGACY=1</span><br></pre></td></tr></table></figure></div>
 
-<h2 id="1-2-问题汇总"><a href="#1-2-问题汇总" class="headerlink" title="1.2 问题汇总"></a>1.2 问题汇总</h2><h3 id="1-2-1-OpenSSL-问题"><a href="#1-2-1-OpenSSL-问题" class="headerlink" title="1.2.1  OpenSSL 问题"></a>1.2.1  OpenSSL 问题</h3><p>当运行<code>conda activate base</code>时，可能出现下面问题：</p>
+<h2 id="2-2-问题汇总"><a href="#2-2-问题汇总" class="headerlink" title="2.2 问题汇总"></a>2.2 问题汇总</h2><h3 id="2-2-1-OpenSSL-问题"><a href="#2-2-1-OpenSSL-问题" class="headerlink" title="2.2.1  OpenSSL 问题"></a>2.2.1  OpenSSL 问题</h3><p>当运行<code>conda activate base</code>时，可能出现下面问题：</p>
 <div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> $ conda activate base</span><br><span class="line">Error while loading conda entry point: conda-content-trust (OpenSSL 3.0&#x27;s legacy provider failed to load. This is a fatal error by default, but cryptography supports running without legacy algorithms by setting the environment variable CRYPTOGRAPHY_OPENSSL_NO_LEGACY. If you did not expect this error, you have likely made a mistake with your OpenSSL configuration.)</span><br><span class="line"></span><br><span class="line">CondaError: Run &#x27;conda init&#x27; before &#x27;conda activate&#x27;</span><br></pre></td></tr></table></figure></div>
 
 <p>根据该的错误信息，问题可能与 OpenSSL 版本有关。OpenSSL 3.0 引入了一些变化，可能导致与某些软件包的兼容性问题。在此情况下，设置环境变量<code>CRYPTOGRAPHY_OPENSSL_NO_LEGACY</code>可能会解决问题。</p>
@@ -606,7 +619,7 @@
         
             <li>
                 <strong>Updated at
-                    :</strong> 2024-11-13 03:07:10
+                    :</strong> 2025-02-17 04:36:55
             </li>
         
         <li>
@@ -757,7 +770,7 @@
 	<div class="post-toc">
 		<div class="toc-title">On this page</div>
 		<div class="page-title">Linux 下配置 conda 环境</div>
-		<ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E3%80%81miniconda3-%E9%85%8D%E7%BD%AE"><span class="nav-text">一、miniconda3 配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-%E6%8A%8Aconda%E9%9B%86%E6%88%90%E5%88%B0zsh%E7%BB%88%E7%AB%AF%E4%B8%AD"><span class="nav-text">1.1 把conda集成到zsh终端中</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-1-%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4"><span class="nav-text">1.1.1 详细步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-2-%E9%AA%8C%E8%AF%81"><span class="nav-text">1.1.2 验证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-3-%E4%B8%80%E6%AD%A5%E5%88%B0%E4%BD%8D%E6%93%8D%E4%BD%9C"><span class="nav-text">1.1.3 一步到位操作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB"><span class="nav-text">1.2 问题汇总</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-1-OpenSSL-%E9%97%AE%E9%A2%98"><span class="nav-text">1.2.1  OpenSSL 问题</span></a></li></ol></li></ol></li></ol>
+		<ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%AE%89%E8%A3%85"><span class="nav-text">一、安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C%E3%80%81miniconda3-%E9%85%8D%E7%BD%AE"><span class="nav-text">二、miniconda3 配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-%E6%8A%8Aconda%E9%9B%86%E6%88%90%E5%88%B0zsh%E7%BB%88%E7%AB%AF%E4%B8%AD"><span class="nav-text">2.1 把conda集成到zsh终端中</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-1-%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4"><span class="nav-text">2.1.1 详细步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-2-%E9%AA%8C%E8%AF%81"><span class="nav-text">2.1.2 验证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-3-%E4%B8%80%E6%AD%A5%E5%88%B0%E4%BD%8D%E6%93%8D%E4%BD%9C"><span class="nav-text">2.1.3 一步到位操作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB"><span class="nav-text">2.2 问题汇总</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-1-OpenSSL-%E9%97%AE%E9%A2%98"><span class="nav-text">2.2.1  OpenSSL 问题</span></a></li></ol></li></ol></li></ol>
 
 	</div>
 </div>
@@ -784,11 +797,11 @@
                 
                 <p class="post-count space-x-0.5">
                     <span>
-                        59 posts in total
+                        60 posts in total
                     </span>
                     
                         <span>
-                            51.8k words in total
+                            53.1k words in total
                         </span>
                     
                 </p>
