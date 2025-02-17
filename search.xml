@@ -425,6 +425,27 @@
       </tags>
   </entry>
   <entry>
+    <title>Python 爬虫教程 03</title>
+    <url>/2024/10/17/03Python%E7%88%AC%E8%99%AB/</url>
+    <content><![CDATA[<h1 id="1-无请求头访问"><a href="#1-无请求头访问" class="headerlink" title="1.无请求头访问"></a>1.无请求头访问</h1><p>如果不构建请求头，直接向目标网站发送请求：</p>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;https://spiderbuf.cn/playground/s02&quot;</span></span><br><span class="line"></span><br><span class="line">html = requests.get(url=url).text</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/02course/02.html&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">f.write(html)</span><br><span class="line">f.close()</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(html)</span><br><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/02course/data02.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    tds = tr.xpath(<span class="string">&#x27;./td&#x27;</span>)</span><br><span class="line">    s = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> td <span class="keyword">in</span> tds:</span><br><span class="line">        <span class="comment"># print(td.text)</span></span><br><span class="line">        s = s + <span class="built_in">str</span>(td.text) + <span class="string">&#x27; | &#x27;</span></span><br><span class="line">    <span class="built_in">print</span>(s)</span><br><span class="line">    <span class="keyword">if</span> s!= <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        f.write(s + <span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
+
+<p>输出结果：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">&lt;!DOCTYPE HTML PUBLIC &quot;-//IETF//DTD HTML 2.0//EN&quot;&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;&lt;title&gt;403 Forbidden&lt;/title&gt;&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;center&gt;&lt;h1&gt;403 Forbidden&lt;/h1&gt;&lt;/center&gt;</span><br><span class="line">&lt;hr&gt;&lt;center&gt;tengine&lt;/center&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></div>
+<p>很容易被网站检测到是爬虫。</p>
+<h1 id="2-添加请求头"><a href="#2-添加请求头" class="headerlink" title="2.添加请求头"></a>2.添加请求头</h1><p>所以基本上在发送请求之前都会封装一个<code>http</code>请求的头部信息：</p>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">html = requests.get(url=url, headers=headers).text</span><br></pre></td></tr></table></figure></div>
+
+<p>有时候还需要往里面填入<code>Cookie</code>。甚至为了防止被检测到是爬虫，需要更换<code>User-Agent</code>，比如用火狐浏览器的等，或者浏览器不同版本的，这在网上可以查询到。</p>
+]]></content>
+      <categories>
+        <category>Python爬虫</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Python 爬虫教程 04</title>
     <url>/2024/10/17/04Python%E7%88%AC%E8%99%AB/</url>
     <content><![CDATA[<h1 id="1-测试案例"><a href="#1-测试案例" class="headerlink" title="1.测试案例"></a>1.测试案例</h1><div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;https://spiderbuf.cn/playground/s03&quot;</span></span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">html = requests.get(url=url, headers=headers).text</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/03course/03.html&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">f.write(html)</span><br><span class="line">f.close()</span><br><span class="line"></span><br><span class="line"><span class="comment"># print(html)</span></span><br><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/03course/data03.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    tds = tr.xpath(<span class="string">&#x27;./td&#x27;</span>)</span><br><span class="line">    s = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> td <span class="keyword">in</span> tds:</span><br><span class="line">        s = s + <span class="built_in">str</span>(td.text) + <span class="string">&#x27; | &#x27;</span></span><br><span class="line">    <span class="built_in">print</span>(s)</span><br><span class="line">    <span class="keyword">if</span> s!= <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        f.write(s + <span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
@@ -477,27 +498,6 @@
 <div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">共5页</span><br><span class="line">[&#x27;5&#x27;]</span><br></pre></td></tr></table></figure></div>
 
 <p>感觉这个方法并不怎么实用，因为这种情况的话是能直接在网页看到有多少页的，再解析就是多此一举了。提这个也只是为了引出正则表达式，关于正则表达式的教程，可以结合 AI 来学习。</p>
-]]></content>
-      <categories>
-        <category>Python爬虫</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Python 爬虫教程 03</title>
-    <url>/2024/10/17/03Python%E7%88%AC%E8%99%AB/</url>
-    <content><![CDATA[<h1 id="1-无请求头访问"><a href="#1-无请求头访问" class="headerlink" title="1.无请求头访问"></a>1.无请求头访问</h1><p>如果不构建请求头，直接向目标网站发送请求：</p>
-<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;https://spiderbuf.cn/playground/s02&quot;</span></span><br><span class="line"></span><br><span class="line">html = requests.get(url=url).text</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/02course/02.html&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">f.write(html)</span><br><span class="line">f.close()</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(html)</span><br><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/02course/data02.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    tds = tr.xpath(<span class="string">&#x27;./td&#x27;</span>)</span><br><span class="line">    s = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> td <span class="keyword">in</span> tds:</span><br><span class="line">        <span class="comment"># print(td.text)</span></span><br><span class="line">        s = s + <span class="built_in">str</span>(td.text) + <span class="string">&#x27; | &#x27;</span></span><br><span class="line">    <span class="built_in">print</span>(s)</span><br><span class="line">    <span class="keyword">if</span> s!= <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        f.write(s + <span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
-
-<p>输出结果：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">&lt;!DOCTYPE HTML PUBLIC &quot;-//IETF//DTD HTML 2.0//EN&quot;&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;&lt;title&gt;403 Forbidden&lt;/title&gt;&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;center&gt;&lt;h1&gt;403 Forbidden&lt;/h1&gt;&lt;/center&gt;</span><br><span class="line">&lt;hr&gt;&lt;center&gt;tengine&lt;/center&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></div>
-<p>很容易被网站检测到是爬虫。</p>
-<h1 id="2-添加请求头"><a href="#2-添加请求头" class="headerlink" title="2.添加请求头"></a>2.添加请求头</h1><p>所以基本上在发送请求之前都会封装一个<code>http</code>请求的头部信息：</p>
-<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">html = requests.get(url=url, headers=headers).text</span><br></pre></td></tr></table></figure></div>
-
-<p>有时候还需要往里面填入<code>Cookie</code>。甚至为了防止被检测到是爬虫，需要更换<code>User-Agent</code>，比如用火狐浏览器的等，或者浏览器不同版本的，这在网上可以查询到。</p>
 ]]></content>
       <categories>
         <category>Python爬虫</category>
@@ -942,74 +942,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Dockerfile 教程</title>
-    <url>/2024/09/03/Dockerfile%E6%95%99%E7%A8%8B/</url>
-    <content><![CDATA[<h1 id="1-代理配置"><a href="#1-代理配置" class="headerlink" title="1.代理配置"></a>1.代理配置</h1><p>有时侯在构建镜像时，需要执行一些下载操作，没有配置国内镜像源的话，下载速度可能会很慢甚至出错，所以需要在 Dockerfile 中配置代理。</p>
-<p>在 Dockerfile 中加上：</p>
-<div class="code-container" data-rel="Dockerfile"><figure class="iseeu highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="keyword">ENV</span> http_proxy=http://your-proxy-address:port/</span><br><span class="line"><span class="keyword">ENV</span> https_proxy=http://your-proxy-address:port/</span><br></pre></td></tr></table></figure></div>
-
-<p><code>http_proxy</code>和<code>https_proxy</code>：这两个环境变量分别用于<code>HTTP</code>和<code>HTTPS</code>的代理服务器地址。你需要将<code>your-proxy-address:port</code>替换为宿主机在当前网络下的 IP 地址和代理端口。注意这里是宿主机的实际<code>IP</code>地址，不是本地回环（<code>loop</code>）地址。同过<code>ifconfig</code>或者<code>ip a</code>查看。</p>
-<p>这属于是 docker 的环境变量设置，环境变量通常不会自动写入容器中的配置文件，如<code>.bashrc</code>或<code>/etc/environment</code>，但它们会在容器启动时自动加载。</p>
-]]></content>
-      <tags>
-        <tag>docker</tag>
-        <tag>proxy</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Docker 搭建深度学习环境</title>
-    <url>/2024/09/09/Docker%E6%90%AD%E5%BB%BADL%E7%8E%AF%E5%A2%83/</url>
-    <content><![CDATA[<h1 id="1-安裝NVIDIA-Container-Toolkit套件"><a href="#1-安裝NVIDIA-Container-Toolkit套件" class="headerlink" title="1.安裝NVIDIA Container Toolkit套件"></a>1.安裝NVIDIA Container Toolkit套件</h1><p>对于 Arch 系发行版，可以直接通过下面指令安装：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S nvidia-container-toolkit</span><br></pre></td></tr></table></figure></div>
-
-<p>然后新增设定：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">mkdir</span> /etc/docker</span><br><span class="line"><span class="built_in">sudo</span> nano /etc/docker/daemon.json</span><br></pre></td></tr></table></figure></div>
-
-<p>添加：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;runtimes&quot;: &#123;</span><br><span class="line">        &quot;nvidia&quot;: &#123;</span><br><span class="line">            &quot;path&quot;: &quot;nvidia-container-runtime&quot;,</span><br><span class="line">            &quot;runtimeArgs&quot;: []</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
-
-<p>重启 Docker ：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl restart docker</span><br></pre></td></tr></table></figure></div>
-
-<p>拉取CUDA 12.1版本的镜像测试：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> docker run --<span class="built_in">rm</span> --gpus all nvidia/cuda:12.1.0-base-ubuntu20.04 nvidia-smi</span><br></pre></td></tr></table></figure></div>
-<p>检查是否能在容器中运行<code>nvidia-smi</code>：<br><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://ivonblog.com/posts/archlinux-install-nvidia-drivers/images/Screenshot_20231226_160611.webp"
-                      alt="nvidia-smi"
-                ><figcaption>nvidia-smi</figcaption></figure></p>
-<h1 id="2-各个-CUDA-tag的区别"><a href="#2-各个-CUDA-tag的区别" class="headerlink" title="2.各个 CUDA tag的区别"></a>2.各个 CUDA <code>tag</code>的区别</h1><p>其它 CUDA 镜像可以通过在 DockerHub 找到：<a class="link"   href="https://hub.docker.com/r/nvidia/cuda" >nvidia&#x2F;cuda<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
-<ol>
-<li><strong>Base</strong> : Includes only the CUDA runtime (cudart), which is essential for running CUDA-based applications but doesn’t come with extra libraries or development tools.</li>
-<li><strong>Runtime</strong> : Builds on the <code>base</code> image and adds CUDA math libraries like cuBLAS, cuFFT, and cuRAND. This version is suitable for running applications that require these additional libraries without needing to compile CUDA code.</li>
-<li><strong>Devel</strong> : Builds on the <code>runtime</code> image and includes all the necessary headers and development tools like <code>nvcc</code> for compiling and building CUDA applications. This is useful for developers building or extending CUDA applications.</li>
-<li><strong>CUDNN&#x2F;Devel Runtime</strong> : Adds cuDNN libraries to the runtime or devel image for working with deep learning applications.</li>
-</ol>
-<p>Different versions also support various operating systems like Ubuntu 20.04, 22.04, or 24.04. The <code>devel</code> tags are especially useful when you need to compile custom CUDA code, whereas the <code>runtime</code> tags are lighter and designed for deployment【76†source】【77†source】.</p>
-<h1 id="3-搭建-PyTorch"><a href="#3-搭建-PyTorch" class="headerlink" title="3.搭建 PyTorch"></a>3.搭建 PyTorch</h1><p>根据需要拉取<code>PyTorch</code>镜像：<a class="link"   href="https://hub.docker.com/r/pytorch/pytorch" >pytorch&#x2F;pytorch<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
-<p>我这里以最新版为例：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker pull pytorch/pytorch</span><br></pre></td></tr></table></figure></div>
-
-<p>可以先查看下镜像内容（比如端口、挂载点）：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker inspect pytorch/pytorch:latest</span><br></pre></td></tr></table></figure></div>
-<p>这个镜像的默认挂载点是<code>/workspace</code>。</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -it --name=pytorch -v ~/workspace:/workspace -p 8888:8888 pytorch/pytorch:latest</span><br></pre></td></tr></table></figure></div>
-<p>这里映射的端口是<code>jupyter</code>的。需要在容器里手动安装<code>jupyter</code>。</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">conda install jupyter</span><br></pre></td></tr></table></figure></div>
-
-<p>运行<code>jupyter</code>：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">jupyter lab --ip=0.0.0.0 --no-browser --allow-root</span><br></pre></td></tr></table></figure></div>
-<p>启动<code>Jupyter Lab</code>时，默认情况下它只绑定到<code>localhost</code>，并不会对外开放。所以你需要明确绑定<code>0.0.0.0</code>，以便它能从容器外部访问。</p>
-]]></content>
-      <categories>
-        <category>深度学习</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Openwrt 在 Docker 下运行并作为旁路由</title>
     <url>/2024/07/30/Docker-Openwrt/</url>
     <content><![CDATA[<h1 id="1-前言"><a href="#1-前言" class="headerlink" title="1.前言"></a>1.前言</h1><p>这几天想试着玩一下<code>Openwrt</code>来作旁路由，但是又没有软路由固件，后来考虑到<code>Openwrt</code>也是基于 Linux 的，那么在 Docker Hub 上应该有其对应的镜像吧，然后查了下果真有。于是有了后续的操作 … …</p>
@@ -1283,6 +1215,74 @@
         <tag>proxy</tag>
         <tag>openwrt</tag>
         <tag>虚拟机</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Dockerfile 教程</title>
+    <url>/2024/09/03/Dockerfile%E6%95%99%E7%A8%8B/</url>
+    <content><![CDATA[<h1 id="1-代理配置"><a href="#1-代理配置" class="headerlink" title="1.代理配置"></a>1.代理配置</h1><p>有时侯在构建镜像时，需要执行一些下载操作，没有配置国内镜像源的话，下载速度可能会很慢甚至出错，所以需要在 Dockerfile 中配置代理。</p>
+<p>在 Dockerfile 中加上：</p>
+<div class="code-container" data-rel="Dockerfile"><figure class="iseeu highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="keyword">ENV</span> http_proxy=http://your-proxy-address:port/</span><br><span class="line"><span class="keyword">ENV</span> https_proxy=http://your-proxy-address:port/</span><br></pre></td></tr></table></figure></div>
+
+<p><code>http_proxy</code>和<code>https_proxy</code>：这两个环境变量分别用于<code>HTTP</code>和<code>HTTPS</code>的代理服务器地址。你需要将<code>your-proxy-address:port</code>替换为宿主机在当前网络下的 IP 地址和代理端口。注意这里是宿主机的实际<code>IP</code>地址，不是本地回环（<code>loop</code>）地址。同过<code>ifconfig</code>或者<code>ip a</code>查看。</p>
+<p>这属于是 docker 的环境变量设置，环境变量通常不会自动写入容器中的配置文件，如<code>.bashrc</code>或<code>/etc/environment</code>，但它们会在容器启动时自动加载。</p>
+]]></content>
+      <tags>
+        <tag>docker</tag>
+        <tag>proxy</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Docker 搭建深度学习环境</title>
+    <url>/2024/09/09/Docker%E6%90%AD%E5%BB%BADL%E7%8E%AF%E5%A2%83/</url>
+    <content><![CDATA[<h1 id="1-安裝NVIDIA-Container-Toolkit套件"><a href="#1-安裝NVIDIA-Container-Toolkit套件" class="headerlink" title="1.安裝NVIDIA Container Toolkit套件"></a>1.安裝NVIDIA Container Toolkit套件</h1><p>对于 Arch 系发行版，可以直接通过下面指令安装：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S nvidia-container-toolkit</span><br></pre></td></tr></table></figure></div>
+
+<p>然后新增设定：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">mkdir</span> /etc/docker</span><br><span class="line"><span class="built_in">sudo</span> nano /etc/docker/daemon.json</span><br></pre></td></tr></table></figure></div>
+
+<p>添加：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;runtimes&quot;: &#123;</span><br><span class="line">        &quot;nvidia&quot;: &#123;</span><br><span class="line">            &quot;path&quot;: &quot;nvidia-container-runtime&quot;,</span><br><span class="line">            &quot;runtimeArgs&quot;: []</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<p>重启 Docker ：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl restart docker</span><br></pre></td></tr></table></figure></div>
+
+<p>拉取CUDA 12.1版本的镜像测试：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> docker run --<span class="built_in">rm</span> --gpus all nvidia/cuda:12.1.0-base-ubuntu20.04 nvidia-smi</span><br></pre></td></tr></table></figure></div>
+<p>检查是否能在容器中运行<code>nvidia-smi</code>：<br><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://ivonblog.com/posts/archlinux-install-nvidia-drivers/images/Screenshot_20231226_160611.webp"
+                      alt="nvidia-smi"
+                ><figcaption>nvidia-smi</figcaption></figure></p>
+<h1 id="2-各个-CUDA-tag的区别"><a href="#2-各个-CUDA-tag的区别" class="headerlink" title="2.各个 CUDA tag的区别"></a>2.各个 CUDA <code>tag</code>的区别</h1><p>其它 CUDA 镜像可以通过在 DockerHub 找到：<a class="link"   href="https://hub.docker.com/r/nvidia/cuda" >nvidia&#x2F;cuda<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<ol>
+<li><strong>Base</strong> : Includes only the CUDA runtime (cudart), which is essential for running CUDA-based applications but doesn’t come with extra libraries or development tools.</li>
+<li><strong>Runtime</strong> : Builds on the <code>base</code> image and adds CUDA math libraries like cuBLAS, cuFFT, and cuRAND. This version is suitable for running applications that require these additional libraries without needing to compile CUDA code.</li>
+<li><strong>Devel</strong> : Builds on the <code>runtime</code> image and includes all the necessary headers and development tools like <code>nvcc</code> for compiling and building CUDA applications. This is useful for developers building or extending CUDA applications.</li>
+<li><strong>CUDNN&#x2F;Devel Runtime</strong> : Adds cuDNN libraries to the runtime or devel image for working with deep learning applications.</li>
+</ol>
+<p>Different versions also support various operating systems like Ubuntu 20.04, 22.04, or 24.04. The <code>devel</code> tags are especially useful when you need to compile custom CUDA code, whereas the <code>runtime</code> tags are lighter and designed for deployment【76†source】【77†source】.</p>
+<h1 id="3-搭建-PyTorch"><a href="#3-搭建-PyTorch" class="headerlink" title="3.搭建 PyTorch"></a>3.搭建 PyTorch</h1><p>根据需要拉取<code>PyTorch</code>镜像：<a class="link"   href="https://hub.docker.com/r/pytorch/pytorch" >pytorch&#x2F;pytorch<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<p>我这里以最新版为例：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker pull pytorch/pytorch</span><br></pre></td></tr></table></figure></div>
+
+<p>可以先查看下镜像内容（比如端口、挂载点）：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker inspect pytorch/pytorch:latest</span><br></pre></td></tr></table></figure></div>
+<p>这个镜像的默认挂载点是<code>/workspace</code>。</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -it --name=pytorch -v ~/workspace:/workspace -p 8888:8888 pytorch/pytorch:latest</span><br></pre></td></tr></table></figure></div>
+<p>这里映射的端口是<code>jupyter</code>的。需要在容器里手动安装<code>jupyter</code>。</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">conda install jupyter</span><br></pre></td></tr></table></figure></div>
+
+<p>运行<code>jupyter</code>：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">jupyter lab --ip=0.0.0.0 --no-browser --allow-root</span><br></pre></td></tr></table></figure></div>
+<p>启动<code>Jupyter Lab</code>时，默认情况下它只绑定到<code>localhost</code>，并不会对外开放。所以你需要明确绑定<code>0.0.0.0</code>，以便它能从容器外部访问。</p>
+]]></content>
+      <categories>
+        <category>深度学习</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -2792,30 +2792,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Proxy Settings</title>
-    <url>/2024/07/19/Proxy-Settings/</url>
-    <content><![CDATA[<h1 id="一、代理软件配置"><a href="#一、代理软件配置" class="headerlink" title="一、代理软件配置"></a>一、代理软件配置</h1><h2 id="1-1-speedTest"><a href="#1-1-speedTest" class="headerlink" title="1.1 speedTest"></a>1.1 speedTest</h2><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 日本</span></span><br><span class="line">https://185-140-53-2.lg.looking.house/1000.mb</span><br><span class="line"><span class="comment"># 新加坡</span></span><br><span class="line">https://23-27-101-2.lg.looking.house/100.mb</span><br><span class="line"></span><br><span class="line">https://speed.cloudflare.com/__down?bytes=10000000</span><br><span class="line">https://speed.cloudflare.com/__down?bytes=50000000</span><br><span class="line">https://speed.cloudflare.com/__down?bytes=100000000</span><br><span class="line">https://speed.cloudflare.com/__down?bytes=200000000</span><br><span class="line"></span><br><span class="line"><span class="comment"># 老版测速</span></span><br><span class="line">http://cachefly.cachefly.net/10mb.<span class="built_in">test</span></span><br><span class="line">http://cachefly.cachefly.net/50mb.<span class="built_in">test</span></span><br><span class="line">http://cachefly.cachefly.net/100mb.<span class="built_in">test</span></span><br></pre></td></tr></table></figure></div>
-
-<h2 id="1-2-speedurl"><a href="#1-2-speedurl" class="headerlink" title="1.2 speedurl"></a>1.2 speedurl</h2><div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://www.google.com/generate_204</span><br><span class="line"></span><br><span class="line">http://cp.cloudflare.com/</span><br><span class="line"></span><br><span class="line">http://connectivitycheck.gstatic.com/generate_204</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="1-3-DNS选项"><a href="#1-3-DNS选项" class="headerlink" title="1.3 DNS选项"></a>1.3 DNS选项</h2><ul>
-<li><strong>远程DNS</strong></li>
-</ul>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">udp://1.1.1.1</span><br><span class="line"></span><br><span class="line">https://dns.google/dns-query</span><br></pre></td></tr></table></figure></div>
-
-<ul>
-<li><strong>直连DNS</strong></li>
-</ul>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">114.114.114.114</span><br><span class="line"></span><br><span class="line">https://doh.pub/dns-query</span><br></pre></td></tr></table></figure></div>
-]]></content>
-      <categories>
-        <category>科学上网</category>
-      </categories>
-      <tags>
-        <tag>proxy</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Python 下的多进程和多线程编程</title>
     <url>/2024/09/16/Python-%E5%A4%9A%E8%BF%9B%E7%A8%8B%E5%92%8C%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B/</url>
     <content><![CDATA[<h1 id="1-多进程"><a href="#1-多进程" class="headerlink" title="1.多进程"></a>1.多进程</h1><h2 id="1-1-使用多进程完成任务"><a href="#1-1-使用多进程完成任务" class="headerlink" title="1. 1 使用多进程完成任务"></a>1. 1 使用多进程完成任务</h2><p>用到的包：<code>multiprocessing</code>，以下面的代码为例：</p>
@@ -2971,6 +2947,30 @@
       </categories>
       <tags>
         <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Proxy Settings</title>
+    <url>/2024/07/19/Proxy-Settings/</url>
+    <content><![CDATA[<h1 id="一、代理软件配置"><a href="#一、代理软件配置" class="headerlink" title="一、代理软件配置"></a>一、代理软件配置</h1><h2 id="1-1-speedTest"><a href="#1-1-speedTest" class="headerlink" title="1.1 speedTest"></a>1.1 speedTest</h2><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 日本</span></span><br><span class="line">https://185-140-53-2.lg.looking.house/1000.mb</span><br><span class="line"><span class="comment"># 新加坡</span></span><br><span class="line">https://23-27-101-2.lg.looking.house/100.mb</span><br><span class="line"></span><br><span class="line">https://speed.cloudflare.com/__down?bytes=10000000</span><br><span class="line">https://speed.cloudflare.com/__down?bytes=50000000</span><br><span class="line">https://speed.cloudflare.com/__down?bytes=100000000</span><br><span class="line">https://speed.cloudflare.com/__down?bytes=200000000</span><br><span class="line"></span><br><span class="line"><span class="comment"># 老版测速</span></span><br><span class="line">http://cachefly.cachefly.net/10mb.<span class="built_in">test</span></span><br><span class="line">http://cachefly.cachefly.net/50mb.<span class="built_in">test</span></span><br><span class="line">http://cachefly.cachefly.net/100mb.<span class="built_in">test</span></span><br></pre></td></tr></table></figure></div>
+
+<h2 id="1-2-speedurl"><a href="#1-2-speedurl" class="headerlink" title="1.2 speedurl"></a>1.2 speedurl</h2><div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://www.google.com/generate_204</span><br><span class="line"></span><br><span class="line">http://cp.cloudflare.com/</span><br><span class="line"></span><br><span class="line">http://connectivitycheck.gstatic.com/generate_204</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="1-3-DNS选项"><a href="#1-3-DNS选项" class="headerlink" title="1.3 DNS选项"></a>1.3 DNS选项</h2><ul>
+<li><strong>远程DNS</strong></li>
+</ul>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">udp://1.1.1.1</span><br><span class="line"></span><br><span class="line">https://dns.google/dns-query</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li><strong>直连DNS</strong></li>
+</ul>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">114.114.114.114</span><br><span class="line"></span><br><span class="line">https://doh.pub/dns-query</span><br></pre></td></tr></table></figure></div>
+]]></content>
+      <categories>
+        <category>科学上网</category>
+      </categories>
+      <tags>
+        <tag>proxy</tag>
       </tags>
   </entry>
   <entry>
@@ -4380,7 +4380,19 @@
 
 <p>好像可以添加<code>exec startplasma-wayland</code>来使得启动的会话窗口是<code>wayland</code>，但是没成功。</p>
 <p>然后启动<code>plasma</code>：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">startx</span><br></pre></td></tr></table></figure></div>]]></content>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">startx</span><br></pre></td></tr></table></figure></div>
+
+<h1 id="3-卸载多余的图标和鼠标"><a href="#3-卸载多余的图标和鼠标" class="headerlink" title="3.卸载多余的图标和鼠标"></a>3.卸载多余的图标和鼠标</h1><p>使用下面的指令可以列出已安装的图标：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -Q | grep icon</span><br></pre></td></tr></table></figure></div>
+
+<p>比如输出是：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">breeze-icons 5.24.5-1</span><br><span class="line">papirus-icon-theme 20211029-1</span><br><span class="line">hicolor-icon-theme 0.17-2</span><br></pre></td></tr></table></figure></div>
+
+<p>使用下面的指令可以列出已安装的鼠标主题：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -Q | grep cursor</span><br></pre></td></tr></table></figure></div>
+
+<p>比如输出：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">breeze-cursor-theme 5.24.5-1</span><br><span class="line">xcursor-breeze 1.0.3-1</span><br><span class="line">adwaita-icon-theme 3.38.0-1</span><br></pre></td></tr></table></figure></div>]]></content>
       <tags>
         <tag>linux</tag>
       </tags>
@@ -4408,6 +4420,38 @@
 ]]></content>
       <tags>
         <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>搭建代理池</title>
+    <url>/2024/10/17/%E6%90%AD%E5%BB%BA%E4%BB%A3%E7%90%86%E6%B1%A0/</url>
+    <content><![CDATA[<h1 id="1-开源项目地址"><a href="#1-开源项目地址" class="headerlink" title="1.开源项目地址"></a>1.开源项目地址</h1><p><a class="link"   href="https://github.com/jhao104/proxy_pool" >jhao104&#x2F;proxy_pool<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h1 id="2-搭建教程"><a href="#2-搭建教程" class="headerlink" title="2.搭建教程"></a>2.搭建教程</h1><h2 id="2-1-通过-docker-搭建"><a href="#2-1-通过-docker-搭建" class="headerlink" title="2.1 通过 docker 搭建"></a>2.1 通过 docker 搭建</h2><p>默认情况下，Docker 容器彼此无法通过<code>localhost</code>访问，需要通过容器的网络名称（桥接网络：<code>bridge</code>）进行通信。因此可以将<code>proxy_pool</code>和<code>redis</code>放在同一个 Docker 网络中。</p>
+<p><strong>创建网络：</strong></p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker network create mynetwork</span><br></pre></td></tr></table></figure></div>
+
+<p><strong>运行 Redis 容器并加入网络：</strong></p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -d --name redis --network=mynetwork -p 6379:6379 redis:latest</span><br></pre></td></tr></table></figure></div>
+
+<p><strong>运行<code>proxy_pool</code>容器并连接 Redis：</strong></p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -d --name proxy_pool --network=mynetwork --<span class="built_in">env</span> DB_CONN=redis://redis:6379/0 -p 5010:5010 jhao104/proxy_pool:latest</span><br></pre></td></tr></table></figure></div>
+
+<p><strong>查看日志信息：</strong></p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker logs proxy_pool</span><br></pre></td></tr></table></figure></div>
+
+<p>这是很就能看到获得的代理地址和端口。如下面所示：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 39.175.75.144:30001     ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 8.221.141.88:8443       ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 47.109.83.196:8080      ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 185.49.31.205:8080      ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 72.10.160.171:11319     ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 102.213.146.206:8080    ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 79.110.202.131:8081     ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 178.130.40.231:8080     ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 188.166.56.246:80       ok</span><br></pre></td></tr></table></figure></div>
+
+<h1 id="3-使用教程"><a href="#3-使用教程" class="headerlink" title="3.使用教程"></a>3.使用教程</h1><p>代码示例：</p>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_proxy</span>():</span><br><span class="line">    <span class="keyword">return</span> requests.get(<span class="string">&quot;http://127.0.0.1:5010/get/&quot;</span>).json()</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">delete_proxy</span>(<span class="params">proxy</span>):</span><br><span class="line">    requests.get(<span class="string">&quot;http://127.0.0.1:5010/delete/?proxy=&#123;&#125;&quot;</span>.<span class="built_in">format</span>(proxy))</span><br><span class="line"></span><br><span class="line"><span class="comment"># your spider code</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">getHtml</span>(<span class="params">url, headers</span>):</span><br><span class="line">    retry_count = <span class="number">15</span></span><br><span class="line">    <span class="keyword">while</span> retry_count &gt; <span class="number">0</span>:</span><br><span class="line">        proxy = get_proxy().get(<span class="string">&quot;proxy&quot;</span>)</span><br><span class="line">        proxies = &#123;</span><br><span class="line">            <span class="string">&quot;http&quot;</span>: <span class="string">&quot;http://&quot;</span> + proxy,</span><br><span class="line">            <span class="string">&quot;https&quot;</span>: <span class="string">&quot;http://&quot;</span> + proxy</span><br><span class="line">            &#125;</span><br><span class="line">        <span class="built_in">print</span>(get_proxy().get(<span class="string">&quot;proxy&quot;</span>))</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="comment"># 使用代理访问</span></span><br><span class="line">            html = requests.get(url=url, headers=headers, proxies=proxies, timeout=<span class="number">5</span>)</span><br><span class="line">            <span class="keyword">return</span> html.text</span><br><span class="line">        <span class="keyword">except</span> Exception:</span><br><span class="line">            retry_count -= <span class="number">1</span></span><br><span class="line">            <span class="comment"># 删除代理池中代理</span></span><br><span class="line">            delete_proxy(proxy)</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;https://wuhan.anjuke.com/sale/p1/?from=esf_list&quot;</span></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36&quot;</span>,</span><br><span class="line">    <span class="string">&quot;Cookie&quot;</span>:  <span class="string">&quot;your-cookie&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">html_data = getHtml(url, headers)</span><br><span class="line"><span class="built_in">print</span>(html_data)</span><br></pre></td></tr></table></figure></div>
+<p><code>getHtml</code>函数中，会通过<code>while</code>循环来切换代理<code>ip</code>和<code>port</code>，直到请求成功，然后返回出结果并退出循环。</p>
+]]></content>
+      <categories>
+        <category>Python技巧</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -4448,38 +4492,6 @@
       <tags>
         <tag>c++</tag>
         <tag>递归</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>搭建代理池</title>
-    <url>/2024/10/17/%E6%90%AD%E5%BB%BA%E4%BB%A3%E7%90%86%E6%B1%A0/</url>
-    <content><![CDATA[<h1 id="1-开源项目地址"><a href="#1-开源项目地址" class="headerlink" title="1.开源项目地址"></a>1.开源项目地址</h1><p><a class="link"   href="https://github.com/jhao104/proxy_pool" >jhao104&#x2F;proxy_pool<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
-<h1 id="2-搭建教程"><a href="#2-搭建教程" class="headerlink" title="2.搭建教程"></a>2.搭建教程</h1><h2 id="2-1-通过-docker-搭建"><a href="#2-1-通过-docker-搭建" class="headerlink" title="2.1 通过 docker 搭建"></a>2.1 通过 docker 搭建</h2><p>默认情况下，Docker 容器彼此无法通过<code>localhost</code>访问，需要通过容器的网络名称（桥接网络：<code>bridge</code>）进行通信。因此可以将<code>proxy_pool</code>和<code>redis</code>放在同一个 Docker 网络中。</p>
-<p><strong>创建网络：</strong></p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker network create mynetwork</span><br></pre></td></tr></table></figure></div>
-
-<p><strong>运行 Redis 容器并加入网络：</strong></p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -d --name redis --network=mynetwork -p 6379:6379 redis:latest</span><br></pre></td></tr></table></figure></div>
-
-<p><strong>运行<code>proxy_pool</code>容器并连接 Redis：</strong></p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -d --name proxy_pool --network=mynetwork --<span class="built_in">env</span> DB_CONN=redis://redis:6379/0 -p 5010:5010 jhao104/proxy_pool:latest</span><br></pre></td></tr></table></figure></div>
-
-<p><strong>查看日志信息：</strong></p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker logs proxy_pool</span><br></pre></td></tr></table></figure></div>
-
-<p>这是很就能看到获得的代理地址和端口。如下面所示：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 39.175.75.144:30001     ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 8.221.141.88:8443       ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 47.109.83.196:8080      ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 185.49.31.205:8080      ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 72.10.160.171:11319     ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 102.213.146.206:8080    ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 79.110.202.131:8081     ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 178.130.40.231:8080     ok</span><br><span class="line">2024-10-17 21:03:11,533 fetch.py[line:39] INFO ProxyFetch - freeProxy11: 188.166.56.246:80       ok</span><br></pre></td></tr></table></figure></div>
-
-<h1 id="3-使用教程"><a href="#3-使用教程" class="headerlink" title="3.使用教程"></a>3.使用教程</h1><p>代码示例：</p>
-<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_proxy</span>():</span><br><span class="line">    <span class="keyword">return</span> requests.get(<span class="string">&quot;http://127.0.0.1:5010/get/&quot;</span>).json()</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">delete_proxy</span>(<span class="params">proxy</span>):</span><br><span class="line">    requests.get(<span class="string">&quot;http://127.0.0.1:5010/delete/?proxy=&#123;&#125;&quot;</span>.<span class="built_in">format</span>(proxy))</span><br><span class="line"></span><br><span class="line"><span class="comment"># your spider code</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">getHtml</span>(<span class="params">url, headers</span>):</span><br><span class="line">    retry_count = <span class="number">15</span></span><br><span class="line">    <span class="keyword">while</span> retry_count &gt; <span class="number">0</span>:</span><br><span class="line">        proxy = get_proxy().get(<span class="string">&quot;proxy&quot;</span>)</span><br><span class="line">        proxies = &#123;</span><br><span class="line">            <span class="string">&quot;http&quot;</span>: <span class="string">&quot;http://&quot;</span> + proxy,</span><br><span class="line">            <span class="string">&quot;https&quot;</span>: <span class="string">&quot;http://&quot;</span> + proxy</span><br><span class="line">            &#125;</span><br><span class="line">        <span class="built_in">print</span>(get_proxy().get(<span class="string">&quot;proxy&quot;</span>))</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="comment"># 使用代理访问</span></span><br><span class="line">            html = requests.get(url=url, headers=headers, proxies=proxies, timeout=<span class="number">5</span>)</span><br><span class="line">            <span class="keyword">return</span> html.text</span><br><span class="line">        <span class="keyword">except</span> Exception:</span><br><span class="line">            retry_count -= <span class="number">1</span></span><br><span class="line">            <span class="comment"># 删除代理池中代理</span></span><br><span class="line">            delete_proxy(proxy)</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;https://wuhan.anjuke.com/sale/p1/?from=esf_list&quot;</span></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36&quot;</span>,</span><br><span class="line">    <span class="string">&quot;Cookie&quot;</span>:  <span class="string">&quot;your-cookie&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">html_data = getHtml(url, headers)</span><br><span class="line"><span class="built_in">print</span>(html_data)</span><br></pre></td></tr></table></figure></div>
-<p><code>getHtml</code>函数中，会通过<code>while</code>循环来切换代理<code>ip</code>和<code>port</code>，直到请求成功，然后返回出结果并退出循环。</p>
-]]></content>
-      <categories>
-        <category>Python技巧</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
