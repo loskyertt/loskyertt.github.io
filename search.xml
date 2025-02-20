@@ -1925,6 +1925,119 @@
       </tags>
   </entry>
   <entry>
+    <title>Linux 环境下配置 Docker</title>
+    <url>/2024/07/20/Linux-Docker/</url>
+    <content><![CDATA[<h1 id="1、Docker-配置"><a href="#1、Docker-配置" class="headerlink" title="1、Docker 配置"></a>1、Docker 配置</h1><h2 id="1-1-安装-Docker"><a href="#1-1-安装-Docker" class="headerlink" title="1.1 安装 Docker"></a>1.1 安装 Docker</h2><ul>
+<li><strong>安装方式一（推荐）：</strong></li>
+</ul>
+<p>通过<code>yay</code>直接安装（全局安装）：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">yay -Sy docker docker-compose</span><br></pre></td></tr></table></figure></div>
+<p><code>docker-compose</code>可选安装，它可以通过配置文件<code>Dockerfile</code>来构建镜像。</p>
+<ul>
+<li><strong>安装方式二：</strong></li>
+</ul>
+<p>通过<code>conda</code>安装（局部安装，可全局使用）：</p>
+<p>首先需要创建虚拟环境用于存储安装的<code>docker</code>和<code>docker-compose</code>。</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">conda create --name docker python=3.12</span><br></pre></td></tr></table></figure></div>
+<p>Python版本可自己选择。</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">conda install docker docker-compose -c conda-forge</span><br></pre></td></tr></table></figure></div>
+
+<p>这里的<code>-c conda-forge</code>一定要加，默认的<code>conda.org</code>源没有<code>docker</code>。</p>
+<p>安装好的<code>docker</code>和<code>docker-compose</code>是在该路径下：<br><code>~/.conda/envs/docker/bin/docker</code><br><code>~/.conda/envs/docker/bin/docker-compose</code></p>
+<h2 id="1-2-docker-基本操作"><a href="#1-2-docker-基本操作" class="headerlink" title="1.2 docker 基本操作"></a>1.2 docker 基本操作</h2><h3 id="1-2-1-docker-服务"><a href="#1-2-1-docker-服务" class="headerlink" title="1.2.1 docker 服务"></a>1.2.1 docker 服务</h3><ul>
+<li><p>启动docker服务</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start docker</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>关闭docker服务</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl stop docker.service docker.socket</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>检查<code>docker</code>服务状态</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status docker</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>开机自启动设置</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> --now docker</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<h3 id="1-2-2-添加用户到-docker-组"><a href="#1-2-2-添加用户到-docker-组" class="headerlink" title="1.2.2 添加用户到 docker 组"></a>1.2.2 添加用户到 docker 组</h3><p>为了避免每次运行<code>docker</code>命令时都需要使用 <code>sudo</code>，可以将当前用户添加到 <code>docker</code> 组：</p>
+<div class="code-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> usermod -aG docker <span class="variable">$USER</span></span><br></pre></td></tr></table></figure></div>
+
+<p>然后，重新登录以使更改生效，或者重新加载用户组信息：</p>
+<p>登录：</p>
+<div class="code-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="code"><pre><span class="line">newgrp docker</span><br></pre></td></tr></table></figure></div>
+
+<p>退出：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure></div>
+
+<p>可能需要重启系统来让配置生效。</p>
+<h2 id="1-3-代理配置（一定要配置）"><a href="#1-3-代理配置（一定要配置）" class="headerlink" title="1.3 代理配置（一定要配置）"></a>1.3 代理配置（一定要配置）</h2><p>1.创建<code>docker</code>相关的<code>systemd</code>目录，这个目录下的配置将覆盖<code>docker</code>的默认配置：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">mkdir</span> -p /etc/systemd/system/docker.service.d</span><br></pre></td></tr></table></figure></div>
+
+<p>2.新建配置文件：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">kate /etc/systemd/system/docker.service.d/proxy.conf</span><br></pre></td></tr></table></figure></div>
+
+<p>将以下内容复制到<code>proxy.conf</code>中：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">[Service]</span><br><span class="line">Environment=&quot;HTTP_PROXY=http://127.0.0.1:7890&quot;</span><br><span class="line">Environment=&quot;HTTPS_PROXY=http://127.0.0.1:7890&quot;</span><br></pre></td></tr></table></figure></div>
+
+<p>这里需要根据自己实际的代理端口填写。</p>
+<p>3.如果自己建了私有的镜像仓库，需要<code>docker</code>绕过代理服务器直连，那么配置<code>NO_PROXY</code>变量：</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">[Service]</span><br><span class="line">Environment=&quot;HTTP_PROXY=http://127.0.0.1:7890&quot;</span><br><span class="line">Environment=&quot;HTTPS_PROXY=http://127.0.0.1:7890&quot;</span><br><span class="line">Environment=&quot;NO_PROXY=your-registry.com,10.10.10.10,*.example.com&quot;</span><br></pre></td></tr></table></figure></div>
+
+<p>多个<code>NO_PROXY</code>变量的值用逗号分隔，而且可以使用通配符（*），极端情况下，如果<code>NO_PROXY=*</code>，那么所有请求都将不通过代理服务器。</p>
+<p>4.重新加载配置文件，重启<code>docker</code>：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl daemon-reload</span><br></pre></td></tr></table></figure></div>
+
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl restart docker</span><br></pre></td></tr></table></figure></div>
+
+<p>5.检查确认环境变量已经正确配置：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl show --property=Environment docker</span><br></pre></td></tr></table></figure></div>
+
+<p>像输出以下内容就成功了：</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">Environment=HTTP_PROXY=http://127.0.0.1:7890 HTTPS_PROXY=http://127.0.0.1:7890</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="1-4-命令简化配置"><a href="#1-4-命令简化配置" class="headerlink" title="1.4 命令简化配置"></a>1.4 命令简化配置</h2><p><strong>以下推荐加到.bashrc或者.zshrc中。</strong></p>
+<ol>
+<li>格式化查看容器：<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker ps --format <span class="string">&quot;table &#123;&#123;.ID&#125;&#125;\t&#123;&#123;.Image&#125;&#125;\t&#123;&#123;.Ports&#125;&#125;\t&#123;&#123;.Status&#125;&#125;\t&#123;&#123;.Names&#125;&#125;&quot;</span></span><br></pre></td></tr></table></figure></div></li>
+</ol>
+<p>命令简化：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">alias dps=&#x27;docker ps --format &quot;table &#123;&#123;.ID&#125;&#125;\t&#123;&#123;.Image&#125;&#125;\t&#123;&#123;.Ports&#125;&#125;\t&#123;&#123;.Status&#125;&#125;\t&#123;&#123;.Names&#125;&#125;&quot;&#x27;</span><br></pre></td></tr></table></figure></div>
+
+<ol start="2">
+<li>查看网络配置：<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker inspect --format=<span class="string">&#x27;&#123;&#123;.HostConfig.NetworkMode&#125;&#125;&#x27;</span> &lt;容器名/容器ID&gt;</span><br></pre></td></tr></table></figure></div></li>
+</ol>
+<p>命令简化：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">alias din=&#x27;docker inspect --format=&#x27;&#123;&#123;.HostConfig.NetworkMode&#125;&#125;&#x27;&#x27;</span><br></pre></td></tr></table></figure></div>]]></content>
+      <tags>
+        <tag>linux</tag>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux(EndeavourOS) 下给 Steam 设置代理</title>
+    <url>/2024/07/24/Linux-Steam/</url>
+    <content><![CDATA[<h1 id="1-解决"><a href="#1-解决" class="headerlink" title="1.解决"></a>1.解决</h1><ol>
+<li><p>打开 Steam 大屏模式（ <strong>一定是大屏模式！</strong> ）。<br><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://nyalog.oss-cn-hongkong.aliyuncs.com/NyaLog/articles/Steam%20Linux%20%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/Steam-BigScreen-min.png"
+                      alt="大屏模式"
+                ><figcaption>大屏模式</figcaption></figure></p>
+</li>
+<li><p>然后在设置里进入网络设置界面，然后点开填入自己的代理地址和端口。<br><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://nyalog.oss-cn-hongkong.aliyuncs.com/NyaLog/articles/Steam%20Linux%20%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/Steam-proxy-min.png"
+                      alt="设置界面"
+                ><figcaption>设置界面</figcaption></figure></p>
+</li>
+<li><p>设置成功后退出重启 Steam 即可。</p>
+</li>
+</ol>
+]]></content>
+      <tags>
+        <tag>linux</tag>
+        <tag>steam</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Linux 下 Grub 引导配置教程以及更换内核</title>
     <url>/2024/09/03/Grub%E8%AE%BE%E7%BD%AE/</url>
     <content><![CDATA[<h1 id="1-基本说明"><a href="#1-基本说明" class="headerlink" title="1.基本说明"></a>1.基本说明</h1><p><code>GRUB</code>（GRand Unified Bootloader）的配置文件 是<code>/etc/default/grub</code>，用于配置 GRUB 引导加载器的行为。</p>
@@ -2087,119 +2200,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Linux 环境下配置 Docker</title>
-    <url>/2024/07/20/Linux-Docker/</url>
-    <content><![CDATA[<h1 id="1、Docker-配置"><a href="#1、Docker-配置" class="headerlink" title="1、Docker 配置"></a>1、Docker 配置</h1><h2 id="1-1-安装-Docker"><a href="#1-1-安装-Docker" class="headerlink" title="1.1 安装 Docker"></a>1.1 安装 Docker</h2><ul>
-<li><strong>安装方式一（推荐）：</strong></li>
-</ul>
-<p>通过<code>yay</code>直接安装（全局安装）：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">yay -Sy docker docker-compose</span><br></pre></td></tr></table></figure></div>
-<p><code>docker-compose</code>可选安装，它可以通过配置文件<code>Dockerfile</code>来构建镜像。</p>
-<ul>
-<li><strong>安装方式二：</strong></li>
-</ul>
-<p>通过<code>conda</code>安装（局部安装，可全局使用）：</p>
-<p>首先需要创建虚拟环境用于存储安装的<code>docker</code>和<code>docker-compose</code>。</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">conda create --name docker python=3.12</span><br></pre></td></tr></table></figure></div>
-<p>Python版本可自己选择。</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">conda install docker docker-compose -c conda-forge</span><br></pre></td></tr></table></figure></div>
-
-<p>这里的<code>-c conda-forge</code>一定要加，默认的<code>conda.org</code>源没有<code>docker</code>。</p>
-<p>安装好的<code>docker</code>和<code>docker-compose</code>是在该路径下：<br><code>~/.conda/envs/docker/bin/docker</code><br><code>~/.conda/envs/docker/bin/docker-compose</code></p>
-<h2 id="1-2-docker-基本操作"><a href="#1-2-docker-基本操作" class="headerlink" title="1.2 docker 基本操作"></a>1.2 docker 基本操作</h2><h3 id="1-2-1-docker-服务"><a href="#1-2-1-docker-服务" class="headerlink" title="1.2.1 docker 服务"></a>1.2.1 docker 服务</h3><ul>
-<li><p>启动docker服务</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start docker</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>关闭docker服务</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl stop docker.service docker.socket</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>检查<code>docker</code>服务状态</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status docker</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>开机自启动设置</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> --now docker</span><br></pre></td></tr></table></figure></div></li>
-</ul>
-<h3 id="1-2-2-添加用户到-docker-组"><a href="#1-2-2-添加用户到-docker-组" class="headerlink" title="1.2.2 添加用户到 docker 组"></a>1.2.2 添加用户到 docker 组</h3><p>为了避免每次运行<code>docker</code>命令时都需要使用 <code>sudo</code>，可以将当前用户添加到 <code>docker</code> 组：</p>
-<div class="code-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> usermod -aG docker <span class="variable">$USER</span></span><br></pre></td></tr></table></figure></div>
-
-<p>然后，重新登录以使更改生效，或者重新加载用户组信息：</p>
-<p>登录：</p>
-<div class="code-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="code"><pre><span class="line">newgrp docker</span><br></pre></td></tr></table></figure></div>
-
-<p>退出：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure></div>
-
-<p>可能需要重启系统来让配置生效。</p>
-<h2 id="1-3-代理配置（一定要配置）"><a href="#1-3-代理配置（一定要配置）" class="headerlink" title="1.3 代理配置（一定要配置）"></a>1.3 代理配置（一定要配置）</h2><p>1.创建<code>docker</code>相关的<code>systemd</code>目录，这个目录下的配置将覆盖<code>docker</code>的默认配置：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">mkdir</span> -p /etc/systemd/system/docker.service.d</span><br></pre></td></tr></table></figure></div>
-
-<p>2.新建配置文件：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">kate /etc/systemd/system/docker.service.d/proxy.conf</span><br></pre></td></tr></table></figure></div>
-
-<p>将以下内容复制到<code>proxy.conf</code>中：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">[Service]</span><br><span class="line">Environment=&quot;HTTP_PROXY=http://127.0.0.1:7890&quot;</span><br><span class="line">Environment=&quot;HTTPS_PROXY=http://127.0.0.1:7890&quot;</span><br></pre></td></tr></table></figure></div>
-
-<p>这里需要根据自己实际的代理端口填写。</p>
-<p>3.如果自己建了私有的镜像仓库，需要<code>docker</code>绕过代理服务器直连，那么配置<code>NO_PROXY</code>变量：</p>
-<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">[Service]</span><br><span class="line">Environment=&quot;HTTP_PROXY=http://127.0.0.1:7890&quot;</span><br><span class="line">Environment=&quot;HTTPS_PROXY=http://127.0.0.1:7890&quot;</span><br><span class="line">Environment=&quot;NO_PROXY=your-registry.com,10.10.10.10,*.example.com&quot;</span><br></pre></td></tr></table></figure></div>
-
-<p>多个<code>NO_PROXY</code>变量的值用逗号分隔，而且可以使用通配符（*），极端情况下，如果<code>NO_PROXY=*</code>，那么所有请求都将不通过代理服务器。</p>
-<p>4.重新加载配置文件，重启<code>docker</code>：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl daemon-reload</span><br></pre></td></tr></table></figure></div>
-
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl restart docker</span><br></pre></td></tr></table></figure></div>
-
-<p>5.检查确认环境变量已经正确配置：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl show --property=Environment docker</span><br></pre></td></tr></table></figure></div>
-
-<p>像输出以下内容就成功了：</p>
-<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">Environment=HTTP_PROXY=http://127.0.0.1:7890 HTTPS_PROXY=http://127.0.0.1:7890</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="1-4-命令简化配置"><a href="#1-4-命令简化配置" class="headerlink" title="1.4 命令简化配置"></a>1.4 命令简化配置</h2><p><strong>以下推荐加到.bashrc或者.zshrc中。</strong></p>
-<ol>
-<li>格式化查看容器：<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker ps --format <span class="string">&quot;table &#123;&#123;.ID&#125;&#125;\t&#123;&#123;.Image&#125;&#125;\t&#123;&#123;.Ports&#125;&#125;\t&#123;&#123;.Status&#125;&#125;\t&#123;&#123;.Names&#125;&#125;&quot;</span></span><br></pre></td></tr></table></figure></div></li>
-</ol>
-<p>命令简化：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">alias dps=&#x27;docker ps --format &quot;table &#123;&#123;.ID&#125;&#125;\t&#123;&#123;.Image&#125;&#125;\t&#123;&#123;.Ports&#125;&#125;\t&#123;&#123;.Status&#125;&#125;\t&#123;&#123;.Names&#125;&#125;&quot;&#x27;</span><br></pre></td></tr></table></figure></div>
-
-<ol start="2">
-<li>查看网络配置：<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker inspect --format=<span class="string">&#x27;&#123;&#123;.HostConfig.NetworkMode&#125;&#125;&#x27;</span> &lt;容器名/容器ID&gt;</span><br></pre></td></tr></table></figure></div></li>
-</ol>
-<p>命令简化：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">alias din=&#x27;docker inspect --format=&#x27;&#123;&#123;.HostConfig.NetworkMode&#125;&#125;&#x27;&#x27;</span><br></pre></td></tr></table></figure></div>]]></content>
-      <tags>
-        <tag>linux</tag>
-        <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Linux(EndeavourOS) 下给 Steam 设置代理</title>
-    <url>/2024/07/24/Linux-Steam/</url>
-    <content><![CDATA[<h1 id="1-解决"><a href="#1-解决" class="headerlink" title="1.解决"></a>1.解决</h1><ol>
-<li><p>打开 Steam 大屏模式（ <strong>一定是大屏模式！</strong> ）。<br><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://nyalog.oss-cn-hongkong.aliyuncs.com/NyaLog/articles/Steam%20Linux%20%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/Steam-BigScreen-min.png"
-                      alt="大屏模式"
-                ><figcaption>大屏模式</figcaption></figure></p>
-</li>
-<li><p>然后在设置里进入网络设置界面，然后点开填入自己的代理地址和端口。<br><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://nyalog.oss-cn-hongkong.aliyuncs.com/NyaLog/articles/Steam%20Linux%20%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/Steam-proxy-min.png"
-                      alt="设置界面"
-                ><figcaption>设置界面</figcaption></figure></p>
-</li>
-<li><p>设置成功后退出重启 Steam 即可。</p>
-</li>
-</ol>
-]]></content>
-      <tags>
-        <tag>linux</tag>
-        <tag>steam</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Linux 下配置 conda 环境</title>
     <url>/2024/08/19/Linux-conda/</url>
     <content><![CDATA[<h1 id="一、安装"><a href="#一、安装" class="headerlink" title="一、安装"></a>一、安装</h1><p>下载最新版<code>miniconda3</code>：</p>
@@ -2345,6 +2345,59 @@
       </tags>
   </entry>
   <entry>
+    <title>Linux 下通过命令行挂载 USB 设备</title>
+    <url>/2025/02/20/Linux%E6%8C%82%E8%BD%BDUSB%E8%AE%BE%E5%A4%87/</url>
+    <content><![CDATA[<h1 id="1-插入-U-盘"><a href="#1-插入-U-盘" class="headerlink" title="1. 插入 U 盘"></a>1. 插入 U 盘</h1><p>首先，确保 U 盘已经插入计算机。</p>
+<hr>
+<h1 id="2-查看设备信息"><a href="#2-查看设备信息" class="headerlink" title="2. 查看设备信息"></a>2. 查看设备信息</h1><p>使用 <code>lsblk</code> 或 <code>fdisk -l</code> 命令来列出系统中所有的存储设备，包括 U 盘。一般来说，U 盘会显示为类似 <code>/dev/sdb1</code> 或 <code>/dev/sdc1</code> 的设备。</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">lsblk</span><br></pre></td></tr></table></figure></div>
+
+<p>或者：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> fdisk -l</span><br></pre></td></tr></table></figure></div>
+
+<p>输出可能类似于：</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">/dev/sdb1  ext4  15G  8G  7G  60% /media/sky/USB</span><br></pre></td></tr></table></figure></div>
+
+<p>此处 <code>/dev/sdb1</code> 是 U 盘的设备路径。</p>
+<hr>
+<h1 id="3-创建挂载点"><a href="#3-创建挂载点" class="headerlink" title="3. 创建挂载点"></a>3. 创建挂载点</h1><p>挂载点是一个空目录，用于访问 U 盘中的文件。你可以选择将 U 盘挂载到一个现有目录，也可以创建一个新目录作为挂载点。</p>
+<p>例如，创建一个新的挂载点 <code>usb</code>：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">mkdir</span> /mnt/usb</span><br></pre></td></tr></table></figure></div>
+
+<p>也可以选择其他路径，例如 <code>/media/usb</code> 或 <code>/home/sky/usb</code>。</p>
+<hr>
+<h1 id="4-挂载-U-盘"><a href="#4-挂载-U-盘" class="headerlink" title="4. 挂载 U 盘"></a>4. 挂载 U 盘</h1><p>将 U 盘挂载到刚才创建的挂载点。假设你的 U 盘设备是 <code>/dev/sdb1</code>，你可以执行以下命令：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> mount /dev/sdb1 /mnt/usb</span><br></pre></td></tr></table></figure></div>
+
+<p>如果挂载成功，使用 <code>ls /mnt/usb</code> 或 <code>lsblk</code> 可以看到 U 盘的内容。</p>
+<hr>
+<h1 id="5-查看挂载情况"><a href="#5-查看挂载情况" class="headerlink" title="5. 查看挂载情况"></a>5. 查看挂载情况</h1><p>你可以使用 <code>df -h</code> 或 <code>lsblk</code> 查看所有挂载的设备，确认 U 盘是否成功挂载：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">df</span> -h</span><br></pre></td></tr></table></figure></div>
+
+<p>或者：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">lsblk</span><br></pre></td></tr></table></figure></div>
+
+<hr>
+<h1 id="6-卸载-U-盘"><a href="#6-卸载-U-盘" class="headerlink" title="6. 卸载 U 盘"></a>6. 卸载 U 盘</h1><p>完成对 U 盘的操作后，记得安全卸载。使用 <code>umount</code> 命令：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> umount /mnt/usb</span><br></pre></td></tr></table></figure></div>
+
+<p>如果挂载的目录不为空，或者使用 <code>umount</code> 时出现“设备忙”的错误，可以使用以下命令强制卸载：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> umount -l /mnt/usb</span><br></pre></td></tr></table></figure></div>
+
+<hr>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><ul>
+<li>使用 <code>lsblk</code> 或 <code>fdisk -l</code> 查找 U 盘设备路径（例如 <code>/dev/sdb1</code>）。</li>
+<li>创建一个空目录作为挂载点。</li>
+<li>使用 <code>sudo mount /dev/sdb1 /mnt/usb</code> 将 U 盘挂载到该目录。</li>
+<li>使用 <code>sudo umount /mnt/usb</code> 卸载 U 盘。</li>
+</ul>
+<p>如果你的 U 盘有特定的格式（如 NTFS、FAT32 等），也许需要安装特定的工具来支持该格式的挂载，如 <code>ntfs-3g</code>（对于 NTFS 格式）。</p>
+]]></content>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Linux 常用指令汇总</title>
     <url>/2024/12/10/Linux%E6%8C%87%E4%BB%A4/</url>
     <content><![CDATA[<h1 id="1-查看开机启动项"><a href="#1-查看开机启动项" class="headerlink" title="1.查看开机启动项"></a>1.查看开机启动项</h1><h2 id="1-1-使用-systemctl-查看-systemd-服务"><a href="#1-1-使用-systemctl-查看-systemd-服务" class="headerlink" title="1.1 使用 systemctl 查看 systemd 服务"></a>1.1 使用 systemctl 查看 systemd 服务</h2><p>使用 <code>systemctl</code> 命令来列出所有启用的（开机自启动的）systemd 服务：</p>
@@ -2432,11 +2485,26 @@
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">find /path/to/directory -name <span class="string">&quot;*.txt&quot;</span> -size +1M</span><br></pre></td></tr></table></figure></div></li>
 </ol>
 <hr>
-<h1 id="3-权限"><a href="#3-权限" class="headerlink" title="3.权限"></a>3.权限</h1><ol>
-<li><p>使用<code>chmod</code>命令递归地更改文件夹内所有文件和子文件夹的权限：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">chmod</span> -R 777 /path/to/your/folder</span><br></pre></td></tr></table></figure></div>
-<p><code>-R</code>表示递归。</p>
-</li>
+<h1 id="3-权限"><a href="#3-权限" class="headerlink" title="3.权限"></a>3.权限</h1><p>示例如下：</p>
+<p>执行<code>ls -la</code>输出：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">总计 46260</span><br><span class="line">drwxr-xr-x 11 sky  sky      4096  2月20日 14:08 .</span><br><span class="line">drwx------ 29 sky  sky      4096  2月20日 15:18 ..</span><br><span class="line">drwxr-xr-x  8 sky  sky      4096  1月 4日 17:28 cpp</span><br><span class="line">-rwxr-xr-x  1 sky  sky  47321091  2月20日 14:03 Pytorch-练手数据集.zip</span><br><span class="line">drwx------  5 root root     4096  2月19日 14:52 .tabby</span><br></pre></td></tr></table></figure></div>
+
+<p>以<code>drwxr-xr-x  8 sky  sky      4096  1月 4日 17:28 cpp</code>为例：<br>第一列（<code>drwxr-xr-x</code>）表示文件权限，<br>第二列（<code>8</code>）表示硬链接数量，<br>第三列（<code>sky  sky</code>）表示文件的所有者和所属用户组，<br>第四列（<code>4096</code>）表示文件大小（单位：字节）,<br>第五列（<code>1月 4日 17:28</code>）表示最后修改时间，<br>第六列（<code>cpp</code>）表示文件名。</p>
+<p>这里我们要关心的是第一列和第三列。</p>
+<p>首先解释<code>drwxr-xr-x</code>：<br><code>d</code>表示 <strong>目录</strong> 的含义，不用管。<br><code>rwx</code> (7)：所有者 (<code>owner</code>) 具有 读 (<code>r</code>)、写 (<code>w</code>) 和 执行 (<code>x</code>) 权限。<br><code>r-x</code> (5)：所属组 (<code>group</code>) 具有 读 和 执行 权限，但没有写权限。<br><code>r-x</code> (5)：其他用户 (<code>others</code>) 也具有 读 和 执行 权限。</p>
+<p>这里需要说明：<br><code>x=1</code>，<code>w=2</code>，<code>r=4</code>。所以有<code>rwx=4+2+1=7</code>。</p>
+<ol>
+<li>如果要修改一个目录或文件的权限，可以用下面这种方式：</li>
+</ol>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">chmod</span> 755 example_dir</span><br></pre></td></tr></table></figure></div>
+
+<p>或者：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">chmod</span> u=rwx,g=rx,o=rx example_dir</span><br></pre></td></tr></table></figure></div>
+
+<p>如果是要递归修改目录下的权限，加上参数<code>-R</code>即可：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">chmod</span> -R 755 example_dir</span><br></pre></td></tr></table></figure></div>
+
+<ol start="2">
 <li><p>更改文件的权限而不更改文件夹的权限，可以结合<code>find</code>命令来实现：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">find /path/to/your/folder -<span class="built_in">type</span> f -<span class="built_in">exec</span> <span class="built_in">chmod</span> 777 &#123;&#125; +</span><br></pre></td></tr></table></figure></div>
 <p>这将只更改所有文件的权限，而不影响文件夹的权限。</p>
@@ -2447,6 +2515,10 @@
 <li><p>把文件改为可执行</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">chmod</span> u+x script.sh</span><br></pre></td></tr></table></figure></div>
 <p><code>u</code>参数代表文件的所有者<code>user</code>，可以不加，但是就会改变组<code>group</code>和其他用户的权限。</p>
+</li>
+<li><p>递归更改文件所有者和所属用户组</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">chown</span> -R <span class="built_in">chown</span> -R <span class="variable">$USER</span>:$(<span class="built_in">id</span> -gn) example_dir</span><br></pre></td></tr></table></figure></div>
+<p><code>id -gn</code>表示当前用户组。</p>
 </li>
 </ol>
 <hr>
@@ -2792,6 +2864,30 @@
       </tags>
   </entry>
   <entry>
+    <title>Proxy Settings</title>
+    <url>/2024/07/19/Proxy-Settings/</url>
+    <content><![CDATA[<h1 id="一、代理软件配置"><a href="#一、代理软件配置" class="headerlink" title="一、代理软件配置"></a>一、代理软件配置</h1><h2 id="1-1-speedTest"><a href="#1-1-speedTest" class="headerlink" title="1.1 speedTest"></a>1.1 speedTest</h2><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 日本</span></span><br><span class="line">https://185-140-53-2.lg.looking.house/1000.mb</span><br><span class="line"><span class="comment"># 新加坡</span></span><br><span class="line">https://23-27-101-2.lg.looking.house/100.mb</span><br><span class="line"></span><br><span class="line">https://speed.cloudflare.com/__down?bytes=10000000</span><br><span class="line">https://speed.cloudflare.com/__down?bytes=50000000</span><br><span class="line">https://speed.cloudflare.com/__down?bytes=100000000</span><br><span class="line">https://speed.cloudflare.com/__down?bytes=200000000</span><br><span class="line"></span><br><span class="line"><span class="comment"># 老版测速</span></span><br><span class="line">http://cachefly.cachefly.net/10mb.<span class="built_in">test</span></span><br><span class="line">http://cachefly.cachefly.net/50mb.<span class="built_in">test</span></span><br><span class="line">http://cachefly.cachefly.net/100mb.<span class="built_in">test</span></span><br></pre></td></tr></table></figure></div>
+
+<h2 id="1-2-speedurl"><a href="#1-2-speedurl" class="headerlink" title="1.2 speedurl"></a>1.2 speedurl</h2><div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://www.google.com/generate_204</span><br><span class="line"></span><br><span class="line">http://cp.cloudflare.com/</span><br><span class="line"></span><br><span class="line">http://connectivitycheck.gstatic.com/generate_204</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="1-3-DNS选项"><a href="#1-3-DNS选项" class="headerlink" title="1.3 DNS选项"></a>1.3 DNS选项</h2><ul>
+<li><strong>远程DNS</strong></li>
+</ul>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">udp://1.1.1.1</span><br><span class="line"></span><br><span class="line">https://dns.google/dns-query</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li><strong>直连DNS</strong></li>
+</ul>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">114.114.114.114</span><br><span class="line"></span><br><span class="line">https://doh.pub/dns-query</span><br></pre></td></tr></table></figure></div>
+]]></content>
+      <categories>
+        <category>科学上网</category>
+      </categories>
+      <tags>
+        <tag>proxy</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Python 下的多进程和多线程编程</title>
     <url>/2024/09/16/Python-%E5%A4%9A%E8%BF%9B%E7%A8%8B%E5%92%8C%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B/</url>
     <content><![CDATA[<h1 id="1-多进程"><a href="#1-多进程" class="headerlink" title="1.多进程"></a>1.多进程</h1><h2 id="1-1-使用多进程完成任务"><a href="#1-1-使用多进程完成任务" class="headerlink" title="1. 1 使用多进程完成任务"></a>1. 1 使用多进程完成任务</h2><p>用到的包：<code>multiprocessing</code>，以下面的代码为例：</p>
@@ -2947,30 +3043,6 @@
       </categories>
       <tags>
         <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Proxy Settings</title>
-    <url>/2024/07/19/Proxy-Settings/</url>
-    <content><![CDATA[<h1 id="一、代理软件配置"><a href="#一、代理软件配置" class="headerlink" title="一、代理软件配置"></a>一、代理软件配置</h1><h2 id="1-1-speedTest"><a href="#1-1-speedTest" class="headerlink" title="1.1 speedTest"></a>1.1 speedTest</h2><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 日本</span></span><br><span class="line">https://185-140-53-2.lg.looking.house/1000.mb</span><br><span class="line"><span class="comment"># 新加坡</span></span><br><span class="line">https://23-27-101-2.lg.looking.house/100.mb</span><br><span class="line"></span><br><span class="line">https://speed.cloudflare.com/__down?bytes=10000000</span><br><span class="line">https://speed.cloudflare.com/__down?bytes=50000000</span><br><span class="line">https://speed.cloudflare.com/__down?bytes=100000000</span><br><span class="line">https://speed.cloudflare.com/__down?bytes=200000000</span><br><span class="line"></span><br><span class="line"><span class="comment"># 老版测速</span></span><br><span class="line">http://cachefly.cachefly.net/10mb.<span class="built_in">test</span></span><br><span class="line">http://cachefly.cachefly.net/50mb.<span class="built_in">test</span></span><br><span class="line">http://cachefly.cachefly.net/100mb.<span class="built_in">test</span></span><br></pre></td></tr></table></figure></div>
-
-<h2 id="1-2-speedurl"><a href="#1-2-speedurl" class="headerlink" title="1.2 speedurl"></a>1.2 speedurl</h2><div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://www.google.com/generate_204</span><br><span class="line"></span><br><span class="line">http://cp.cloudflare.com/</span><br><span class="line"></span><br><span class="line">http://connectivitycheck.gstatic.com/generate_204</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="1-3-DNS选项"><a href="#1-3-DNS选项" class="headerlink" title="1.3 DNS选项"></a>1.3 DNS选项</h2><ul>
-<li><strong>远程DNS</strong></li>
-</ul>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">udp://1.1.1.1</span><br><span class="line"></span><br><span class="line">https://dns.google/dns-query</span><br></pre></td></tr></table></figure></div>
-
-<ul>
-<li><strong>直连DNS</strong></li>
-</ul>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">114.114.114.114</span><br><span class="line"></span><br><span class="line">https://doh.pub/dns-query</span><br></pre></td></tr></table></figure></div>
-]]></content>
-      <categories>
-        <category>科学上网</category>
-      </categories>
-      <tags>
-        <tag>proxy</tag>
       </tags>
   </entry>
   <entry>
