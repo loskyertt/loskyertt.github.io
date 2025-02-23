@@ -1925,119 +1925,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Linux 环境下配置 Docker</title>
-    <url>/2024/07/20/Linux-Docker/</url>
-    <content><![CDATA[<h1 id="1、Docker-配置"><a href="#1、Docker-配置" class="headerlink" title="1、Docker 配置"></a>1、Docker 配置</h1><h2 id="1-1-安装-Docker"><a href="#1-1-安装-Docker" class="headerlink" title="1.1 安装 Docker"></a>1.1 安装 Docker</h2><ul>
-<li><strong>安装方式一（推荐）：</strong></li>
-</ul>
-<p>通过<code>yay</code>直接安装（全局安装）：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">yay -Sy docker docker-compose</span><br></pre></td></tr></table></figure></div>
-<p><code>docker-compose</code>可选安装，它可以通过配置文件<code>Dockerfile</code>来构建镜像。</p>
-<ul>
-<li><strong>安装方式二：</strong></li>
-</ul>
-<p>通过<code>conda</code>安装（局部安装，可全局使用）：</p>
-<p>首先需要创建虚拟环境用于存储安装的<code>docker</code>和<code>docker-compose</code>。</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">conda create --name docker python=3.12</span><br></pre></td></tr></table></figure></div>
-<p>Python版本可自己选择。</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">conda install docker docker-compose -c conda-forge</span><br></pre></td></tr></table></figure></div>
-
-<p>这里的<code>-c conda-forge</code>一定要加，默认的<code>conda.org</code>源没有<code>docker</code>。</p>
-<p>安装好的<code>docker</code>和<code>docker-compose</code>是在该路径下：<br><code>~/.conda/envs/docker/bin/docker</code><br><code>~/.conda/envs/docker/bin/docker-compose</code></p>
-<h2 id="1-2-docker-基本操作"><a href="#1-2-docker-基本操作" class="headerlink" title="1.2 docker 基本操作"></a>1.2 docker 基本操作</h2><h3 id="1-2-1-docker-服务"><a href="#1-2-1-docker-服务" class="headerlink" title="1.2.1 docker 服务"></a>1.2.1 docker 服务</h3><ul>
-<li><p>启动docker服务</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start docker</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>关闭docker服务</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl stop docker.service docker.socket</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>检查<code>docker</code>服务状态</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status docker</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>开机自启动设置</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> --now docker</span><br></pre></td></tr></table></figure></div></li>
-</ul>
-<h3 id="1-2-2-添加用户到-docker-组"><a href="#1-2-2-添加用户到-docker-组" class="headerlink" title="1.2.2 添加用户到 docker 组"></a>1.2.2 添加用户到 docker 组</h3><p>为了避免每次运行<code>docker</code>命令时都需要使用 <code>sudo</code>，可以将当前用户添加到 <code>docker</code> 组：</p>
-<div class="code-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> usermod -aG docker <span class="variable">$USER</span></span><br></pre></td></tr></table></figure></div>
-
-<p>然后，重新登录以使更改生效，或者重新加载用户组信息：</p>
-<p>登录：</p>
-<div class="code-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="code"><pre><span class="line">newgrp docker</span><br></pre></td></tr></table></figure></div>
-
-<p>退出：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure></div>
-
-<p>可能需要重启系统来让配置生效。</p>
-<h2 id="1-3-代理配置（一定要配置）"><a href="#1-3-代理配置（一定要配置）" class="headerlink" title="1.3 代理配置（一定要配置）"></a>1.3 代理配置（一定要配置）</h2><p>1.创建<code>docker</code>相关的<code>systemd</code>目录，这个目录下的配置将覆盖<code>docker</code>的默认配置：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">mkdir</span> -p /etc/systemd/system/docker.service.d</span><br></pre></td></tr></table></figure></div>
-
-<p>2.新建配置文件：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">kate /etc/systemd/system/docker.service.d/proxy.conf</span><br></pre></td></tr></table></figure></div>
-
-<p>将以下内容复制到<code>proxy.conf</code>中：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">[Service]</span><br><span class="line">Environment=&quot;HTTP_PROXY=http://127.0.0.1:7890&quot;</span><br><span class="line">Environment=&quot;HTTPS_PROXY=http://127.0.0.1:7890&quot;</span><br></pre></td></tr></table></figure></div>
-
-<p>这里需要根据自己实际的代理端口填写。</p>
-<p>3.如果自己建了私有的镜像仓库，需要<code>docker</code>绕过代理服务器直连，那么配置<code>NO_PROXY</code>变量：</p>
-<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">[Service]</span><br><span class="line">Environment=&quot;HTTP_PROXY=http://127.0.0.1:7890&quot;</span><br><span class="line">Environment=&quot;HTTPS_PROXY=http://127.0.0.1:7890&quot;</span><br><span class="line">Environment=&quot;NO_PROXY=your-registry.com,10.10.10.10,*.example.com&quot;</span><br></pre></td></tr></table></figure></div>
-
-<p>多个<code>NO_PROXY</code>变量的值用逗号分隔，而且可以使用通配符（*），极端情况下，如果<code>NO_PROXY=*</code>，那么所有请求都将不通过代理服务器。</p>
-<p>4.重新加载配置文件，重启<code>docker</code>：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl daemon-reload</span><br></pre></td></tr></table></figure></div>
-
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl restart docker</span><br></pre></td></tr></table></figure></div>
-
-<p>5.检查确认环境变量已经正确配置：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl show --property=Environment docker</span><br></pre></td></tr></table></figure></div>
-
-<p>像输出以下内容就成功了：</p>
-<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">Environment=HTTP_PROXY=http://127.0.0.1:7890 HTTPS_PROXY=http://127.0.0.1:7890</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="1-4-命令简化配置"><a href="#1-4-命令简化配置" class="headerlink" title="1.4 命令简化配置"></a>1.4 命令简化配置</h2><p><strong>以下推荐加到.bashrc或者.zshrc中。</strong></p>
-<ol>
-<li>格式化查看容器：<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker ps --format <span class="string">&quot;table &#123;&#123;.ID&#125;&#125;\t&#123;&#123;.Image&#125;&#125;\t&#123;&#123;.Ports&#125;&#125;\t&#123;&#123;.Status&#125;&#125;\t&#123;&#123;.Names&#125;&#125;&quot;</span></span><br></pre></td></tr></table></figure></div></li>
-</ol>
-<p>命令简化：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">alias dps=&#x27;docker ps --format &quot;table &#123;&#123;.ID&#125;&#125;\t&#123;&#123;.Image&#125;&#125;\t&#123;&#123;.Ports&#125;&#125;\t&#123;&#123;.Status&#125;&#125;\t&#123;&#123;.Names&#125;&#125;&quot;&#x27;</span><br></pre></td></tr></table></figure></div>
-
-<ol start="2">
-<li>查看网络配置：<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker inspect --format=<span class="string">&#x27;&#123;&#123;.HostConfig.NetworkMode&#125;&#125;&#x27;</span> &lt;容器名/容器ID&gt;</span><br></pre></td></tr></table></figure></div></li>
-</ol>
-<p>命令简化：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">alias din=&#x27;docker inspect --format=&#x27;&#123;&#123;.HostConfig.NetworkMode&#125;&#125;&#x27;&#x27;</span><br></pre></td></tr></table></figure></div>]]></content>
-      <tags>
-        <tag>linux</tag>
-        <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Linux(EndeavourOS) 下给 Steam 设置代理</title>
-    <url>/2024/07/24/Linux-Steam/</url>
-    <content><![CDATA[<h1 id="1-解决"><a href="#1-解决" class="headerlink" title="1.解决"></a>1.解决</h1><ol>
-<li><p>打开 Steam 大屏模式（ <strong>一定是大屏模式！</strong> ）。<br><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://nyalog.oss-cn-hongkong.aliyuncs.com/NyaLog/articles/Steam%20Linux%20%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/Steam-BigScreen-min.png"
-                      alt="大屏模式"
-                ><figcaption>大屏模式</figcaption></figure></p>
-</li>
-<li><p>然后在设置里进入网络设置界面，然后点开填入自己的代理地址和端口。<br><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://nyalog.oss-cn-hongkong.aliyuncs.com/NyaLog/articles/Steam%20Linux%20%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/Steam-proxy-min.png"
-                      alt="设置界面"
-                ><figcaption>设置界面</figcaption></figure></p>
-</li>
-<li><p>设置成功后退出重启 Steam 即可。</p>
-</li>
-</ol>
-]]></content>
-      <tags>
-        <tag>linux</tag>
-        <tag>steam</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Linux 下 Grub 引导配置教程以及更换内核</title>
     <url>/2024/09/03/Grub%E8%AE%BE%E7%BD%AE/</url>
     <content><![CDATA[<h1 id="1-基本说明"><a href="#1-基本说明" class="headerlink" title="1.基本说明"></a>1.基本说明</h1><p><code>GRUB</code>（GRand Unified Bootloader）的配置文件 是<code>/etc/default/grub</code>，用于配置 GRUB 引导加载器的行为。</p>
@@ -2200,6 +2087,119 @@
       </tags>
   </entry>
   <entry>
+    <title>Linux 环境下配置 Docker</title>
+    <url>/2024/07/20/Linux-Docker/</url>
+    <content><![CDATA[<h1 id="1、Docker-配置"><a href="#1、Docker-配置" class="headerlink" title="1、Docker 配置"></a>1、Docker 配置</h1><h2 id="1-1-安装-Docker"><a href="#1-1-安装-Docker" class="headerlink" title="1.1 安装 Docker"></a>1.1 安装 Docker</h2><ul>
+<li><strong>安装方式一（推荐）：</strong></li>
+</ul>
+<p>通过<code>yay</code>直接安装（全局安装）：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">yay -Sy docker docker-compose</span><br></pre></td></tr></table></figure></div>
+<p><code>docker-compose</code>可选安装，它可以通过配置文件<code>Dockerfile</code>来构建镜像。</p>
+<ul>
+<li><strong>安装方式二：</strong></li>
+</ul>
+<p>通过<code>conda</code>安装（局部安装，可全局使用）：</p>
+<p>首先需要创建虚拟环境用于存储安装的<code>docker</code>和<code>docker-compose</code>。</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">conda create --name docker python=3.12</span><br></pre></td></tr></table></figure></div>
+<p>Python版本可自己选择。</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">conda install docker docker-compose -c conda-forge</span><br></pre></td></tr></table></figure></div>
+
+<p>这里的<code>-c conda-forge</code>一定要加，默认的<code>conda.org</code>源没有<code>docker</code>。</p>
+<p>安装好的<code>docker</code>和<code>docker-compose</code>是在该路径下：<br><code>~/.conda/envs/docker/bin/docker</code><br><code>~/.conda/envs/docker/bin/docker-compose</code></p>
+<h2 id="1-2-docker-基本操作"><a href="#1-2-docker-基本操作" class="headerlink" title="1.2 docker 基本操作"></a>1.2 docker 基本操作</h2><h3 id="1-2-1-docker-服务"><a href="#1-2-1-docker-服务" class="headerlink" title="1.2.1 docker 服务"></a>1.2.1 docker 服务</h3><ul>
+<li><p>启动docker服务</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start docker</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>关闭docker服务</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl stop docker.service docker.socket</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>检查<code>docker</code>服务状态</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status docker</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>开机自启动设置</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> --now docker</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<h3 id="1-2-2-添加用户到-docker-组"><a href="#1-2-2-添加用户到-docker-组" class="headerlink" title="1.2.2 添加用户到 docker 组"></a>1.2.2 添加用户到 docker 组</h3><p>为了避免每次运行<code>docker</code>命令时都需要使用 <code>sudo</code>，可以将当前用户添加到 <code>docker</code> 组：</p>
+<div class="code-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> usermod -aG docker <span class="variable">$USER</span></span><br></pre></td></tr></table></figure></div>
+
+<p>然后，重新登录以使更改生效，或者重新加载用户组信息：</p>
+<p>登录：</p>
+<div class="code-container" data-rel="Sh"><figure class="iseeu highlight sh"><table><tr><td class="code"><pre><span class="line">newgrp docker</span><br></pre></td></tr></table></figure></div>
+
+<p>退出：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure></div>
+
+<p>可能需要重启系统来让配置生效。</p>
+<h2 id="1-3-代理配置（一定要配置）"><a href="#1-3-代理配置（一定要配置）" class="headerlink" title="1.3 代理配置（一定要配置）"></a>1.3 代理配置（一定要配置）</h2><p>1.创建<code>docker</code>相关的<code>systemd</code>目录，这个目录下的配置将覆盖<code>docker</code>的默认配置：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">mkdir</span> -p /etc/systemd/system/docker.service.d</span><br></pre></td></tr></table></figure></div>
+
+<p>2.新建配置文件：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">kate /etc/systemd/system/docker.service.d/proxy.conf</span><br></pre></td></tr></table></figure></div>
+
+<p>将以下内容复制到<code>proxy.conf</code>中：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">[Service]</span><br><span class="line">Environment=&quot;HTTP_PROXY=http://127.0.0.1:7890&quot;</span><br><span class="line">Environment=&quot;HTTPS_PROXY=http://127.0.0.1:7890&quot;</span><br></pre></td></tr></table></figure></div>
+
+<p>这里需要根据自己实际的代理端口填写。</p>
+<p>3.如果自己建了私有的镜像仓库，需要<code>docker</code>绕过代理服务器直连，那么配置<code>NO_PROXY</code>变量：</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">[Service]</span><br><span class="line">Environment=&quot;HTTP_PROXY=http://127.0.0.1:7890&quot;</span><br><span class="line">Environment=&quot;HTTPS_PROXY=http://127.0.0.1:7890&quot;</span><br><span class="line">Environment=&quot;NO_PROXY=your-registry.com,10.10.10.10,*.example.com&quot;</span><br></pre></td></tr></table></figure></div>
+
+<p>多个<code>NO_PROXY</code>变量的值用逗号分隔，而且可以使用通配符（*），极端情况下，如果<code>NO_PROXY=*</code>，那么所有请求都将不通过代理服务器。</p>
+<p>4.重新加载配置文件，重启<code>docker</code>：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl daemon-reload</span><br></pre></td></tr></table></figure></div>
+
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl restart docker</span><br></pre></td></tr></table></figure></div>
+
+<p>5.检查确认环境变量已经正确配置：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl show --property=Environment docker</span><br></pre></td></tr></table></figure></div>
+
+<p>像输出以下内容就成功了：</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">Environment=HTTP_PROXY=http://127.0.0.1:7890 HTTPS_PROXY=http://127.0.0.1:7890</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="1-4-命令简化配置"><a href="#1-4-命令简化配置" class="headerlink" title="1.4 命令简化配置"></a>1.4 命令简化配置</h2><p><strong>以下推荐加到.bashrc或者.zshrc中。</strong></p>
+<ol>
+<li>格式化查看容器：<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker ps --format <span class="string">&quot;table &#123;&#123;.ID&#125;&#125;\t&#123;&#123;.Image&#125;&#125;\t&#123;&#123;.Ports&#125;&#125;\t&#123;&#123;.Status&#125;&#125;\t&#123;&#123;.Names&#125;&#125;&quot;</span></span><br></pre></td></tr></table></figure></div></li>
+</ol>
+<p>命令简化：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">alias dps=&#x27;docker ps --format &quot;table &#123;&#123;.ID&#125;&#125;\t&#123;&#123;.Image&#125;&#125;\t&#123;&#123;.Ports&#125;&#125;\t&#123;&#123;.Status&#125;&#125;\t&#123;&#123;.Names&#125;&#125;&quot;&#x27;</span><br></pre></td></tr></table></figure></div>
+
+<ol start="2">
+<li>查看网络配置：<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker inspect --format=<span class="string">&#x27;&#123;&#123;.HostConfig.NetworkMode&#125;&#125;&#x27;</span> &lt;容器名/容器ID&gt;</span><br></pre></td></tr></table></figure></div></li>
+</ol>
+<p>命令简化：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">alias din=&#x27;docker inspect --format=&#x27;&#123;&#123;.HostConfig.NetworkMode&#125;&#125;&#x27;&#x27;</span><br></pre></td></tr></table></figure></div>]]></content>
+      <tags>
+        <tag>linux</tag>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux(EndeavourOS) 下给 Steam 设置代理</title>
+    <url>/2024/07/24/Linux-Steam/</url>
+    <content><![CDATA[<h1 id="1-解决"><a href="#1-解决" class="headerlink" title="1.解决"></a>1.解决</h1><ol>
+<li><p>打开 Steam 大屏模式（ <strong>一定是大屏模式！</strong> ）。<br><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://nyalog.oss-cn-hongkong.aliyuncs.com/NyaLog/articles/Steam%20Linux%20%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/Steam-BigScreen-min.png"
+                      alt="大屏模式"
+                ><figcaption>大屏模式</figcaption></figure></p>
+</li>
+<li><p>然后在设置里进入网络设置界面，然后点开填入自己的代理地址和端口。<br><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://nyalog.oss-cn-hongkong.aliyuncs.com/NyaLog/articles/Steam%20Linux%20%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/Steam-proxy-min.png"
+                      alt="设置界面"
+                ><figcaption>设置界面</figcaption></figure></p>
+</li>
+<li><p>设置成功后退出重启 Steam 即可。</p>
+</li>
+</ol>
+]]></content>
+      <tags>
+        <tag>linux</tag>
+        <tag>steam</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Linux 下配置 conda 环境</title>
     <url>/2024/08/19/Linux-conda/</url>
     <content><![CDATA[<h1 id="一、安装"><a href="#一、安装" class="headerlink" title="一、安装"></a>一、安装</h1><p>下载最新版<code>miniconda3</code>：</p>
@@ -2345,13 +2345,13 @@
       </tags>
   </entry>
   <entry>
-    <title>Linux 下通过命令行挂载 USB 设备</title>
-    <url>/2025/02/20/Linux%E6%8C%82%E8%BD%BDUSB%E8%AE%BE%E5%A4%87/</url>
-    <content><![CDATA[<h1 id="1-插入-U-盘"><a href="#1-插入-U-盘" class="headerlink" title="1. 插入 U 盘"></a>1. 插入 U 盘</h1><p>首先，确保 U 盘已经插入计算机。</p>
+    <title>Linux 下通过命令行挂载设备</title>
+    <url>/2025/02/20/Linux%E6%8C%82%E8%BD%BD%E8%AE%BE%E5%A4%87/</url>
+    <content><![CDATA[<h1 id="1-挂载-U-盘"><a href="#1-挂载-U-盘" class="headerlink" title="1. 挂载 U 盘"></a>1. 挂载 U 盘</h1><p>首先，确保 U 盘已经插入计算机。</p>
 <hr>
-<h1 id="2-查看设备信息"><a href="#2-查看设备信息" class="headerlink" title="2. 查看设备信息"></a>2. 查看设备信息</h1><p>使用 <code>lsblk</code> 或 <code>fdisk -l</code> 命令来列出系统中所有的存储设备，包括 U 盘。一般来说，U 盘会显示为类似 <code>/dev/sdb1</code> 或 <code>/dev/sdc1</code> 的设备。</p>
+<h2 id="1-2-查看设备信息"><a href="#1-2-查看设备信息" class="headerlink" title="1.2 查看设备信息"></a>1.2 查看设备信息</h2><p>使用 <code>lsblk</code> 或 <code>fdisk -l</code> 命令来列出系统中所有的存储设备，包括 U 盘。一般来说，U 盘会显示为类似 <code>/dev/sdb1</code> 或 <code>/dev/sdc1</code> 的设备。</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">lsblk</span><br></pre></td></tr></table></figure></div>
-
+<p>加上 <code>-f</code> 参数可以显示磁盘的 <code>UUID</code> 。</p>
 <p>或者：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> fdisk -l</span><br></pre></td></tr></table></figure></div>
 
@@ -2360,38 +2360,158 @@
 
 <p>此处 <code>/dev/sdb1</code> 是 U 盘的设备路径。</p>
 <hr>
-<h1 id="3-创建挂载点"><a href="#3-创建挂载点" class="headerlink" title="3. 创建挂载点"></a>3. 创建挂载点</h1><p>挂载点是一个空目录，用于访问 U 盘中的文件。你可以选择将 U 盘挂载到一个现有目录，也可以创建一个新目录作为挂载点。</p>
+<h2 id="1-3-创建挂载点"><a href="#1-3-创建挂载点" class="headerlink" title="1.3 创建挂载点"></a>1.3 创建挂载点</h2><p>挂载点是一个空目录，用于访问 U 盘中的文件。你可以选择将 U 盘挂载到一个现有目录，也可以创建一个新目录作为挂载点。</p>
 <p>例如，创建一个新的挂载点 <code>usb</code>：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">mkdir</span> /mnt/usb</span><br></pre></td></tr></table></figure></div>
 
 <p>也可以选择其他路径，例如 <code>/media/usb</code> 或 <code>/home/sky/usb</code>。</p>
 <hr>
-<h1 id="4-挂载-U-盘"><a href="#4-挂载-U-盘" class="headerlink" title="4. 挂载 U 盘"></a>4. 挂载 U 盘</h1><p>将 U 盘挂载到刚才创建的挂载点。假设你的 U 盘设备是 <code>/dev/sdb1</code>，你可以执行以下命令：</p>
+<h2 id="1-4-挂载-U-盘"><a href="#1-4-挂载-U-盘" class="headerlink" title="1.4 挂载 U 盘"></a>1.4 挂载 U 盘</h2><p>将 U 盘挂载到刚才创建的挂载点。假设你的 U 盘设备是 <code>/dev/sdb1</code>，你可以执行以下命令：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> mount /dev/sdb1 /mnt/usb</span><br></pre></td></tr></table></figure></div>
 
 <p>如果挂载成功，使用 <code>ls /mnt/usb</code> 或 <code>lsblk</code> 可以看到 U 盘的内容。</p>
 <hr>
-<h1 id="5-查看挂载情况"><a href="#5-查看挂载情况" class="headerlink" title="5. 查看挂载情况"></a>5. 查看挂载情况</h1><p>你可以使用 <code>df -h</code> 或 <code>lsblk</code> 查看所有挂载的设备，确认 U 盘是否成功挂载：</p>
+<h2 id="1-5-查看挂载情况"><a href="#1-5-查看挂载情况" class="headerlink" title="1.5 查看挂载情况"></a>1.5 查看挂载情况</h2><p>你可以使用 <code>df -h</code> 或 <code>lsblk</code> 查看所有挂载的设备，确认 U 盘是否成功挂载：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">df</span> -h</span><br></pre></td></tr></table></figure></div>
 
 <p>或者：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">lsblk</span><br></pre></td></tr></table></figure></div>
 
 <hr>
-<h1 id="6-卸载-U-盘"><a href="#6-卸载-U-盘" class="headerlink" title="6. 卸载 U 盘"></a>6. 卸载 U 盘</h1><p>完成对 U 盘的操作后，记得安全卸载。使用 <code>umount</code> 命令：</p>
+<h2 id="1-6-卸载-U-盘"><a href="#1-6-卸载-U-盘" class="headerlink" title="1.6 卸载 U 盘"></a>1.6 卸载 U 盘</h2><p>完成对 U 盘的操作后，记得安全卸载。使用 <code>umount</code> 命令：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> umount /mnt/usb</span><br></pre></td></tr></table></figure></div>
 
 <p>如果挂载的目录不为空，或者使用 <code>umount</code> 时出现“设备忙”的错误，可以使用以下命令强制卸载：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> umount -l /mnt/usb</span><br></pre></td></tr></table></figure></div>
 
 <hr>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><ul>
+<h2 id="1-7-总结"><a href="#1-7-总结" class="headerlink" title="1.7 总结"></a>1.7 总结</h2><ul>
 <li>使用 <code>lsblk</code> 或 <code>fdisk -l</code> 查找 U 盘设备路径（例如 <code>/dev/sdb1</code>）。</li>
 <li>创建一个空目录作为挂载点。</li>
 <li>使用 <code>sudo mount /dev/sdb1 /mnt/usb</code> 将 U 盘挂载到该目录。</li>
 <li>使用 <code>sudo umount /mnt/usb</code> 卸载 U 盘。</li>
 </ul>
 <p>如果你的 U 盘有特定的格式（如 NTFS、FAT32 等），也许需要安装特定的工具来支持该格式的挂载，如 <code>ntfs-3g</code>（对于 NTFS 格式）。</p>
+<hr>
+<h1 id="2-挂载磁盘设备（扩容）"><a href="#2-挂载磁盘设备（扩容）" class="headerlink" title="2. 挂载磁盘设备（扩容）"></a>2. 挂载磁盘设备（扩容）</h1><p>该方式是挂载子目录（更简单，但不改变根分区大小），如果不想用 LVM，可以将新磁盘挂载到某个子目录下，比如 <code>/home</code>、<code>/var</code> 等。</p>
+<hr>
+<h2 id="2-1-分区与格式化"><a href="#2-1-分区与格式化" class="headerlink" title="2.1 分区与格式化"></a>2.1 分区与格式化</h2><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> fdisk /dev/sdb</span><br></pre></td></tr></table></figure></div>
+<ul>
+<li>创建新分区（<code>n</code>）  </li>
+<li>保存并退出（<code>w</code>）</li>
+</ul>
+<p>格式化：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> mkfs.ext4 /dev/sdb1</span><br></pre></td></tr></table></figure></div>
+<p><code>mkfs.ext4</code>等价于<code>mkfs -t ext4</code>。</p>
+<hr>
+<h2 id="2-2-挂载新磁盘"><a href="#2-2-挂载新磁盘" class="headerlink" title="2.2 挂载新磁盘"></a>2.2 挂载新磁盘</h2><p>临时挂载到 <code>/mnt/sdb1</code> ：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">mkdir</span> -p /mnt/sdb1</span><br></pre></td></tr></table></figure></div>
+
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> mount /dev/sdb1 /mnt/sdb1</span><br></pre></td></tr></table></figure></div>
+
+<p>如果希望将其永久挂载到 <code>/home</code>：</p>
+<ol>
+<li>先临时挂载到 <code>/mnt/sdb1</code>：</li>
+</ol>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">mkdir</span> -p /mnt/sdb1</span><br></pre></td></tr></table></figure></div>
+
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> mount /dev/sdb1 /mnt/sdb1</span><br></pre></td></tr></table></figure></div>
+
+<ol start="2">
+<li><p>备份 <code>/home</code> 数据：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> rsync -a /home/ /mnt/sdb1/</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>获取 UUID：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">blkid /dev/sdb1</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>编辑 <code>/etc/fstab</code>：</p>
+<div class="code-container" data-rel="Ini"><figure class="iseeu highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="attr">UUID</span>=xxxxx  /home  ext4  defaults  <span class="number">0</span>  <span class="number">2</span></span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>重新挂载：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> /home/<span class="variable">$USER</span>/ -rf</span><br><span class="line"><span class="built_in">sudo</span> umount /mnt/sdb1</span><br><span class="line"><span class="built_in">sudo</span> mount -a</span><br></pre></td></tr></table></figure></div>
+<p>然后执行重启命令<code>reboot</code>。当你将磁盘挂载到 <code>/home</code> 目录时，挂载操作会暂时遮盖掉 <code>/home</code> 目录中的现有内容。也就是说，挂载后， <code>/home</code> 目录下的内容将会变成新挂载磁盘的内容，而原先的 <code>/home</code> 目录下的文件将变得不可见。这些文件并没有被删除，只是暂时隐藏，它们仍然存在于磁盘上。你可以通过卸载磁盘（<code>sudo umount /home</code>）查看这些原始文件。如果你希望保留原来的 <code>/home</code> 内容，建议先将原来的文件备份到其他地方，或者在挂载之前将 <code>/home</code> 目录的内容移动到另一个临时位置。</p>
+</li>
+</ol>
+<hr>
+<h2 id="2-3-检查挂载"><a href="#2-3-检查挂载" class="headerlink" title="2.3 检查挂载"></a>2.3 检查挂载</h2><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">df</span> -h /home</span><br></pre></td></tr></table></figure></div>
+
+<hr>
+<h1 id="3-挂载-Windows-的磁盘分区（双系统）"><a href="#3-挂载-Windows-的磁盘分区（双系统）" class="headerlink" title="3. 挂载 Windows 的磁盘分区（双系统）"></a>3. 挂载 Windows 的磁盘分区（双系统）</h1><p>示例：</p>
+<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">NAME        FSTYPE FSVER LABEL UUID                                 FSAVAIL FSUSE% MOUNTPOINTS</span><br><span class="line">nvme1n1                                                                            </span><br><span class="line">├─nvme1n1p1 vfat   FAT32       9252-7D2A                                           </span><br><span class="line">├─nvme1n1p2                                                                        </span><br><span class="line">├─nvme1n1p3 ntfs         系统  95519C376F55F65F                                    </span><br><span class="line">└─nvme1n1p4 ntfs         软件  321ABC035AB41F42                                    </span><br><span class="line">nvme0n1                                                                            </span><br><span class="line">├─nvme0n1p1 vfat   FAT32       06E8-25E3                               1.9G     0% /boot/efi</span><br><span class="line">└─nvme0n1p2 ext4   1.0         e83e2160-e994-4d15-b38a-0b26d5927762  153.9G    28% /</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="3-1-确认-Windows-分区信息"><a href="#3-1-确认-Windows-分区信息" class="headerlink" title="3.1 确认 Windows 分区信息"></a>3.1 确认 Windows 分区信息</h2><p>从 <code>lsblk -f</code> 输出中，可以看到 Windows 磁盘的 NTFS 分区：  </p>
+<ul>
+<li><code>nvme1n1p3</code> → <strong>系统分区</strong>，UUID：<code>95519C376F55F65F</code>  </li>
+<li><code>nvme1n1p4</code> → <strong>软件分区</strong>，UUID：<code>321ABC035AB41F42</code></li>
+</ul>
+<hr>
+<h2 id="3-2-安装-NTFS-支持工具"><a href="#3-2-安装-NTFS-支持工具" class="headerlink" title="3.2 安装 NTFS 支持工具"></a>3.2 安装 NTFS 支持工具</h2><p>可能需要安装 <code>ntfs-3g</code> 来挂载 NTFS 文件系统：  </p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S ntfs-3g</span><br></pre></td></tr></table></figure></div>
+
+<hr>
+<h2 id="3-3-创建挂载点"><a href="#3-3-创建挂载点" class="headerlink" title="3.3 创建挂载点"></a>3.3 创建挂载点</h2><p>为每个分区创建挂载目录：  </p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">mkdir</span> -p /mnt/windows_system</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">mkdir</span> -p /mnt/windows_software</span><br></pre></td></tr></table></figure></div>
+
+<hr>
+<h2 id="3-4-挂载分区"><a href="#3-4-挂载分区" class="headerlink" title="3.4 挂载分区"></a>3.4 挂载分区</h2><h3 id="3-4-1-手动挂载（临时）"><a href="#3-4-1-手动挂载（临时）" class="headerlink" title="3.4.1 手动挂载（临时）"></a>3.4.1 手动挂载（临时）</h3><p>挂载 Windows 系统分区：  </p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> mount -t ntfs3 /dev/nvme1n1p3 /mnt/windows_system</span><br></pre></td></tr></table></figure></div>
+
+<p>挂载 Windows 软件分区：  </p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> mount -t ntfs3 /dev/nvme1n1p4 /mnt/windows_software</span><br></pre></td></tr></table></figure></div>
+
+<p>验证挂载情况：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">lsblk -f</span><br></pre></td></tr></table></figure></div>
+
+<p>挂载成功后可以查看挂载目录内容：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">ls</span> /mnt/windows_system</span><br><span class="line"><span class="built_in">ls</span> /mnt/windows_software</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="3-4-2-自动挂载（持久化）"><a href="#3-4-2-自动挂载（持久化）" class="headerlink" title="3.4.2 自动挂载（持久化）"></a>3.4.2 自动挂载（持久化）</h3><p>编辑 <code>/etc/fstab</code>，添加以下内容：  </p>
+<div class="code-container" data-rel="Ini"><figure class="iseeu highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="attr">UUID</span>=<span class="number">95519</span>C376F55F65F  /mnt/windows_system  ntfs3  defaults  <span class="number">0</span>  <span class="number">0</span></span><br><span class="line"><span class="attr">UUID</span>=<span class="number">321</span>ABC035AB41F42  /mnt/windows_software ntfs3  defaults  <span class="number">0</span>  <span class="number">0</span></span><br></pre></td></tr></table></figure></div>
+
+<p>生效配置：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> mount -a</span><br></pre></td></tr></table></figure></div>
+
+<hr>
+<h2 id="3-5-解决-Windows-快速启动问题"><a href="#3-5-解决-Windows-快速启动问题" class="headerlink" title="3.5 解决 Windows 快速启动问题"></a>3.5 解决 Windows 快速启动问题</h2><p>如果挂载时遇到 <strong>“Windows is hibernated”</strong> 错误，是因为 Windows 开启了 <strong>快速启动</strong>，需要关闭。</p>
+<p><strong>关闭 Windows 快速启动：</strong><br>在 Windows 中：  </p>
+<ol>
+<li><strong>控制面板</strong> → <strong>电源选项</strong> → <strong>选择电源按钮的功能</strong>  </li>
+<li>取消勾选 <strong>启用快速启动（推荐）</strong>  </li>
+<li>重新启动 Windows 并进入 Linux</li>
+</ol>
+<p><strong>或者强制挂载（不推荐）：</strong>  </p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> mount -t ntfs3 -o remove_hiberfile /dev/nvme1n1p3 /mnt/windows_system</span><br></pre></td></tr></table></figure></div>
+
+<hr>
+<h2 id="3-6-断开挂载"><a href="#3-6-断开挂载" class="headerlink" title="3.6 断开挂载"></a>3.6 断开挂载</h2><p>如果不再需要挂载，可以使用以下命令卸载：  </p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> umount /mnt/windows_system</span><br><span class="line"><span class="built_in">sudo</span> umount /mnt/windows_software</span><br></pre></td></tr></table></figure></div>
+
+<hr>
+<h1 id="4-etc-fstab-文件说明"><a href="#4-etc-fstab-文件说明" class="headerlink" title="4. /etc/fstab 文件说明"></a>4. <code>/etc/fstab</code> 文件说明</h1><h2 id="4-1-示例"><a href="#4-1-示例" class="headerlink" title="4.1 示例"></a>4.1 示例</h2><p>示例：</p>
+<div class="code-container" data-rel="Ini"><figure class="iseeu highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="comment"># /etc/fstab: static file system information.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Use &#x27;blkid&#x27; to print the universally unique identifier for a device; this may</span></span><br><span class="line"><span class="comment"># be used with UUID= as a more robust way to name devices that works even if</span></span><br><span class="line"><span class="comment"># disks are added and removed. See fstab(5).</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># &lt;file system&gt;             &lt;mount point&gt;  &lt;type&gt;  &lt;options&gt;  &lt;dump&gt;  &lt;pass&gt;</span></span><br><span class="line"><span class="attr">UUID</span>=<span class="number">06</span>E8-<span class="number">25</span>E3                            /boot/efi      vfat    defaults,umask=<span class="number">0077</span> <span class="number">0</span> <span class="number">2</span></span><br><span class="line"><span class="attr">UUID</span>=e83e2160-e994-<span class="number">4</span>d15-b38a-<span class="number">0</span>b26d5927762 /              ext4    defaults,noatime <span class="number">0</span> <span class="number">1</span></span><br><span class="line">tmpfs                                     /tmp           tmpfs   defaults,noatime,<span class="attr">mode</span>=<span class="number">1777</span> <span class="number">0</span> <span class="number">0</span></span><br></pre></td></tr></table></figure></div>
+
+<hr>
+<h2 id="4-2-说明"><a href="#4-2-说明" class="headerlink" title="4.2 说明"></a>4.2 说明</h2><p>每一行在 <code>/etc/fstab</code> 文件中都包含了 6 个字段，分别是：</p>
+<ol>
+<li><strong>设备或 UUID</strong> （磁盘或分区）</li>
+<li><strong>挂载点</strong> （文件夹路径）</li>
+<li><strong>文件系统类型</strong> （例如 <code>ext4</code>, <code>vfat</code>, <code>tmpfs</code> 等）</li>
+<li><strong>挂载选项</strong> （如 <code>defaults</code>, <code>noatime</code>, <code>umask</code> 等）</li>
+<li><strong>转储选项</strong> （用于备份），<code>0</code> 表示该文件系统不需要备份。如果该字段为 <code>1</code>，表示该文件系统会被 <code>dump</code> 命令处理。</li>
+<li><strong>文件系统检查顺序</strong> （通常是 <code>1</code> 或 <code>2</code>）</li>
+</ol>
+<p>关于示例中 <code>noatime</code> 和 <code>umask</code> 的含义：</p>
+<ul>
+<li><p><code>noatime</code> 是一个挂载选项，表示 <strong>不更新文件的访问时间（<code>atime</code>）</strong> 。这对于提高性能非常有帮助，特别是在数据库或需要频繁读写的场景下，因为它减少了磁盘的写操作。默认情况下，每次访问文件（读取）时，文件的 <strong>访问时间（<code>atime</code>）</strong> 会被更新。使用 <code>noatime</code> 可以避免这种情况，从而提升性能，尤其是在频繁访问文件的情况下。</p>
+</li>
+<li><p><code>umask</code> 用于设置新创建文件和目录的默认权限。<code>umask=0077</code> 意味着 <strong>默认权限为 700</strong> ，即 <strong>只有文件的所有者</strong> 有读写执行权限，其他用户没有任何权限。<code>umask</code> 是通过掩码值来限制权限的，它是通过从默认权限（通常是 666 对于文件，777 对于目录）中减去掩码值来计算实际权限。</p>
+</li>
+</ul>
+<p>例如：</p>
+<ul>
+<li>默认权限：<code>666</code>（文件的读写权限）</li>
+<li>掩码 <code>0077</code>：减去 77 后，结果是 <code>600</code>，意味着 <strong>文件只有所有者可以读写</strong>，而其他人没有权限。</li>
+</ul>
 ]]></content>
       <tags>
         <tag>linux</tag>
