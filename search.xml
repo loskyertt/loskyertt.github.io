@@ -507,6 +507,55 @@
       </tags>
   </entry>
   <entry>
+    <title>Python 爬虫教程 07</title>
+    <url>/2024/10/19/07Python%E7%88%AC%E8%99%AB/</url>
+    <content><![CDATA[<h1 id="1-示例"><a href="#1-示例" class="headerlink" title="1.示例"></a>1.示例</h1><p>示例代码：</p>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line"><span class="comment"># 注意这条链建</span></span><br><span class="line">url = <span class="string">&quot;https://www.spiderbuf.cn/playground/s06&quot;</span></span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">html = requests.get(url=url, headers=headers).text</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/06course/06.html&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">f.write(html)</span><br><span class="line">f.close()</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(html)</span><br><span class="line"></span><br><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/06course/data06.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    tds = tr.xpath(<span class="string">&#x27;./td&#x27;</span>)</span><br><span class="line">    s = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> td <span class="keyword">in</span> tds:</span><br><span class="line">        s = s + <span class="built_in">str</span>(td.xpath(<span class="string">&#x27;string(.)&#x27;</span>)) + <span class="string">&#x27;|&#x27;</span></span><br><span class="line">    <span class="built_in">print</span>(s)</span><br><span class="line">    <span class="keyword">if</span> s!= <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        f.write(s + <span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
+<p>运行这段代码，会发现是解析不出我们想要的内容的。虽然<code>url</code>、解析逻辑看起来填写的都是正确的，那么问题是出在哪儿呢？其实就是出在<code>url</code>，这个<code>url</code>只是看起来正确，但并不是真正的<code>url</code>（我们想要的，包含内容的）。</p>
+<h1 id="2-分析页面"><a href="#2-分析页面" class="headerlink" title="2.分析页面"></a>2.分析页面</h1><p>这时候我们来分析下网页源代码，发现在目标页面代开源码是没有我们想要的内容的，如下图所示：<br><a href="https://imgse.com/i/pAUHxVs"><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s21.ax1x.com/2024/10/19/pAUHxVs.png"
+                      alt="网页源码.png"
+                ><figcaption>网页源码.png</figcaption></figure></a><br>那么这时候我们就得找到 <strong>真实链接</strong> 。</p>
+<p>按<code>F12</code>打开浏览器控制台，选择<code>network</code>：<br><a href="https://imgse.com/i/pAUbP2T"><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s21.ax1x.com/2024/10/19/pAUbP2T.png"
+                      alt="控制台.png"
+                ><figcaption>控制台.png</figcaption></figure></a></p>
+<p>先看左边（红色框）部分，选中一个，看一下它的<code>preview</code>，如图所示：<br><a href="https://imgse.com/i/pAUbkMF"><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s21.ax1x.com/2024/10/19/pAUbkMF.png"
+                      alt="preview.png"
+                ><figcaption>preview.png</figcaption></figure></a></p>
+<p>可以发现没有我们想要的大内容，说明原始的<code>url</code>不对，我们得通过这种方式查找出包含内容的<code>url</code>。可以把后缀是<code>.js</code>和<code>.css</code>的排除掉，这些都是指网页样式。</p>
+<p>如下图所示：<br><a href="https://imgse.com/i/pAUbQxO"><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s21.ax1x.com/2024/10/19/pAUbQxO.png"
+                      alt="pAUbQxO.png"
+                ><figcaption>pAUbQxO.png</figcaption></figure></a><br>这个<code>inner</code>才是我们想要的，再看它的<code>headers</code>，我们就能找到它的正确的<code>url = https://www.spiderbuf.cn/playground/inner</code></p>
+<p>把这个<code>url</code>替换掉原始<code>url</code>就行了：</p>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">url = <span class="string">&quot;https://www.spiderbuf.cn/playground/inner&quot;</span></span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">html = requests.get(url=url, headers=headers).text</span><br><span class="line"></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;剩余部分的代码不变......&#x27;&#x27;&#x27;</span></span><br></pre></td></tr></table></figure></div>
+
+<h1 id="3-总结"><a href="#3-总结" class="headerlink" title="3.总结"></a>3.总结</h1><p>如图所示：<br><a href="https://imgse.com/i/pAUb8qH"><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s21.ax1x.com/2024/10/19/pAUb8qH.png"
+                      alt="控制台.png"
+                ><figcaption>控制台.png</figcaption></figure></a></p>
+<p>可以发现在<code>html</code>下还有一个<code>html</code>，称作<code>iframe</code>。就是网页里面嵌套了一个浏览器再打开另一个网页，只有在控制台看它后台的一个请求，才能找出真实的<code>url</code>。</p>
+]]></content>
+      <categories>
+        <category>Python爬虫</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Python 爬虫教程 06</title>
     <url>/2024/10/18/06Python%E7%88%AC%E8%99%AB/</url>
     <content><![CDATA[<h1 id="1-分析网站"><a href="#1-分析网站" class="headerlink" title="1.分析网站"></a>1.分析网站</h1><p>第一步还是要先向网站发送请求，然后获得请求的内容：</p>
@@ -563,88 +612,6 @@
 </ul>
 <p>在这里的<code>&lt;img&gt;</code> 标签是一个 <strong>自闭合标签</strong> ，通常不会包含任何文本内容。因此，<code>//img[@src]/text()</code> 通常不会返回任何有效的结果，因为 <code>&lt;img&gt;</code> 标签中<strong>没有文本</strong>。</p>
 ]]></content>
-      <categories>
-        <category>Python爬虫</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Python 爬虫教程 07</title>
-    <url>/2024/10/19/07Python%E7%88%AC%E8%99%AB/</url>
-    <content><![CDATA[<h1 id="1-示例"><a href="#1-示例" class="headerlink" title="1.示例"></a>1.示例</h1><p>示例代码：</p>
-<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line"><span class="comment"># 注意这条链建</span></span><br><span class="line">url = <span class="string">&quot;https://www.spiderbuf.cn/playground/s06&quot;</span></span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">html = requests.get(url=url, headers=headers).text</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/06course/06.html&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">f.write(html)</span><br><span class="line">f.close()</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(html)</span><br><span class="line"></span><br><span class="line">root = etree.HTML(html)</span><br><span class="line">trs = root.xpath(<span class="string">&#x27;//tr&#x27;</span>)</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;./课程/06course/data06.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> tr <span class="keyword">in</span> trs:</span><br><span class="line">    tds = tr.xpath(<span class="string">&#x27;./td&#x27;</span>)</span><br><span class="line">    s = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> td <span class="keyword">in</span> tds:</span><br><span class="line">        s = s + <span class="built_in">str</span>(td.xpath(<span class="string">&#x27;string(.)&#x27;</span>)) + <span class="string">&#x27;|&#x27;</span></span><br><span class="line">    <span class="built_in">print</span>(s)</span><br><span class="line">    <span class="keyword">if</span> s!= <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        f.write(s + <span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
-<p>运行这段代码，会发现是解析不出我们想要的内容的。虽然<code>url</code>、解析逻辑看起来填写的都是正确的，那么问题是出在哪儿呢？其实就是出在<code>url</code>，这个<code>url</code>只是看起来正确，但并不是真正的<code>url</code>（我们想要的，包含内容的）。</p>
-<h1 id="2-分析页面"><a href="#2-分析页面" class="headerlink" title="2.分析页面"></a>2.分析页面</h1><p>这时候我们来分析下网页源代码，发现在目标页面代开源码是没有我们想要的内容的，如下图所示：<br><a href="https://imgse.com/i/pAUHxVs"><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://s21.ax1x.com/2024/10/19/pAUHxVs.png"
-                      alt="网页源码.png"
-                ><figcaption>网页源码.png</figcaption></figure></a><br>那么这时候我们就得找到 <strong>真实链接</strong> 。</p>
-<p>按<code>F12</code>打开浏览器控制台，选择<code>network</code>：<br><a href="https://imgse.com/i/pAUbP2T"><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://s21.ax1x.com/2024/10/19/pAUbP2T.png"
-                      alt="控制台.png"
-                ><figcaption>控制台.png</figcaption></figure></a></p>
-<p>先看左边（红色框）部分，选中一个，看一下它的<code>preview</code>，如图所示：<br><a href="https://imgse.com/i/pAUbkMF"><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://s21.ax1x.com/2024/10/19/pAUbkMF.png"
-                      alt="preview.png"
-                ><figcaption>preview.png</figcaption></figure></a></p>
-<p>可以发现没有我们想要的大内容，说明原始的<code>url</code>不对，我们得通过这种方式查找出包含内容的<code>url</code>。可以把后缀是<code>.js</code>和<code>.css</code>的排除掉，这些都是指网页样式。</p>
-<p>如下图所示：<br><a href="https://imgse.com/i/pAUbQxO"><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://s21.ax1x.com/2024/10/19/pAUbQxO.png"
-                      alt="pAUbQxO.png"
-                ><figcaption>pAUbQxO.png</figcaption></figure></a><br>这个<code>inner</code>才是我们想要的，再看它的<code>headers</code>，我们就能找到它的正确的<code>url = https://www.spiderbuf.cn/playground/inner</code></p>
-<p>把这个<code>url</code>替换掉原始<code>url</code>就行了：</p>
-<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line">url = <span class="string">&quot;https://www.spiderbuf.cn/playground/inner&quot;</span></span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">html = requests.get(url=url, headers=headers).text</span><br><span class="line"></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;剩余部分的代码不变......&#x27;&#x27;&#x27;</span></span><br></pre></td></tr></table></figure></div>
-
-<h1 id="3-总结"><a href="#3-总结" class="headerlink" title="3.总结"></a>3.总结</h1><p>如图所示：<br><a href="https://imgse.com/i/pAUb8qH"><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://s21.ax1x.com/2024/10/19/pAUb8qH.png"
-                      alt="控制台.png"
-                ><figcaption>控制台.png</figcaption></figure></a></p>
-<p>可以发现在<code>html</code>下还有一个<code>html</code>，称作<code>iframe</code>。就是网页里面嵌套了一个浏览器再打开另一个网页，只有在控制台看它后台的一个请求，才能找出真实的<code>url</code>。</p>
-]]></content>
-      <categories>
-        <category>Python爬虫</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Python 爬虫教程 08</title>
-    <url>/2024/10/19/08Python%E7%88%AC%E8%99%AB/</url>
-    <content><![CDATA[<h1 id="1-解析网页"><a href="#1-解析网页" class="headerlink" title="1.解析网页"></a>1.解析网页</h1><p>解析网页的步骤与<strong>Python 爬虫教程 07</strong> 的差不多，因为直接用原始的<code>url</code>是无法爬取到数据的，还是需要通过浏览器的控制台才能找到。</p>
-<p>原始的<code>url = https://www.spiderbuf.cn/playground/s07</code>。</p>
-<p>代码示例：</p>
-<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;https://www.spiderbuf.cn/playground/iplist&quot;</span></span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">response = requests.get(url=url, headers=headers)</span><br><span class="line">response.encoding = <span class="string">&#x27;utf-8&#x27;</span>  <span class="comment"># 设置编码为 utf-8</span></span><br><span class="line">json_data = response.text</span><br><span class="line"></span><br><span class="line"><span class="comment"># Save the raw HTML to a file</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;./课程/07course/07.html&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    f.write(json_data)</span><br><span class="line"></span><br><span class="line">ls = json.loads(json_data)</span><br><span class="line"></span><br><span class="line">txt = <span class="built_in">open</span>(<span class="string">&#x27;./课程/07course/data07.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> ls:</span><br><span class="line">    s = <span class="string">f&#x27;<span class="subst">&#123;item[<span class="string">&#x27;ip&#x27;</span>]&#125;</span>|<span class="subst">&#123;item[<span class="string">&#x27;mac&#x27;</span>]&#125;</span>|<span class="subst">&#123;item[<span class="string">&#x27;name&#x27;</span>]&#125;</span>|<span class="subst">&#123;item[<span class="string">&#x27;type&#x27;</span>]&#125;</span>|<span class="subst">&#123;item[<span class="string">&#x27;manufacturer&#x27;</span>]&#125;</span>|<span class="subst">&#123;item[<span class="string">&#x27;ports&#x27;</span>]&#125;</span>|<span class="subst">&#123;item[<span class="string">&#x27;status&#x27;</span>]&#125;</span>\n&#x27;</span></span><br><span class="line">    txt.write(s)</span><br><span class="line"></span><br><span class="line">txt.close()</span><br></pre></td></tr></table></figure></div>
-
-<p>可以看出爬取到的数据是<code>json</code>格式，注意这里的<code>response.encoding = &#39;utf-8&#39; </code>，不设置的话，爬取到的中文内容就是乱码。</p>
-<h1 id="2-说明（补充）"><a href="#2-说明（补充）" class="headerlink" title="2.说明（补充）"></a>2.说明（补充）</h1><p><strong>AJAX</strong> （Asynchronous JavaScript and XML）是一种在网页中异步加载数据的技术，它允许在不刷新整个网页的情况下更新页面的部分内容。<strong>动态加载数据</strong> 指的是通过 AJAX 技术从服务器获取数据，并将这些数据动态地插入到当前网页中。这个过程可以是数据的初次加载或用户交互时额外加载的数据，比如滚动页面加载更多内容、点击按钮加载新的数据等。</p>
-<h2 id="2-1-AJAX-动态加载数据的关键点"><a href="#2-1-AJAX-动态加载数据的关键点" class="headerlink" title="2.1 AJAX 动态加载数据的关键点"></a>2.1 AJAX 动态加载数据的关键点</h2><ol>
-<li><p><strong>异步加载</strong> ：页面不需要刷新，也不会阻塞用户的其他操作。在数据请求发送后，用户可以继续操作页面，等待数据加载完成。</p>
-</li>
-<li><p><strong>服务器请求</strong> ：AJAX 使用 JavaScript 发起 HTTP 请求（通常是 <code>GET</code> 或 <code>POST</code> 请求）到服务器，从而获取所需的数据。获取的数据格式通常是 JSON、XML 或 HTML。</p>
-</li>
-<li><p><strong>动态更新</strong> ：当服务器返回数据后，JavaScript 会处理响应数据，并将其插入页面中的特定位置，更新页面的部分内容，而不会刷新整个网页。</p>
-</li>
-</ol>
-<h2 id="2-2-工作流程"><a href="#2-2-工作流程" class="headerlink" title="2.2 工作流程"></a>2.2 工作流程</h2><ol>
-<li><strong>用户操作</strong> ：用户的某些操作（如滚动、点击按钮）触发 AJAX 请求。</li>
-<li><strong>发送请求</strong> ：通过 JavaScript 使用 <code>XMLHttpRequest</code> 或 <code>fetch</code> API 发送 HTTP 请求到服务器。</li>
-<li><strong>服务器响应</strong> ：服务器接收到请求后处理并返回数据（如 JSON、HTML 片段等）。</li>
-<li><strong>动态更新页面</strong> ：前端 JavaScript 解析服务器返回的数据，并将其动态插入页面中，使页面内容更新而不需要重新加载整个网页。</li>
-</ol>
-<h2 id="2-3-示例"><a href="#2-3-示例" class="headerlink" title="2.3 示例"></a>2.3 示例</h2><p>假设一个网页有一个按钮，当用户点击按钮时，通过 AJAX 加载一段新的数据并显示在页面中。以下是一个简单的 AJAX 动态加载例子（使用 <code>fetch</code> API）：</p>
-<div class="code-container" data-rel="Html"><figure class="iseeu highlight html"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;viewport&quot;</span> <span class="attr">content</span>=<span class="string">&quot;width=device-width, initial-scale=1.0&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>AJAX 动态加载示例<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span>AJAX 动态加载示例<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;content&quot;</span>&gt;</span>这里是初始内容。<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&quot;loadDataBtn&quot;</span>&gt;</span>加载更多内容<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">        <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;loadDataBtn&#x27;</span>).<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>, <span class="keyword">function</span>(<span class="params"></span>) &#123;</span></span><br><span class="line"><span class="language-javascript">            <span class="title function_">fetch</span>(<span class="string">&#x27;https://api.example.com/get-more-data&#x27;</span>) <span class="comment">// 向服务器发送请求，这里的链接就是含有真实数据内容的 url</span></span></span><br><span class="line"><span class="language-javascript">                .<span class="title function_">then</span>(<span class="function"><span class="params">response</span> =&gt;</span> response.<span class="title function_">json</span>()) <span class="comment">// 解析返回的 JSON 数据</span></span></span><br><span class="line"><span class="language-javascript">                .<span class="title function_">then</span>(<span class="function"><span class="params">data</span> =&gt;</span> &#123;</span></span><br><span class="line"><span class="language-javascript">                    <span class="comment">// 将新数据动态插入页面中</span></span></span><br><span class="line"><span class="language-javascript">                    <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;content&#x27;</span>).<span class="property">innerHTML</span> += <span class="string">`&lt;p&gt;<span class="subst">$&#123;data.newContent&#125;</span>&lt;/p&gt;`</span>;</span></span><br><span class="line"><span class="language-javascript">                &#125;)</span></span><br><span class="line"><span class="language-javascript">                .<span class="title function_">catch</span>(<span class="function"><span class="params">error</span> =&gt;</span> <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">&#x27;加载失败:&#x27;</span>, error));</span></span><br><span class="line"><span class="language-javascript">        &#125;);</span></span><br><span class="line"><span class="language-javascript">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></div>]]></content>
       <categories>
         <category>Python爬虫</category>
       </categories>
@@ -770,6 +737,39 @@
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">apt -o Acquire::https::Verify-Peer=<span class="literal">false</span> -o Acquire::https::Verify-Host=<span class="literal">false</span> update</span><br></pre></td></tr></table></figure></div>]]></content>
       <tags>
         <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python 爬虫教程 08</title>
+    <url>/2024/10/19/08Python%E7%88%AC%E8%99%AB/</url>
+    <content><![CDATA[<h1 id="1-解析网页"><a href="#1-解析网页" class="headerlink" title="1.解析网页"></a>1.解析网页</h1><p>解析网页的步骤与<strong>Python 爬虫教程 07</strong> 的差不多，因为直接用原始的<code>url</code>是无法爬取到数据的，还是需要通过浏览器的控制台才能找到。</p>
+<p>原始的<code>url = https://www.spiderbuf.cn/playground/s07</code>。</p>
+<p>代码示例：</p>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;https://www.spiderbuf.cn/playground/iplist&quot;</span></span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">response = requests.get(url=url, headers=headers)</span><br><span class="line">response.encoding = <span class="string">&#x27;utf-8&#x27;</span>  <span class="comment"># 设置编码为 utf-8</span></span><br><span class="line">json_data = response.text</span><br><span class="line"></span><br><span class="line"><span class="comment"># Save the raw HTML to a file</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;./课程/07course/07.html&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    f.write(json_data)</span><br><span class="line"></span><br><span class="line">ls = json.loads(json_data)</span><br><span class="line"></span><br><span class="line">txt = <span class="built_in">open</span>(<span class="string">&#x27;./课程/07course/data07.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> ls:</span><br><span class="line">    s = <span class="string">f&#x27;<span class="subst">&#123;item[<span class="string">&#x27;ip&#x27;</span>]&#125;</span>|<span class="subst">&#123;item[<span class="string">&#x27;mac&#x27;</span>]&#125;</span>|<span class="subst">&#123;item[<span class="string">&#x27;name&#x27;</span>]&#125;</span>|<span class="subst">&#123;item[<span class="string">&#x27;type&#x27;</span>]&#125;</span>|<span class="subst">&#123;item[<span class="string">&#x27;manufacturer&#x27;</span>]&#125;</span>|<span class="subst">&#123;item[<span class="string">&#x27;ports&#x27;</span>]&#125;</span>|<span class="subst">&#123;item[<span class="string">&#x27;status&#x27;</span>]&#125;</span>\n&#x27;</span></span><br><span class="line">    txt.write(s)</span><br><span class="line"></span><br><span class="line">txt.close()</span><br></pre></td></tr></table></figure></div>
+
+<p>可以看出爬取到的数据是<code>json</code>格式，注意这里的<code>response.encoding = &#39;utf-8&#39; </code>，不设置的话，爬取到的中文内容就是乱码。</p>
+<h1 id="2-说明（补充）"><a href="#2-说明（补充）" class="headerlink" title="2.说明（补充）"></a>2.说明（补充）</h1><p><strong>AJAX</strong> （Asynchronous JavaScript and XML）是一种在网页中异步加载数据的技术，它允许在不刷新整个网页的情况下更新页面的部分内容。<strong>动态加载数据</strong> 指的是通过 AJAX 技术从服务器获取数据，并将这些数据动态地插入到当前网页中。这个过程可以是数据的初次加载或用户交互时额外加载的数据，比如滚动页面加载更多内容、点击按钮加载新的数据等。</p>
+<h2 id="2-1-AJAX-动态加载数据的关键点"><a href="#2-1-AJAX-动态加载数据的关键点" class="headerlink" title="2.1 AJAX 动态加载数据的关键点"></a>2.1 AJAX 动态加载数据的关键点</h2><ol>
+<li><p><strong>异步加载</strong> ：页面不需要刷新，也不会阻塞用户的其他操作。在数据请求发送后，用户可以继续操作页面，等待数据加载完成。</p>
+</li>
+<li><p><strong>服务器请求</strong> ：AJAX 使用 JavaScript 发起 HTTP 请求（通常是 <code>GET</code> 或 <code>POST</code> 请求）到服务器，从而获取所需的数据。获取的数据格式通常是 JSON、XML 或 HTML。</p>
+</li>
+<li><p><strong>动态更新</strong> ：当服务器返回数据后，JavaScript 会处理响应数据，并将其插入页面中的特定位置，更新页面的部分内容，而不会刷新整个网页。</p>
+</li>
+</ol>
+<h2 id="2-2-工作流程"><a href="#2-2-工作流程" class="headerlink" title="2.2 工作流程"></a>2.2 工作流程</h2><ol>
+<li><strong>用户操作</strong> ：用户的某些操作（如滚动、点击按钮）触发 AJAX 请求。</li>
+<li><strong>发送请求</strong> ：通过 JavaScript 使用 <code>XMLHttpRequest</code> 或 <code>fetch</code> API 发送 HTTP 请求到服务器。</li>
+<li><strong>服务器响应</strong> ：服务器接收到请求后处理并返回数据（如 JSON、HTML 片段等）。</li>
+<li><strong>动态更新页面</strong> ：前端 JavaScript 解析服务器返回的数据，并将其动态插入页面中，使页面内容更新而不需要重新加载整个网页。</li>
+</ol>
+<h2 id="2-3-示例"><a href="#2-3-示例" class="headerlink" title="2.3 示例"></a>2.3 示例</h2><p>假设一个网页有一个按钮，当用户点击按钮时，通过 AJAX 加载一段新的数据并显示在页面中。以下是一个简单的 AJAX 动态加载例子（使用 <code>fetch</code> API）：</p>
+<div class="code-container" data-rel="Html"><figure class="iseeu highlight html"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;viewport&quot;</span> <span class="attr">content</span>=<span class="string">&quot;width=device-width, initial-scale=1.0&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>AJAX 动态加载示例<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span>AJAX 动态加载示例<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;content&quot;</span>&gt;</span>这里是初始内容。<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&quot;loadDataBtn&quot;</span>&gt;</span>加载更多内容<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">        <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;loadDataBtn&#x27;</span>).<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>, <span class="keyword">function</span>(<span class="params"></span>) &#123;</span></span><br><span class="line"><span class="language-javascript">            <span class="title function_">fetch</span>(<span class="string">&#x27;https://api.example.com/get-more-data&#x27;</span>) <span class="comment">// 向服务器发送请求，这里的链接就是含有真实数据内容的 url</span></span></span><br><span class="line"><span class="language-javascript">                .<span class="title function_">then</span>(<span class="function"><span class="params">response</span> =&gt;</span> response.<span class="title function_">json</span>()) <span class="comment">// 解析返回的 JSON 数据</span></span></span><br><span class="line"><span class="language-javascript">                .<span class="title function_">then</span>(<span class="function"><span class="params">data</span> =&gt;</span> &#123;</span></span><br><span class="line"><span class="language-javascript">                    <span class="comment">// 将新数据动态插入页面中</span></span></span><br><span class="line"><span class="language-javascript">                    <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;content&#x27;</span>).<span class="property">innerHTML</span> += <span class="string">`&lt;p&gt;<span class="subst">$&#123;data.newContent&#125;</span>&lt;/p&gt;`</span>;</span></span><br><span class="line"><span class="language-javascript">                &#125;)</span></span><br><span class="line"><span class="language-javascript">                .<span class="title function_">catch</span>(<span class="function"><span class="params">error</span> =&gt;</span> <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">&#x27;加载失败:&#x27;</span>, error));</span></span><br><span class="line"><span class="language-javascript">        &#125;);</span></span><br><span class="line"><span class="language-javascript">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></div>]]></content>
+      <categories>
+        <category>Python爬虫</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
       </tags>
   </entry>
   <entry>
@@ -939,6 +939,21 @@
 <div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker inspect &lt;容器名/容器ID/镜像名/镜像ID&gt;</span><br></pre></td></tr></table></figure></div>]]></content>
       <tags>
         <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Dockerfile 教程</title>
+    <url>/2024/09/03/Dockerfile%E6%95%99%E7%A8%8B/</url>
+    <content><![CDATA[<h1 id="1-代理配置"><a href="#1-代理配置" class="headerlink" title="1.代理配置"></a>1.代理配置</h1><p>有时侯在构建镜像时，需要执行一些下载操作，没有配置国内镜像源的话，下载速度可能会很慢甚至出错，所以需要在 Dockerfile 中配置代理。</p>
+<p>在 Dockerfile 中加上：</p>
+<div class="code-container" data-rel="Dockerfile"><figure class="iseeu highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="keyword">ENV</span> http_proxy=http://your-proxy-address:port/</span><br><span class="line"><span class="keyword">ENV</span> https_proxy=http://your-proxy-address:port/</span><br></pre></td></tr></table></figure></div>
+
+<p><code>http_proxy</code>和<code>https_proxy</code>：这两个环境变量分别用于<code>HTTP</code>和<code>HTTPS</code>的代理服务器地址。你需要将<code>your-proxy-address:port</code>替换为宿主机在当前网络下的 IP 地址和代理端口。注意这里是宿主机的实际<code>IP</code>地址，不是本地回环（<code>loop</code>）地址。同过<code>ifconfig</code>或者<code>ip a</code>查看。</p>
+<p>这属于是 docker 的环境变量设置，环境变量通常不会自动写入容器中的配置文件，如<code>.bashrc</code>或<code>/etc/environment</code>，但它们会在容器启动时自动加载。</p>
+]]></content>
+      <tags>
+        <tag>docker</tag>
+        <tag>proxy</tag>
       </tags>
   </entry>
   <entry>
@@ -1218,21 +1233,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Dockerfile 教程</title>
-    <url>/2024/09/03/Dockerfile%E6%95%99%E7%A8%8B/</url>
-    <content><![CDATA[<h1 id="1-代理配置"><a href="#1-代理配置" class="headerlink" title="1.代理配置"></a>1.代理配置</h1><p>有时侯在构建镜像时，需要执行一些下载操作，没有配置国内镜像源的话，下载速度可能会很慢甚至出错，所以需要在 Dockerfile 中配置代理。</p>
-<p>在 Dockerfile 中加上：</p>
-<div class="code-container" data-rel="Dockerfile"><figure class="iseeu highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="keyword">ENV</span> http_proxy=http://your-proxy-address:port/</span><br><span class="line"><span class="keyword">ENV</span> https_proxy=http://your-proxy-address:port/</span><br></pre></td></tr></table></figure></div>
-
-<p><code>http_proxy</code>和<code>https_proxy</code>：这两个环境变量分别用于<code>HTTP</code>和<code>HTTPS</code>的代理服务器地址。你需要将<code>your-proxy-address:port</code>替换为宿主机在当前网络下的 IP 地址和代理端口。注意这里是宿主机的实际<code>IP</code>地址，不是本地回环（<code>loop</code>）地址。同过<code>ifconfig</code>或者<code>ip a</code>查看。</p>
-<p>这属于是 docker 的环境变量设置，环境变量通常不会自动写入容器中的配置文件，如<code>.bashrc</code>或<code>/etc/environment</code>，但它们会在容器启动时自动加载。</p>
-]]></content>
-      <tags>
-        <tag>docker</tag>
-        <tag>proxy</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Docker 搭建深度学习环境</title>
     <url>/2024/09/09/Docker%E6%90%AD%E5%BB%BADL%E7%8E%AF%E5%A2%83/</url>
     <content><![CDATA[<h1 id="1-安裝NVIDIA-Container-Toolkit套件"><a href="#1-安裝NVIDIA-Container-Toolkit套件" class="headerlink" title="1.安裝NVIDIA Container Toolkit套件"></a>1.安裝NVIDIA Container Toolkit套件</h1><p>对于 Arch 系发行版，可以直接通过下面指令安装：</p>
@@ -1355,136 +1355,6 @@
       <tags>
         <tag>docker</tag>
         <tag>c++</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Docker 教程</title>
-    <url>/2024/07/24/Docker%E6%95%99%E7%A8%8B/</url>
-    <content><![CDATA[<h1 id="一、基本指令"><a href="#一、基本指令" class="headerlink" title="一、基本指令"></a>一、基本指令</h1><h2 id="1-1-查看镜像版本"><a href="#1-1-查看镜像版本" class="headerlink" title="1.1 查看镜像版本"></a>1.1 查看镜像版本</h2><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker inspect &lt;镜像ID&gt; | grep -i version</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="1-2-查看镜像或容器详细信息"><a href="#1-2-查看镜像或容器详细信息" class="headerlink" title="1.2 查看镜像或容器详细信息"></a>1.2 查看镜像或容器详细信息</h2><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 镜像</span></span><br><span class="line">docker inspect &lt;镜像名或ID&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 容器</span></span><br><span class="line">docker inspect &lt;容器名或ID&gt;</span><br></pre></td></tr></table></figure></div>
-<p>可以同过这种方式查看镜像里的主要<code>workdir</code>在哪里，这样可以知道应该挂载镜像里的哪个目录。</p>
-<h2 id="1-3-查看容器映射到本地的端口"><a href="#1-3-查看容器映射到本地的端口" class="headerlink" title="1.3 查看容器映射到本地的端口"></a>1.3 查看容器映射到本地的端口</h2><p>如过在创建容器时用的是<code>-P</code>（随机映射本地端口）而不是<code>-p xxxx:xxxx</code>（指定映射本地端口）</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker port &lt;容器名或ID&gt;</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="1-4-在本地对容器内的文件进行操作"><a href="#1-4-在本地对容器内的文件进行操作" class="headerlink" title="1.4 在本地对容器内的文件进行操作"></a>1.4 在本地对容器内的文件进行操作</h2><p>可以使用 <code>docker cp</code> 命令将容器内的自己需要文件（文件或者文件夹都可以）导出到宿主机（反之亦然）。</p>
-<p>从容器复制文件到宿主机:</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker <span class="built_in">cp</span> my_container:/path/in/container /path/on/host</span><br></pre></td></tr></table></figure></div>
-
-<p>从宿主机复制文件到容器：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker <span class="built_in">cp</span> /path/on/host my_container:/path/in/container</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="1-5-删除镜像或容器"><a href="#1-5-删除镜像或容器" class="headerlink" title="1.5 删除镜像或容器"></a>1.5 删除镜像或容器</h2><p>要一次性删除所有<code>Docker</code>镜像，可以通过以下步骤：</p>
-<h3 id="1-5-1-停止并删除所有容器"><a href="#1-5-1-停止并删除所有容器" class="headerlink" title="1.5.1 停止并删除所有容器"></a>1.5.1 停止并删除所有容器</h3><p>首先，确保所有容器已经停止并删除。你不能删除正在使用的镜像。</p>
-<ol>
-<li><p>停止所有容器：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker stop $(docker ps -aq)</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>删除所有容器：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker <span class="built_in">rm</span> $(docker ps -aq)</span><br></pre></td></tr></table></figure></div></li>
-</ol>
-<h3 id="1-5-2-删除所有镜像"><a href="#1-5-2-删除所有镜像" class="headerlink" title="1.5.2 删除所有镜像"></a>1.5.2 删除所有镜像</h3><p>在确保所有容器都已停止并删除后，可以删除所有镜像：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker rmi $(docker images -q)</span><br></pre></td></tr></table></figure></div>
-
-<h3 id="1-5-3-详细说明"><a href="#1-5-3-详细说明" class="headerlink" title="1.5.3 详细说明"></a>1.5.3 详细说明</h3><ul>
-<li><p><strong><code>docker ps -aq</code>：</strong></p>
-<ul>
-<li><code>docker ps</code>：列出所有运行中的容器。</li>
-<li><code>-a</code>：列出所有容器，包括运行中的和已停止的。</li>
-<li><code>-q</code>：只显示容器的 ID。</li>
-</ul>
-</li>
-<li><p><strong><code>docker images -q</code>：</strong></p>
-<ul>
-<li><code>docker images</code>：列出所有镜像。</li>
-<li><code>-q</code>：只显示镜像的 ID。</li>
-</ul>
-</li>
-</ul>
-<h3 id="1-5-4-删除所有未使用的镜像、容器、网络和卷"><a href="#1-5-4-删除所有未使用的镜像、容器、网络和卷" class="headerlink" title="1.5.4 删除所有未使用的镜像、容器、网络和卷"></a>1.5.4 删除所有未使用的镜像、容器、网络和卷</h3><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker system prune -a</span><br></pre></td></tr></table></figure></div>
-
-<ul>
-<li><strong><code>docker system prune -a</code>：</strong><ul>
-<li><code>docker system prune</code>：清理所有未使用的容器、网络、挂载的卷和镜像。</li>
-<li><code>-a</code>：删除所有未使用的镜像，不仅仅是悬空的镜像（dangling images）。</li>
-</ul>
-</li>
-</ul>
-<h2 id="1-6-网络配置"><a href="#1-6-网络配置" class="headerlink" title="1.6 网络配置"></a>1.6 网络配置</h2><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker create --name =&lt;name&gt;  --network host image:tag </span><br></pre></td></tr></table></figure></div>
-<p>使用参数<code>--network host</code>可以让容器共享主机的网络栈，通常用于需要高性能网络连接或访问主机网络的应用，也就是说容器内的端口与主机的都对应。默认是桥接模式。</p>
-<h2 id="1-7-实时查看容器日志"><a href="#1-7-实时查看容器日志" class="headerlink" title="1.7 实时查看容器日志"></a>1.7 实时查看容器日志</h2><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker logs -f  &lt;--timestamps&gt; &lt;容器ID或容器名称&gt;</span><br></pre></td></tr></table></figure></div>
-<p>参数<code>--timestamps</code>可以选加，可以显示时间戳。</p>
-<h2 id="1-8-指定端口的映射协议"><a href="#1-8-指定端口的映射协议" class="headerlink" title="1.8 指定端口的映射协议"></a>1.8 指定端口的映射协议</h2><p>在 Docker 中，<code>-p</code> 选项用于指定端口映射时，主要支持以下两种协议：</p>
-<ul>
-<li><strong>TCP</strong> ：这是 Docker 默认的协议。大多数服务和应用程序使用 TCP 协议，因此 <code>-p</code> 选项通常用于映射 TCP 端口。例如：</li>
-</ul>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -p 8080:80&lt;/tcp&gt; my_image</span><br></pre></td></tr></table></figure></div>
-
-<p>这个命令将容器的 <code>80</code> 端口映射到宿主机的 <code>8080</code> 端口，使用 TCP 协议。<code>/tcp</code>可以选加,因为 Docker 的默认端口映射协议就是 TCP。</p>
-<ul>
-<li><strong>UDP</strong> ：如果你的应用程序使用 UDP 协议，你可以使用 <code>-p</code> 选项来映射 UDP 端口。例如：</li>
-</ul>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -p 8080:80/udp my_image</span><br></pre></td></tr></table></figure></div>
-
-<p>这个命令将容器的 <code>80</code> 端口映射到宿主机的 <code>8080</code> 端口，使用 UDP 协议。</p>
-<h2 id="1-9-重命名容器"><a href="#1-9-重命名容器" class="headerlink" title="1.9 重命名容器"></a>1.9 重命名容器</h2><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker rename &lt;container_name1&gt; &lt;container_name2&gt;</span><br></pre></td></tr></table></figure></div>
-
-<h1 id="二、容器操作"><a href="#二、容器操作" class="headerlink" title="二、容器操作"></a>二、容器操作</h1><p>这里以<code>ubutnu</code>镜像为例。</p>
-<h2 id="2-1-运行并创建容器"><a href="#2-1-运行并创建容器" class="headerlink" title="2.1 运行并创建容器"></a>2.1 运行并创建容器</h2><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -itd --name ubuntu-test ubuntu</span><br></pre></td></tr></table></figure></div>
-
-<p><strong>注意：</strong>  这里必须加上<code>-it</code>。像ubuntu这种镜像在创建容器时需要分配一个伪终端让它在后台持续运行，否则会在启动容器后立马退出运行。</p>
-<h2 id="2-2-进入容器"><a href="#2-2-进入容器" class="headerlink" title="2.2 进入容器"></a>2.2 进入容器</h2><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it ubuntu-test bash</span><br></pre></td></tr></table></figure></div>
-
-<p>要退出正在交互模式下的容器终端，可以执行以下操作：</p>
-<ol>
-<li>按下 <code>Ctrl + D</code> 快捷键。</li>
-<li>或者在容器终端中键入 <code>exit</code> 命令并按回车键。</li>
-</ol>
-<h1 id="三、容器挂载（volume）与绑定挂载（bind）的区别"><a href="#三、容器挂载（volume）与绑定挂载（bind）的区别" class="headerlink" title="三、容器挂载（volume）与绑定挂载（bind）的区别"></a>三、容器挂载（<code>volume</code>）与绑定挂载（<code>bind</code>）的区别</h1><h2 id="3-1-位置"><a href="#3-1-位置" class="headerlink" title="3.1 位置"></a>3.1 位置</h2><p>卷挂载的目录是在<code>/var/lib/docker/volumes/</code>下，绑定挂载的目录根据用户自定义。</p>
-<h2 id="3-2-卷挂载-docker-volume"><a href="#3-2-卷挂载-docker-volume" class="headerlink" title="3.2 卷挂载 (docker volume)"></a>3.2 卷挂载 (<code>docker volume</code>)</h2><p>当使用 <code>docker volume create temp</code> 创建一个名为<code>temp</code>卷并将它挂载到容器时（例如 <code>-v temp:/clashmeta</code>），Docker 会自动管理这个卷。如果容器中指定的挂载目标目录（即 <code>/clashmeta</code>）已经有文件，而挂载的卷是空的，Docker 不会覆盖原有的文件。相反，Docker 会将这些文件复制到卷中，确保容器可以正常工作。这就是为什么当你使用 Docker 卷时，<code>/clashmeta</code> 的内容不会被覆盖。</p>
-<h2 id="3-3-绑定挂载-bind-mount"><a href="#3-3-绑定挂载-bind-mount" class="headerlink" title="3.3 绑定挂载 (bind mount)"></a>3.3 绑定挂载 (<code>bind mount</code>)</h2><p>当使用 <code>mkdir -p ~/temp</code> 创建一个本地目录，然后将这个目录绑定到容器时（例如 <code>-v ~/temp:/clashmeta</code>），情况会有所不同。<code>bind mount</code> 是一种直接将宿主机的文件系统目录挂载到容器的方式：</p>
-<ul>
-<li>如果宿主机的目录已经有内容，那么容器内的目标目录将显示宿主机目录中的内容。</li>
-<li>如果宿主机目录为空，那么它会 <strong>覆盖</strong> 容器内的目标目录，使得目标目录 <code>/clashmeta</code> 的原始内容不可见，宿主机的目录内容（即使为空）优先级更高。</li>
-</ul>
-<p>这解释了为什么当使用 <code>~/temp</code> 本地目录作为挂载点时，它会覆盖容器的 <code>/clashmeta</code> 目录的内容。</p>
-<h2 id="3-4-总结"><a href="#3-4-总结" class="headerlink" title="3.4 总结"></a>3.4 总结</h2><ul>
-<li><strong>卷挂载</strong> ：Docker 卷默认是空的，挂载到容器时不会覆盖容器内已有的数据，Docker 会将容器内的文件复制到卷中。</li>
-<li><strong>绑定挂载</strong> ：绑定挂载会直接使用宿主机的目录替换容器内的目标目录，导致目标目录的内容不可见。如果宿主机目录为空，容器中的内容也会被覆盖为空。</li>
-</ul>
-<h1 id="4-推送与备份镜像"><a href="#4-推送与备份镜像" class="headerlink" title="4.推送与备份镜像"></a>4.推送与备份镜像</h1><h2 id="4-1-推送镜像到-Docker-Hub"><a href="#4-1-推送镜像到-Docker-Hub" class="headerlink" title="4.1 推送镜像到 Docker Hub"></a>4.1 推送镜像到 Docker Hub</h2><ol>
-<li><strong>登录 Docker Hub</strong></li>
-</ol>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker login --username=&lt;your_DockerHub_name&gt;</span><br></pre></td></tr></table></figure></div>
-
-<ol start="2">
-<li><strong>标记镜像</strong></li>
-</ol>
-<p>将镜像标记为你的 Docker Hub 存储库。例如，将 <code>hexo:latest</code> 标记为 <code>yourusername/hexo:latest</code>：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker tag hexo:latest yourusername/hexo:latest</span><br></pre></td></tr></table></figure></div>
-
-<p>或者通过提交容器：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker commit &lt;container_name/id&gt; yourusername/&lt;image_name&gt;:tag</span><br></pre></td></tr></table></figure></div>
-
-<ol start="3">
-<li><strong>推送镜像</strong></li>
-</ol>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker push yourusername/&lt;image_name&gt;:tag</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="4-1-备份镜像到本地"><a href="#4-1-备份镜像到本地" class="headerlink" title="4.1 备份镜像到本地"></a>4.1 备份镜像到本地</h2><ol>
-<li><strong>保存镜像</strong></li>
-</ol>
-<p>使用 <code>docker save</code> 命令将镜像保存到一个 tar 文件。例如，将 <code>hexo:latest</code> 保存到 <code>hexo_latest.tar</code>：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker save -o hexo_latest.tar hexo:latest</span><br></pre></td></tr></table></figure></div>
-
-<ol start="2">
-<li><strong>加载镜像</strong></li>
-</ol>
-<p>以后可以使用 <code>docker load</code> 命令从 tar 文件加载镜像。例如，从 <code>hexo_latest.tar</code> 加载镜像：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker load -i hexo_latest.tar</span><br></pre></td></tr></table></figure></div>
-]]></content>
-      <tags>
-        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -1633,6 +1503,136 @@
       <tags>
         <tag>docker</tag>
         <tag>proxy</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Docker 教程</title>
+    <url>/2024/07/24/Docker%E6%95%99%E7%A8%8B/</url>
+    <content><![CDATA[<h1 id="一、基本指令"><a href="#一、基本指令" class="headerlink" title="一、基本指令"></a>一、基本指令</h1><h2 id="1-1-查看镜像版本"><a href="#1-1-查看镜像版本" class="headerlink" title="1.1 查看镜像版本"></a>1.1 查看镜像版本</h2><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker inspect &lt;镜像ID&gt; | grep -i version</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="1-2-查看镜像或容器详细信息"><a href="#1-2-查看镜像或容器详细信息" class="headerlink" title="1.2 查看镜像或容器详细信息"></a>1.2 查看镜像或容器详细信息</h2><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 镜像</span></span><br><span class="line">docker inspect &lt;镜像名或ID&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 容器</span></span><br><span class="line">docker inspect &lt;容器名或ID&gt;</span><br></pre></td></tr></table></figure></div>
+<p>可以同过这种方式查看镜像里的主要<code>workdir</code>在哪里，这样可以知道应该挂载镜像里的哪个目录。</p>
+<h2 id="1-3-查看容器映射到本地的端口"><a href="#1-3-查看容器映射到本地的端口" class="headerlink" title="1.3 查看容器映射到本地的端口"></a>1.3 查看容器映射到本地的端口</h2><p>如过在创建容器时用的是<code>-P</code>（随机映射本地端口）而不是<code>-p xxxx:xxxx</code>（指定映射本地端口）</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker port &lt;容器名或ID&gt;</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="1-4-在本地对容器内的文件进行操作"><a href="#1-4-在本地对容器内的文件进行操作" class="headerlink" title="1.4 在本地对容器内的文件进行操作"></a>1.4 在本地对容器内的文件进行操作</h2><p>可以使用 <code>docker cp</code> 命令将容器内的自己需要文件（文件或者文件夹都可以）导出到宿主机（反之亦然）。</p>
+<p>从容器复制文件到宿主机:</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker <span class="built_in">cp</span> my_container:/path/in/container /path/on/host</span><br></pre></td></tr></table></figure></div>
+
+<p>从宿主机复制文件到容器：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker <span class="built_in">cp</span> /path/on/host my_container:/path/in/container</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="1-5-删除镜像或容器"><a href="#1-5-删除镜像或容器" class="headerlink" title="1.5 删除镜像或容器"></a>1.5 删除镜像或容器</h2><p>要一次性删除所有<code>Docker</code>镜像，可以通过以下步骤：</p>
+<h3 id="1-5-1-停止并删除所有容器"><a href="#1-5-1-停止并删除所有容器" class="headerlink" title="1.5.1 停止并删除所有容器"></a>1.5.1 停止并删除所有容器</h3><p>首先，确保所有容器已经停止并删除。你不能删除正在使用的镜像。</p>
+<ol>
+<li><p>停止所有容器：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker stop $(docker ps -aq)</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>删除所有容器：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker <span class="built_in">rm</span> $(docker ps -aq)</span><br></pre></td></tr></table></figure></div></li>
+</ol>
+<h3 id="1-5-2-删除所有镜像"><a href="#1-5-2-删除所有镜像" class="headerlink" title="1.5.2 删除所有镜像"></a>1.5.2 删除所有镜像</h3><p>在确保所有容器都已停止并删除后，可以删除所有镜像：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker rmi $(docker images -q)</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="1-5-3-详细说明"><a href="#1-5-3-详细说明" class="headerlink" title="1.5.3 详细说明"></a>1.5.3 详细说明</h3><ul>
+<li><p><strong><code>docker ps -aq</code>：</strong></p>
+<ul>
+<li><code>docker ps</code>：列出所有运行中的容器。</li>
+<li><code>-a</code>：列出所有容器，包括运行中的和已停止的。</li>
+<li><code>-q</code>：只显示容器的 ID。</li>
+</ul>
+</li>
+<li><p><strong><code>docker images -q</code>：</strong></p>
+<ul>
+<li><code>docker images</code>：列出所有镜像。</li>
+<li><code>-q</code>：只显示镜像的 ID。</li>
+</ul>
+</li>
+</ul>
+<h3 id="1-5-4-删除所有未使用的镜像、容器、网络和卷"><a href="#1-5-4-删除所有未使用的镜像、容器、网络和卷" class="headerlink" title="1.5.4 删除所有未使用的镜像、容器、网络和卷"></a>1.5.4 删除所有未使用的镜像、容器、网络和卷</h3><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker system prune -a</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li><strong><code>docker system prune -a</code>：</strong><ul>
+<li><code>docker system prune</code>：清理所有未使用的容器、网络、挂载的卷和镜像。</li>
+<li><code>-a</code>：删除所有未使用的镜像，不仅仅是悬空的镜像（dangling images）。</li>
+</ul>
+</li>
+</ul>
+<h2 id="1-6-网络配置"><a href="#1-6-网络配置" class="headerlink" title="1.6 网络配置"></a>1.6 网络配置</h2><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker create --name =&lt;name&gt;  --network host image:tag </span><br></pre></td></tr></table></figure></div>
+<p>使用参数<code>--network host</code>可以让容器共享主机的网络栈，通常用于需要高性能网络连接或访问主机网络的应用，也就是说容器内的端口与主机的都对应。默认是桥接模式。</p>
+<h2 id="1-7-实时查看容器日志"><a href="#1-7-实时查看容器日志" class="headerlink" title="1.7 实时查看容器日志"></a>1.7 实时查看容器日志</h2><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker logs -f  &lt;--timestamps&gt; &lt;容器ID或容器名称&gt;</span><br></pre></td></tr></table></figure></div>
+<p>参数<code>--timestamps</code>可以选加，可以显示时间戳。</p>
+<h2 id="1-8-指定端口的映射协议"><a href="#1-8-指定端口的映射协议" class="headerlink" title="1.8 指定端口的映射协议"></a>1.8 指定端口的映射协议</h2><p>在 Docker 中，<code>-p</code> 选项用于指定端口映射时，主要支持以下两种协议：</p>
+<ul>
+<li><strong>TCP</strong> ：这是 Docker 默认的协议。大多数服务和应用程序使用 TCP 协议，因此 <code>-p</code> 选项通常用于映射 TCP 端口。例如：</li>
+</ul>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -p 8080:80&lt;/tcp&gt; my_image</span><br></pre></td></tr></table></figure></div>
+
+<p>这个命令将容器的 <code>80</code> 端口映射到宿主机的 <code>8080</code> 端口，使用 TCP 协议。<code>/tcp</code>可以选加,因为 Docker 的默认端口映射协议就是 TCP。</p>
+<ul>
+<li><strong>UDP</strong> ：如果你的应用程序使用 UDP 协议，你可以使用 <code>-p</code> 选项来映射 UDP 端口。例如：</li>
+</ul>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -p 8080:80/udp my_image</span><br></pre></td></tr></table></figure></div>
+
+<p>这个命令将容器的 <code>80</code> 端口映射到宿主机的 <code>8080</code> 端口，使用 UDP 协议。</p>
+<h2 id="1-9-重命名容器"><a href="#1-9-重命名容器" class="headerlink" title="1.9 重命名容器"></a>1.9 重命名容器</h2><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker rename &lt;container_name1&gt; &lt;container_name2&gt;</span><br></pre></td></tr></table></figure></div>
+
+<h1 id="二、容器操作"><a href="#二、容器操作" class="headerlink" title="二、容器操作"></a>二、容器操作</h1><p>这里以<code>ubutnu</code>镜像为例。</p>
+<h2 id="2-1-运行并创建容器"><a href="#2-1-运行并创建容器" class="headerlink" title="2.1 运行并创建容器"></a>2.1 运行并创建容器</h2><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -itd --name ubuntu-test ubuntu</span><br></pre></td></tr></table></figure></div>
+
+<p><strong>注意：</strong>  这里必须加上<code>-it</code>。像ubuntu这种镜像在创建容器时需要分配一个伪终端让它在后台持续运行，否则会在启动容器后立马退出运行。</p>
+<h2 id="2-2-进入容器"><a href="#2-2-进入容器" class="headerlink" title="2.2 进入容器"></a>2.2 进入容器</h2><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it ubuntu-test bash</span><br></pre></td></tr></table></figure></div>
+
+<p>要退出正在交互模式下的容器终端，可以执行以下操作：</p>
+<ol>
+<li>按下 <code>Ctrl + D</code> 快捷键。</li>
+<li>或者在容器终端中键入 <code>exit</code> 命令并按回车键。</li>
+</ol>
+<h1 id="三、容器挂载（volume）与绑定挂载（bind）的区别"><a href="#三、容器挂载（volume）与绑定挂载（bind）的区别" class="headerlink" title="三、容器挂载（volume）与绑定挂载（bind）的区别"></a>三、容器挂载（<code>volume</code>）与绑定挂载（<code>bind</code>）的区别</h1><h2 id="3-1-位置"><a href="#3-1-位置" class="headerlink" title="3.1 位置"></a>3.1 位置</h2><p>卷挂载的目录是在<code>/var/lib/docker/volumes/</code>下，绑定挂载的目录根据用户自定义。</p>
+<h2 id="3-2-卷挂载-docker-volume"><a href="#3-2-卷挂载-docker-volume" class="headerlink" title="3.2 卷挂载 (docker volume)"></a>3.2 卷挂载 (<code>docker volume</code>)</h2><p>当使用 <code>docker volume create temp</code> 创建一个名为<code>temp</code>卷并将它挂载到容器时（例如 <code>-v temp:/clashmeta</code>），Docker 会自动管理这个卷。如果容器中指定的挂载目标目录（即 <code>/clashmeta</code>）已经有文件，而挂载的卷是空的，Docker 不会覆盖原有的文件。相反，Docker 会将这些文件复制到卷中，确保容器可以正常工作。这就是为什么当你使用 Docker 卷时，<code>/clashmeta</code> 的内容不会被覆盖。</p>
+<h2 id="3-3-绑定挂载-bind-mount"><a href="#3-3-绑定挂载-bind-mount" class="headerlink" title="3.3 绑定挂载 (bind mount)"></a>3.3 绑定挂载 (<code>bind mount</code>)</h2><p>当使用 <code>mkdir -p ~/temp</code> 创建一个本地目录，然后将这个目录绑定到容器时（例如 <code>-v ~/temp:/clashmeta</code>），情况会有所不同。<code>bind mount</code> 是一种直接将宿主机的文件系统目录挂载到容器的方式：</p>
+<ul>
+<li>如果宿主机的目录已经有内容，那么容器内的目标目录将显示宿主机目录中的内容。</li>
+<li>如果宿主机目录为空，那么它会 <strong>覆盖</strong> 容器内的目标目录，使得目标目录 <code>/clashmeta</code> 的原始内容不可见，宿主机的目录内容（即使为空）优先级更高。</li>
+</ul>
+<p>这解释了为什么当使用 <code>~/temp</code> 本地目录作为挂载点时，它会覆盖容器的 <code>/clashmeta</code> 目录的内容。</p>
+<h2 id="3-4-总结"><a href="#3-4-总结" class="headerlink" title="3.4 总结"></a>3.4 总结</h2><ul>
+<li><strong>卷挂载</strong> ：Docker 卷默认是空的，挂载到容器时不会覆盖容器内已有的数据，Docker 会将容器内的文件复制到卷中。</li>
+<li><strong>绑定挂载</strong> ：绑定挂载会直接使用宿主机的目录替换容器内的目标目录，导致目标目录的内容不可见。如果宿主机目录为空，容器中的内容也会被覆盖为空。</li>
+</ul>
+<h1 id="4-推送与备份镜像"><a href="#4-推送与备份镜像" class="headerlink" title="4.推送与备份镜像"></a>4.推送与备份镜像</h1><h2 id="4-1-推送镜像到-Docker-Hub"><a href="#4-1-推送镜像到-Docker-Hub" class="headerlink" title="4.1 推送镜像到 Docker Hub"></a>4.1 推送镜像到 Docker Hub</h2><ol>
+<li><strong>登录 Docker Hub</strong></li>
+</ol>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker login --username=&lt;your_DockerHub_name&gt;</span><br></pre></td></tr></table></figure></div>
+
+<ol start="2">
+<li><strong>标记镜像</strong></li>
+</ol>
+<p>将镜像标记为你的 Docker Hub 存储库。例如，将 <code>hexo:latest</code> 标记为 <code>yourusername/hexo:latest</code>：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker tag hexo:latest yourusername/hexo:latest</span><br></pre></td></tr></table></figure></div>
+
+<p>或者通过提交容器：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker commit &lt;container_name/id&gt; yourusername/&lt;image_name&gt;:tag</span><br></pre></td></tr></table></figure></div>
+
+<ol start="3">
+<li><strong>推送镜像</strong></li>
+</ol>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker push yourusername/&lt;image_name&gt;:tag</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="4-1-备份镜像到本地"><a href="#4-1-备份镜像到本地" class="headerlink" title="4.1 备份镜像到本地"></a>4.1 备份镜像到本地</h2><ol>
+<li><strong>保存镜像</strong></li>
+</ol>
+<p>使用 <code>docker save</code> 命令将镜像保存到一个 tar 文件。例如，将 <code>hexo:latest</code> 保存到 <code>hexo_latest.tar</code>：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker save -o hexo_latest.tar hexo:latest</span><br></pre></td></tr></table></figure></div>
+
+<ol start="2">
+<li><strong>加载镜像</strong></li>
+</ol>
+<p>以后可以使用 <code>docker load</code> 命令从 tar 文件加载镜像。例如，从 <code>hexo_latest.tar</code> 加载镜像：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">docker load -i hexo_latest.tar</span><br></pre></td></tr></table></figure></div>
+]]></content>
+      <tags>
+        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -3376,7 +3376,7 @@
     <title>解决 Ubuntu 下中文乱码问题</title>
     <url>/2024/11/30/Ubuntu%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/</url>
     <content><![CDATA[<h1 id="1-安装中文字体包"><a href="#1-安装中文字体包" class="headerlink" title="1.安装中文字体包"></a>1.安装中文字体包</h1><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt-get install language-pack-zh-hans</span><br></pre></td></tr></table></figure></div>
-
+<hr>
 <h1 id="2-修改配置文件"><a href="#2-修改配置文件" class="headerlink" title="2.修改配置文件"></a>2.修改配置文件</h1><p>注：下列操作在<code>docker</code>的<code>ubuntu</code>容器中不需要加<code>sudo</code>，默认就是<code>root</code>权限。</p>
 <h2 id="2-1-方式一：修改-bashrc文件（推荐）"><a href="#2-1-方式一：修改-bashrc文件（推荐）" class="headerlink" title="2.1 方式一：修改~/.bashrc文件（推荐）"></a>2.1 方式一：修改<code>~/.bashrc</code>文件（推荐）</h2><p>修改<code>~/.bashrc</code>文件：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">nano ~/.bashrc</span><br></pre></td></tr></table></figure></div>
@@ -3387,32 +3387,29 @@
 <p>然后执行：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">source</span> ~/.bashrc</span><br></pre></td></tr></table></figure></div>
 
-<h2 id="2-2-方式二：修改-etc-profile文件"><a href="#2-2-方式二：修改-etc-profile文件" class="headerlink" title="2.2 方式二：修改/etc/profile文件"></a>2.2 方式二：修改<code>/etc/profile</code>文件</h2><p>修改<code>/etc/profile</code>配置文件：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nano /etc/profile</span><br></pre></td></tr></table></figure></div>
+<hr>
+<h2 id="2-2-方式二：修改-etc-locale-gen文件"><a href="#2-2-方式二：修改-etc-locale-gen文件" class="headerlink" title="2.2 方式二：修改/etc/locale.gen文件"></a>2.2 方式二：修改<code>/etc/locale.gen</code>文件</h2><p>此方式是所有<code>Linux</code>操作系统同用的：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nano /etc/locale.gen</span><br></pre></td></tr></table></figure></div>
 
-<p>添加：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">export LANG=zh_CN.UTF-8</span><br><span class="line">export LANGUAGE=zh_CN:zh</span><br><span class="line">export LC_ALL=zh_CN.UTF-8</span><br></pre></td></tr></table></figure></div>
-
-<p>然后执行：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">source</span> /etc/profile</span><br></pre></td></tr></table></figure></div>
-<p>可能每次重启系统后，都得执行这条命令。</p>
-<h2 id="2-3-方式三：修改-etc-environment文件"><a href="#2-3-方式三：修改-etc-environment文件" class="headerlink" title="2.3 方式三：修改/etc/environment文件"></a>2.3 方式三：修改<code>/etc/environment</code>文件</h2><p>注：该方式不一定成功。</p>
-<p>修改<code>/etc/environment</code>配置文件：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nano /etc/environment</span><br></pre></td></tr></table></figure></div>
-
-<p>加入下面的内容：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">LANG=&quot;zh_CN.UTF-8&quot;</span><br><span class="line">LANGUAGE=&quot;zh_CN:zh&quot;</span><br><span class="line">LC_ALL=&quot;zh_CN.UTF-8&quot;</span><br></pre></td></tr></table></figure></div>
-
-<h1 id="3-添加中文配置内容（选做）"><a href="#3-添加中文配置内容（选做）" class="headerlink" title="3.添加中文配置内容（选做）"></a>3.添加中文配置内容（选做）</h1><p>再修改<code>/var/lib/locales/supported.d/local</code>文件（如果没有，就手动创建）</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nano /var/lib/locales/supported.d/local</span><br></pre></td></tr></table></figure></div>
-
-<p>加入下面内容：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">en_US.UTF-8 UTF-8</span><br><span class="line">zh_CN.UTF-8 UTF-8</span><br><span class="line">zh_CN.GBK GBK</span><br><span class="line">zh_CN GB2312</span><br></pre></td></tr></table></figure></div>
-
-<p>最后执行：</p>
+<p>找到以下行并取消注释（删除行前的 <code>#</code>）：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">zh_CN.UTF-8 UTF-8</span><br></pre></td></tr></table></figure></div>
+<p>如果没有找到<code>zh_CN.UTF-8</code>，则手动添加这一行。</p>
+<p>保存文件后，运行 <code>locale-gen</code> 命令来生成新的语言环境：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> locale-gen</span><br></pre></td></tr></table></figure></div>
 
-<p>然后重启系统即可。</p>
+<p>设置默认语言环境为 <code>zh_CN.UTF-8</code>。你可以通过修改 <code>~/.bashrc</code> 或 <code>~/.zshrc</code> 文件来实现。在文件末尾添加以下内容：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">export</span> LANG=zh_CN.UTF-8</span><br><span class="line"><span class="built_in">export</span> LANGUAGE=zh_CN:zh</span><br><span class="line"><span class="built_in">export</span> LC_ALL=zh_CN.UTF-8</span><br></pre></td></tr></table></figure></div>
+
+<p>然后，重新加载配置文件：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">source</span> ~/.bashrc</span><br></pre></td></tr></table></figure></div>
+
+<p>或者</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">source</span> ~/.zshrc</span><br></pre></td></tr></table></figure></div>
+
+<p>验证当前语言环境是否已经设置为 <code>zh_CN.UTF-8</code>：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">locale -a</span><br></pre></td></tr></table></figure></div>
+<p>输出应该包含<code>zh_CN.utf8</code>。然后重启系统即可。</p>
+<hr>
 <h1 id="3-中文空格乱码解决"><a href="#3-中文空格乱码解决" class="headerlink" title="3.中文空格乱码解决"></a>3.中文空格乱码解决</h1><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt-get install fonts-droid-fallback ttf-wqy-zenhei ttf-wqy-microhei fonts-arphic-ukai fonts-arphic-uming</span><br></pre></td></tr></table></figure></div>]]></content>
       <tags>
         <tag>linux</tag>

@@ -30,7 +30,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://example.com/2024/11/30/Ubuntu%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/your_image_path">
 <meta property="article:published_time" content="2024-11-30T21:46:27.000Z">
-<meta property="article:modified_time" content="2025-02-17T04:36:55.107Z">
+<meta property="article:modified_time" content="2025-03-26T09:39:23.962Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="linux">
 <meta property="article:tag" content="docker">
@@ -496,8 +496,8 @@
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2025-02-17 04:36:55</span>
-            <span class="mobile">2025-02-17 04:36:55</span>
+            <span class="desktop">2025-03-26 09:39:23</span>
+            <span class="mobile">2025-03-26 09:39:23</span>
             <span class="hover-info">Updated</span>
         </span>
     
@@ -523,7 +523,7 @@
     
     
         <span class="article-wordcount article-meta-item">
-            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>301 Words</span>
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>304 Words</span>
         </span>
     
     
@@ -548,7 +548,7 @@
 
 		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
 			<h1 id="1-安装中文字体包"><a href="#1-安装中文字体包" class="headerlink" title="1.安装中文字体包"></a>1.安装中文字体包</h1><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt-get install language-pack-zh-hans</span><br></pre></td></tr></table></figure></div>
-
+<hr>
 <h1 id="2-修改配置文件"><a href="#2-修改配置文件" class="headerlink" title="2.修改配置文件"></a>2.修改配置文件</h1><p>注：下列操作在<code>docker</code>的<code>ubuntu</code>容器中不需要加<code>sudo</code>，默认就是<code>root</code>权限。</p>
 <h2 id="2-1-方式一：修改-bashrc文件（推荐）"><a href="#2-1-方式一：修改-bashrc文件（推荐）" class="headerlink" title="2.1 方式一：修改~/.bashrc文件（推荐）"></a>2.1 方式一：修改<code>~/.bashrc</code>文件（推荐）</h2><p>修改<code>~/.bashrc</code>文件：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nano ~/.bashrc</span><br></pre></td></tr></table></figure></div>
@@ -559,32 +559,29 @@
 <p>然后执行：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> ~/.bashrc</span><br></pre></td></tr></table></figure></div>
 
-<h2 id="2-2-方式二：修改-etc-profile文件"><a href="#2-2-方式二：修改-etc-profile文件" class="headerlink" title="2.2 方式二：修改/etc/profile文件"></a>2.2 方式二：修改<code>/etc/profile</code>文件</h2><p>修改<code>/etc/profile</code>配置文件：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nano /etc/profile</span><br></pre></td></tr></table></figure></div>
+<hr>
+<h2 id="2-2-方式二：修改-etc-locale-gen文件"><a href="#2-2-方式二：修改-etc-locale-gen文件" class="headerlink" title="2.2 方式二：修改/etc/locale.gen文件"></a>2.2 方式二：修改<code>/etc/locale.gen</code>文件</h2><p>此方式是所有<code>Linux</code>操作系统同用的：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nano /etc/locale.gen</span><br></pre></td></tr></table></figure></div>
 
-<p>添加：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export LANG=zh_CN.UTF-8</span><br><span class="line">export LANGUAGE=zh_CN:zh</span><br><span class="line">export LC_ALL=zh_CN.UTF-8</span><br></pre></td></tr></table></figure></div>
-
-<p>然后执行：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> /etc/profile</span><br></pre></td></tr></table></figure></div>
-<p>可能每次重启系统后，都得执行这条命令。</p>
-<h2 id="2-3-方式三：修改-etc-environment文件"><a href="#2-3-方式三：修改-etc-environment文件" class="headerlink" title="2.3 方式三：修改/etc/environment文件"></a>2.3 方式三：修改<code>/etc/environment</code>文件</h2><p>注：该方式不一定成功。</p>
-<p>修改<code>/etc/environment</code>配置文件：</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nano /etc/environment</span><br></pre></td></tr></table></figure></div>
-
-<p>加入下面的内容：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">LANG=&quot;zh_CN.UTF-8&quot;</span><br><span class="line">LANGUAGE=&quot;zh_CN:zh&quot;</span><br><span class="line">LC_ALL=&quot;zh_CN.UTF-8&quot;</span><br></pre></td></tr></table></figure></div>
-
-<h1 id="3-添加中文配置内容（选做）"><a href="#3-添加中文配置内容（选做）" class="headerlink" title="3.添加中文配置内容（选做）"></a>3.添加中文配置内容（选做）</h1><p>再修改<code>/var/lib/locales/supported.d/local</code>文件（如果没有，就手动创建）</p>
-<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nano /var/lib/locales/supported.d/local</span><br></pre></td></tr></table></figure></div>
-
-<p>加入下面内容：</p>
-<div class="code-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">en_US.UTF-8 UTF-8</span><br><span class="line">zh_CN.UTF-8 UTF-8</span><br><span class="line">zh_CN.GBK GBK</span><br><span class="line">zh_CN GB2312</span><br></pre></td></tr></table></figure></div>
-
-<p>最后执行：</p>
+<p>找到以下行并取消注释（删除行前的 <code>#</code>）：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zh_CN.UTF-8 UTF-8</span><br></pre></td></tr></table></figure></div>
+<p>如果没有找到<code>zh_CN.UTF-8</code>，则手动添加这一行。</p>
+<p>保存文件后，运行 <code>locale-gen</code> 命令来生成新的语言环境：</p>
 <div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> locale-gen</span><br></pre></td></tr></table></figure></div>
 
-<p>然后重启系统即可。</p>
+<p>设置默认语言环境为 <code>zh_CN.UTF-8</code>。你可以通过修改 <code>~/.bashrc</code> 或 <code>~/.zshrc</code> 文件来实现。在文件末尾添加以下内容：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> LANG=zh_CN.UTF-8</span><br><span class="line"><span class="built_in">export</span> LANGUAGE=zh_CN:zh</span><br><span class="line"><span class="built_in">export</span> LC_ALL=zh_CN.UTF-8</span><br></pre></td></tr></table></figure></div>
+
+<p>然后，重新加载配置文件：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> ~/.bashrc</span><br></pre></td></tr></table></figure></div>
+
+<p>或者</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> ~/.zshrc</span><br></pre></td></tr></table></figure></div>
+
+<p>验证当前语言环境是否已经设置为 <code>zh_CN.UTF-8</code>：</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">locale -a</span><br></pre></td></tr></table></figure></div>
+<p>输出应该包含<code>zh_CN.utf8</code>。然后重启系统即可。</p>
+<hr>
 <h1 id="3-中文空格乱码解决"><a href="#3-中文空格乱码解决" class="headerlink" title="3.中文空格乱码解决"></a>3.中文空格乱码解决</h1><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt-get install fonts-droid-fallback ttf-wqy-zenhei ttf-wqy-microhei fonts-arphic-ukai fonts-arphic-uming</span><br></pre></td></tr></table></figure></div>
 		</div>
 
@@ -599,7 +596,7 @@
         
             <li>
                 <strong>Updated at
-                    :</strong> 2025-02-17 04:36:55
+                    :</strong> 2025-03-26 09:39:23
             </li>
         
         <li>
@@ -750,7 +747,7 @@
 	<div class="post-toc">
 		<div class="toc-title">On this page</div>
 		<div class="page-title">解决 Ubuntu 下中文乱码问题</div>
-		<ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E5%AE%89%E8%A3%85%E4%B8%AD%E6%96%87%E5%AD%97%E4%BD%93%E5%8C%85"><span class="nav-text">1.安装中文字体包</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E4%BF%AE%E6%94%B9%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-text">2.修改配置文件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-%E6%96%B9%E5%BC%8F%E4%B8%80%EF%BC%9A%E4%BF%AE%E6%94%B9-bashrc%E6%96%87%E4%BB%B6%EF%BC%88%E6%8E%A8%E8%8D%90%EF%BC%89"><span class="nav-text">2.1 方式一：修改~&#x2F;.bashrc文件（推荐）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-%E6%96%B9%E5%BC%8F%E4%BA%8C%EF%BC%9A%E4%BF%AE%E6%94%B9-etc-profile%E6%96%87%E4%BB%B6"><span class="nav-text">2.2 方式二：修改&#x2F;etc&#x2F;profile文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-%E6%96%B9%E5%BC%8F%E4%B8%89%EF%BC%9A%E4%BF%AE%E6%94%B9-etc-environment%E6%96%87%E4%BB%B6"><span class="nav-text">2.3 方式三：修改&#x2F;etc&#x2F;environment文件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E6%B7%BB%E5%8A%A0%E4%B8%AD%E6%96%87%E9%85%8D%E7%BD%AE%E5%86%85%E5%AE%B9%EF%BC%88%E9%80%89%E5%81%9A%EF%BC%89"><span class="nav-text">3.添加中文配置内容（选做）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E4%B8%AD%E6%96%87%E7%A9%BA%E6%A0%BC%E4%B9%B1%E7%A0%81%E8%A7%A3%E5%86%B3"><span class="nav-text">3.中文空格乱码解决</span></a></li></ol>
+		<ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E5%AE%89%E8%A3%85%E4%B8%AD%E6%96%87%E5%AD%97%E4%BD%93%E5%8C%85"><span class="nav-text">1.安装中文字体包</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E4%BF%AE%E6%94%B9%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-text">2.修改配置文件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-%E6%96%B9%E5%BC%8F%E4%B8%80%EF%BC%9A%E4%BF%AE%E6%94%B9-bashrc%E6%96%87%E4%BB%B6%EF%BC%88%E6%8E%A8%E8%8D%90%EF%BC%89"><span class="nav-text">2.1 方式一：修改~&#x2F;.bashrc文件（推荐）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-%E6%96%B9%E5%BC%8F%E4%BA%8C%EF%BC%9A%E4%BF%AE%E6%94%B9-etc-locale-gen%E6%96%87%E4%BB%B6"><span class="nav-text">2.2 方式二：修改&#x2F;etc&#x2F;locale.gen文件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E4%B8%AD%E6%96%87%E7%A9%BA%E6%A0%BC%E4%B9%B1%E7%A0%81%E8%A7%A3%E5%86%B3"><span class="nav-text">3.中文空格乱码解决</span></a></li></ol>
 
 	</div>
 </div>
